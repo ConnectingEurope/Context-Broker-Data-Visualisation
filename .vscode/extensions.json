@@ -5,7 +5,8 @@
   "recommendations": [
     "ms-vscode.vscode-typescript-tslint-plugin",
     "Mikael.Angular-BeastCode",
-    "eamodio.gitlens"
+    "eamodio.gitlens",
+    "DavidAnson.vscode-markdownlint"
   ],
   // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
   "unwantedRecommendations": []
