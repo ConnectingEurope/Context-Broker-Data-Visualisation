@@ -1,3 +1,12 @@
-<div>
-  <button type="button" class="btn btn-primary">Primary</button>
+<div class="container-fluid vh-100">
+  <div class="row">
+    <div class="col-md-auto vh-100">
+      <p-tree [value]="layers" selectionMode="checkbox" [(selection)]="selectedLayers"></p-tree>
+    </div>
+    <div class="col px-0 vh-100">
+      <div id="map" class="vh-100 w-100"></div>
+    </div>
+  </div>
 </div>
+
+<!-- <div id="map" class="vh-100 vw-100"></div> -->
