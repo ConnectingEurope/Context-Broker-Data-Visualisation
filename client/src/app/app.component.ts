@@ -1,10 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
-import { TreeNode } from 'primeng/api';
+import { TreeNode } from 'primeng/api/treenode';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/images/marker-icon.png';
+import 'leaflet/dist/images/marker-icon-2x.png';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +13,11 @@ import 'leaflet/dist/images/marker-icon.png';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  title = 'CB-Baseline';
 
-  items: MenuItem[];
-  layers: TreeNode[] = [{ label: 'Transport', children: [{ label: 'Bikes' }, { label: 'Cars' }] }];
-  selectedLayers: TreeNode[];
+  protected items: MenuItem[];
+  protected layers: TreeNode[];
+  protected selectionLayers: TreeNode[];
+  protected sidebarVisible: boolean;
 
   ngOnInit() {
     this.items = [
@@ -27,6 +28,17 @@ export class AppComponent implements OnInit, AfterViewInit {
       {
         label: 'Graphs',
         icon: 'pi pi-desktop'
+      }
+    ];
+
+    this.layers = [
+      {
+        label: 'Transport',
+        children: [
+          { label: 'Parkings' },
+          { label: 'Bikes' },
+          { label: 'Bus' }
+        ]
       }
     ];
   }
@@ -48,6 +60,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     markers.addLayer(L.marker([58.5, -0.03]));
     markers.addLayer(L.marker([45.5, -0.12]));
     map.addLayer(markers);
+  }
+
+  onListClicked() {
+    this.sidebarVisible = true;
   }
 
 }
