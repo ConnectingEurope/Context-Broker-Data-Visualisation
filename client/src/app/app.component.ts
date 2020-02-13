@@ -6,6 +6,7 @@ import 'leaflet.markercluster';
 import 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
+import { LeafletIcons } from './shared/leaflet-icons';
 
 @Component({
   selector: 'app-root',
@@ -36,8 +37,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         label: 'Transport',
         children: [
           { label: 'Parkings' },
-          { label: 'Bikes' },
-          { label: 'Bus' }
+          { label: 'Bike stations' },
+          { label: 'Buses' }
         ]
       }
     ];
@@ -46,8 +47,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
 
     const map = L.map('map', {
-      center: [51.5, -0.09],
-      zoom: 4
+      center: [40.416775, -3.703790],
+      zoom: 6
     });
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -56,9 +57,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     tiles.addTo(map);
     const markers = L.markerClusterGroup();
-    markers.addLayer(L.marker([51.5, -0.09]));
-    markers.addLayer(L.marker([58.5, -0.03]));
-    markers.addLayer(L.marker([45.5, -0.12]));
+    markers.addLayer(L.marker([40.08291075, -2.90053831], { icon: LeafletIcons.parkingIcon }));
+    markers.addLayer(L.marker([41.52626661, -2.9284049], { icon: LeafletIcons.parkingIcon }));
+    markers.addLayer(L.marker([41.35810746, -4.98297874], { icon: LeafletIcons.parkingIcon }));
+    markers.addLayer(L.marker([42.04885002, -3.47299921], { icon: LeafletIcons.stationBikeIcon }));
+    markers.addLayer(L.marker([40.52178249, -4.33102401], { icon: LeafletIcons.stationBikeIcon }));
+    markers.addLayer(L.marker([39.31765313, -2.76396301], { icon: LeafletIcons.stationBikeIcon }));
+    markers.addLayer(L.marker([41.23286395, -4.14979341], { icon: LeafletIcons.busIcon }));
+    markers.addLayer(L.marker([40.69900607, -4.63539567], { icon: LeafletIcons.busIcon }));
+    markers.addLayer(L.marker([41.80582574, -3.4261288], { icon: LeafletIcons.busIcon }));
     map.addLayer(markers);
   }
 

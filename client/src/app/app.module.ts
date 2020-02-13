@@ -5,6 +5,7 @@ import { TreeModule } from 'primeng/tree';
 import { MenubarModule } from 'primeng/menubar';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,7 +21,8 @@ import { AppComponent } from './app.component';
     TreeModule,
     MenubarModule,
     SidebarModule,
-    ButtonModule
+    ButtonModule,
+    OverlayPanelModule
   ],
   providers: [],
   bootstrap: [AppComponent]
