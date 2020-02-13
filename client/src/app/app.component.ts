@@ -19,19 +19,26 @@ export class AppComponent implements OnInit, AfterViewInit {
   protected layers: TreeNode[];
   protected selectionLayers: TreeNode[];
   protected sidebarVisible: boolean;
+  private map: L.Map;
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.loadMenu();
+    this.loadLayers();
+  }
+
+  ngAfterViewInit(): void {
+    this.loadMap();
+    this.loadMarkers();
+  }
+
+  private loadMenu(): void {
     this.items = [
-      {
-        label: 'Map',
-        icon: 'pi pi-map-marker'
-      },
-      {
-        label: 'Graphs',
-        icon: 'pi pi-desktop'
-      }
+      { label: 'Map', icon: 'pi pi-map-marker' },
+      { label: 'Graphs', icon: 'pi pi-desktop' }
     ];
+  }
 
+  private loadLayers(): void {
     this.layers = [
       {
         label: 'Transport',
@@ -44,9 +51,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  ngAfterViewInit(): void {
-
-    const map = L.map('map', {
+  private loadMap(): void {
+    this.map = L.map('map', {
       center: [40.416775, -3.703790],
       zoom: 6
     });
@@ -55,7 +61,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     });
 
-    tiles.addTo(map);
+    tiles.addTo(this.map);
+  }
+
+  private loadMarkers(): void {
     const markers = L.markerClusterGroup();
     markers.addLayer(L.marker([40.08291075, -2.90053831], { icon: LeafletIcons.parkingIcon }));
     markers.addLayer(L.marker([41.52626661, -2.9284049], { icon: LeafletIcons.parkingIcon }));
@@ -66,11 +75,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     markers.addLayer(L.marker([41.23286395, -4.14979341], { icon: LeafletIcons.busIcon }));
     markers.addLayer(L.marker([40.69900607, -4.63539567], { icon: LeafletIcons.busIcon }));
     markers.addLayer(L.marker([41.80582574, -3.4261288], { icon: LeafletIcons.busIcon }));
-    map.addLayer(markers);
-  }
-
-  onListClicked() {
-    this.sidebarVisible = true;
+    this.map.addLayer(markers);
   }
 
 }
