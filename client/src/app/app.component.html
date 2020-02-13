@@ -1,39 +1,13 @@
-<!-- <div class="container-fluid vh-100">
-  <div class="row">
-    <div class="col">
-      <div class="bg-primary" style="width: 100%; height: 100px;"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="bg-warning" style="width: 100%; height: 100px;"></div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <div class="bg-primary" style="width: 100%; height: 100px;"></div>
-    </div>
-  </div>
-</div> -->
-
 <div class="d-flex flex-column vh-100">
-  <div class="bg-info" style="width: 100%; height: 100px;"></div>
+  <div style="width: 100%;">
+    <p-menubar [model]="items"></p-menubar>
+  </div>
   <div class="flex-grow-1">
     <div id="map" class="w-100 h-100"></div>
   </div>
-  <div class="bg-info" style="width: 100%; height: 50px;"></div>
-</div>
-
-
-<!-- <div class="container-fluid vh-100">
-    <div class="row">
-      <div class="col-md-auto vh-100">
-        <p-tree [value]="layers" selectionMode="checkbox" [(selection)]="selectedLayers"></p-tree>
-      </div>
-      <div class="col px-0 vh-100">
-        <div id="map" class="vh-100 w-100"></div>
-      </div>
+  <div class=" d-flex align-items-center" style="width: 100%; height: 40px;">
+    <div class="w-100">
+      <p class="text-center text-dark mb-0">Made by Everis</p>
     </div>
   </div>
-  <div class="" style="width: 100%; height: 100px;"></div> -->
-<!-- <div id="map" class="vh-100 vw-100"></div> -->
+</div>
