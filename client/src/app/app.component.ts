@@ -7,7 +7,7 @@ import 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
 import { LeafletIcons } from './shared/leaflet-icons';
-import { Layer } from './shared/layer-group-registry.interface';
+import { LayerUtils } from './shared/layer-utils';
 
 @Component({
   selector: 'app-root',
@@ -20,13 +20,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   protected layers: TreeNode[];
   protected selectedLayers: TreeNode[];
 
-  private layerGroups: { [key: string]: L.LayerGroup } = {};
   private map: L.Map;
   private markerClusterGroup: L.MarkerClusterGroup;
+  private layerGroups: { [key: string]: L.LayerGroup } = {};
 
   ngOnInit(): void {
     this.loadMenu();
-    this.loadLayers();
+    this.loadLayerMenu();
   }
 
   ngAfterViewInit(): void {
@@ -49,18 +49,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     ];
   }
 
-  private loadLayers(): void {
-    this.layers = [
-      {
-        data: Layer.TRANSPORT.key,
-        label: Layer.TRANSPORT.value,
-        children: [
-          { data: Layer.PARKING.key, label: Layer.PARKING.value },
-          { data: Layer.BIKE_STATION.key, label: Layer.BIKE_STATION.value },
-          { data: Layer.BUS.key, label: Layer.BUS.value }
-        ]
-      }
-    ];
+  private loadLayerMenu(): void {
+    this.layers = LayerUtils.MAIN_LAYERS;
+    this.selectedLayers = LayerUtils.ALL_LAYERS;
   }
 
   private loadMap(): void {
@@ -81,37 +72,35 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private loadMarkers(): void {
 
-    this.layerGroups[Layer.PARKING.key] = L.layerGroup([
+    this.layerGroups[LayerUtils.PARKING.data] = L.layerGroup([
       L.marker([40.08291075, -2.90053831], { icon: LeafletIcons.parkingIcon }),
       L.marker([41.52626661, -2.9284049], { icon: LeafletIcons.parkingIcon }),
       L.marker([41.35810746, -4.98297874], { icon: LeafletIcons.parkingIcon })
     ]);
 
-    this.layerGroups[Layer.BIKE_STATION.key] = L.layerGroup([
+    this.layerGroups[LayerUtils.BIKE_STATION.data] = L.layerGroup([
       L.marker([42.04885002, -3.47299921], { icon: LeafletIcons.bikeStationIcon }),
       L.marker([40.52178249, -4.33102401], { icon: LeafletIcons.bikeStationIcon }),
       L.marker([39.31765313, -2.76396301], { icon: LeafletIcons.bikeStationIcon })
     ]);
 
-    this.layerGroups[Layer.BUS.key] = L.layerGroup([
+    this.layerGroups[LayerUtils.BUS.data] = L.layerGroup([
       L.marker([41.23286395, -4.14979341], { icon: LeafletIcons.busIcon }),
       L.marker([40.69900607, -4.63539567], { icon: LeafletIcons.busIcon }),
       L.marker([41.80582574, -3.4261288], { icon: LeafletIcons.busIcon })
     ]);
 
-    this.layerGroups[Layer.TRANSPORT.key] = L.layerGroup([
-      this.layerGroups[Layer.PARKING.key],
-      this.layerGroups[Layer.BIKE_STATION.key],
-      this.layerGroups[Layer.BUS.key]
+    this.layerGroups[LayerUtils.TRANSPORT.data] = L.layerGroup([
+      this.layerGroups[LayerUtils.PARKING.data],
+      this.layerGroups[LayerUtils.BIKE_STATION.data],
+      this.layerGroups[LayerUtils.BUS.data]
     ]);
 
-    // Object.values(this.layerGroups).forEach(lg => {
-    //   this.markerClusterGroup.addLayer(lg);
-    // });
+    Object.values(this.layerGroups).forEach(lg => {
+      this.markerClusterGroup.addLayer(lg);
+    });
 
     this.map.addLayer(this.markerClusterGroup);
-
-    // this.markerClusterGroup.removeLayer(this.layerGroups[Layer.BUS.key]);
   }
 
 }
