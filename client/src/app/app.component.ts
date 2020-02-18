@@ -8,6 +8,7 @@ import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
 import { LeafletIcons } from './shared/leaflet-icons';
 import { LayerUtils } from './shared/layer-utils';
+import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.loadMap();
+    this.loadSearchBar();
     this.loadMarkers();
   }
 
@@ -47,6 +49,15 @@ export class AppComponent implements OnInit, AfterViewInit {
       { label: 'Map', icon: 'pi pi-map-marker' },
       { label: 'Graphs', icon: 'pi pi-desktop' }
     ];
+  }
+
+  private loadSearchBar(): void {
+    const searchControl = new GeoSearchControl({
+      provider: new OpenStreetMapProvider(),
+      autoClose: true
+    });
+
+    this.map.addControl(searchControl);
   }
 
   private loadLayerMenu(): void {

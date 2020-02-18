@@ -25,14 +25,15 @@
     "classlist.js": "1.1.20150312",
     "jquery": "^3.4.1",
     "leaflet": "^1.6.0",
+    "leaflet-geosearch": "^2.7.0",
     "leaflet.markercluster": "^1.4.1",
     "popper.js": "^1.16.1",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.0-rc.4",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1",
-    "web-animations-js": "github:angular/web-animations-js#release_pr208"
+    "web-animations-js": "github:angular/web-animations-js#release_pr208",
+    "zone.js": "~0.9.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.23",
