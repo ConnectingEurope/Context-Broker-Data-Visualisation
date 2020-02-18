@@ -1,9 +1,10 @@
 <p-overlayPanel #layerPanel>
-  <p-tree [value]="layers" selectionMode="checkbox" [(selection)]="selectedLayers"></p-tree>
+  <p-tree [value]="layers" selectionMode="checkbox" [(selection)]="selectedLayers" (onNodeSelect)="onNodeSelect($event)"
+    (onNodeUnselect)="onNodeUnselect($event)"></p-tree>
 </p-overlayPanel>
 <div class="d-flex flex-column vh-100">
   <div style="width: 100%;">
-    <p-menubar [model]="items">
+    <p-menubar [model]="menuItems">
     </p-menubar>
   </div>
   <div class="flex-grow-1">
