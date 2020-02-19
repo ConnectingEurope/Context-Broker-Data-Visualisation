@@ -1,0 +1,13 @@
+<!-- Layer panel -->
+<p-overlayPanel #layerPanel>
+    <p-tree [value]="layers" selectionMode="checkbox" [(selection)]="selectedLayers"
+        (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)"></p-tree>
+</p-overlayPanel>
+
+<!-- Map -->
+<div id="map" class="w-100 h-100">
+    <div class="leaflet-top leaflet-right">
+        <p-button class="mt-3 mr-3" label="Layers" icon="pi pi-list" iconPos="left"
+            (onClick)="layerPanel.toggle($event)"></p-button>
+    </div>
+</div>
