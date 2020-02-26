@@ -10,7 +10,8 @@ const routes: Routes = [
     path: '',
     redirectTo: 'map-dashboard',
     pathMatch: 'full'
-  }
+  },
+  { path: 'stats-dashboard', loadChildren: () => import('./stats-dashboard/stats-dashboard.module').then(m => m.StatsDashboardModule) }
 ];
 
 @NgModule({
