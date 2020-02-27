@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+.ui-menuitem-link:focus {
+    box-shadow: inset 0 0 0 0.1em darkgrey !important;
+}
+
+.ui-treenode-content:focus {
+    box-shadow: 0 0 0 0.1em darkgrey !important;
+}
+
+.ui-tree {
+    border: none !important;
+    padding: 0 !important;
+}
+
+.ui-button {
+    pointer-events: auto;
+}
+
+.ui-sidebar-right {
+    bottom: 40px;
+}
+
+.ui-card {
+    width: 500px;
+    height: 300px;
+}
