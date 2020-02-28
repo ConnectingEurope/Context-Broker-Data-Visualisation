@@ -11,6 +11,7 @@ import { LeafletIcons } from '../shared/leaflet-icons';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { MapDashboardService } from './map-dashboard.service';
 import { AirQualityObserved } from '../shared/data-models/air-quality-observed';
+import { LatLngTuple } from 'leaflet';
 
 @Component({
   selector: 'app-map-dashboard',
@@ -68,7 +69,7 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
     this.map = L.map('map', {
       center: [40.416775, -3.703790],
-      zoom: 6
+      zoom: 5
     });
 
     this.markerClusterGroup = L.markerClusterGroup();
@@ -82,23 +83,9 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
   private loadMarkers(): void {
 
-    this.layerGroups[LayerUtils.PARKING.data] = L.layerGroup([
-      L.marker([40.08291075, -2.90053831], { icon: LeafletIcons.parkingIcon }),
-      L.marker([41.52626661, -2.9284049], { icon: LeafletIcons.parkingIcon }),
-      L.marker([41.35810746, -4.98297874], { icon: LeafletIcons.parkingIcon })
-    ]);
-
-    this.layerGroups[LayerUtils.BIKE_STATION.data] = L.layerGroup([
-      L.marker([42.04885002, -3.47299921], { icon: LeafletIcons.bikeStationIcon }),
-      L.marker([40.52178249, -4.33102401], { icon: LeafletIcons.bikeStationIcon }),
-      L.marker([39.31765313, -2.76396301], { icon: LeafletIcons.bikeStationIcon })
-    ]);
-
-    this.layerGroups[LayerUtils.BUS.data] = L.layerGroup([
-      L.marker([41.23286395, -4.14979341], { icon: LeafletIcons.busIcon }),
-      L.marker([40.69900607, -4.63539567], { icon: LeafletIcons.busIcon }),
-      L.marker([41.80582574, -3.4261288], { icon: LeafletIcons.busIcon })
-    ]);
+    this.generateRandomLocations(LayerUtils.PARKING.data, LeafletIcons.parkingIcon, 20);
+    this.generateRandomLocations(LayerUtils.BIKE_STATION.data, LeafletIcons.bikeStationIcon, 20);
+    this.generateRandomLocations(LayerUtils.BUS.data, LeafletIcons.busIcon, 20);
 
     this.layerGroups[LayerUtils.TRANSPORT.data] = L.layerGroup([
       this.layerGroups[LayerUtils.PARKING.data],
@@ -131,6 +118,27 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
     Object.values(this.layerGroups).forEach(lg => {
       this.markerClusterGroup.addLayer(lg);
     });
+  }
+
+  private generateRandomLocations(layer: any, iconLayer: L.Icon, samples: number) {
+    let count: number = samples;
+    this.layerGroups[layer] = L.layerGroup();
+    while (count > 0) {
+      this.layerGroups[layer].addLayer(
+        L.marker(this.generateRandomLatLon(), { icon: iconLayer })
+      );
+      count--;
+    }
+  }
+
+  private generateRandomLatLon(): LatLngTuple {
+    const lat: number = this.randomFromInterval(37.890676, 42.897983);
+    const lon: number = this.randomFromInterval(-8.246180, -1.150096);
+    return [lat, lon];
+  }
+
+  private randomFromInterval(min: number, max: number) {
+    return Math.random() * (max - min) + min;
   }
 
 }
