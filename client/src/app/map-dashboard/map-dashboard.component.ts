@@ -12,6 +12,7 @@ import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { MapDashboardService } from './map-dashboard.service';
 import { AirQualityObserved } from '../shared/data-models/air-quality-observed';
 import { LatLngTuple } from 'leaflet';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-map-dashboard',
@@ -102,9 +103,9 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
     this.mapDashBoardService.getAirQualityObservedEntities().subscribe((res: AirQualityObserved[]) => {
       this.layerGroups[LayerUtils.AIR_QUALITY.data] = L.layerGroup();
       res.forEach(e => {
-        this.layerGroups[LayerUtils.AIR_QUALITY.data].addLayer(
-          L.marker([e.latitude, e.longitude], { icon: LeafletIcons.airQualityIcon })
-        );
+        const marker = L.marker([e.latitude, e.longitude], { icon: LeafletIcons.airQualityIcon });
+        marker.bindPopup(this.showAirQualityObservedPopup(e));
+        this.layerGroups[LayerUtils.AIR_QUALITY.data].addLayer(marker);
       });
       this.layerGroups[LayerUtils.ENVIRONMENT.data] = L.layerGroup([
         this.layerGroups[LayerUtils.AIR_QUALITY.data]
@@ -124,9 +125,10 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
     let count: number = samples;
     this.layerGroups[layer] = L.layerGroup();
     while (count > 0) {
-      this.layerGroups[layer].addLayer(
-        L.marker(this.generateRandomLatLon(), { icon: iconLayer })
-      );
+      const randomLatLon: L.LatLngTuple = this.generateRandomLatLon();
+      const marker = L.marker(randomLatLon, { icon: iconLayer });
+      marker.bindPopup(this.showEntityPopup(randomLatLon));
+      this.layerGroups[layer].addLayer(marker);
       count--;
     }
   }
@@ -139,6 +141,20 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
   private randomFromInterval(min: number, max: number) {
     return Math.random() * (max - min) + min;
+  }
+
+  private showAirQualityObservedPopup(e: AirQualityObserved): string {
+    return 'Latitude: ' + e.latitude + '<br />' +
+      'Longitude: ' + e.longitude + '<br />' +
+      'NO: ' + (e.NO ? e.NO : 'aa') + '<br />' +
+      'NO2: ' + (e.NO2 ? e.NO2 : '-') + '<br />' +
+      'O3: ' + (e.O3 ? e.O3 : '-') + '<br />' +
+      'Date: ' + moment(e.TimeInstant).format('MMMM Do YYYY, h:mm:ss a');
+  }
+
+  private showEntityPopup(e: L.LatLngTuple): string {
+    return 'Latitude: ' + e[0] + '<br />' +
+      'Longitude: ' + e[1] + '<br />';
   }
 
 }

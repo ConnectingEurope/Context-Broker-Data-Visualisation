@@ -15,7 +15,8 @@ export class LeafletIcons {
     public static bikeStationIcon = L.icon({
         iconUrl: '../../assets/bike-station-icon.png',
         iconSize: [150, 40],
-        iconAnchor: [75, 39]
+        iconAnchor: [75, 39],
+        popupAnchor: [0, -19]
     });
 
     public static busIcon = L.icon({
