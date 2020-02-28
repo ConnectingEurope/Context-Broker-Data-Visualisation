@@ -146,17 +146,17 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   }
 
   private showAirQualityObservedPopup(e: AirQualityObserved): string {
-    return 'Latitude: ' + e.latitude + '<br />' +
-      'Longitude: ' + e.longitude + '<br />' +
-      'NO: ' + (Number(e.NO) ? e.NO : '-') + '<br />' +
-      'NO2: ' + (Number(e.NO2) ? e.NO2 : '-') + '<br />' +
-      'O3: ' + (Number(e.O3) ? e.O3 : '-') + '<br />' +
-      'Date: ' + moment(e.TimeInstant).format('DD/MM/YYYY, h:mm:ss a');
+    return '<b>Latitude: </b>' + e.latitude + '<br />' +
+      '<b>Longitude: </b>' + e.longitude + '<br />' +
+      '<b>NO: </b>' + (Number(e.NO) ? e.NO : '-') + '<br />' +
+      '<b>NO2: </b>' + (Number(e.NO2) ? e.NO2 : '-') + '<br />' +
+      '<b>O3: </b>' + (Number(e.O3) ? e.O3 : '-') + '<br />' +
+      '<b>Date: </b>' + moment(e.TimeInstant).format('DD/MM/YYYY, h:mm:ss a');
   }
 
   private showEntityPopup(e: L.LatLngTuple): string {
-    return 'Latitude: ' + e[0] + '<br />' +
-      'Longitude: ' + e[1] + '<br />';
+    return '<b>Latitude: </b>' + e[0].toFixed(5) + '<br />' +
+      '<b>Longitude: </b>' + e[1].toFixed(5) + '<br />';
   }
 
 }
