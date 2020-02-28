@@ -70,7 +70,7 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
     this.map = L.map('map', {
       center: [40.416775, -3.703790],
-      zoom: 5
+      zoom: 4
     });
 
     this.markerClusterGroup = L.markerClusterGroup();
@@ -84,9 +84,11 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
   private loadMarkers(): void {
 
-    this.generateRandomLocations(LayerUtils.PARKING.data, LeafletIcons.parkingIcon, 20);
-    this.generateRandomLocations(LayerUtils.BIKE_STATION.data, LeafletIcons.bikeStationIcon, 20);
-    this.generateRandomLocations(LayerUtils.BUS.data, LeafletIcons.busIcon, 20);
+    const samples = 20;
+
+    this.generateRandomLocations(LayerUtils.PARKING.data, LeafletIcons.parkingIcon, samples);
+    this.generateRandomLocations(LayerUtils.BIKE_STATION.data, LeafletIcons.bikeStationIcon, samples);
+    this.generateRandomLocations(LayerUtils.BUS.data, LeafletIcons.busIcon, samples);
 
     this.layerGroups[LayerUtils.TRANSPORT.data] = L.layerGroup([
       this.layerGroups[LayerUtils.PARKING.data],
@@ -146,10 +148,10 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   private showAirQualityObservedPopup(e: AirQualityObserved): string {
     return 'Latitude: ' + e.latitude + '<br />' +
       'Longitude: ' + e.longitude + '<br />' +
-      'NO: ' + (e.NO ? e.NO : 'aa') + '<br />' +
-      'NO2: ' + (e.NO2 ? e.NO2 : '-') + '<br />' +
-      'O3: ' + (e.O3 ? e.O3 : '-') + '<br />' +
-      'Date: ' + moment(e.TimeInstant).format('MMMM Do YYYY, h:mm:ss a');
+      'NO: ' + (Number(e.NO) ? e.NO : '-') + '<br />' +
+      'NO2: ' + (Number(e.NO2) ? e.NO2 : '-') + '<br />' +
+      'O3: ' + (Number(e.O3) ? e.O3 : '-') + '<br />' +
+      'Date: ' + moment(e.TimeInstant).format('DD/MM/YYYY, h:mm:ss a');
   }
 
   private showEntityPopup(e: L.LatLngTuple): string {
