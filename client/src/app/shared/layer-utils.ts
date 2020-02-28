@@ -24,14 +24,17 @@ export class LayerUtils {
         ]
     };
 
-    static readonly MAIN_LAYERS: TreeNode[] = [LayerUtils.TRANSPORT, LayerUtils.ENVIRONMENT];
+    static readonly MAIN_LAYERS: TreeNode[] = [
+        LayerUtils.TRANSPORT,
+        // LayerUtils.ENVIRONMENT
+    ];
     static readonly ALL_LAYERS: TreeNode[] = [
         LayerUtils.PARKING,
         LayerUtils.BIKE_STATION,
         LayerUtils.BUS,
         LayerUtils.TRANSPORT,
-        LayerUtils.AIR_QUALITY,
-        LayerUtils.ENVIRONMENT
+        // LayerUtils.AIR_QUALITY,
+        // LayerUtils.ENVIRONMENT
     ];
 
 }
