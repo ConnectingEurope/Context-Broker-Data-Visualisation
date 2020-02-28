@@ -5,7 +5,7 @@ const request = require('request');
 const params = {
   type: 'EEA_POLLUTION',
   options: 'keyValues',
-  limit: '500'
+  limit: '1000'
 };
 
 const heads = {

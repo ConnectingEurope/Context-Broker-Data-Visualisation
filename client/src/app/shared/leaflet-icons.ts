@@ -7,6 +7,11 @@ export class LeafletIcons {
         iconSize: [30, 30]
     });
 
+    public static airQualityIcon = L.icon({
+        iconUrl: '../../assets/air-quality-icon.png',
+        iconSize: [30, 30]
+    });
+
     public static bikeStationIcon = L.icon({
         iconUrl: '../../assets/bike-station-icon.png',
         iconSize: [150, 40],

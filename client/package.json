@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 5200",
+    "start": "ng serve --proxy-config proxy.conf.json --port 5200",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -28,6 +28,7 @@
     "leaflet": "^1.6.0",
     "leaflet-geosearch": "^2.7.0",
     "leaflet.markercluster": "^1.4.1",
+    "moment": "^2.24.0",
     "popper.js": "^1.16.1",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.0-rc.4",

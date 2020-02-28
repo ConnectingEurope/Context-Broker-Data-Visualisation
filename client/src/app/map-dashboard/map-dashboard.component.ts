@@ -9,6 +9,8 @@ import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
 import { LeafletIcons } from '../shared/leaflet-icons';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import { MapDashboardService } from './map-dashboard.service';
+import { AirQualityObserved } from '../shared/data-models/air-quality-observed';
 
 @Component({
   selector: 'app-map-dashboard',
@@ -25,14 +27,19 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   private markerClusterGroup: L.MarkerClusterGroup;
   private layerGroups: { [key: string]: L.LayerGroup } = {};
 
+  constructor(private mapDashBoardService: MapDashboardService) {
+
+  }
+
   ngOnInit(): void {
     this.loadLayerMenu();
+    this.loadEntities();
   }
 
   ngAfterViewInit(): void {
     this.loadMap();
     this.loadSearchBar();
-    this.loadMarkers();
+    // this.loadMarkers();
   }
 
   protected onNodeSelect(event: any): void {
@@ -99,11 +106,31 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
       this.layerGroups[LayerUtils.BUS.data]
     ]);
 
+    this.refreshLayers();
+
+    this.map.addLayer(this.markerClusterGroup);
+  }
+
+  private loadEntities(): void {
+    this.mapDashBoardService.getAirQualityObservedEntities().subscribe((res: AirQualityObserved[]) => {
+      this.layerGroups[LayerUtils.AIR_QUALITY.data] = L.layerGroup();
+      res.forEach(e => {
+        this.layerGroups[LayerUtils.AIR_QUALITY.data].addLayer(
+          L.marker([e.latitude, e.longitude], { icon: LeafletIcons.airQualityIcon })
+        );
+      });
+      this.layerGroups[LayerUtils.ENVIRONMENT.data] = L.layerGroup([
+        this.layerGroups[LayerUtils.AIR_QUALITY.data]
+      ]);
+      // this.refreshLayers();
+      this.loadMarkers();
+    });
+  }
+
+  private refreshLayers(): void {
     Object.values(this.layerGroups).forEach(lg => {
       this.markerClusterGroup.addLayer(lg);
     });
-
-    this.map.addLayer(this.markerClusterGroup);
   }
 
 }

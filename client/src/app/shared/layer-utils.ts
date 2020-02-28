@@ -14,12 +14,24 @@ export class LayerUtils {
             LayerUtils.BUS
         ]
     };
-    static readonly MAIN_LAYERS: TreeNode[] = [LayerUtils.TRANSPORT];
+
+    static readonly AIR_QUALITY: TreeNode = { data: 'airQuality', label: 'Air Quality' };
+    static readonly ENVIRONMENT: TreeNode = {
+        data: 'environment',
+        label: 'Environment',
+        children: [
+            LayerUtils.AIR_QUALITY
+        ]
+    };
+
+    static readonly MAIN_LAYERS: TreeNode[] = [LayerUtils.TRANSPORT, LayerUtils.ENVIRONMENT];
     static readonly ALL_LAYERS: TreeNode[] = [
         LayerUtils.PARKING,
         LayerUtils.BIKE_STATION,
         LayerUtils.BUS,
-        LayerUtils.TRANSPORT
+        LayerUtils.TRANSPORT,
+        LayerUtils.AIR_QUALITY,
+        LayerUtils.ENVIRONMENT
     ];
 
 }
