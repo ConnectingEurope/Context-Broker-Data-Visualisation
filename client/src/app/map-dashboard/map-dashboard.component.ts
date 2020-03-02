@@ -35,13 +35,13 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadLayerMenu();
-    // this.loadEntities();
+    this.loadEntities();
   }
 
   ngAfterViewInit(): void {
     this.loadMap();
     this.loadSearchBar();
-    this.loadMarkers();
+    // this.loadMarkers();
   }
 
   protected onNodeSelect(event: any): void {
@@ -84,7 +84,7 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
   private loadMarkers(): void {
 
-    const samples = 20;
+    const samples = 500;
 
     this.generateRandomLocations(LayerUtils.PARKING.data, LeafletIcons.parkingIcon, samples);
     this.generateRandomLocations(LayerUtils.BIKE_STATION.data, LeafletIcons.bikeStationIcon, samples);
