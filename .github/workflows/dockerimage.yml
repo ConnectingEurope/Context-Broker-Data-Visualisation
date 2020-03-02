@@ -8,8 +8,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: Build the docker image
     steps:
-    - uses: actions/checkout@v2
-    - name: Build the Docker image
+      - name: Docker login
+        run: docker login docker.pkg.github.com --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.GITHUB_DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.GITHUB_DOCKER_PASSWORD }}
+          
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
       # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-      run: cd client && docker build -t cb-baseline:$(date +%s) -f ../docker/Dockerfile .
+        run: docker login docker.pkg.github.com -- cd client && docker build -t cb-baseline:$(date +%s) -f ../docker/Dockerfile .
