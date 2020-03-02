@@ -13,6 +13,7 @@ import { MapDashboardService } from './map-dashboard.service';
 import { AirQualityObserved } from '../../shared/data-models/air-quality-observed';
 import { LatLngTuple } from 'leaflet';
 import * as moment from 'moment';
+import { LayerService } from './layer-service';
 
 @Component({
   selector: 'app-map-dashboard',
@@ -26,22 +27,24 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   protected selectedLayers: TreeNode[];
 
   private map: L.Map;
-  private markerClusterGroup: L.MarkerClusterGroup;
+  private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
   private layerGroups: { [key: string]: L.LayerGroup } = {};
 
-  constructor(private mapDashBoardService: MapDashboardService) {
+  constructor(
+    private mapDashBoardService: MapDashboardService,
+    private layerService: LayerService,
+  ) {
 
   }
 
   ngOnInit(): void {
     this.loadLayerMenu();
-    this.loadEntities();
+    // this.loadEntities();
   }
 
   ngAfterViewInit(): void {
     this.loadMap();
     this.loadSearchBar();
-    // this.loadMarkers();
   }
 
   protected onNodeSelect(event: any): void {
@@ -50,6 +53,17 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
   protected onNodeUnselect(event: any): void {
     this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
+  }
+
+  private loadMap(): void {
+    this.map = L.map('map', {
+      center: [40.416775, -3.703790],
+      zoom: 4,
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+    }).addTo(this.map);
   }
 
   private loadSearchBar(): void {
@@ -62,24 +76,8 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   }
 
   private loadLayerMenu(): void {
-    this.layers = LayerUtils.MAIN_LAYERS;
-    this.selectedLayers = LayerUtils.ALL_LAYERS;
-  }
-
-  private loadMap(): void {
-
-    this.map = L.map('map', {
-      center: [40.416775, -3.703790],
-      zoom: 4,
-    });
-
-    this.markerClusterGroup = L.markerClusterGroup();
-
-    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-    });
-
-    tiles.addTo(this.map);
+    this.layers = this.layerService.getMainLayers();
+    this.selectedLayers = this.layerService.getAllLayers(this.layers);
   }
 
   private loadMarkers(): void {
