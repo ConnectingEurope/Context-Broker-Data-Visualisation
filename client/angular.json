@@ -112,6 +112,7 @@
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
               "node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css",
+              "node_modules/leaflet-geosearch/assets/css/leaflet.css",
               "src/styles.scss"
             ],
             "scripts": [

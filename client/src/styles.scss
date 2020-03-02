@@ -1,15 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+
+// PrimeNG
+
 .ui-menuitem-link:focus {
     box-shadow: inset 0 0 0 0.1em darkgrey !important;
-}
-
-.ui-treenode-content:focus {
-    box-shadow: 0 0 0 0.1em darkgrey !important;
 }
 
 .ui-tree {
     border: none !important;
     padding: 0 !important;
+}
+
+.ui-treenode-content:focus {
+    box-shadow: 0 0 0 0.1em darkgrey !important;
 }
 
 .ui-button {
@@ -20,6 +23,15 @@
     bottom: 40px;
 }
 
-.card {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+.ui-card, .ui-card div.row {
+    width: 600px;
+    height: 400px;
+}
+
+.ui-card-body {
+    padding: 0;
+}
+
+.ui-card div.col-auto > div {
+    width: 500px;
 }

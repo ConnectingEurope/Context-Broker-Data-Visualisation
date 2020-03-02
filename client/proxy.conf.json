@@ -2,8 +2,6 @@
     "/server": {
         "target": "http://localhost:3006",
         "secure": false,
-        "logLevel": "debug",
-        "changeOrigin": true,
         "pathRewrite": {
             "^/server": ""
         }

@@ -1,26 +1,18 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-stats-dashboard',
   templateUrl: './stats-dashboard.component.html',
-  styleUrls: ['./stats-dashboard.component.scss']
+  styleUrls: ['./stats-dashboard.component.scss'],
 })
-export class StatsDashboardComponent implements OnInit, AfterViewInit {
+export class StatsDashboardComponent implements AfterViewInit {
 
-  @ViewChild('myChart', { static: false }) private chartRef;
+  @ViewChild('chart', { static: false }) private chartRef: any;
 
-  chart;
-
-  ngOnInit() {
-    // this.showChart();
-  }
+  private chart: Chart;
 
   ngAfterViewInit() {
-    this.showChart();
-  }
-
-  onClick() {
     this.showChart();
   }
 
@@ -38,7 +30,7 @@ export class StatsDashboardComponent implements OnInit, AfterViewInit {
             'rgba(255, 206, 86, 0.2)',
             'rgba(75, 192, 192, 0.2)',
             'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
+            'rgba(255, 159, 64, 0.2)',
           ],
           borderColor: [
             'rgba(255, 99, 132, 1)',
@@ -46,20 +38,20 @@ export class StatsDashboardComponent implements OnInit, AfterViewInit {
             'rgba(255, 206, 86, 1)',
             'rgba(75, 192, 192, 1)',
             'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
+            'rgba(255, 159, 64, 1)',
           ],
-          borderWidth: 1
-        }]
+          borderWidth: 1,
+        }],
       },
       options: {
         scales: {
           yAxes: [{
             ticks: {
-              beginAtZero: true
-            }
-          }]
-        }
-      }
+              beginAtZero: true,
+            },
+          }],
+        },
+      },
     });
   }
 
