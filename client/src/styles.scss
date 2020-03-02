@@ -1,10 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
-// PrimeNG
+// PrimeNG MenuBar
 
 .ui-menuitem-link:focus {
     box-shadow: inset 0 0 0 0.1em darkgrey !important;
 }
+
+// PrimeNG Tree
 
 .ui-tree {
     border: none !important;
@@ -15,23 +17,29 @@
     box-shadow: 0 0 0 0.1em darkgrey !important;
 }
 
+// PrimeNG Button
+
 .ui-button {
     pointer-events: auto;
 }
+
+// PrimeNG Sidebar
 
 .ui-sidebar-right {
     bottom: 40px;
 }
 
-.ui-card, .ui-card div.row {
+// App GraphicCard
+
+app-graphic-card .ui-card, .ui-card div.row {
     width: 600px;
     height: 400px;
 }
 
-.ui-card-body {
+app-graphic-card .ui-card-body {
     padding: 0;
 }
 
-.ui-card div.col-auto > div {
+app-graphic-card .ui-card div.col-auto > div {
     width: 500px;
 }
