@@ -11,7 +11,7 @@ export class LayerUtils {
         children: [
             LayerUtils.PARKING,
             LayerUtils.BIKE_STATION,
-            LayerUtils.BUS
+            LayerUtils.BUS,
         ]
     };
 
@@ -20,13 +20,13 @@ export class LayerUtils {
         data: 'environment',
         label: 'Environment',
         children: [
-            LayerUtils.AIR_QUALITY
+            LayerUtils.AIR_QUALITY,
         ]
     };
 
     static readonly MAIN_LAYERS: TreeNode[] = [
         LayerUtils.TRANSPORT,
-        LayerUtils.ENVIRONMENT
+        LayerUtils.ENVIRONMENT,
     ];
     static readonly ALL_LAYERS: TreeNode[] = [
         LayerUtils.PARKING,
@@ -34,7 +34,7 @@ export class LayerUtils {
         LayerUtils.BUS,
         LayerUtils.TRANSPORT,
         LayerUtils.AIR_QUALITY,
-        LayerUtils.ENVIRONMENT
+        LayerUtils.ENVIRONMENT,
     ];
 
 }

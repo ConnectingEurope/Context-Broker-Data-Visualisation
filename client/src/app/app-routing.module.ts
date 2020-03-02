@@ -4,11 +4,11 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'map-dashboard',
-    loadChildren: () => import('./map-dashboard/map-dashboard.module').then(m => m.MapDashboardModule),
+    loadChildren: () => import('./features/map-dashboard/map-dashboard.module').then(m => m.MapDashboardModule),
   },
   {
     path: 'stats-dashboard',
-    loadChildren: () => import('./stats-dashboard/stats-dashboard.module').then(m => m.StatsDashboardModule),
+    loadChildren: () => import('./features/stats-dashboard/stats-dashboard.module').then(m => m.StatsDashboardModule),
   },
   {
     path: '',

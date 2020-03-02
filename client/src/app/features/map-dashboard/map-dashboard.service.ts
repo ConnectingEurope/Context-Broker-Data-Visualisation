@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AirQualityObserved } from '../shared/data-models/air-quality-observed';
+import { AirQualityObserved } from '../../shared/data-models/air-quality-observed';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MapDashboardService {
 

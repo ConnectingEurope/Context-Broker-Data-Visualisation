@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MapDashboardRoutingModule } from './map-dashboard-routing.module';
 import { MapDashboardComponent } from './map-dashboard.component';
 import { TreeModule } from 'primeng/tree';
@@ -16,7 +15,7 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     TreeModule,
     SidebarModule,
     ButtonModule,
-    OverlayPanelModule
-  ]
+    OverlayPanelModule,
+  ],
 })
 export class MapDashboardModule { }

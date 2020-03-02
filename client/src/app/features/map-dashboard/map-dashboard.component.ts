@@ -1,23 +1,23 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
-import { LayerUtils } from '../shared/layer-utils';
+import { LayerUtils } from '../../shared/layer-utils';
 import * as L from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
-import { LeafletIcons } from '../shared/leaflet-icons';
+import { LeafletIcons } from '../../shared/leaflet-icons';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { MapDashboardService } from './map-dashboard.service';
-import { AirQualityObserved } from '../shared/data-models/air-quality-observed';
+import { AirQualityObserved } from '../../shared/data-models/air-quality-observed';
 import { LatLngTuple } from 'leaflet';
 import * as moment from 'moment';
 
 @Component({
   selector: 'app-map-dashboard',
   templateUrl: './map-dashboard.component.html',
-  styleUrls: ['./map-dashboard.component.scss']
+  styleUrls: ['./map-dashboard.component.scss'],
 })
 export class MapDashboardComponent implements OnInit, AfterViewInit {
 
@@ -55,7 +55,7 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   private loadSearchBar(): void {
     const searchControl = new GeoSearchControl({
       provider: new OpenStreetMapProvider(),
-      autoClose: true
+      autoClose: true,
     });
 
     this.map.addControl(searchControl);
@@ -70,13 +70,13 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
 
     this.map = L.map('map', {
       center: [40.416775, -3.703790],
-      zoom: 4
+      zoom: 4,
     });
 
     this.markerClusterGroup = L.markerClusterGroup();
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
     });
 
     tiles.addTo(this.map);
@@ -93,7 +93,7 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
     this.layerGroups[LayerUtils.TRANSPORT.data] = L.layerGroup([
       this.layerGroups[LayerUtils.PARKING.data],
       this.layerGroups[LayerUtils.BIKE_STATION.data],
-      this.layerGroups[LayerUtils.BUS.data]
+      this.layerGroups[LayerUtils.BUS.data],
     ]);
 
     this.refreshLayers();
@@ -110,7 +110,7 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
         this.layerGroups[LayerUtils.AIR_QUALITY.data].addLayer(marker);
       });
       this.layerGroups[LayerUtils.ENVIRONMENT.data] = L.layerGroup([
-        this.layerGroups[LayerUtils.AIR_QUALITY.data]
+        this.layerGroups[LayerUtils.AIR_QUALITY.data],
       ]);
       // this.refreshLayers();
       this.loadMarkers();
