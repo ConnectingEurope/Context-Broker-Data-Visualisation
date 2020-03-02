@@ -12,10 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Docker login
-        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        env:
-          DOCKER_USERNAME: ${{ secrets.GITHUB_DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.GITHUB_DOCKER_PASSWORD }}
+        run: docker login -u "${{ secrets.GITHUB_DOCKER_USERNAME }}" -p "${{ secrets.GITHUB_DOCKER_PASSWORD }}"
           
       - uses: actions/checkout@v2
       - name: Build the Docker image
