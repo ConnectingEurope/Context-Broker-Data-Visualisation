@@ -1,5 +1,5 @@
 import { TreeNode } from 'primeng/api/treenode';
-import { LeafletIcons } from '../../shared/leaflet-icons';
+import { LeafletIcons } from '../../../../shared/leaflet-icons';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -10,8 +10,8 @@ export class LayerService {
     private readonly layers = {
         environment: {
             label: 'Environment',
-            airQuality: {
-                label: 'Air Quality',
+            airQualityObserved: {
+                label: 'Air Quality Observed',
                 icon: LeafletIcons.airQualityIcon,
             },
         },

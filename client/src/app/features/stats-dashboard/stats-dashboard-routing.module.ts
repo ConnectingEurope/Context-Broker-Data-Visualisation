@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { StatsDashboardComponent } from './stats-dashboard.component';
+import { StatsDashboardComponent } from './components/stats-dashboard.component';
 
 const routes: Routes = [{ path: '', component: StatsDashboardComponent }];
 
