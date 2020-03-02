@@ -1,5 +1,5 @@
 import { TreeNode } from 'primeng/api/treenode';
-import { LeafletIcons } from '../../../../shared/leaflet-icons';
+import { LeafletIcons } from '../../../../shared/misc/leaflet-icons';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,19 +7,19 @@ import { Injectable } from '@angular/core';
 })
 export class LayerService {
 
-    private readonly layers = {
+    private readonly layers: any = {
         environment: {
             label: 'Environment',
             airQualityObserved: {
                 label: 'Air Quality Observed',
-                icon: LeafletIcons.airQualityIcon,
+                icon: LeafletIcons.icons.airQualityObserved,
             },
         },
         transport: {
             label: 'Transport',
-            parking: {
-                label: 'Parkings',
-                icon: LeafletIcons.parkingIcon,
+            offStreetParking: {
+                label: 'Off Street Parking',
+                icon: LeafletIcons.icons.offStreetParking,
             },
         },
     };
@@ -29,13 +29,13 @@ export class LayerService {
     }
 
     public getAllLayers(layers: TreeNode[]): TreeNode[] {
-        let concatenatedLayers = layers;
+        let concatenatedLayers: TreeNode[] = layers;
         layers.forEach(t => concatenatedLayers = concatenatedLayers.concat(this.getAllLayers(t.children)));
         return concatenatedLayers;
     }
 
     private getTreeNodeLayer(key: string, value: any): TreeNode {
-        const children = Object.entries(value).filter(e2 => e2[0] !== 'label' && e2[0] !== 'icon');
+        const children: any[] = Object.entries(value).filter(e => e[0] !== 'label' && e[0] !== 'icon');
         const treeNode: TreeNode = {};
 
         treeNode.data = key;

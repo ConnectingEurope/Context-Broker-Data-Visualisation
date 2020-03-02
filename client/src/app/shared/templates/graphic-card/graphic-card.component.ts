@@ -4,21 +4,21 @@ import { Chart } from 'chart.js';
 @Component({
   selector: 'app-graphic-card',
   templateUrl: './graphic-card.component.html',
-  styleUrls: ['./graphic-card.component.scss']
+  styleUrls: ['./graphic-card.component.scss'],
 })
 export class GraphicCardComponent implements AfterViewInit {
 
-  @ViewChild('chart', { static: false }) private chartRef: any;
-
-  @Input() chartConfig: any;
+  @Input() public chartConfig: any;
 
   protected chart: Chart;
 
-  ngAfterViewInit() {
+  @ViewChild('chart', { static: false }) private chartRef: any;
+
+  public ngAfterViewInit(): void {
     this.showChart();
   }
 
-  showChart() {
+  private showChart(): void {
     this.chart = new Chart(this.chartRef.nativeElement, this.chartConfig);
   }
 

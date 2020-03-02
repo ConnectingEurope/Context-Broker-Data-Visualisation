@@ -10,7 +10,7 @@ export class AppComponent implements OnInit {
 
   protected menuItems: MenuItem[];
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.loadMenu();
   }
 
