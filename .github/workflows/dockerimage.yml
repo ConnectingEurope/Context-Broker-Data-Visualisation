@@ -17,4 +17,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the Docker image
       # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-        run: cd client && docker build -t docker.pkg.github.com/calbapon/cb-baseline/cb-baseline:$(date +%s) -f ../docker/Dockerfile .
+        run: cd client && docker build -t afmartin3z/cb-baseline:$(date +%s) -f ../docker/Dockerfile .
+      
+      - uses: actions/checkout@v2
+      - name: Push the Docker image
+        run: docker push afmartin3z/cb-baseline:$(date +%s)
