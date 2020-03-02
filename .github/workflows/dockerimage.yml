@@ -17,8 +17,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the Docker image
       # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-        run: cd client && docker build -t afmartin3z/cb-baseline:4.0.0 -f ../docker/Dockerfile .
+        run: cd client && docker build -t ${{ secrets.DOCKER_USERNAME }}/cb-baseline:4.0.1 -f ../docker/Dockerfile .
       
       - uses: actions/checkout@v2
       - name: Push the Docker image
-        run: docker push afmartin3z/cb-baseline:4.0.0
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/cb-baseline:4.0.1
