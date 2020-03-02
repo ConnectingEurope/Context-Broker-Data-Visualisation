@@ -10,8 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Build the docker image
     steps:
+      - uses: actions/checkout@v2
       - name: Docker login
-        run: docker login docker.pkg.github.com --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         env:
           DOCKER_USERNAME: ${{ secrets.GITHUB_DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_DOCKER_PASSWORD }}
