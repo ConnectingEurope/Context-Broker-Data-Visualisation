@@ -54,9 +54,13 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   }
 
   private loadMap(): void {
+
     this.map = L.map('map', {
       center: [40.416775, -3.703790],
       zoom: 4,
+      minZoom: 3,
+      maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)),
+      maxBoundsViscosity: 0.5,
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
