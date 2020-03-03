@@ -6,8 +6,9 @@
     "start": "ng serve --proxy-config proxy.conf.json --port 5200",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint && npm run stylelint",
+    "lint": "ng lint && npm run stylelint && npm run markdownlint",
     "stylelint": "stylelint \"src/**/*.scss\"",
+    "markdownlint": "markdownlint ../**/*.md --ignore ../**/node_modules/**/*.md --ignore ../**/external/**/*.md",
     "e2e": "ng e2e"
   },
   "private": true,
@@ -60,6 +61,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "markdownlint-cli": "^0.22.0",
     "protractor": "~5.4.0",
     "stylelint": "^13.2.0",
     "stylelint-config-standard": "^20.0.0",
