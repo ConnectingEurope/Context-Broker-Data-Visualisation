@@ -3,14 +3,14 @@ var router = express.Router();
 const request = require('request');
 
 const params = {
-  type: 'AirQualityObserved',
+  type: 'OffStreetParking',
   options: 'keyValues',
   limit: '1000'
 };
 
 const heads = {
   'fiware-service': 'openiot',
-  'fiware-servicepath': '/AIR_QUALITY_OBSERVED',
+  'fiware-servicepath': '/OffStreetParking',
 };
 
 router.get('/', function (req, res, next) {

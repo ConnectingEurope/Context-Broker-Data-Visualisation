@@ -1,31 +1,39 @@
 const request = require('request');
 
+const types = ['AirQualityObserved', 'OffStreetParking'];
+
 const samples = 500;
 
 const entitiesUrl = 'http://localhost:1026/v2/entities';
 
-const heads = {
-    'fiware-service': 'openiot',
-    'fiware-servicepath': '/AIR_QUALITY_OBSERVED',
-};
+types.forEach(t => processType(t));
 
-let count = 1;
-while (count <= samples) {
-    post(count, getPayload(count));
-    count++;
+function processType(type) {
+    let count = 1;
+    while (count <= samples) {
+        post(count, getPayload(count, type), type);
+        count++;
+    }
 }
 
-function post(c, b) {
-    request.post({ url: entitiesUrl, headers: heads, body: b, json: true }, (err, res, body) => {
+function post(c, b, t) {
+    request.post({ url: entitiesUrl, headers: getHeaders(t), body: b, json: true }, (err, res, body) => {
         if (body) { return console.log(c, body); }
-        console.log('Added entity ' + c);
+        console.log('Added entity', t, c);
     });
 }
 
-function getPayload(c) {
+function getHeaders(type) {
     return {
-        "id": "urn:ngsi-ld:AirQualityObserved:" + c,
-        "type": "AirQualityObserved",
+        'fiware-service': 'openiot',
+        'fiware-servicepath': '/' + type,
+    };
+}
+
+function getPayload(c, t) {
+    return {
+        "id": "urn:ngsi-ld:" + t + ":" + c,
+        "type": t,
         "location": {
             "type": "geo:json",
             "value": {

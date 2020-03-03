@@ -19,6 +19,10 @@ export class MapDashboardService {
   }
 
   public getAllEntities(): Observable<ModelDto[]> {
+    return this.http.get<ModelDto[]>('/server/all');
+  }
+
+  public getAllEntitiesLocalMock(): Observable<ModelDto[]> {
     return of([
       { key: 'airQualityObserved', parentKey: 'environment', data: this.generateData() },
       { key: 'offStreetParking', parentKey: 'transport', data: this.generateData() },
