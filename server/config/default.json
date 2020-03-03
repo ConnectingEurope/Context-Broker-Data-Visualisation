@@ -1,0 +1,5 @@
+{
+    "config": {
+        "contextBrokerUrl": "http://localhost:1028/v2/entities"
+    }
+}

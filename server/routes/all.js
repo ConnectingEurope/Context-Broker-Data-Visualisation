@@ -1,6 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const importFresh = require('import-fresh');
+const express = require('express');
+const router = express.Router();
 const request = require('request');
+let config = require('config').get('config');
 
 const entities = [
   { type: 'AirQualityObserved', service: 'openiot', servicepath: '/AirQualityObserved', key: 'airQualityObserved', parentKey: 'environment' },
@@ -8,6 +10,12 @@ const entities = [
 ];
 
 router.get('/', function (routerReq, routerRes, routerNext) {
+
+  console.log(config);
+
+  process.env.NODE_CONFIG = JSON.stringify({ "config": { "contextBrokerUrl": "http://localhost:1026/v2/entities" } });
+  config = importFresh('config').get('config');
+  console.log(config);
 
   (async () => {
     const data = await processEntities(entities);
@@ -31,7 +39,7 @@ function get(e) {
 
   return new Promise((resolve, reject) => {
 
-    request({ url: 'http://localhost:1026/v2/entities', qs: getParams(e), headers: getHeaders(e), json: true }, (err, res, body) => {
+    request({ url: config.contextBrokerUrl, qs: getParams(e), headers: getHeaders(e), json: true }, (err, res, body) => {
       if (err) {
         reject(err);
       }
