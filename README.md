@@ -2,7 +2,7 @@
 
 To setup the context broker:
 
-1. Go to docker/context_broker
+1. Go to docker/orion_cygnus_sth
 2. Execute the file "cb_create.bat"
 3. Execute the file "cb_generate_data.bat"
 
