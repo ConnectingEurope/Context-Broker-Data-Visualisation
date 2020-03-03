@@ -4,13 +4,7 @@ To setup the context broker:
 
 1. Go to docker/context_broker
 2. Execute the file "cb_create.bat"
-
-To provide the context broker with data:
-
-1. Install Python 3 if you don't have it (include pip in the installation and be sure to add python to the path)
-2. Go to external/eea_fiware
-3. Execute in a command line "python eea_fiware.py"
-4. Install every needed library required in step 3
+3. Execute the file "cb_generate_data.bat"
 
 To execute both the client and the server:
 
