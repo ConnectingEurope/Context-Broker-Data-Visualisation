@@ -1,0 +1,9 @@
+{
+    "/server": {
+        "target": "http://localhost:3006",
+        "secure": false,
+        "pathRewrite": {
+            "^/server": ""
+        }
+    }
+}

@@ -1,0 +1,16 @@
+[Unit]
+Description=EEA FIWARE bridge
+After=multi-user.target
+Conflicts=getty@tty1.service
+
+[Service]
+ExecStart=/usr/bin/python3 /path_to/eea_fiware.py
+StandardInput=tty-force
+
+Type=notify
+WatchdogSec=20
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
