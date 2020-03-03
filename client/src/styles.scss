@@ -3,43 +3,44 @@
 // PrimeNG MenuBar
 
 .ui-menuitem-link:focus {
-    box-shadow: inset 0 0 0 0.1em darkgrey !important;
+  box-shadow: inset 0 0 0 0.1em darkgrey !important;
 }
 
 // PrimeNG Tree
 
 .ui-tree {
-    border: none !important;
-    padding: 0 !important;
+  border: none !important;
+  padding: 0 !important;
 }
 
 .ui-treenode-content:focus {
-    box-shadow: 0 0 0 0.1em darkgrey !important;
+  box-shadow: 0 0 0 0.1em darkgrey !important;
 }
 
 // PrimeNG Button
 
 .ui-button {
-    pointer-events: auto;
+  pointer-events: auto;
 }
 
 // PrimeNG Sidebar
 
 .ui-sidebar-right {
-    bottom: 40px;
+  bottom: 40px;
 }
 
 // App GraphicCard
 
-app-graphic-card .ui-card, .ui-card div.row {
-    width: 600px;
-    height: 400px;
+app-graphic-card .ui-card,
+.ui-card div.row {
+  height: 400px;
+  width: 600px;
 }
 
 app-graphic-card .ui-card-body {
-    padding: 0;
+  padding: 0;
 }
 
 app-graphic-card .ui-card div.col-auto > div {
-    width: 500px;
+  width: 500px;
 }
