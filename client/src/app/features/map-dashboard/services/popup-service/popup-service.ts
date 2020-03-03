@@ -10,8 +10,8 @@ export class PopupService {
 
     public getPopup(modelKey: string, entity: any): string {
         switch (modelKey) {
-            case 'airQualityObserved': return this.getEntityPopup(entity);
-            case 'offStreetParking': return this.getEntityPopup(entity);
+            case 'AirQualityObserved': return this.getEntityPopup(entity);
+            case 'OffStreetParking': return this.getEntityPopup(entity);
         }
     }
 
