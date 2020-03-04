@@ -29,6 +29,23 @@
   bottom: 40px;
 }
 
+// Leaflet Marker Cluster
+
+.marker-cluster-large,
+.marker-cluster-large div {
+  background-color: steelblue;
+}
+
+.marker-cluster-medium,
+.marker-cluster-medium div {
+  background-color: mediumturquoise;
+}
+
+.marker-cluster-small,
+.marker-cluster-small div {
+  background-color: powderblue;
+}
+
 // App GraphicCard
 
 app-graphic-card .ui-card,

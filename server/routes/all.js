@@ -1,50 +1,55 @@
-var express = require('express');
-var router = express.Router();
+const importFresh = require('import-fresh');
+const express = require('express');
+const router = express.Router();
 const request = require('request');
+let config = importFresh('config').get('config');
 
-const entities = [
-  { type: 'AirQualityObserved', service: 'openiot', servicepath: '/AirQualityObserved', key: 'airQualityObserved', parentKey: 'environment' },
-  { type: 'OffStreetParking', service: 'openiot', servicepath: '/OffStreetParking', key: 'offStreetParking', parentKey: 'transport' },
-];
+const sources = config.sources;
 
 router.get('/', function (routerReq, routerRes, routerNext) {
 
   (async () => {
-    const data = await processEntities(entities);
-    routerRes.send(data);
+    const modelDtos = await processEntities();
+    routerRes.send(modelDtos);
   })()
 
 });
 
-async function processEntities(entities) {
+async function processEntities() {
 
-  const data = [];
+  const modelDtos = [];
 
-  for (const e of entities) {
-    const d = await get(e);
-    data.push(getModelDto(e, d));
+  for (const s of sources) {
+
+    for (const e of s.entities) {
+      const entityData = await get(s, e);
+      const modelDto = getModelDto(e, entityData);
+      modelDtos.push(modelDto);
+    }
+
   }
-  return data;
+
+  return modelDtos;
 }
 
-function get(e) {
+function get(source, entity) {
 
   return new Promise((resolve, reject) => {
 
-    request({ url: 'http://localhost:1026/v2/entities', qs: getParams(e), headers: getHeaders(e), json: true }, (err, res, body) => {
-      if (err) {
-        reject(err);
-      }
-      else {
-        resolve(body);
-      }
+    request({ url: getUrl(source), qs: getParams(entity), headers: getHeaders(entity), json: true }, (err, res, body) => {
+      if (err) { reject(err); }
+      resolve(body);
     });
 
   });
+
+}
+
+function getUrl(source) {
+  return source.contextBrokerUrl + ":" + source.contextBrokerPort + "/" + source.apiVersion + "/entities";
 }
 
 function getParams(entity) {
-
   return {
     type: entity.type,
     options: 'keyValues',
@@ -53,19 +58,16 @@ function getParams(entity) {
 }
 
 function getHeaders(entity) {
-
   return {
     'fiware-service': entity.service,
     'fiware-servicepath': entity.servicepath,
   };
 }
 
-function getModelDto(entity, d) {
-
+function getModelDto(entity, entityData) {
   return {
-    key: entity.key,
-    parentKey: entity.parentKey,
-    data: d
+    type: entity.type,
+    data: entityData
   }
 }
 

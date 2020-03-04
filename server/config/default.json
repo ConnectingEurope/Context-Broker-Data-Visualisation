@@ -1,0 +1,23 @@
+{
+    "config": {
+        "sources": [
+            {
+                "contextBrokerUrl": "http://localhost",
+                "contextBrokerPort": "1026",
+                "apiVersion": "v2",
+                "entities": [
+                    {
+                        "type": "AirQualityObserved",
+                        "service": "openiot",
+                        "servicePath": "/AirQualityObserved"
+                    },
+                    {
+                        "type": "OffStreetParking",
+                        "service": "openiot",
+                        "servicePath": "/OffStreetParking"
+                    }
+                ]
+            }
+        ]
+    }
+}

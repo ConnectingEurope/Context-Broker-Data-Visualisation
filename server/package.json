@@ -6,10 +6,12 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "config": "^3.3.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "import-fresh": "^3.2.1",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "request": "^2.88.0"

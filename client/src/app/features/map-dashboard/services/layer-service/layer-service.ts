@@ -10,19 +10,26 @@ export class LayerService {
     private readonly layers: any = {
         environment: {
             label: 'Environment',
-            airQualityObserved: {
+            AirQualityObserved: {
                 label: 'Air Quality Observed',
                 icon: LeafletIcons.icons.airQualityObserved,
             },
         },
         transport: {
             label: 'Transport',
-            offStreetParking: {
+            OffStreetParking: {
                 label: 'Off Street Parking',
                 icon: LeafletIcons.icons.offStreetParking,
             },
         },
     };
+
+    public getParentKey(type: string): string {
+        switch (type) {
+            case 'AirQualityObserved': return 'environment';
+            case 'OffStreetParking': return 'transport';
+        }
+    }
 
     public getMainLayers(): TreeNode[] {
         return Object.entries(this.layers).map(e => this.getTreeNodeLayer(e[0], e[1]));

@@ -54,9 +54,13 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   }
 
   private loadMap(): void {
+
     this.map = L.map('map', {
       center: [40.416775, -3.703790],
       zoom: 4,
+      minZoom: 3,
+      maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)),
+      maxBoundsViscosity: 0.5,
     });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -82,10 +86,11 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
     this.mapDashBoardService.getAllEntities().subscribe((res: ModelDto[]) => {
 
       res.forEach(model => {
-        this.layerGroups[model.key] = L.layerGroup();
-        this.layerGroups[model.parentKey] = this.layerGroups[model.parentKey] || L.layerGroup();
+        const parentKey: string = this.layerService.getParentKey(model.type);
+        this.layerGroups[model.type] = L.layerGroup();
+        this.layerGroups[parentKey] = this.layerGroups[parentKey] || L.layerGroup();
         model.data.forEach(entity => this.addEntity(model, entity));
-        this.layerGroups[model.parentKey].addLayer(this.layerGroups[model.key]);
+        this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
       });
 
       this.loadMarkerCluster();
@@ -93,9 +98,9 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   }
 
   private addEntity(model: ModelDto, entity: Entity): void {
-    const marker: L.Marker = L.marker(entity.location.coordinates as L.LatLngExpression, { icon: LeafletIcons.icons[model.key] });
-    marker.bindPopup(this.popupService.getPopup(model.key, entity));
-    this.layerGroups[model.key].addLayer(marker);
+    const marker: L.Marker = L.marker(entity.location.coordinates as L.LatLngExpression, { icon: LeafletIcons.icons[model.type] });
+    marker.bindPopup(this.popupService.getPopup(model.type, entity));
+    this.layerGroups[model.type].addLayer(marker);
   }
 
   private loadMarkerCluster(): void {
