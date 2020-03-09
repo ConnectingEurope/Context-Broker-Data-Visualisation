@@ -22,5 +22,10 @@
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
+  },
+  "rules": {
+    "no-unused-variable": {
+      "severity": "warning"
+    }
   }
 }

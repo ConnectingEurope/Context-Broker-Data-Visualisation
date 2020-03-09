@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { AirQualityObserved } from '../../../../shared/data-models/fiware/specific/air-quality-observed';
+import { Observable } from 'rxjs';
 import { ModelDto } from 'src/app/shared/misc/model-dto';
-import { Entity } from 'src/app/shared/data-models/fiware/entity';
 
 @Injectable({
   providedIn: 'root',
@@ -14,39 +12,39 @@ export class MapDashboardService {
 
   constructor(private http: HttpClient) { }
 
-  public getAirQualityObservedEntities(): Observable<AirQualityObserved[]> {
-    return this.http.get<AirQualityObserved[]>('/server/air-quality-observed');
-  }
-
   public getAllEntities(): Observable<ModelDto[]> {
     return this.http.get<ModelDto[]>('/server/all');
   }
 
-  public getAllEntitiesLocalMock(): Observable<ModelDto[]> {
-    return of([
-      { type: 'AirQualityObserved', data: this.generateData() },
-      { type: 'OffStreetParking', data: this.generateData() },
-    ]);
-  }
+  // public getAirQualityObservedEntities(): Observable<AirQualityObserved[]> {
+  //   return this.http.get<AirQualityObserved[]>('/server/air-quality-observed');
+  // }
 
-  private generateData(): Entity[] {
-    let count: number = this.samples;
-    const data: Entity[] = [];
-    while (count > 0) {
-      data.push({ location: this.generateRandomLatLon() });
-      count--;
-    }
-    return data;
-  }
+  // public getAllEntitiesLocalMock(): Observable<ModelDto[]> {
+  //   return of([
+  //     { type: 'AirQualityObserved', data: this.generateData() },
+  //     { type: 'OffStreetParking', data: this.generateData() },
+  //   ]);
+  // }
 
-  private generateRandomLatLon(): { coordinates: number[] } {
-    const lat: number = this.randomNumberFromInterval(37.890676, 42.897983);
-    const lon: number = this.randomNumberFromInterval(-8.246180, -1.150096);
-    return { coordinates: [lat, lon] };
-  }
+  // private generateData(): Entity[] {
+  //   let count: number = this.samples;
+  //   const data: Entity[] = [];
+  //   while (count > 0) {
+  //     data.push({ location: this.generateRandomLatLon() });
+  //     count--;
+  //   }
+  //   return data;
+  // }
 
-  private randomNumberFromInterval(min: number, max: number): number {
-    return Math.random() * (max - min) + min;
-  }
+  // private generateRandomLatLon(): { coordinates: number[] } {
+  //   const lat: number = this.randomNumberFromInterval(37.890676, 42.897983);
+  //   const lon: number = this.randomNumberFromInterval(-8.246180, -1.150096);
+  //   return { coordinates: [lat, lon] };
+  // }
+
+  // private randomNumberFromInterval(min: number, max: number): number {
+  //   return Math.random() * (max - min) + min;
+  // }
 
 }
