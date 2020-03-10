@@ -2,7 +2,7 @@ const request = require('request');
 
 const types = ['AirQualityObserved', 'OffStreetParking'];
 
-const samples = 500;
+const samples = 100;
 
 const entitiesUrl = 'http://localhost:1026/v2/entities';
 

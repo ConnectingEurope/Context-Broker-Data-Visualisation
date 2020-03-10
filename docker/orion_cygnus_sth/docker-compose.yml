@@ -14,6 +14,8 @@ services:
     ports:
       - "${ORION_PORT}:${ORION_PORT}" # localhost:1026
     command: -dbhost mongo-db -logLevel DEBUG
+    volumes:
+      - "C:/context_broker_environment/orion:/tmp"
     healthcheck:
       test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
 
