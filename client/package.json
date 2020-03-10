@@ -6,6 +6,7 @@
     "start": "ng serve --proxy-config proxy.conf.json --port 5200",
     "build": "ng build",
     "test": "ng test",
+    "test:ci": "ng test --watch=false",
     "lint": "ng lint && npm run stylelint && npm run markdownlint",
     "stylelint": "stylelint \"src/**/*.scss\"",
     "markdownlint": "markdownlint ../**/*.md --ignore ../**/node_modules/**/*.md --ignore ../**/external/**/*.md",
