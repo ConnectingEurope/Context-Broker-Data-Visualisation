@@ -21,14 +21,24 @@ export class ConfigDashboardComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    this.contextBrokers.push({
+      display: 'none',
+      header: this.defaultContextName,
+      form: new FormGroup({
+        name: new FormControl(this.defaultContextName),
+        url: new FormControl(),
+        port: new FormControl(),
+      }),
+      services: [],
+    });
   }
 
   protected onAddContextBroker(): void {
-    document.body.style.overflow = 'hidden';
-    this.contextBrokers.forEach(cb => cb.selected = false);
+    this.contextBrokers[this.contextBrokers.length - 1].display = 'block';
+    this.activeContextBroker = this.contextBrokers.length - 1;
     this.contextBrokers.push({
+      display: 'none',
       header: this.defaultContextName,
-      selected: true,
       form: new FormGroup({
         name: new FormControl(this.defaultContextName),
         url: new FormControl(),
