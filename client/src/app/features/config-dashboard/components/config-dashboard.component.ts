@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 })
 export class ConfigDashboardComponent implements OnInit {
 
+  protected activeContextBroker: number;
   protected contextBrokers: any[] = [];
   protected blocked: boolean;
   private defaultContextName: string = 'New Context Broker';
@@ -23,14 +24,17 @@ export class ConfigDashboardComponent implements OnInit {
   }
 
   protected onAddContextBroker(): void {
+    document.body.style.overflow = 'hidden';
+    this.contextBrokers.forEach(cb => cb.selected = false);
     this.contextBrokers.push({
       header: this.defaultContextName,
-      name: this.defaultContextName,
+      selected: true,
       form: new FormGroup({
         name: new FormControl(this.defaultContextName),
         url: new FormControl(),
         port: new FormControl(),
       }),
+      services: [],
     });
   }
 

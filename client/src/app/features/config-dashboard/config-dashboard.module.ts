@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { BlockUIModule } from 'primeng/blockui';
+import { TableModule } from 'primeng/table';
 import { MessageService } from 'primeng/api';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { MessageService } from 'primeng/api';
     ReactiveFormsModule,
     ToastModule,
     BlockUIModule,
+    TableModule,
   ],
   providers: [
     MessageService,

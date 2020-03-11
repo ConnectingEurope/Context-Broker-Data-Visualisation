@@ -3,9 +3,9 @@
 <div class="container-fluid mt-3">
     <div class="row justify-content-center">
         <div class="col-10">
-            <p-accordion>
+            <p-accordion [activeIndex]="activeContextBroker">
                 <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
-                    <p-accordionTab header="{{cb.header}}">
+                    <p-accordionTab header="{{cb.header}}" [selected]="cb.selected">
                         <form [formGroup]="cb.form">
                             <div class="mt-3">
                                 <p-card header="General Configuration">
@@ -38,12 +38,21 @@
 
                             <div class="mt-3">
                                 <p-card header="Services">
+
                                 </p-card>
                             </div>
 
                             <div class="my-3">
                                 <p-card header="Historical Configuration">
                                 </p-card>
+                            </div>
+                            <div class="container-fluid mt-4">
+                                <div class="row justify-content-end">
+                                    <div class="col-auto">
+                                        <p-button label="Submit" (onClick)="onSubmitContextBroker()"></p-button>
+                                        <p-button label="Remove" (onClick)="onRemoveContextBroker(i)"></p-button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </p-accordionTab>
