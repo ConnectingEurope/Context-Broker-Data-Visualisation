@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var checkHealthRouter = require('./routes/checkHealth');
 var allRouter = require('./routes/all');
 var airQualityObservedRouter = require('./routes/airQualityObserved');
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/check-health', checkHealthRouter);
 app.use('/all', allRouter);
 app.use('/air-quality-observed', airQualityObservedRouter);
 
