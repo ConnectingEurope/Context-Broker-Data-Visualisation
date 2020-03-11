@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: (): any => import('./features/map-dashboard/map-dashboard.module').then(m => m.MapDashboardModule),
   },
   {
+    path: 'config-dashboard',
+    loadChildren: (): any => import('./features/config-dashboard/config-dashboard.module').then(m => m.ConfigDashboardModule),
+  },
+  {
     path: 'stats-dashboard',
     loadChildren: (): any => import('./features/stats-dashboard/stats-dashboard.module').then(m => m.StatsDashboardModule),
   },
