@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, AfterViewChecked, ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
 import { MessageService } from 'primeng/api';
+import { AccordionTab, Accordion } from 'primeng/accordion/accordion';
 
 @Component({
   selector: 'app-config-dashboard',
@@ -10,7 +11,6 @@ import { MessageService } from 'primeng/api';
 })
 export class ConfigDashboardComponent implements OnInit {
 
-  protected activeContextBroker: number;
   protected contextBrokers: any[] = [];
   protected blocked: boolean;
   private defaultContextName: string = 'New Context Broker';
@@ -21,23 +21,11 @@ export class ConfigDashboardComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.contextBrokers.push({
-      display: 'none',
-      header: this.defaultContextName,
-      form: new FormGroup({
-        name: new FormControl(this.defaultContextName),
-        url: new FormControl(),
-        port: new FormControl(),
-      }),
-      services: [],
-    });
   }
 
   protected onAddContextBroker(): void {
-    this.contextBrokers[this.contextBrokers.length - 1].display = 'block';
-    this.activeContextBroker = this.contextBrokers.length - 1;
-    this.contextBrokers.push({
-      display: 'none',
+
+    this.contextBrokers.unshift({
       header: this.defaultContextName,
       form: new FormGroup({
         name: new FormControl(this.defaultContextName),
@@ -46,6 +34,7 @@ export class ConfigDashboardComponent implements OnInit {
       }),
       services: [],
     });
+
   }
 
   protected onGeneralConfigChange(index: number): void {

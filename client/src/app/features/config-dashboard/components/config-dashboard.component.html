@@ -1,12 +1,16 @@
 <p-blockUI [blocked]="blocked"></p-blockUI>
 <p-toast></p-toast>
 <div class="container-fluid mt-3">
+    <div class="row justify-content-center my-3">
+        <div class="col-auto">
+            <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
+        </div>
+    </div>
     <div class="row justify-content-center">
         <div class="col-10">
-            <p-accordion [activeIndex]="activeContextBroker">
+            <p-accordion>
                 <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
-                    <p-accordionTab header="{{cb.header}}" [selected]="cb.selected || false"
-                        [style.display]="cb.display">
+                    <p-accordionTab header="{{cb.header}}">
                         <form [formGroup]="cb.form">
                             <div class="mt-3">
                                 <p-card header="General Configuration">
@@ -59,11 +63,6 @@
                     </p-accordionTab>
                 </ng-template>
             </p-accordion>
-        </div>
-    </div>
-    <div class="row justify-content-center my-3">
-        <div class="col-auto">
-            <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
         </div>
     </div>
 </div>
