@@ -20,3 +20,11 @@ jobs:
 
       - name: Push the Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/cb-baseline:4.0.2
+
+      
+      - name: Build the server Docker image
+        run: cd ../server && docker build -t ${{ secrets.DOCKER_USERNAME }}/cb-baseline-server:4.0.2 -f ../docker/server/Dockerfile .
+        
+      - name: Push the serve Docker image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/cb-baseline-server:4.0.2
+ 
