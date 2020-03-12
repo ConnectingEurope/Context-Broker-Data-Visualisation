@@ -5,7 +5,8 @@
         <div class="col-10">
             <p-accordion [activeIndex]="activeContextBroker">
                 <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
-                    <p-accordionTab header="{{cb.header}}" [selected]="cb.selected" [style.display]="cb.display">
+                    <p-accordionTab header="{{cb.header}}" [selected]="cb.selected || false"
+                        [style.display]="cb.display">
                         <form [formGroup]="cb.form">
                             <div class="mt-3">
                                 <p-card header="General Configuration">
