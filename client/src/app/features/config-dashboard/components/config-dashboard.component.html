@@ -34,7 +34,6 @@
                                             <div class="col">
                                                 <p-button label="Check Context Broker"
                                                     (onClick)="onCheckContextBroker(i)"></p-button>
-                                                <!-- <i class="ml-4 pi pi-question"></i> -->
                                             </div>
                                         </div>
                                     </div>
@@ -43,7 +42,47 @@
 
                             <div class="mt-3">
                                 <p-card header="Services">
-
+                                    <div class="container-fluid mt-3">
+                                        <div class="row justify-content-center my-3">
+                                            <div class="col-auto">
+                                                <p-button icon="pi pi-plus" label="Add Service"
+                                                    (onClick)="onAddService()"></p-button>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center">
+                                            <div class="col-12">
+                                                <p-accordion>
+                                                    <ng-template ngFor let-service let-i="index" [ngForOf]="services">
+                                                        <p-accordionTab header="{{service.header}}">
+                                                            <form [formGroup]="service.form">
+                                                                <div class="container-fluid mt-4">
+                                                                    <div class="row align-items-end">
+                                                                        <div class="col">
+                                                                            <h6 class="first">Service</h6>
+                                                                            <input type="text" pInputText
+                                                                                formControlName="service"
+                                                                                (ngModelChange)="onServiceConfigChange(i)" />
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <h6 class="first">Service Path</h6>
+                                                                            <input type="text" pInputText
+                                                                                formControlName="servicePath"
+                                                                                (ngModelChange)="onServiceConfigChange(i)" />
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <p-button label="Get Available Entities"
+                                                                                (onClick)="onGetEntities(i)">
+                                                                            </p-button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </p-accordionTab>
+                                                    </ng-template>
+                                                </p-accordion>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </p-card>
                             </div>
 
@@ -51,10 +90,12 @@
                                 <p-card header="Historical Configuration">
                                 </p-card>
                             </div>
-                            <div class="container-fluid mt-4">
+                            <div class="container-fluid mt-4 mb-3">
                                 <div class="row justify-content-end">
-                                    <div class="col-auto">
+                                    <div class="col-auto pl-2 pr-0">
                                         <p-button label="Submit" (onClick)="onSubmitContextBroker()"></p-button>
+                                    </div>
+                                    <div class="col-auto pl-2 pr-0">
                                         <p-button label="Remove" (onClick)="onRemoveContextBroker(i)"></p-button>
                                     </div>
                                 </div>

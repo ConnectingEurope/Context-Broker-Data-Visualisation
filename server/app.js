@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var checkHealthRouter = require('./routes/checkHealth');
+var entitiesRouter = require('./routes/entities');
 var allRouter = require('./routes/all');
 var airQualityObservedRouter = require('./routes/airQualityObserved');
 
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/check-health', checkHealthRouter);
+app.use('/entities', entitiesRouter);
 app.use('/all', allRouter);
 app.use('/air-quality-observed', airQualityObservedRouter);
 
