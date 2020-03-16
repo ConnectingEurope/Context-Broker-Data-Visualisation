@@ -10,11 +10,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { BlockUIModule } from 'primeng/blockui';
 import { TableModule } from 'primeng/table';
+import { TreeModule } from 'primeng/tree';
 import { MessageService } from 'primeng/api';
+import { GeneralConfigurationComponent } from './components/general-configuration/general-configuration.component';
+import { ServiceConfigurationComponent } from './components/service-configuration/service-configuration.component';
 
 @NgModule({
   declarations: [
     ConfigDashboardComponent,
+    GeneralConfigurationComponent,
+    ServiceConfigurationComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +32,7 @@ import { MessageService } from 'primeng/api';
     ToastModule,
     BlockUIModule,
     TableModule,
+    TreeModule,
   ],
   providers: [
     MessageService,

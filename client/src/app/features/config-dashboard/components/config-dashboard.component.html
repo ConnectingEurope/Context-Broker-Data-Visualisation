@@ -1,105 +1,52 @@
-<p-blockUI [blocked]="blocked"></p-blockUI>
+<!-- Toast for messages -->
 <p-toast></p-toast>
+
 <div class="container-fluid mt-3">
+
+    <!-- Add Context Broker button -->
     <div class="row justify-content-center my-3">
         <div class="col-auto">
             <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
         </div>
+        <div class="col-auto">
+            <p-button *ngIf="contextBrokers.length > 0" label="Apply Configuration" (onClick)="onApplyConfiguration()">
+            </p-button>
+        </div>
     </div>
+
+    <!-- Context Brokers -->
     <div class="row justify-content-center">
         <div class="col-10">
             <p-accordion>
                 <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
                     <p-accordionTab header="{{cb.header}}">
                         <form [formGroup]="cb.form">
+
+                            <!-- General configuration -->
                             <div class="mt-3">
-                                <p-card header="General Configuration">
-                                    <div class="container-fluid mt-4">
-                                        <div class="row align-items-end">
-                                            <div class="col">
-                                                <h6 class="first">Name</h6>
-                                                <input type="text" pInputText formControlName="name"
-                                                    (ngModelChange)="onGeneralConfigChange(i)" />
-                                            </div>
-                                            <div class="col">
-                                                <h6 class="first">URL</h6>
-                                                <input type="text" pInputText formControlName="url"
-                                                    (ngModelChange)="onGeneralConfigChange(i)" />
-                                            </div>
-                                            <div class="col">
-                                                <h6 class="first">Port</h6>
-                                                <input type="text" pInputText formControlName="port"
-                                                    (ngModelChange)="onGeneralConfigChange(i)" />
-                                            </div>
-                                            <div class="col">
-                                                <p-button label="Check Context Broker"
-                                                    (onClick)="onCheckContextBroker(i)"></p-button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </p-card>
+                                <app-general-configuration [cb]="cb"></app-general-configuration>
                             </div>
 
+                            <!-- Services configuration -->
                             <div class="mt-3">
-                                <p-card header="Services">
-                                    <div class="container-fluid mt-3">
-                                        <div class="row justify-content-center my-3">
-                                            <div class="col-auto">
-                                                <p-button icon="pi pi-plus" label="Add Service"
-                                                    (onClick)="onAddService()"></p-button>
-                                            </div>
-                                        </div>
-                                        <div class="row justify-content-center">
-                                            <div class="col-12">
-                                                <p-accordion>
-                                                    <ng-template ngFor let-service let-i="index" [ngForOf]="services">
-                                                        <p-accordionTab header="{{service.header}}">
-                                                            <form [formGroup]="service.form">
-                                                                <div class="container-fluid mt-4">
-                                                                    <div class="row align-items-end">
-                                                                        <div class="col">
-                                                                            <h6 class="first">Service</h6>
-                                                                            <input type="text" pInputText
-                                                                                formControlName="service"
-                                                                                (ngModelChange)="onServiceConfigChange(i)" />
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <h6 class="first">Service Path</h6>
-                                                                            <input type="text" pInputText
-                                                                                formControlName="servicePath"
-                                                                                (ngModelChange)="onServiceConfigChange(i)" />
-                                                                        </div>
-                                                                        <div class="col">
-                                                                            <p-button label="Get Available Entities"
-                                                                                (onClick)="onGetEntities(i)">
-                                                                            </p-button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </p-accordionTab>
-                                                    </ng-template>
-                                                </p-accordion>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </p-card>
+                                <app-service-configuration [cb]="cb"></app-service-configuration>
                             </div>
 
+                            <!-- Historical Configuration -->
                             <div class="my-3">
                                 <p-card header="Historical Configuration">
                                 </p-card>
                             </div>
+
+                            <!-- Buttons -->
                             <div class="container-fluid mt-4 mb-3">
                                 <div class="row justify-content-end">
-                                    <div class="col-auto pl-2 pr-0">
-                                        <p-button label="Submit" (onClick)="onSubmitContextBroker()"></p-button>
-                                    </div>
-                                    <div class="col-auto pl-2 pr-0">
+                                    <div class="col-auto">
                                         <p-button label="Remove" (onClick)="onRemoveContextBroker(i)"></p-button>
                                     </div>
                                 </div>
                             </div>
+
                         </form>
                     </p-accordionTab>
                 </ng-template>
