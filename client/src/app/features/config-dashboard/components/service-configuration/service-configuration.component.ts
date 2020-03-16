@@ -4,6 +4,7 @@ import { MessageService, TreeNode } from 'primeng/api';
 import { FormGroup, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
+import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
 
 @Component({
   selector: 'app-service-configuration',
@@ -18,6 +19,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
   constructor(
     private configDashboardService: ConfigDashboardService,
     private messageService: MessageService,
+    private layerService: LayerService,
   ) {
     super();
   }
@@ -59,8 +61,6 @@ export class ServiceConfigurationComponent extends BaseComponent {
   }
 
   private onGetEntitiesSuccess(entities: any[], index: number): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'success', summary: 'Found entities!' });
     this.showEntities(entities, index);
   }
 
@@ -69,9 +69,8 @@ export class ServiceConfigurationComponent extends BaseComponent {
     this.messageService.add({ severity: 'error', summary: 'Cannot find entities' });
   }
 
-  private showEntities(entities: any[], index: number) {
+  private showEntities(entities: any[], index: number): void {
     const entitiesTree: TreeNode[] = [];
-    const selectedEntitiesTree: TreeNode[] = [];
 
     entities.forEach(e => {
       entitiesTree.push({
@@ -79,15 +78,10 @@ export class ServiceConfigurationComponent extends BaseComponent {
         label: e.type,
         children: Object.keys(e.attrs).map((a: string) => ({ data: a, label: a } as TreeNode)),
       });
-      selectedEntitiesTree.push({
-        data: e.type,
-        label: e.type,
-      });
-      selectedEntitiesTree.concat(Object.keys(e.attrs).map((a: string) => ({ data: a, label: a })));
     });
-    console.log(entitiesTree);
+
     this.cb.services[index].entities = entitiesTree;
-    this.cb.services[index].selectedEntities = selectedEntitiesTree;
+    this.cb.services[index].selectedEntities = this.layerService.getAllLayers(entitiesTree);
   }
 
 }
