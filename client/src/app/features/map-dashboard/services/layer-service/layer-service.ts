@@ -36,7 +36,7 @@ export class LayerService {
     }
 
     public getAllLayers(layers: TreeNode[]): TreeNode[] {
-        let concatenatedLayers: TreeNode[] = layers;
+        let concatenatedLayers: TreeNode[] = layers || [];
         if (layers) {
             layers.forEach(t => concatenatedLayers = concatenatedLayers.concat(this.getAllLayers(t.children)));
         }

@@ -15,6 +15,8 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   @Input() public cb: any;
   private defaultServiceName: string = 'New Service';
+  private defaultService: string = 'environment';
+  private defaultServicePath: string = '/Madrid';
 
   constructor(
     private configDashboardService: ConfigDashboardService,
@@ -26,10 +28,10 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   protected onAddService(): void {
     this.cb.services.unshift({
-      header: this.defaultServiceName,
+      header: this.defaultService + ' - ' + this.defaultServicePath,
       form: new FormGroup({
-        service: new FormControl('openiot'),
-        servicePath: new FormControl('/AirQualityObserved'),
+        service: new FormControl(this.defaultService),
+        servicePath: new FormControl(this.defaultServicePath),
       }),
       entities: [],
       selectedEntities: [],

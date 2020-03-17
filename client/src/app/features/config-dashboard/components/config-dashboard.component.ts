@@ -9,15 +9,16 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class ConfigDashboardComponent {
 
   protected contextBrokers: any[] = [];
-  private defaultContextName: string = 'New Context Broker';
+  private defaultContextName: string = 'Madrid Air';
+  private defaultUrl: string = 'https://streams.lab.fiware.org';
 
   protected onAddContextBroker(): void {
     this.contextBrokers.unshift({
-      header: this.defaultContextName,
+      header: this.defaultContextName + ' - ' + this.defaultUrl,
       form: new FormGroup({
         name: new FormControl(this.defaultContextName),
-        url: new FormControl('http://localhost'),
-        port: new FormControl('1026'),
+        url: new FormControl('https://streams.lab.fiware.org'),
+        port: new FormControl(''),
       }),
       services: [],
     });
