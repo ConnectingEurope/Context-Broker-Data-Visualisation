@@ -78,7 +78,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
       entitiesTree.push({
         data: e.type,
         label: e.type,
-        children: Object.keys(e.attrs).map((a: string) => ({ data: a, label: a } as TreeNode)),
+        children: Object.keys(e.attrs).map((a: string) => ({ data: a, label: a, parent: { data: e.type } } as TreeNode)),
       });
     });
 

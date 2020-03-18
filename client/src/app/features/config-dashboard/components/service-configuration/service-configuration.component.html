@@ -32,7 +32,9 @@
                                     <div class="row justify-content-center">
                                         <div class="col-auto">
                                             <p-tree [value]="service.entities" selectionMode="checkbox"
-                                                [(selection)]="service.selectedEntities"></p-tree>
+                                                [(selection)]="service.selectedEntities"
+                                                (onNodeSelect)="onNodeSelect($event, i)"
+                                                (onNodeUnselect)="onNodeUnselect($event, i)"></p-tree>
                                         </div>
                                     </div>
                                 </div>

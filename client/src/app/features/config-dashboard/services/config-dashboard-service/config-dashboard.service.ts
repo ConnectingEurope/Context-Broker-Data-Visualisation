@@ -27,4 +27,8 @@ export class ConfigDashboardService {
     return this.http.get('/server/entities', { params: parameters });
   }
 
+  public postConfiguration(config: any): Observable<any> {
+    return this.http.post('/server/config', config);
+  }
+
 }

@@ -1,20 +1,32 @@
 {
     "config": {
-        "sources": [
+        "contextBrokers": [
             {
-                "contextBrokerUrl": "http://localhost",
-                "contextBrokerPort": "1026",
-                "apiVersion": "v2",
-                "entities": [
+                "url": "https://streams.lab.fiware.org",
+                "port": "",
+                "services": [
                     {
-                        "type": "AirQualityObserved",
-                        "service": "openiot",
-                        "servicePath": "/AirQualityObserved"
-                    },
-                    {
-                        "type": "OffStreetParking",
-                        "service": "openiot",
-                        "servicePath": "/OffStreetParking"
+                        "service": "environment",
+                        "servicePath": "/Madrid",
+                        "entities": [
+                            {
+                                "type": "AirQualityObserved",
+                                "attrs": [
+                                    {
+                                        "id": "BEN",
+                                        "selected": true
+                                    },
+                                    {
+                                        "id": "CO",
+                                        "selected": true
+                                    },
+                                    {
+                                        "id": "NO",
+                                        "selected": true
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             }
