@@ -63,27 +63,13 @@ export class ServiceConfigurationComponent extends BaseComponent {
   }
 
   private onGetEntitiesSuccess(entities: any[], index: number): void {
-    this.showEntities(entities, index);
+    this.cb.services[index].entities = this.layerService.getEntities(entities);
+    this.cb.services[index].selectedEntities = this.layerService.getAllLayers(this.cb.services[index].entities);
   }
 
   private onGetEntitiesFail(): void {
     this.messageService.clear();
     this.messageService.add({ severity: 'error', summary: 'Cannot find entities' });
-  }
-
-  private showEntities(entities: any[], index: number): void {
-    const entitiesTree: TreeNode[] = [];
-
-    entities.forEach(e => {
-      entitiesTree.push({
-        data: e.type,
-        label: e.type,
-        children: Object.keys(e.attrs).map((a: string) => ({ data: a, label: a, parent: { data: e.type } } as TreeNode)),
-      });
-    });
-
-    this.cb.services[index].entities = entitiesTree;
-    this.cb.services[index].selectedEntities = this.layerService.getAllLayers(entitiesTree);
   }
 
 }

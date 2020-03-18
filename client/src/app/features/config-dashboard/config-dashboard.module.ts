@@ -6,11 +6,13 @@ import { AccordionModule } from 'primeng/accordion';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { BlockUIModule } from 'primeng/blockui';
 import { TableModule } from 'primeng/table';
 import { TreeModule } from 'primeng/tree';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MessageService } from 'primeng/api';
 import { GeneralConfigurationComponent } from './components/general-configuration/general-configuration.component';
 import { ServiceConfigurationComponent } from './components/service-configuration/service-configuration.component';
@@ -23,6 +25,7 @@ import { ServiceConfigurationComponent } from './components/service-configuratio
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ConfigDashboardRoutingModule,
     AccordionModule,
     CardModule,
@@ -33,6 +36,8 @@ import { ServiceConfigurationComponent } from './components/service-configuratio
     BlockUIModule,
     TableModule,
     TreeModule,
+    CheckboxModule,
+    ScrollPanelModule,
   ],
   providers: [
     MessageService,

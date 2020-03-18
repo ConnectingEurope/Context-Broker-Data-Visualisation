@@ -1,23 +1,39 @@
-<p-card header="General Configuration">
-    <form [formGroup]="cb.form">
-        <div class="container-fluid mt-4">
-            <div class="row align-items-end">
-                <div class="col">
+<form [formGroup]="cb.form">
+    <div class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div>
                     <h6 class="first">Name</h6>
-                    <input type="text" pInputText formControlName="name" (ngModelChange)="onGeneralConfigChange()" />
+                    <input type="text" pInputText formControlName="name" (ngModelChange)="onNameChange()" />
                 </div>
-                <div class="col">
+                <div class="mt-5">
                     <h6 class="first">URL</h6>
-                    <input type="text" pInputText formControlName="url" (ngModelChange)="onGeneralConfigChange()" />
+                    <input type="text" pInputText formControlName="url" />
+                    <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckContextBroker()"></p-button>
                 </div>
-                <div class="col">
-                    <h6 class="first">Port</h6>
-                    <input type="text" pInputText formControlName="port" (ngModelChange)="onGeneralConfigChange()" />
+                <div class="mt-5">
+                    <p-button label="Choose entities and attributes" icon="pi pi-list" (onClick)="onChooseEntities()">
+                    </p-button>
                 </div>
-                <div class="col">
-                    <p-button label="Check Context Broker" (onClick)="onCheckContextBroker()"></p-button>
+                <div class="mt-5">
+                    <p-checkbox label="Does the Context Broker use services?" binary="true"
+                        [formControl]="cb.form.controls['needServices']">
+                    </p-checkbox>
                 </div>
+                <div class="mt-5">
+                    <p-checkbox label="Do you want historical data?" binary="true"
+                        [formControl]="cb.form.controls['needHistoricalData']">
+                    </p-checkbox>
+                </div>
+                <!-- <div class="mt-5">
+
+                </div> -->
+            </div>
+            <div class="col-4">
+                <p-tree [value]="cb.entities" selectionMode="checkbox" [(selection)]="cb.selectedEntities"
+                    emptyMessage="">
+                </p-tree>
             </div>
         </div>
-    </form>
-</p-card>
+    </div>
+</form>

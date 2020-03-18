@@ -16,7 +16,7 @@
 
     <!-- Context Brokers -->
     <div class="row justify-content-center">
-        <div class="col-10">
+        <div class="col-7">
             <p-accordion>
                 <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
                     <p-accordionTab header="{{cb.header}}">
@@ -26,14 +26,13 @@
                             <div class="mt-3">
                                 <app-general-configuration [cb]="cb"></app-general-configuration>
                             </div>
-
                             <!-- Services configuration -->
-                            <div class="mt-3">
+                            <div *ngIf="cb.form.get('needServices').value === true" class="mt-3">
                                 <app-service-configuration [cb]="cb"></app-service-configuration>
                             </div>
 
                             <!-- Historical Configuration -->
-                            <div class="my-3">
+                            <div *ngIf="cb.form.get('needHistoricalData').value === true" class="my-3">
                                 <p-card header="Historical Configuration">
                                 </p-card>
                             </div>

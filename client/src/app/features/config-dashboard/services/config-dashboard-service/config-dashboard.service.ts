@@ -17,7 +17,7 @@ export class ConfigDashboardService {
     return this.http.get('/server/check-health', { params: parameters });
   }
 
-  public getEntitiesFromService(url: string, port: string, service: string, servicePath: string): Observable<any> {
+  public getEntitiesFromService(url: string, port: string, service?: string, servicePath?: string): Observable<any> {
     let parameters: HttpParams = new HttpParams();
     parameters = parameters.append('url', url);
     parameters = parameters.append('port', port);

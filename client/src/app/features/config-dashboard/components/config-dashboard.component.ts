@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 })
 export class ConfigDashboardComponent extends BaseComponent {
 
+  protected isServicesUsed: boolean = false;
   protected contextBrokers: any[] = [];
   private defaultContextName: string = 'Madrid Air';
   private defaultUrl: string = 'https://streams.lab.fiware.org';
@@ -25,13 +26,17 @@ export class ConfigDashboardComponent extends BaseComponent {
 
   protected onAddContextBroker(): void {
     this.contextBrokers.unshift({
-      header: this.defaultContextName + ' - ' + this.defaultUrl,
+      header: this.defaultContextName,
       form: new FormGroup({
         name: new FormControl(this.defaultContextName),
         url: new FormControl('https://streams.lab.fiware.org'),
         port: new FormControl(''),
+        needServices: new FormControl(false),
+        needHistoricalData: new FormControl(false),
       }),
       services: [],
+      entities: [],
+      selectedEntities: [],
     });
   }
 

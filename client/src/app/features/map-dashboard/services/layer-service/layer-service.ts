@@ -35,6 +35,20 @@ export class LayerService {
         return Object.entries(this.layers).map(e => this.getTreeNodeLayer(e[0], e[1]));
     }
 
+    public getEntities(entities: any[]): TreeNode[] {
+        const entitiesTree: TreeNode[] = [];
+
+        entities.forEach(e => {
+            entitiesTree.push({
+                data: e.type,
+                label: e.type,
+                children: Object.keys(e.attrs).map((a: string) => ({ data: a, label: a, parent: { data: e.type } } as TreeNode)),
+            });
+        });
+
+        return entitiesTree;
+    }
+
     public getAllLayers(layers: TreeNode[]): TreeNode[] {
         let concatenatedLayers: TreeNode[] = layers || [];
         if (layers) {

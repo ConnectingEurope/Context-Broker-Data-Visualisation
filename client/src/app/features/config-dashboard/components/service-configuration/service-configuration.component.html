@@ -12,6 +12,34 @@
                         <p-accordionTab header="{{service.header}}">
                             <form [formGroup]="service.form">
                                 <div class="container-fluid mt-4">
+                                    <div class="row justify-content-center mb-4">
+                                        <div class="col-6">
+                                            <div>
+                                                <h6 class="first">Service</h6>
+                                                <input type="text" pInputText formControlName="service"
+                                                    (ngModelChange)="onNameChange()" />
+                                            </div>
+                                            <div class="mt-5">
+                                                <h6 class="first">Service Path</h6>
+                                                <input type="text" pInputText formControlName="servicePath" />
+                                                <p-button class=" ml-2" icon="pi pi-check"
+                                                    (onClick)="onCheckContextBroker()"></p-button>
+                                            </div>
+                                            <div class="mt-5">
+                                                <p-button label="Choose entities and attributes" icon="pi pi-list"
+                                                    (onClick)="onGetEntities(i)">
+                                                </p-button>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <p-scrollPanel [style]="{width: '100%', height: '300px'}">
+                                                <p-tree [value]="service.entities" selectionMode="checkbox"
+                                                    [(selection)]="service.selectedEntities" emptyMessage=""></p-tree>
+                                            </p-scrollPanel>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="container-fluid mt-4">
                                     <div class="row align-items-end">
                                         <div class="col">
                                             <h6 class="first">Service</h6>
@@ -32,12 +60,10 @@
                                     <div class="row justify-content-center">
                                         <div class="col-auto">
                                             <p-tree [value]="service.entities" selectionMode="checkbox"
-                                                [(selection)]="service.selectedEntities"
-                                                (onNodeSelect)="onNodeSelect($event, i)"
-                                                (onNodeUnselect)="onNodeUnselect($event, i)"></p-tree>
+                                                [(selection)]="service.selectedEntities"></p-tree>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </form>
                         </p-accordionTab>
                     </ng-template>
