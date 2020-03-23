@@ -9,7 +9,14 @@
             <div class="col-12">
                 <p-accordion>
                     <ng-template ngFor let-service let-i="index" [ngForOf]="cb.services">
-                        <p-accordionTab header="{{service.header}}">
+                        <p-accordionTab #accordionTab>
+
+                            <p-header>
+                                <app-accordion-tab-header [header]="service.header" [selected]="accordionTab.selected"
+                                    (remove)="onRemoveService(i)">
+                                </app-accordion-tab-header>
+                            </p-header>
+
                             <form [formGroup]="service.form">
                                 <div class="container-fluid mt-4">
                                     <div class="row justify-content-center mb-4">

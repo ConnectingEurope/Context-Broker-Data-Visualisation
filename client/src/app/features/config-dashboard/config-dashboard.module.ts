@@ -16,12 +16,14 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MessageService } from 'primeng/api';
 import { GeneralConfigurationComponent } from './components/general-configuration/general-configuration.component';
 import { ServiceConfigurationComponent } from './components/service-configuration/service-configuration.component';
+import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
 
 @NgModule({
   declarations: [
     ConfigDashboardComponent,
     GeneralConfigurationComponent,
     ServiceConfigurationComponent,
+    AccordionTabHeaderComponent,
   ],
   imports: [
     CommonModule,

@@ -38,6 +38,10 @@ export class ServiceConfigurationComponent extends BaseComponent {
     });
   }
 
+  protected onRemoveService(index: number): void {
+    this.cb.services.splice(index, 1);
+  }
+
   protected onServiceConfigChange(index: number): void {
     const service: string = this.cb.services[index].form.value.service;
     const servicePath: string = this.cb.services[index].form.value.servicePath;

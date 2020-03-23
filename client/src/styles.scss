@@ -52,6 +52,42 @@ input {
   background-color: powderblue;
 }
 
+// AccordionTab
+.ui-accordion .ui-accordion-toggle-icon {
+  display: none;
+}
+
+.accordion-tab-remove-button .ui-button,
+.accordion-tab-remove-button-selected .ui-button,
+.accordion-tab-remove-button .ui-button:active,
+.accordion-tab-remove-button-selected .ui-button:active,
+.accordion-tab-remove-button .ui-button:hover,
+.accordion-tab-remove-button-selected .ui-button:hover,
+.accordion-tab-remove-button .ui-button:focus,
+.accordion-tab-remove-button-selected .ui-button:focus,
+.accordion-tab-remove-button .ui-button:enabled:hover,
+.accordion-tab-remove-button-selected .ui-button:enabled:hover,
+.accordion-tab-remove-button .ui-button:enabled:focus,
+.accordion-tab-remove-button-selected .ui-button:enabled:focus {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.accordion-tab-remove-button .ui-button-icon-left {
+  color: darkslategray;
+}
+
+.accordion-tab-remove-button-selected .ui-button-icon-left {
+  color: white;
+}
+
+// body .ui-button:enabled:focus {
+//   outline: 0 none;
+//   outline-offset: 0px;
+//   box-shadow: none;
+// }
+
 // App GraphicCard
 
 // app-graphic-card .ui-card,
