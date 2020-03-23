@@ -11,55 +11,6 @@ var allRouter = require('./routes/all');
 var configRouter = require('./routes/config');
 var airQualityObservedRouter = require('./routes/airQualityObserved');
 
-// var Datastore = require('nedb')
-//   , db = new Datastore({ filename: './configuration', autoload: true });
-
-// var doc = {
-//   "config": {
-//     "contextBrokers": [
-//       {
-//         "url": "https://streams.lab.fiware.org",
-//         "port": "",
-//         "services": [
-//           {
-//             "service": "environment",
-//             "servicePath": "/Madrid",
-//             "entities": [
-//               {
-//                 "type": "AirQualityObserved",
-//                 "attrs": [
-//                   {
-//                     "id": "BEN",
-//                     "selected": true
-//                   },
-//                   {
-//                     "id": "CO",
-//                     "selected": true
-//                   },
-//                   {
-//                     "id": "NO",
-//                     "selected": true
-//                   }
-//                 ]
-//               }
-//             ]
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// };
-
-// db.update({}, { planet: 'c' }, {}, function (err, numReplaced) {
-//   console.log(err);
-//   console.log(numReplaced);
-// });
-
-// db.find({}, function (err, docs) {
-//   console.log(err);
-//   console.log(docs);
-// });
-
 var app = express();
 
 // view engine setup
@@ -73,7 +24,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/check-health', checkHealthRouter);
+app.use('/check-broker', checkHealthRouter);
+app.use('/check-cygnus', checkHealthRouter);
+app.use('/check-comet', checkHealthRouter);
 app.use('/entities', entitiesRouter);
 app.use('/all', allRouter);
 app.use('/config', configRouter);

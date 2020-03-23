@@ -35,6 +35,7 @@
                             <div class="py-3">
                                 <app-general-configuration [cb]="cb"></app-general-configuration>
                             </div>
+
                             <!-- Services configuration -->
                             <div *ngIf="cb.form.get('needServices').value === true" class="py-3">
                                 <app-service-configuration [cb]="cb"></app-service-configuration>
@@ -42,8 +43,7 @@
 
                             <!-- Historical Configuration -->
                             <div *ngIf="cb.form.get('needHistoricalData').value === true" class="py-3">
-                                <p-card header="Historical Configuration">
-                                </p-card>
+                                <app-historical-configuration [cb]="cb"></app-historical-configuration>
                             </div>
 
                         </form>

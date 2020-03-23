@@ -9,18 +9,21 @@ export class ConfigDashboardService {
 
   constructor(private http: HttpClient) { }
 
-  public checkContextBrokerHealth(url: string, port: string): Observable<any> {
-    let parameters: HttpParams = new HttpParams();
-    parameters = parameters.append('url', url);
-    parameters = parameters.append('port', port);
-
-    return this.http.get('/server/check-health', { params: parameters });
+  public checkBrokerHealth(url: string): Observable<any> {
+    return this.checkHealth(url, '/server/check-broker');
   }
 
-  public getEntitiesFromService(url: string, port: string, service?: string, servicePath?: string): Observable<any> {
+  public checkCygnusHealth(url: string): Observable<any> {
+    return this.checkHealth(url, '/server/check-cygnus');
+  }
+
+  public checkCometHealth(url: string): Observable<any> {
+    return this.checkHealth(url, '/server/check-comet');
+  }
+
+  public getEntitiesFromService(url: string, service?: string, servicePath?: string): Observable<any> {
     let parameters: HttpParams = new HttpParams();
     parameters = parameters.append('url', url);
-    parameters = parameters.append('port', port);
     parameters = parameters.append('service', service);
     parameters = parameters.append('servicePath', servicePath);
 
@@ -29,6 +32,13 @@ export class ConfigDashboardService {
 
   public postConfiguration(config: any): Observable<any> {
     return this.http.post('/server/config', config);
+  }
+
+  private checkHealth(url: string, api: string): Observable<any> {
+    let parameters: HttpParams = new HttpParams();
+    parameters = parameters.append('url', url);
+
+    return this.http.get(api, { params: parameters });
   }
 
 }

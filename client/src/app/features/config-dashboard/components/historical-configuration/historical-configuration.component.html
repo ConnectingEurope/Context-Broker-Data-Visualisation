@@ -1,0 +1,23 @@
+<p-card header="Historical Configuration">
+    <form [formGroup]="cb.form">
+        <div class="container-fluid mt-4">
+            <div class="row justify-content-center mb-4">
+                <div class="col-10">
+
+                    <div>
+                        <h6 class="first">Cygnus URL</h6>
+                        <input type="text" pInputText formControlName="cygnus" />
+                        <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckCygnus()"></p-button>
+                    </div>
+
+                    <div class="mt-5">
+                        <h6 class="first">STH-Comet URL</h6>
+                        <input type="text" pInputText formControlName="comet" />
+                        <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckComet()"></p-button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</p-card>

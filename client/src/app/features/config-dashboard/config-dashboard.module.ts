@@ -13,16 +13,19 @@ import { TableModule } from 'primeng/table';
 import { TreeModule } from 'primeng/tree';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { TooltipModule } from 'primeng/tooltip';
 import { MessageService } from 'primeng/api';
 import { GeneralConfigurationComponent } from './components/general-configuration/general-configuration.component';
 import { ServiceConfigurationComponent } from './components/service-configuration/service-configuration.component';
 import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
+import { HistoricalConfigurationComponent } from './components/historical-configuration/historical-configuration.component';
 
 @NgModule({
   declarations: [
     ConfigDashboardComponent,
     GeneralConfigurationComponent,
     ServiceConfigurationComponent,
+    HistoricalConfigurationComponent,
     AccordionTabHeaderComponent,
   ],
   imports: [
@@ -40,6 +43,7 @@ import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-
     TreeModule,
     CheckboxModule,
     ScrollPanelModule,
+    TooltipModule,
   ],
   providers: [
     MessageService,

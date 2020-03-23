@@ -28,13 +28,12 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
   protected onCheckContextBroker(): void {
     const url: string = this.cb.form.value.url;
-    const port: string = this.cb.form.value.port;
 
-    this.configDashboardService.checkContextBrokerHealth(url, port).pipe(takeUntil(this.destroy$)).subscribe(res => {
+    this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res && res.statusCode === 200 && res.body && res.body.orion) {
         this.onCheckContextBrokerSuccess();
       } else {
-        this.onCheckContextBrokerSuccess();
+        this.onCheckContextBrokerFail();
       }
     }, err => {
       this.onCheckContextBrokerFail();
@@ -45,7 +44,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     const url: string = this.cb.form.value.url;
     const port: string = this.cb.form.value.port;
 
-    this.configDashboardService.getEntitiesFromService(url, port).pipe(takeUntil(this.destroy$)).subscribe(res => {
+    this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res && res.statusCode === 200 && res.body && res.body.length > 0) {
         this.onGetEntitiesSuccess(res.body);
       } else {

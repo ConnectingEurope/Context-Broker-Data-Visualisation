@@ -30,9 +30,10 @@ export class ConfigDashboardComponent extends BaseComponent {
       form: new FormGroup({
         name: new FormControl(this.defaultContextName),
         url: new FormControl('https://streams.lab.fiware.org'),
-        port: new FormControl(''),
         needServices: new FormControl(false),
         needHistoricalData: new FormControl(false),
+        cygnus: new FormControl(''),
+        comet: new FormControl(''),
       }),
       services: [],
       entities: [],
@@ -57,7 +58,8 @@ export class ConfigDashboardComponent extends BaseComponent {
     return this.contextBrokers.map(cb => {
       return {
         url: cb.form.get('url').value,
-        port: cb.form.get('port').value,
+        cygnus: cb.form.get('cygnus').value,
+        comet: cb.form.get('comet').value,
         services: this.getServices(cb),
       };
     });

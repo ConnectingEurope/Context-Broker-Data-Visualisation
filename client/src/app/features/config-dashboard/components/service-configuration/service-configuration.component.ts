@@ -55,7 +55,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
     const service: string = this.cb.services[index].form.value.service;
     const servicePath: string = this.cb.services[index].form.value.servicePath;
 
-    this.configDashboardService.getEntitiesFromService(url, port, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(res => {
+    this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res && res.statusCode === 200 && res.body && res.body.length > 0) {
         this.onGetEntitiesSuccess(res.body, index);
       } else {
