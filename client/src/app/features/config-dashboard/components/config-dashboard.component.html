@@ -21,7 +21,7 @@
                 <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
                     <p-accordionTab #accordionTab>
 
-                        <!-- AccordionTab Header -->
+                        <!-- AccordionTab header -->
                         <p-header>
                             <app-accordion-tab-header [header]="cb.header" [selected]="accordionTab.selected"
                                 (remove)="onRemoveContextBroker(i)">

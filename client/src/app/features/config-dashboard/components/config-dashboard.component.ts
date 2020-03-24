@@ -4,6 +4,8 @@ import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
+import { ContextBrokerConfiguration, ContextBrokerServiceConfiguration } from '../models/context-broker-configuration';
+import { ContextBroker, ContextBrokerService, ContextBrokerEntity, Configuration } from '../models/context-broker';
 
 @Component({
   selector: 'app-config-dashboard',
@@ -12,10 +14,8 @@ import { MessageService } from 'primeng/api';
 })
 export class ConfigDashboardComponent extends BaseComponent {
 
-  protected isServicesUsed: boolean = false;
-  protected contextBrokers: any[] = [];
-  private defaultContextName: string = 'Madrid Air';
-  private defaultUrl: string = 'https://streams.lab.fiware.org';
+  protected contextBrokers: ContextBrokerConfiguration[] = [];
+  private defaultContextName: string = 'New Context Broker';
 
   constructor(
     private configDashboardService: ConfigDashboardService,
@@ -29,7 +29,7 @@ export class ConfigDashboardComponent extends BaseComponent {
       header: this.defaultContextName,
       form: new FormGroup({
         name: new FormControl(this.defaultContextName),
-        url: new FormControl('https://streams.lab.fiware.org'),
+        url: new FormControl(''),
         needServices: new FormControl(false),
         needHistoricalData: new FormControl(false),
         cygnus: new FormControl(''),
@@ -46,15 +46,15 @@ export class ConfigDashboardComponent extends BaseComponent {
   }
 
   protected onApplyConfiguration(): void {
-    const config: any = {
+    const config: Configuration = {
       contextBrokers: this.getContextBrokers(),
     };
     this.configDashboardService.postConfiguration(config).pipe(takeUntil(this.destroy$)).subscribe({
-      error: (err): void => this.messageService.add({ severity: 'error', summary: 'Cannot configure' }),
+      error: (err): void => this.messageService.add({ severity: 'error', summary: 'Cannot apply the configuration' }),
     });
   }
 
-  private getContextBrokers(): any[] {
+  private getContextBrokers(): ContextBroker[] {
     return this.contextBrokers.map(cb => {
       return {
         url: cb.form.get('url').value,
@@ -65,7 +65,7 @@ export class ConfigDashboardComponent extends BaseComponent {
     });
   }
 
-  private getServices(cb: any): any[] {
+  private getServices(cb: ContextBrokerConfiguration): ContextBrokerService[] {
     return cb.services.map(s => {
       return {
         service: s.form.get('service').value,
@@ -75,8 +75,8 @@ export class ConfigDashboardComponent extends BaseComponent {
     });
   }
 
-  private getEntities(s: any): any[] {
-    const entities: any = {};
+  private getEntities(s: ContextBrokerServiceConfiguration): ContextBrokerEntity[] {
+    const entities: { [key: string]: string[] } = {};
 
     s.selectedEntities.forEach(e => {
       if (e.parent) {
@@ -88,7 +88,7 @@ export class ConfigDashboardComponent extends BaseComponent {
     return this.parseEntities(entities);
   }
 
-  private parseEntities(entities: any): any[] {
+  private parseEntities(entities: { [key: string]: string[] }): ContextBrokerEntity[] {
     return Object.entries(entities).map(([key, value]) => {
       return { type: key, attrs: value };
     });

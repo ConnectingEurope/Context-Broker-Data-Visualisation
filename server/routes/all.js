@@ -26,7 +26,6 @@ async function processEntities(routerRes) {
       for (const e of s.entities) {
         const entityData = await get(cb, s);
         const modelDto = getModelDto(e, entityData);
-        console.log(modelDto);
         modelDtos.push(modelDto);
       }
     }
@@ -38,7 +37,6 @@ function get(source, service) {
   return new Promise((resolve, reject) => {
     request({ url: getUrl(source), qs: getParams(), headers: getHeaders(service), json: true }, (err, res, body) => {
       if (err) { reject(err); }
-      console.log(body);
       resolve(body);
     });
   });

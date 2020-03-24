@@ -3,6 +3,7 @@ import { ConfigDashboardService } from '../../services/config-dashboard-service/
 import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
+import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
 
 @Component({
   selector: 'app-historical-configuration',
@@ -11,7 +12,7 @@ import { BaseComponent } from 'src/app/shared/misc/base.component';
 })
 export class HistoricalConfigurationComponent extends BaseComponent {
 
-  @Input() public cb: any;
+  @Input() public cb: ContextBrokerConfiguration;
 
   constructor(
     private configDashboardService: ConfigDashboardService,
@@ -55,7 +56,7 @@ export class HistoricalConfigurationComponent extends BaseComponent {
 
   private onCheckCygnusFail(): void {
     this.messageService.clear();
-    this.messageService.add({ severity: 'error', summary: 'Cannot find the Cygnus' });
+    this.messageService.add({ severity: 'error', summary: 'Cannot find Cygnus' });
   }
 
   private onCheckCometSuccess(): void {
@@ -65,7 +66,7 @@ export class HistoricalConfigurationComponent extends BaseComponent {
 
   private onCheckCometFail(): void {
     this.messageService.clear();
-    this.messageService.add({ severity: 'error', summary: 'Cannot find the STH-Comet' });
+    this.messageService.add({ severity: 'error', summary: 'Cannot find STH-Comet' });
   }
 
 }

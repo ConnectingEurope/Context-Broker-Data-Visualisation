@@ -1,1 +1,1 @@
-{"contextBrokers":[{"url":"https://streams.lab.fiware.org","port":"","services":[{"service":"environment","servicePath":"/Madrid","entities":[{"type":"AirQualityObserved","attrs":["BEN","CH4","CO","EBE","NHMC","NO","NO2","NOx","O3","PM10","PM2.5","SO2","TCH","TOL","address","dataProvider","dateObserved","hour","location","measurand","source","stationCode","stationName","validity"]}]}]}],"_id":"NkitFN4B1HeuF2r1"}
+{"contextBrokers":[{"url":"b","cygnus":"e","comet":"f","services":[{"service":"c","servicePath":"d","entities":[]}]}],"_id":"wxbJYySURPWehP9g"}

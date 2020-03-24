@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
+import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
 
 @Component({
   selector: 'app-service-configuration',
@@ -13,10 +14,8 @@ import { LayerService } from 'src/app/features/map-dashboard/services/layer-serv
 })
 export class ServiceConfigurationComponent extends BaseComponent {
 
-  @Input() public cb: any;
-  private defaultServiceName: string = 'New Service';
-  private defaultService: string = 'environment';
-  private defaultServicePath: string = '/Madrid';
+  @Input() public cb: ContextBrokerConfiguration;
+  private defaultHeader: string = 'New Service';
 
   constructor(
     private configDashboardService: ConfigDashboardService,
@@ -28,10 +27,10 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   protected onAddService(): void {
     this.cb.services.unshift({
-      header: this.defaultService + ' - ' + this.defaultServicePath,
+      header: this.defaultHeader,
       form: new FormGroup({
-        service: new FormControl(this.defaultService),
-        servicePath: new FormControl(this.defaultServicePath),
+        service: new FormControl(''),
+        servicePath: new FormControl(''),
       }),
       entities: [],
       selectedEntities: [],
@@ -51,7 +50,6 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   protected onGetEntities(index: number): void {
     const url: string = this.cb.form.value.url;
-    const port: string = this.cb.form.value.port;
     const service: string = this.cb.services[index].form.value.service;
     const servicePath: string = this.cb.services[index].form.value.servicePath;
 
@@ -66,14 +64,14 @@ export class ServiceConfigurationComponent extends BaseComponent {
     });
   }
 
-  private onGetEntitiesSuccess(entities: any[], index: number): void {
+  private onGetEntitiesSuccess(entities: ContextBrokerConfiguration[], index: number): void {
     this.cb.services[index].entities = this.layerService.getEntities(entities);
     this.cb.services[index].selectedEntities = this.layerService.getAllLayers(this.cb.services[index].entities);
   }
 
   private onGetEntitiesFail(): void {
     this.messageService.clear();
-    this.messageService.add({ severity: 'error', summary: 'Cannot find entities' });
+    this.messageService.add({ severity: 'warn', summary: 'Entities not found in this service' });
   }
 
 }

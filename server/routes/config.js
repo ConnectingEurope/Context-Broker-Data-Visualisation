@@ -15,13 +15,11 @@ router.post('/', function (routerReq, routerRes, routerNext) {
 
 function insert(config) {
   db.insert(config, function (err, newDoc) {
-    console.log(err);
   });
 }
 
 function update(config) {
   db.update({}, config, {}, function (err, numReplaced) {
-    console.log(err);
   });
 }
 

@@ -4,6 +4,8 @@ import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
+import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
+import { EntityDto } from '../../models/entity-dto';
 
 @Component({
   selector: 'app-general-configuration',
@@ -12,7 +14,7 @@ import { LayerService } from 'src/app/features/map-dashboard/services/layer-serv
 })
 export class GeneralConfigurationComponent extends BaseComponent implements OnDestroy {
 
-  @Input() public cb: any;
+  @Input() public cb: ContextBrokerConfiguration;
 
   constructor(
     private configDashboardService: ConfigDashboardService,
@@ -42,7 +44,6 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
   protected onChooseEntities(): void {
     const url: string = this.cb.form.value.url;
-    const port: string = this.cb.form.value.port;
 
     this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
       if (res && res.statusCode === 200 && res.body && res.body.length > 0) {
@@ -62,10 +63,10 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
   private onCheckContextBrokerFail(): void {
     this.messageService.clear();
-    this.messageService.add({ severity: 'error', summary: 'Cannot find the Context Broker' });
+    this.messageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
   }
 
-  private onGetEntitiesSuccess(entities: any[]): void {
+  private onGetEntitiesSuccess(entities: EntityDto[]): void {
     this.cb.entities = this.layerService.getEntities(entities);
     this.cb.selectedEntities = this.layerService.getAllLayers(this.cb.entities);
   }

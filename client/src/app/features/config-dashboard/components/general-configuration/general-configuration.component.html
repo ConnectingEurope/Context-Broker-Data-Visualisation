@@ -2,24 +2,34 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-6">
+
+                <!-- Name -->
                 <div>
                     <h6 class="first">Name</h6>
                     <input type="text" pInputText formControlName="name" (ngModelChange)="onNameChange()" />
                 </div>
+
+                <!-- URL -->
                 <div class="mt-5">
                     <h6 class="first">URL</h6>
                     <input type="text" pInputText formControlName="url" />
                     <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckContextBroker()"></p-button>
                 </div>
+
+                <!-- Choose entities button -->
                 <div class="mt-5">
                     <p-button label="Choose entities and attributes" icon="pi pi-list" (onClick)="onChooseEntities()">
                     </p-button>
                 </div>
+
+                <!-- Services checkbox -->
                 <div class="mt-5">
                     <p-checkbox label="Does the Context Broker use services?" binary="true"
                         [formControl]="cb.form.controls['needServices']">
                     </p-checkbox>
                 </div>
+
+                <!-- Historical checkbox -->
                 <div class="mt-5">
                     <p-checkbox label="Visualize historical data" binary="true"
                         [formControl]="cb.form.controls['needHistoricalData']">
@@ -27,15 +37,16 @@
                     <i class="ml-2 pi pi-question-circle"
                         pTooltip="In order to have access to historical data, both Cygnus URL and STH-Comet URL should be provided"></i>
                 </div>
-                <!-- <div class="mt-5">
 
-                </div> -->
             </div>
+
+            <!-- Selected entities -->
             <div class="col-4">
                 <p-tree [value]="cb.entities" selectionMode="checkbox" [(selection)]="cb.selectedEntities"
                     emptyMessage="">
                 </p-tree>
             </div>
+
         </div>
     </div>
 </form>

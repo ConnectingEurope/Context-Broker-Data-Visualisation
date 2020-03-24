@@ -9,7 +9,6 @@ var checkHealthRouter = require('./routes/checkHealth');
 var entitiesRouter = require('./routes/entities');
 var allRouter = require('./routes/all');
 var configRouter = require('./routes/config');
-var airQualityObservedRouter = require('./routes/airQualityObserved');
 
 var app = express();
 
@@ -23,14 +22,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// API
 app.use('/', indexRouter);
 app.use('/check-broker', checkHealthRouter);
 app.use('/check-cygnus', checkHealthRouter);
 app.use('/check-comet', checkHealthRouter);
 app.use('/entities', entitiesRouter);
-app.use('/all', allRouter);
 app.use('/config', configRouter);
-app.use('/air-quality-observed', airQualityObservedRouter);
+app.use('/all', allRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
