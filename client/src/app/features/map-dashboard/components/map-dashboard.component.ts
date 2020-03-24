@@ -13,13 +13,15 @@ import { LayerService } from '../services/layer-service/layer-service';
 import { PopupService } from '../services/popup-service/popup-service';
 import { Entity } from 'src/app/shared/data-models/fiware/entity';
 import { ModelDto } from 'src/app/shared/misc/model-dto';
+import { takeUntil } from 'rxjs/operators';
+import { BaseComponent } from 'src/app/shared/misc/base.component';
 
 @Component({
   selector: 'app-map-dashboard',
   templateUrl: './map-dashboard.component.html',
   styleUrls: ['./map-dashboard.component.scss'],
 })
-export class MapDashboardComponent implements OnInit, AfterViewInit {
+export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit {
 
   protected menuItems: MenuItem[];
   protected layers: TreeNode[];
@@ -33,7 +35,9 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
     private mapDashBoardService: MapDashboardService,
     private layerService: LayerService,
     private popupService: PopupService,
-  ) { }
+  ) {
+    super();
+  }
 
   public ngOnInit(): void {
     this.loadLayerMenu();
@@ -83,7 +87,7 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   }
 
   private loadEntities(): void {
-    this.mapDashBoardService.getAllEntities().subscribe((res: ModelDto[]) => {
+    this.mapDashBoardService.getAllEntities().pipe(takeUntil(this.destroy$)).subscribe((res: ModelDto[]) => {
 
       res.forEach(model => {
         const parentKey: string = this.layerService.getParentKey(model.type);
@@ -98,7 +102,10 @@ export class MapDashboardComponent implements OnInit, AfterViewInit {
   }
 
   private addEntity(model: ModelDto, entity: Entity): void {
-    const marker: L.Marker = L.marker(entity.location.coordinates as L.LatLngExpression, { icon: LeafletIcons.icons[model.type] });
+    const marker: L.Marker = L.marker(
+      entity.location.coordinates.reverse() as L.LatLngExpression,
+      { icon: LeafletIcons.icons[model.type] },
+    );
     marker.bindPopup(this.popupService.getPopup(model.type, entity));
     this.layerGroups[model.type].addLayer(marker);
   }

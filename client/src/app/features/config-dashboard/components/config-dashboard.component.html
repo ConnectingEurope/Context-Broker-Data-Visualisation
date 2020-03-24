@@ -1,0 +1,55 @@
+<!-- Toast for messages -->
+<p-toast></p-toast>
+
+<div class="container-fluid mt-3">
+
+    <!-- Add Context Broker button -->
+    <div class="row justify-content-center my-3">
+        <div class="col-auto">
+            <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
+        </div>
+        <div class="col-auto">
+            <p-button *ngIf="contextBrokers.length > 0" label="Apply Configuration" (onClick)="onApplyConfiguration()">
+            </p-button>
+        </div>
+    </div>
+
+    <!-- Context Brokers -->
+    <div class="row justify-content-center">
+        <div class="col-7">
+            <p-accordion>
+                <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
+                    <p-accordionTab #accordionTab>
+
+                        <!-- AccordionTab header -->
+                        <p-header>
+                            <app-accordion-tab-header [header]="cb.header" [selected]="accordionTab.selected"
+                                (remove)="onRemoveContextBroker(i)">
+                            </app-accordion-tab-header>
+                        </p-header>
+
+
+                        <form [formGroup]="cb.form">
+
+                            <!-- General configuration -->
+                            <div class="py-3">
+                                <app-general-configuration [cb]="cb"></app-general-configuration>
+                            </div>
+
+                            <!-- Services configuration -->
+                            <div *ngIf="cb.form.get('needServices').value === true" class="py-3">
+                                <app-service-configuration [cb]="cb"></app-service-configuration>
+                            </div>
+
+                            <!-- Historical Configuration -->
+                            <div *ngIf="cb.form.get('needHistoricalData').value === true" class="py-3">
+                                <app-historical-configuration [cb]="cb"></app-historical-configuration>
+                            </div>
+
+                        </form>
+                    </p-accordionTab>
+                </ng-template>
+            </p-accordion>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NgHttpLoaderModule } from 'ng-http-loader';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     HttpClientModule,
     MenubarModule,
+    NgHttpLoaderModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

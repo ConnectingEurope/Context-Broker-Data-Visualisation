@@ -15,11 +15,12 @@
   "private": true,
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint"
+      "pre-commit": "npm run lint"
     }
   },
   "dependencies": {
     "@angular/animations": "^8.2.14",
+    "@angular/cdk": "^9.1.2",
     "@angular/common": "~8.2.14",
     "@angular/compiler": "~8.2.14",
     "@angular/core": "~8.2.14",
@@ -37,10 +38,11 @@
     "leaflet-geosearch": "^2.7.0",
     "leaflet.markercluster": "^1.4.1",
     "moment": "^2.24.0",
+    "ng-http-loader": "^6.0.1",
     "popper.js": "^1.16.1",
     "primeicons": "^2.0.0",
     "primeng": "^9.0.0-rc.4",
-    "rxjs": "~6.4.0",
+    "rxjs": "~6.5.3",
     "tslib": "^1.10.0",
     "web-animations-js": "github:angular/web-animations-js#release_pr208",
     "zone.js": "~0.9.1"
@@ -64,6 +66,7 @@
     "karma-jasmine-html-reporter": "^1.4.0",
     "markdownlint-cli": "^0.22.0",
     "protractor": "~5.4.0",
+    "rxjs-tslint-rules": "^4.29.1",
     "stylelint": "^13.0.0",
     "stylelint-config-standard": "^19.0.0",
     "stylelint-order": "^4.0.0",
