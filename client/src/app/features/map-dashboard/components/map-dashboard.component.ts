@@ -11,8 +11,8 @@ import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { MapDashboardService } from '../services/map-dashboard-service/map-dashboard.service';
 import { LayerService } from '../services/layer-service/layer-service';
 import { PopupService } from '../services/popup-service/popup-service';
-import { Entity } from 'src/app/shared/data-models/fiware/entity';
-import { ModelDto } from 'src/app/shared/misc/model-dto';
+import { Entity } from 'src/app/shared/models/entity';
+import { ModelDto } from 'src/app/shared/models/model-dto';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 

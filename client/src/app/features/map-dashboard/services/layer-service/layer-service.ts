@@ -1,6 +1,7 @@
 import { TreeNode } from 'primeng/api/treenode';
 import { LeafletIcons } from '../../../../shared/misc/leaflet-icons';
 import { Injectable } from '@angular/core';
+import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
 
 @Injectable({
     providedIn: 'root',
@@ -35,7 +36,7 @@ export class LayerService {
         return Object.entries(this.layers).map(e => this.getTreeNodeLayer(e[0], e[1]));
     }
 
-    public getEntities(entities: any[]): TreeNode[] {
+    public getEntities(entities: EntityDto[]): TreeNode[] {
         const entitiesTree: TreeNode[] = [];
 
         entities.forEach(e => {

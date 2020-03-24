@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AirQualityObserved } from 'src/app/shared/data-models/fiware/specific/air-quality-observed';
-import { OffStreetParking } from 'src/app/shared/data-models/fiware/specific/offStreetParking';
-import { Entity } from 'src/app/shared/data-models/fiware/entity';
+import { AirQualityObserved } from 'src/app/shared/models/fiware/air-quality-observed';
+import { OffStreetParking } from 'src/app/shared/models/fiware/offStreetParking';
+import { Entity } from 'src/app/shared/models/entity';
 
 @Injectable({
     providedIn: 'root',
