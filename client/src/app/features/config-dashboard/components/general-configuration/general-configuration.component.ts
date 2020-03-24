@@ -6,6 +6,7 @@ import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
 import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
 import { EntityDto } from '../../models/entity-dto';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-general-configuration',
@@ -31,29 +32,25 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
   protected onCheckContextBroker(): void {
     const url: string = this.cb.form.value.url;
 
-    this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && res.statusCode === 200 && res.body && res.body.orion) {
-        this.onCheckContextBrokerSuccess();
-      } else {
+    this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
+      isLive => {
+        isLive ? this.onCheckContextBrokerSuccess() : this.onCheckContextBrokerFail();
+      },
+      err => {
         this.onCheckContextBrokerFail();
-      }
-    }, err => {
-      this.onCheckContextBrokerFail();
-    });
+      });
   }
 
   protected onChooseEntities(): void {
     const url: string = this.cb.form.value.url;
 
-    this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && res.statusCode === 200 && res.body && res.body.length > 0) {
-        this.onGetEntitiesSuccess(res.body);
-      } else {
+    this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(
+      entities => {
+        entities.length > 0 ? this.onGetEntitiesSuccess(entities) : this.onGetEntitiesFail();
+      },
+      err => {
         this.onGetEntitiesFail();
-      }
-    }, err => {
-      this.onGetEntitiesFail();
-    });
+      });
   }
 
   private onCheckContextBrokerSuccess(): void {

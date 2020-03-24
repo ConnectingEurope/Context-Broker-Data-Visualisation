@@ -24,29 +24,25 @@ export class HistoricalConfigurationComponent extends BaseComponent {
   protected onCheckCygnus(): void {
     const url: string = this.cb.form.value.cygnus;
 
-    this.configDashboardService.checkCygnusHealth(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && res.statusCode === 200 && res.body && res.body.orion) {
-        this.onCheckCygnusSuccess();
-      } else {
-        this.onCheckCygnusSuccess();
-      }
-    }, err => {
-      this.onCheckCygnusFail();
-    });
+    this.configDashboardService.checkCygnusHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
+      isLive => {
+        isLive ? this.onCheckCygnusSuccess() : this.onCheckCygnusFail();
+      },
+      err => {
+        this.onCheckCygnusFail();
+      });
   }
 
   protected onCheckComet(): void {
     const url: string = this.cb.form.value.comet;
 
-    this.configDashboardService.checkCometHealth(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && res.statusCode === 200 && res.body && res.body.orion) {
-        this.onCheckCometSuccess();
-      } else {
-        this.onCheckCometSuccess();
-      }
-    }, err => {
-      this.onCheckCometFail();
-    });
+    this.configDashboardService.checkCometHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
+      isLive => {
+        isLive ? this.onCheckCometSuccess() : this.onCheckCometFail();
+      },
+      err => {
+        this.onCheckCometFail();
+      });
   }
 
   private onCheckCygnusSuccess(): void {

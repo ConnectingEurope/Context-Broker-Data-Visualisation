@@ -27,9 +27,10 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.configDashboardService.getConfiguration().pipe(takeUntil(this.destroy$)).subscribe(res => {
-      this.initConfiguration(res);
-    });
+    this.configDashboardService.getConfiguration().pipe(takeUntil(this.destroy$)).subscribe(
+      contextBrokers => {
+        this.initConfiguration(contextBrokers);
+      });
   }
 
   protected onAddContextBroker(): void {
@@ -71,6 +72,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         needHistoricalData: cb.form.get('needHistoricalData').value,
         cygnus: cb.form.get('cygnus').value,
         comet: cb.form.get('comet').value,
+        entities: this.layerService.treeNodesToEntitiesConfiguration(cb.entities, cb.selectedEntities),
         services: this.getServices(cb),
       };
     });
@@ -81,17 +83,14 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
       return {
         service: s.form.get('service').value,
         servicePath: s.form.get('servicePath').value,
-        entities: this.getEntities(s),
+        entities: this.layerService.treeNodesToEntitiesConfiguration(s.entities, s.selectedEntities),
       };
     });
   }
 
-  private getEntities(s: ContextBrokerServiceConfiguration): ContextBrokerEntity[] {
-    return this.layerService.treeNodesToEntitiesConfiguration(s.entities, s.selectedEntities);
-  }
-
   private initConfiguration(contextBrokers: ContextBroker[]): void {
     contextBrokers.forEach(cb => {
+      const { treeNodes, selectedTreeNodes }: any = this.layerService.entitiesConfigurationToTreeNodes(cb.entities);
       this.contextBrokers.unshift({
         header: cb.name,
         form: new FormGroup({
@@ -103,8 +102,8 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
           comet: new FormControl(cb.comet),
         }),
         services: this.initServiceConfiguration(cb),
-        entities: [],
-        selectedEntities: [],
+        entities: treeNodes,
+        selectedEntities: selectedTreeNodes,
       });
     });
   }

@@ -18,6 +18,7 @@ export interface ContextBroker {
     url: string;
     cygnus: string;
     comet: string;
+    entities: ContextBrokerEntity[];
     services: ContextBrokerService[];
 }
 
