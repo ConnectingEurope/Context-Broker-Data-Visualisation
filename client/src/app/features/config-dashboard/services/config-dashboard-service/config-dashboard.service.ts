@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Configuration } from '../../models/context-broker';
+import { Configuration, ContextBroker } from '../../models/context-broker';
 import { ResponseFromServer } from 'src/app/shared/models/response-from-server';
 
 @Injectable({
@@ -30,6 +30,10 @@ export class ConfigDashboardService {
     parameters = parameters.append('servicePath', servicePath);
 
     return this.http.get<ResponseFromServer>('/server/entities', { params: parameters });
+  }
+
+  public getConfiguration(): Observable<ContextBroker[]> {
+    return this.http.get<ContextBroker[]>('/server/config');
   }
 
   public postConfiguration(config: Configuration): Observable<ResponseFromServer> {

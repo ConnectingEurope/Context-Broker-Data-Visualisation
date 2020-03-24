@@ -62,7 +62,7 @@ function getHeaders(service) {
 
 function getModelDto(entity, entityData) {
   return {
-    type: entity.type,
+    type: entity.name,
     data: entityData
   }
 }

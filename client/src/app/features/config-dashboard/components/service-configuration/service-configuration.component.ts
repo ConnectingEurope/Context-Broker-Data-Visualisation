@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
 import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
+import { EntityDto } from '../../models/entity-dto';
 
 @Component({
   selector: 'app-service-configuration',
@@ -64,7 +65,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
     });
   }
 
-  private onGetEntitiesSuccess(entities: ContextBrokerConfiguration[], index: number): void {
+  private onGetEntitiesSuccess(entities: EntityDto[], index: number): void {
     this.cb.services[index].entities = this.layerService.getEntities(entities);
     this.cb.services[index].selectedEntities = this.layerService.getAllLayers(this.cb.services[index].entities);
   }

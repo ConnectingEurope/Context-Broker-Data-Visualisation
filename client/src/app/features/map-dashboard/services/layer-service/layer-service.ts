@@ -2,6 +2,7 @@ import { TreeNode } from 'primeng/api/treenode';
 import { LeafletIcons } from '../../../../shared/misc/leaflet-icons';
 import { Injectable } from '@angular/core';
 import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
+import { ContextBrokerEntity } from 'src/app/features/config-dashboard/models/context-broker';
 
 @Injectable({
     providedIn: 'root',
@@ -56,6 +57,56 @@ export class LayerService {
             layers.forEach(t => concatenatedLayers = concatenatedLayers.concat(this.getAllLayers(t.children)));
         }
         return concatenatedLayers;
+    }
+
+    public entitiesConfigurationToTreeNodes(entities: ContextBrokerEntity[]): { treeNodes: TreeNode[], selectedTreeNodes: TreeNode[] } {
+        const treeN: TreeNode[] = [];
+        const selectedTreeN: TreeNode[] = [];
+
+        entities.forEach(e => {
+            const treeNodeChildren: TreeNode[] = [];
+
+            e.attrs.forEach(a => {
+                const treeNodeChild: TreeNode = { data: a.name, label: a.name, parent: { data: e.name } };
+                treeNodeChildren.push(treeNodeChild);
+                if (a.selected) { selectedTreeN.push(treeNodeChild); }
+            });
+
+            const treeNode: TreeNode = { data: e.name, label: e.name, children: treeNodeChildren };
+
+            treeN.push(treeNode);
+
+            if (e.selected) {
+                selectedTreeN.push(treeNode);
+            } else {
+                this.checkIfTreeNodeIsPartialSelected(treeNode, e);
+            }
+        });
+
+        return { treeNodes: treeN, selectedTreeNodes: selectedTreeN };
+    }
+
+    public treeNodesToEntitiesConfiguration(treeNodes: TreeNode[], selectedTreeNodes: TreeNode[]): ContextBrokerEntity[] {
+        return treeNodes.map(t => {
+            return {
+                name: t.data,
+                selected: this.isTreeNodeSelected(t.data, selectedTreeNodes),
+                attrs: t.children.map(c => ({
+                    name: c.data,
+                    selected: this.isTreeNodeSelected(c.data, selectedTreeNodes),
+                })),
+            };
+        });
+    }
+
+    private checkIfTreeNodeIsPartialSelected(treeNode: TreeNode, e: ContextBrokerEntity): void {
+        if (e.attrs.some(a => a.selected)) {
+            treeNode.partialSelected = true;
+        }
+    }
+
+    private isTreeNodeSelected(data: any, selectedTreeNodes: TreeNode[]): boolean {
+        return selectedTreeNodes.some(t => data === t.data);
     }
 
     private getTreeNodeLayer(key: string, value: any): TreeNode {

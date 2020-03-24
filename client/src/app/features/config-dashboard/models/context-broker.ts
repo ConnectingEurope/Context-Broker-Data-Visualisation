@@ -1,6 +1,10 @@
 export interface ContextBrokerEntity {
-    type: string;
-    attrs: string[];
+    name: string;
+    selected: boolean;
+    attrs: {
+        name: string;
+        selected: boolean;
+    }[];
 }
 
 export interface ContextBrokerService {
@@ -10,6 +14,7 @@ export interface ContextBrokerService {
 }
 
 export interface ContextBroker {
+    name: string;
     url: string;
     cygnus: string;
     comet: string;
