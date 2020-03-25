@@ -5,13 +5,13 @@
 
                 <!-- Name -->
                 <div>
-                    <h6 class="first">Name</h6>
+                    <h6>Name</h6>
                     <input type="text" pInputText formControlName="name" (ngModelChange)="onNameChange()" />
                 </div>
 
                 <!-- URL -->
                 <div class="mt-5">
-                    <h6 class="first">URL</h6>
+                    <h6>URL</h6>
                     <input type="text" pInputText formControlName="url" />
                     <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckContextBroker()"></p-button>
                 </div>
@@ -42,9 +42,15 @@
 
             <!-- Selected entities -->
             <div class="col-4">
-                <p-tree [value]="cb.entities" selectionMode="checkbox" [(selection)]="cb.selectedEntities"
-                    emptyMessage="">
-                </p-tree>
+                <div *ngIf="cb.entities.length > 0">
+                    <h6>Entities and attributes to choose</h6>
+                    <p-scrollPanel #entitiesScroll [style]="{width: '100%', height: '300px'}" styleClass="custombar1">
+                        <p-tree [value]="cb.entities" selectionMode="checkbox" [(selection)]="cb.selectedEntities"
+                            emptyMessage="" (onNodeExpand)="refreshEntitiesScroll()"
+                            (onNodeCollapse)="refreshEntitiesScroll()">
+                        </p-tree>
+                    </p-scrollPanel>
+                </div>
             </div>
 
         </div>

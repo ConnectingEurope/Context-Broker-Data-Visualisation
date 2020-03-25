@@ -90,10 +90,10 @@ export class LayerService {
         return treeNodes.map(t => {
             return {
                 name: t.data,
-                selected: this.isTreeNodeSelected(t.data, selectedTreeNodes),
+                selected: this.isTreeNodeSelected(t, selectedTreeNodes),
                 attrs: t.children.map(c => ({
                     name: c.data,
-                    selected: this.isTreeNodeSelected(c.data, selectedTreeNodes),
+                    selected: this.isTreeNodeSelected(c, selectedTreeNodes),
                 })),
             };
         });
@@ -105,8 +105,8 @@ export class LayerService {
         }
     }
 
-    private isTreeNodeSelected(data: any, selectedTreeNodes: TreeNode[]): boolean {
-        return selectedTreeNodes.some(t => data === t.data);
+    private isTreeNodeSelected(treeNode: TreeNode, selectedTreeNodes: TreeNode[]): boolean {
+        return selectedTreeNodes.some(t => treeNode === t);
     }
 
     private getTreeNodeLayer(key: string, value: any): TreeNode {

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Configuration, ContextBroker } from '../../models/context-broker';
-import { ResponseFromServer } from 'src/app/shared/models/response-from-server';
 import { EntityDto } from '../../models/entity-dto';
 
 @Injectable({
@@ -27,8 +26,10 @@ export class ConfigDashboardService {
   public getEntitiesFromService(url: string, service?: string, servicePath?: string): Observable<EntityDto[]> {
     let parameters: HttpParams = new HttpParams();
     parameters = parameters.append('url', url);
-    parameters = parameters.append('service', service);
-    parameters = parameters.append('servicePath', servicePath);
+    if (service && servicePath) {
+      parameters = parameters.append('service', service);
+      parameters = parameters.append('servicePath', servicePath);
+    }
 
     return this.http.get<EntityDto[]>('/server/entities', { params: parameters });
   }

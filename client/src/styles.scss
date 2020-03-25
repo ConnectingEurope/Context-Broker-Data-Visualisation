@@ -82,11 +82,25 @@ input {
   color: white;
 }
 
-// body .ui-button:enabled:focus {
-//   outline: 0 none;
-//   outline-offset: 0px;
-//   box-shadow: none;
-// }
+// Scroll Bar
+.ui-scrollpanel {
+  border: solid;
+  border-color: lightgrey;
+  border-width: thin;
+}
+
+.custombar1 .ui-scrollpanel-wrapper {
+  border-right: 9px solid #f4f4f4;
+}
+
+.custombar1 .ui-scrollpanel-bar {
+  background-color: #1976d2;
+  opacity: 1;
+}
+
+.custombar1 .ui-scrollpanel-bar:hover {
+  background-color: #135ba1;
+}
 
 // App GraphicCard
 

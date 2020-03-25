@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
 import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
@@ -6,7 +6,7 @@ import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
 import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
 import { EntityDto } from '../../models/entity-dto';
-import { HttpErrorResponse } from '@angular/common/http';
+import { ScrollPanel } from 'primeng/scrollpanel';
 
 @Component({
   selector: 'app-general-configuration',
@@ -16,6 +16,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class GeneralConfigurationComponent extends BaseComponent implements OnDestroy {
 
   @Input() public cb: ContextBrokerConfiguration;
+
+  @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
   constructor(
     private configDashboardService: ConfigDashboardService,
@@ -39,6 +41,12 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
       err => {
         this.onCheckContextBrokerFail();
       });
+  }
+
+  protected refreshEntitiesScroll(): void {
+    setTimeout(() => {
+      this.entitiesScroll.refresh();
+    });
   }
 
   protected onChooseEntities(): void {

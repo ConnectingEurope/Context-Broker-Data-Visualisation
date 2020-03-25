@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
 import { MessageService, TreeNode } from 'primeng/api';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -7,6 +7,7 @@ import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
 import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
 import { EntityDto } from '../../models/entity-dto';
+import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 
 @Component({
   selector: 'app-service-configuration',
@@ -16,7 +17,10 @@ import { EntityDto } from '../../models/entity-dto';
 export class ServiceConfigurationComponent extends BaseComponent {
 
   @Input() public cb: ContextBrokerConfiguration;
+
   private defaultHeader: string = 'New Service';
+
+  @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
   constructor(
     private configDashboardService: ConfigDashboardService,
@@ -49,28 +53,38 @@ export class ServiceConfigurationComponent extends BaseComponent {
     this.cb.services[index].header = service + (service && servicePath ? servicePath : '');
   }
 
-  protected onGetEntities(index: number): void {
+  protected refreshEntitiesScroll(): void {
+    setTimeout(() => {
+      this.entitiesScroll.refresh();
+    });
+  }
+
+  protected onChooseEntities(index: number): void {
     const url: string = this.cb.form.value.url;
     const service: string = this.cb.services[index].form.value.service;
     const servicePath: string = this.cb.services[index].form.value.servicePath;
 
     this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(
       entities => {
-        entities.length > 0 ? this.onGetEntitiesSuccess(entities, index) : this.onGetEntitiesFail();
+        entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiessFail();
       },
       err => {
-        this.onGetEntitiesFail();
+        this.onChooseEntitiessFail();
       });
   }
 
-  private onGetEntitiesSuccess(entities: EntityDto[], index: number): void {
+  private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
     this.cb.services[index].entities = this.layerService.getEntities(entities);
     this.cb.services[index].selectedEntities = this.layerService.getAllLayers(this.cb.services[index].entities);
   }
 
-  private onGetEntitiesFail(): void {
+  private onChooseEntitiessFail(): void {
     this.messageService.clear();
-    this.messageService.add({ severity: 'warn', summary: 'Entities not found in this service' });
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Entities not found in this service',
+      detail: 'Try with another service or without using services in general configuration',
+    });
   }
 
 }

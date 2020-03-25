@@ -9,7 +9,8 @@
             <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
         </div>
         <div class="col-auto">
-            <p-button *ngIf="contextBrokers.length > 0" label="Apply Configuration" (onClick)="onApplyConfiguration()">
+            <p-button *ngIf="contextBrokers.length > 0" icon="pi pi-check" label="Apply Configuration"
+                (onClick)="onApplyConfiguration()">
             </p-button>
         </div>
     </div>
