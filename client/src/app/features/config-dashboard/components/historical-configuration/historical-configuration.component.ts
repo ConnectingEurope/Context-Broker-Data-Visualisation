@@ -3,7 +3,7 @@ import { ConfigDashboardService } from '../../services/config-dashboard-service/
 import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
+import { ContextBrokerForm } from '../../models/context-broker-form';
 
 @Component({
   selector: 'app-historical-configuration',
@@ -12,7 +12,7 @@ import { ContextBrokerConfiguration } from '../../models/context-broker-configur
 })
 export class HistoricalConfigurationComponent extends BaseComponent {
 
-  @Input() public cb: ContextBrokerConfiguration;
+  @Input() public cb: ContextBrokerForm;
 
   constructor(
     private configDashboardService: ConfigDashboardService,

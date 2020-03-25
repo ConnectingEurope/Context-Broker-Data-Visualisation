@@ -3,9 +3,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
-import { MessageService, TreeNode } from 'primeng/api';
-import { ContextBrokerConfiguration, ContextBrokerServiceConfiguration } from '../models/context-broker-configuration';
-import { ContextBroker, ContextBrokerService, ContextBrokerEntity, Configuration } from '../models/context-broker';
+import { MessageService } from 'primeng/api';
+import { ContextBrokerForm, ServiceForm } from '../models/context-broker-form';
+import { ContextBrokerConfiguration, ServiceConfiguration } from '../models/context-broker-configuration';
 import { LayerService } from '../../map-dashboard/services/layer-service/layer-service';
 
 @Component({
@@ -15,7 +15,7 @@ import { LayerService } from '../../map-dashboard/services/layer-service/layer-s
 })
 export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
-  protected contextBrokers: ContextBrokerConfiguration[] = [];
+  protected contextBrokers: ContextBrokerForm[] = [];
   private defaultContextName: string = 'New Context Broker';
 
   constructor(
@@ -29,7 +29,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   public ngOnInit(): void {
     this.configDashboardService.getConfiguration().pipe(takeUntil(this.destroy$)).subscribe(
       contextBrokers => {
-        this.initConfiguration(contextBrokers);
+        this.loadConfiguration(contextBrokers);
       });
   }
 
@@ -55,15 +55,13 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   protected onApplyConfiguration(): void {
-    const config: Configuration = {
-      contextBrokers: this.getContextBrokers(),
-    };
+    const config: ContextBrokerConfiguration[] = this.getContextBrokers();
     this.configDashboardService.postConfiguration(config).pipe(takeUntil(this.destroy$)).subscribe({
       error: (err): void => this.messageService.add({ severity: 'error', summary: 'Cannot apply the configuration' }),
     });
   }
 
-  private getContextBrokers(): ContextBroker[] {
+  private getContextBrokers(): ContextBrokerConfiguration[] {
     return this.contextBrokers.map(cb => {
       return {
         name: cb.form.get('name').value,
@@ -78,7 +76,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     });
   }
 
-  private getServices(cb: ContextBrokerConfiguration): ContextBrokerService[] {
+  private getServices(cb: ContextBrokerForm): ServiceConfiguration[] {
     return cb.services.map(s => {
       return {
         service: s.form.get('service').value,
@@ -88,7 +86,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     });
   }
 
-  private initConfiguration(contextBrokers: ContextBroker[]): void {
+  private loadConfiguration(contextBrokers: ContextBrokerConfiguration[]): void {
     contextBrokers.forEach(cb => {
       const { treeNodes, selectedTreeNodes }: any = this.layerService.entitiesConfigurationToTreeNodes(cb.entities);
       this.contextBrokers.unshift({
@@ -101,14 +99,14 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
           cygnus: new FormControl(cb.cygnus),
           comet: new FormControl(cb.comet),
         }),
-        services: this.initServiceConfiguration(cb),
+        services: this.loadServiceConfiguration(cb),
         entities: treeNodes,
         selectedEntities: selectedTreeNodes,
       });
     });
   }
 
-  private initServiceConfiguration(cb: ContextBroker): ContextBrokerServiceConfiguration[] {
+  private loadServiceConfiguration(cb: ContextBrokerConfiguration): ServiceForm[] {
     return cb.services.map(s => {
       const { treeNodes, selectedTreeNodes }: any = this.layerService.entitiesConfigurationToTreeNodes(s.entities);
       return {

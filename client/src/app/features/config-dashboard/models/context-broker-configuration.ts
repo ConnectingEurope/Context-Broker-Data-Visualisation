@@ -1,17 +1,23 @@
-import { FormGroup } from '@angular/forms';
-import { TreeNode } from 'primeng/api/treenode';
+export interface EntityConfiguration {
+    name: string;
+    selected: boolean;
+    attrs: {
+        name: string;
+        selected: boolean;
+    }[];
+}
 
-export interface ContextBrokerServiceConfiguration {
-    header: string;
-    form: FormGroup;
-    entities: TreeNode[];
-    selectedEntities: TreeNode[];
+export interface ServiceConfiguration {
+    service: string;
+    servicePath: string;
+    entities: EntityConfiguration[];
 }
 
 export interface ContextBrokerConfiguration {
-    header: string;
-    form: FormGroup;
-    services: ContextBrokerServiceConfiguration[];
-    entities: TreeNode[];
-    selectedEntities: TreeNode[];
+    name: string;
+    url: string;
+    cygnus: string;
+    comet: string;
+    entities: EntityConfiguration[];
+    services: ServiceConfiguration[];
 }

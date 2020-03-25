@@ -17,8 +17,9 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 router.post('/', function (routerReq, routerRes, routerNext) {
   db.find({}, function (err, docs) {
     if (!err) {
-      if (docs.length === 0) { insert(routerReq.body) }
-      else { update(routerReq.body) }
+      let config = { contextBrokers: routerReq.body };
+      if (docs.length === 0) { insert(config) }
+      else { update(config) }
     }
   });
   routerRes.send();

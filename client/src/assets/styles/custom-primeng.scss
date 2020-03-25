@@ -1,0 +1,55 @@
+/*****************************************************************************
+ MenuBar
+*****************************************************************************/
+
+.ui-menuitem-link:focus {
+  box-shadow: inset 0 0 0 0.1em darkgrey !important;
+}
+
+/*****************************************************************************
+ Tree
+*****************************************************************************/
+
+.ui-tree {
+  border: none !important;
+  padding: 0 !important;
+}
+
+.ui-treenode-content:focus {
+  box-shadow: 0 0 0 0.1em darkgrey !important;
+}
+
+/*****************************************************************************
+ Button
+*****************************************************************************/
+
+.ui-button {
+  pointer-events: auto;
+}
+
+/*****************************************************************************
+ Accordion
+*****************************************************************************/
+
+.ui-accordion .ui-accordion-toggle-icon {
+  display: none;
+}
+
+.accordion-tab-remove-button .ui-button,
+.accordion-tab-remove-button .ui-button:active,
+.accordion-tab-remove-button .ui-button:hover,
+.accordion-tab-remove-button .ui-button:focus,
+.accordion-tab-remove-button .ui-button:enabled:hover,
+.accordion-tab-remove-button .ui-button:enabled:focus {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.accordion-tab-remove-button .ui-button-icon-left {
+  color: darkslategray;
+}
+
+.accordion-tab-remove-button-selected .ui-button-icon-left {
+  color: white;
+}

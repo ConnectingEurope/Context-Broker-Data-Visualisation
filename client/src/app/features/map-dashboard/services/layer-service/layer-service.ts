@@ -2,7 +2,7 @@ import { TreeNode } from 'primeng/api/treenode';
 import { LeafletIcons } from '../../../../shared/misc/leaflet-icons';
 import { Injectable } from '@angular/core';
 import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
-import { ContextBrokerEntity } from 'src/app/features/config-dashboard/models/context-broker';
+import { EntityConfiguration } from 'src/app/features/config-dashboard/models/context-broker-configuration';
 
 @Injectable({
     providedIn: 'root',
@@ -59,7 +59,7 @@ export class LayerService {
         return concatenatedLayers;
     }
 
-    public entitiesConfigurationToTreeNodes(entities: ContextBrokerEntity[]): { treeNodes: TreeNode[], selectedTreeNodes: TreeNode[] } {
+    public entitiesConfigurationToTreeNodes(entities: EntityConfiguration[]): { treeNodes: TreeNode[], selectedTreeNodes: TreeNode[] } {
         const treeN: TreeNode[] = [];
         const selectedTreeN: TreeNode[] = [];
 
@@ -86,7 +86,7 @@ export class LayerService {
         return { treeNodes: treeN, selectedTreeNodes: selectedTreeN };
     }
 
-    public treeNodesToEntitiesConfiguration(treeNodes: TreeNode[], selectedTreeNodes: TreeNode[]): ContextBrokerEntity[] {
+    public treeNodesToEntitiesConfiguration(treeNodes: TreeNode[], selectedTreeNodes: TreeNode[]): EntityConfiguration[] {
         return treeNodes.map(t => {
             return {
                 name: t.data,
@@ -99,7 +99,7 @@ export class LayerService {
         });
     }
 
-    private checkIfTreeNodeIsPartialSelected(treeNode: TreeNode, e: ContextBrokerEntity): void {
+    private checkIfTreeNodeIsPartialSelected(treeNode: TreeNode, e: EntityConfiguration): void {
         if (e.attrs.some(a => a.selected)) {
             treeNode.partialSelected = true;
         }

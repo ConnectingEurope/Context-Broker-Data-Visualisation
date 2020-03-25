@@ -5,7 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
-import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
+import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 
@@ -16,7 +16,7 @@ import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 })
 export class ServiceConfigurationComponent extends BaseComponent {
 
-  @Input() public cb: ContextBrokerConfiguration;
+  @Input() public cb: ContextBrokerForm;
 
   private defaultHeader: string = 'New Service';
 
@@ -66,10 +66,10 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
     this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(
       entities => {
-        entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiessFail();
+        entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiesFail();
       },
       err => {
-        this.onChooseEntitiessFail();
+        this.onChooseEntitiesFail();
       });
   }
 
@@ -78,7 +78,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
     this.cb.services[index].selectedEntities = this.layerService.getAllLayers(this.cb.services[index].entities);
   }
 
-  private onChooseEntitiessFail(): void {
+  private onChooseEntitiesFail(): void {
     this.messageService.clear();
     this.messageService.add({
       severity: 'warn',

@@ -1,10 +1,10 @@
-import { Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
 import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
-import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
+import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel';
 
@@ -15,7 +15,7 @@ import { ScrollPanel } from 'primeng/scrollpanel';
 })
 export class GeneralConfigurationComponent extends BaseComponent implements OnDestroy {
 
-  @Input() public cb: ContextBrokerConfiguration;
+  @Input() public cb: ContextBrokerForm;
 
   @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
@@ -31,6 +31,12 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     this.cb.header = this.cb.form.value.name;
   }
 
+  protected refreshEntitiesScroll(): void {
+    setTimeout(() => {
+      this.entitiesScroll.refresh();
+    });
+  }
+
   protected onCheckContextBroker(): void {
     const url: string = this.cb.form.value.url;
 
@@ -41,12 +47,6 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
       err => {
         this.onCheckContextBrokerFail();
       });
-  }
-
-  protected refreshEntitiesScroll(): void {
-    setTimeout(() => {
-      this.entitiesScroll.refresh();
-    });
   }
 
   protected onChooseEntities(): void {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Configuration, ContextBroker } from '../../models/context-broker';
+import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
 import { EntityDto } from '../../models/entity-dto';
 
 @Injectable({
@@ -34,11 +34,11 @@ export class ConfigDashboardService {
     return this.http.get<EntityDto[]>('/server/entities', { params: parameters });
   }
 
-  public getConfiguration(): Observable<ContextBroker[]> {
-    return this.http.get<ContextBroker[]>('/server/config');
+  public getConfiguration(): Observable<ContextBrokerConfiguration[]> {
+    return this.http.get<ContextBrokerConfiguration[]>('/server/config');
   }
 
-  public postConfiguration(config: Configuration): Observable<void> {
+  public postConfiguration(config: ContextBrokerConfiguration[]): Observable<void> {
     return this.http.post<void>('/server/config', config);
   }
 
