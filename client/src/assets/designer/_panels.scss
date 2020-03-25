@@ -1,0 +1,155 @@
+/* Purchase the Designer API to get full access to the theme engine. */
+
+body {
+    .ui-widget-content {
+        p {
+            line-height: 1.5;
+            margin: 0;
+        }
+    }
+
+    .ui-tabview {
+        &.ui-tabview-top,
+        &.ui-tabview-bottom,
+        &.ui-tabview-left,
+        &.ui-tabview-right {
+            border: 0 none;
+
+            .ui-tabview-nav {
+                padding: 0;
+                background: $tabsNavBgColor;
+
+                li {
+                    border: $panelHeaderBorder;
+                    background-color: $panelHeaderBgColor;
+
+                    a {
+                        float: none;
+                        display: inline-block;
+                        color: $panelHeaderTextColor;
+                        padding: $panelHeaderPadding;
+
+                        .ui-tabview-left-icon {
+                            color: $panelHeaderIconColor;
+                            margin-right: $inlineSpacing;
+                        }
+
+                        .ui-tabview-right-icon {
+                            color: $panelHeaderIconColor;
+                            margin-left: $inlineSpacing;
+                        }
+                    }
+
+                    .ui-tabview-close {
+                        color: $panelHeaderIconColor;
+                        margin: 0 $inlineSpacing 0 -1 * $inlineSpacing;
+                    }
+
+                    &:not(.ui-state-active):not(.ui-state-disabled):hover {
+                        background-color: $panelHeaderHoverBgColor;
+                        border: $panelHeaderHoverBorder;
+                        
+                        a {
+                            color: $panelHeaderHoverTextColor;
+
+                            .ui-tabview-left-icon, .ui-tabview-right-icon{
+                                color: $panelHeaderIconHoverColor;
+                            }
+                        }
+
+                        .ui-tabview-close {
+                            color: $panelHeaderHoverTextColor;
+                        }
+                    }
+
+                    &.ui-state-active {
+                        background-color: $panelHeaderActiveBgColor;
+                        border: $panelHeaderActiveBorder;
+
+                        a {
+                            color: $panelHeaderActiveTextColor;
+
+                            .ui-tabview-left-icon, .ui-tabview-right-icon{
+                                color: $panelHeaderActiveIconColor;
+                            }
+                        }
+
+                        .ui-tabview-close {
+                            color: $panelHeaderActiveIconColor;
+                        }
+
+                        &:hover {
+                            border: $panelHeaderActiveHoverBorder;
+                            background-color: $panelHeaderActiveHoverBgColor;
+
+                            a {
+                                color: $panelHeaderActiveHoverTextColor;
+                                
+                                .ui-tabview-left-icon, .ui-tabview-right-icon{
+                                    color: $panelHeaderActiveHoverIconColor;
+                                }
+                            }
+                        }
+                    }
+
+                    &.ui-tabview-selected {
+                        a {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.ui-tabview-top {
+            .ui-tabview-nav {
+                margin-bottom: -1px;
+
+                li {
+                    margin-right: $tabHeaderSpacing;
+                }
+            }
+        }
+
+        &.ui-tabview-bottom {
+            .ui-tabview-nav {
+                margin-top: -1px;
+
+                li {
+                    margin-right: $tabHeaderSpacing;
+                }
+            }
+        }
+
+        &.ui-tabview-left {
+            .ui-tabview-nav {
+                margin-right: -px;
+
+                li {
+                    margin-bottom: $tabHeaderSpacing;
+                }
+            }
+        }
+
+        &.ui-tabview-right {
+            .ui-tabview-nav {
+                margin-right: -1px;
+
+                li {
+                    margin-bottom: $tabHeaderSpacing;
+                }
+            }
+        }     
+
+        .ui-tabview-panels {
+            background-color: $panelContentBgColor;
+            padding: $panelContentPadding;
+            border: $panelContentBorder;
+            color: $panelContentTextColor;
+
+            .ui-tabview-panel {
+                padding: 0;
+            }
+        }
+    }
+}

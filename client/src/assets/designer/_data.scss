@@ -1,0 +1,79 @@
+/* Purchase the Designer API to get full access to the theme engine. */
+
+body {
+    .ui-picklist {
+        .ui-picklist-buttons {
+            button {
+                font-size: $fontSize + 2;
+            }
+        }
+
+        .ui-picklist-caption {
+            background-color: $panelHeaderBgColor;
+            color: $panelHeaderTextColor;
+            border: $panelHeaderBorder;
+            padding: $panelHeaderPadding;
+            font-weight: $panelHeaderFontWeight;
+        }
+
+        .ui-picklist-filter-container {
+            padding: $inputListHeaderPaddingTop $inputListHeaderPaddingRight $inputListHeaderPaddingBottom $inputListHeaderPaddingLeft;
+            border: $panelHeaderBorder;
+            color: $inputListHeaderTextColor;
+            background-color: $inputListHeaderBgColor;
+            margin: $inputListHeaderMargin;
+            border-bottom: 0 none;
+            border-top: 0 none;
+
+            input {
+                width: 100%;
+                padding-right: 2em;
+            }
+
+            .ui-picklist-filter-icon {
+                top: 50%;
+                margin-top: -.5em;
+                left: auto;
+                right: $inputListHeaderPaddingRight + .5em;
+                color: $inputListHeaderSearchIconColor;
+            }
+        }
+
+        .ui-picklist-buttons {
+            padding: $panelContentPadding;
+        }
+
+        .ui-picklist-list {
+            border: $panelContentBorder;
+            background-color: $panelContentBgColor;
+            color: $panelContentTextColor;
+            padding: $inputListPadding;
+
+            .ui-picklist-item {
+                padding: $inputListItemPadding;
+                margin: $inputListItemMargin;
+                border: $inputListItemBorder;
+                color: $inputListItemTextColor;
+                background-color: $inputListItemBgColor;
+
+                &:not(.ui-state-highlight):hover {
+                    background-color: $inputListItemHoverBgColor;
+                    color: $inputListItemHoverTextColor;
+                }
+
+                &.ui-state-highlight {
+                    background-color: $inputListItemHighlightBgColor;
+                    color: $inputListItemHighlightTextColor;
+                }
+            }
+        }
+    }
+
+    @media (max-width: 40em) {
+        .ui-picklist.ui-picklist-responsive {
+            .ui-picklist-buttons {
+                padding: $panelContentPadding;
+            }
+        }
+    }
+}

@@ -75,7 +75,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
     this.cb.services[index].entities = this.layerService.getEntities(entities);
-    this.cb.services[index].selectedEntities = this.layerService.getAllLayers(this.cb.services[index].entities);
+    this.cb.services[index].selectedEntities = this.layerService.getAllSelected(this.cb.services[index].entities);
   }
 
   private onChooseEntitiesFail(): void {

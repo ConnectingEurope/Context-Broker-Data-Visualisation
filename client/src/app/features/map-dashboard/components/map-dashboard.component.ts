@@ -83,7 +83,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
   private loadLayerMenu(): void {
     this.layers = this.layerService.getMainLayers();
-    this.selectedLayers = this.layerService.getAllLayers(this.layers);
+    this.selectedLayers = this.layerService.getAllSelected(this.layers);
   }
 
   private loadEntities(): void {

@@ -1,0 +1,168 @@
+/* Purchase the Designer API to get full access to the theme engine. */
+
+body {
+    .ui-inputtext {
+        font-size: $fontSize;
+        color: $textColor;
+        background: $inputBgColor;
+        padding: $inputPadding;
+        border: $inputBorder;
+        @include transition($inputTransition);
+        @include appearance(none);
+
+        &:enabled:hover:not(.ui-state-error) {
+            border-color: $inputHoverBorderColor;
+        }
+
+        &:enabled:focus:not(.ui-state-error) {
+            @include focused-input();
+        }
+
+        &.ng-dirty {
+            border-color: $inputErrorBorderColor;
+        }
+    }
+
+    .ui-chkbox {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0;
+        width: $checkboxWidth;
+        height: $checkboxHeight;
+
+        .ui-chkbox-box {
+            border: $inputBorder;
+            background-color: $inputBgColor;
+            width: $checkboxWidth;
+            height: $checkboxHeight;
+            text-align: center;
+            @include border-radius($borderRadius);
+            @include transition($checkboxTransition);
+
+            &:not(.ui-state-disabled):hover {
+                border-color: $inputHoverBorderColor;
+            }
+
+            &.ui-state-focus {
+                border-color: $checkboxFocusBorderColor;
+                background-color: $checkboxFocusBgColor;
+                color: $checkboxFocusTextColor;
+            }
+
+            &.ui-state-active {
+                border-color: $checkboxActiveBorderColor;
+                background-color: $checkboxActiveBgColor;
+                color: $checkboxActiveTextColor;
+
+                &:not(.ui-state-disabled):hover {
+                    border-color: $checkboxActiveHoverBorderColor;
+                    background-color: $checkboxActiveHoverBgColor;
+                    color: $checkboxActiveHoverTextColor;
+                }
+
+                &.ui-state-focus {
+                    border-color: $checkboxActiveFocusBorderColor;
+                    background-color: $checkboxActiveFocusBgColor;
+                    color: $checkboxActiveFocusTextColor;
+                }
+            }
+
+            .ui-chkbox-icon {
+                overflow: hidden;
+                position: relative;
+                font-size: $fontSize + 4;
+            }
+        }
+    }
+
+    .ui-chkbox-label {
+        margin: 0 0 0 $inlineSpacing;
+    }
+
+    .ui-listbox {
+        padding: 0;
+        min-width: $inputListMinWidth;
+        background: $inputBgColor;
+        border: $inputBorder;
+
+        .ui-chkbox {
+            margin: 0 $inlineSpacing 0 0;
+        }
+
+        .ui-listbox-header {
+            padding: $inputListHeaderPaddingTop $inputListHeaderPaddingRight $inputListHeaderPaddingBottom $inputListHeaderPaddingLeft;
+            border-bottom: $inputListHeaderBorder;
+            color: $inputListHeaderTextColor;
+            background-color: $inputListHeaderBgColor;
+            margin: $inputListHeaderMargin;
+
+            .ui-listbox-filter-container {
+                width: calc(100% - (#{$inputListHeaderPaddingLeft} + #{$inputListHeaderPaddingLeft} + #{$inlineSpacing}));
+
+                input {
+                    padding: $inputPadding;
+                    padding-right: 2em;
+                }
+
+                .ui-listbox-filter-icon {
+                    top: 50%;
+                    left: auto;
+                    margin-top: -.5em;
+                    right: .5em;
+                    color: $inputListHeaderSearchIconColor;
+                }
+            }
+        }
+
+        .ui-listbox-list {
+            .ui-listbox-item {
+                margin: $inputListItemMargin;
+                padding: $inputListItemPadding;
+                border: $inputListItemBorder;
+                color: $inputListItemTextColor;
+                background-color: $inputListItemBgColor;
+                @include border-radius(0);
+
+                &.ui-state-highlight {
+                    color: $inputListItemHighlightTextColor;
+                    background-color: $inputListItemHighlightBgColor;
+                }
+
+                .ui-chkbox {
+                    position: static;
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin: 0 $inlineSpacing 0 0;
+                }
+
+                label {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+        }
+
+
+        &:not(.ui-state-disabled) {
+            .ui-listbox-item {
+                &:not(.ui-state-highlight):hover {
+                    color: $inputListItemHoverTextColor;
+                    background-color: $inputListItemHoverBgColor;
+                }
+            }
+        }
+
+        &.ui-state-disabled {
+            .ui-chkbox-box {
+                &:not(.ui-state-disabled):not(.ui-state-active):hover {
+                    border: $inputBorder;
+                }
+            }
+        }
+    }
+
+    ::-webkit-input-placeholder {color:$inputPlaceholderTextColor}
+    :-moz-placeholder           {color:$inputPlaceholderTextColor}
+    ::-moz-placeholder          {color:$inputPlaceholderTextColor}
+    :-ms-input-placeholder      {color:$inputPlaceholderTextColor}
+}

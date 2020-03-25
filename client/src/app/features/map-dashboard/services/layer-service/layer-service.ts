@@ -51,10 +51,10 @@ export class LayerService {
         return entitiesTree;
     }
 
-    public getAllLayers(layers: TreeNode[]): TreeNode[] {
+    public getAllSelected(layers: TreeNode[]): TreeNode[] {
         let concatenatedLayers: TreeNode[] = layers || [];
         if (layers) {
-            layers.forEach(t => concatenatedLayers = concatenatedLayers.concat(this.getAllLayers(t.children)));
+            layers.forEach(t => concatenatedLayers = concatenatedLayers.concat(this.getAllSelected(t.children)));
         }
         return concatenatedLayers;
     }

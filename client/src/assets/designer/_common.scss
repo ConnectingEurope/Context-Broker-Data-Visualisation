@@ -1,0 +1,56 @@
+/* Purchase the Designer API to get full access to the theme engine. */
+
+* {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    .ui-widget,
+    .ui-widget .ui-widget {
+        font-family: $fontFamily;
+        text-decoration: none;
+    }
+    
+    .ui-corner-all {
+        @include border-radius($borderRadius);
+    }
+
+    .ui-corner-top {
+        @include border-radius-top($borderRadius);
+    }
+
+    .ui-corner-bottom {
+        @include border-radius-bottom($borderRadius);
+    }
+
+    .ui-corner-left {
+        @include border-radius-left($borderRadius);
+    }
+
+    .ui-corner-right {
+        @include border-radius-right($borderRadius);
+    }
+
+    a {
+        color: $linkColor;
+        text-decoration: none;
+
+        &:hover {
+            color: $linkHoverColor;
+        }
+
+        &:active {
+            color: $linkActiveColor;
+        }
+    }
+
+    .ui-helper-reset {
+        line-height: normal;
+    }
+
+    .ui-state-disabled, .ui-widget:disabled {
+        @include opacity($disabledOpacity);
+    }
+}

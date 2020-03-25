@@ -73,7 +73,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
   private onGetEntitiesSuccess(entities: EntityDto[]): void {
     this.cb.entities = this.layerService.getEntities(entities);
-    this.cb.selectedEntities = this.layerService.getAllLayers(this.cb.entities);
+    this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
   }
 
   private onGetEntitiesFail(): void {

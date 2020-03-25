@@ -1,0 +1,36 @@
+/* Purchase the Designer API to get full access to the theme engine. */
+
+body {
+    .ui-breadcrumb {
+        background-color: $panelContentBgColor;
+        border: $panelContentBorder;
+        padding: $panelContentPadding;
+
+        ul {
+            li {
+                float: none;
+                display: inline-block;
+                vertical-align: middle;
+
+                .ui-menuitem-link {
+                    color: $panelContentTextColor;
+                    margin: 0;
+                    float: none;
+                }
+
+                &.ui-breadcrumb-chevron {
+                    margin: 0 $inlineSpacing 0 $inlineSpacing;
+                    color: $textSecondaryColor;
+                }
+
+                &:first-child {
+                    a {
+                        color: $textSecondaryColor;
+                        margin: 0;
+                        font-size: $fontSize + 4;
+                    }
+                }
+            }
+        }
+    }
+}

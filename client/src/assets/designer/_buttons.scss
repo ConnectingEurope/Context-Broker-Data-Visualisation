@@ -1,0 +1,70 @@
+/* Purchase the Designer API to get full access to the theme engine. */
+
+body {
+    .ui-button {
+        margin: 0;
+        color: $buttonTextColor;
+        background-color: $buttonBgColor;
+        border: $buttonBorder;
+        font-size: $fontSize;
+        @include transition($buttonTransition);
+
+        &:enabled:hover {
+            background-color: $buttonHoverBgColor;
+            color: $buttonHoverTextColor;
+            border-color: $buttonHoverBorderColor;
+        }
+
+        &:enabled:focus {
+            outline: $buttonFocusOutline;
+            outline-offset: $buttonFocusOutlineOffset;
+            background-color: darken($buttonHoverBgColor, 10%);
+        }
+
+        &:enabled:active  {
+            background-color: $buttonActiveBgColor;
+            color: $buttonActiveTextColor;
+            border-color: $buttonActiveBorderColor;
+        }
+
+        &.ui-button-text-only {
+            .ui-button-text {
+                padding: $buttonTextOnlyPadding;
+            }
+        }
+
+        &.ui-button-text-icon-left {
+            .ui-button-text {
+                padding: $buttonWithLeftIconPadding;
+            }
+        }
+
+        &.ui-button-text-icon-right {
+            .ui-button-text {
+                padding: $buttonWithRightIconPadding;
+            }
+        }
+
+        &.ui-button-icon-only {
+            width: $buttonIconOnlyWidth;
+
+            .ui-button-text {
+                padding: $buttonIconOnlyPadding;
+            }
+        }
+
+        &.ui-button-raised {
+            @include shadow($raisedButtonShadow);
+        }
+
+        &.ui-button-rounded {
+            @include border-radius($roundedButtonBorderRadius);
+        }
+    }
+
+    .ui-fluid {
+        .ui-button-icon-only {
+            width: $buttonIconOnlyWidth;
+        }
+    }
+}
