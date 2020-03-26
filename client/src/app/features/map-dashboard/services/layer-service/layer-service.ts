@@ -13,6 +13,16 @@ export class LayerService {
             AirQualityObserved: {
                 label: 'Air Quality Observed',
                 icon: LeafletIcons.icons.airQualityObserved,
+                type: 'entity',
+                size: 3,
+                filter1: {
+                    label: '< 5',
+                    type: 'filter',
+                },
+                filter2: {
+                    label: '>= 1',
+                    type: 'filter',
+                },
             },
         },
         transport: {
@@ -57,11 +67,12 @@ export class LayerService {
         return concatenatedLayers;
     }
 
-    private getTreeNodeLayer(key: string, value: any): TreeNode {
-        const children: any[] = Object.entries(value).filter(e => e[0] !== 'label' && e[0] !== 'icon');
+    private getTreeNodeLayer(key1: string, value: any): TreeNode {
+        const children: any[] = Object.entries(value).filter(e => e[0] !== 'label'
+            && e[0] !== 'icon' && e[0] !== 'type' && e[0] !== 'size');
         const treeNode: TreeNode = {};
 
-        treeNode.data = key;
+        treeNode.data = { key: key1, size: value.size, type: value.type };
         treeNode.label = value.label;
         treeNode.children = children.map(c => this.getTreeNodeLayer(c[0], c[1]));
 
