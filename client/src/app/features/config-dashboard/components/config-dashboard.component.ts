@@ -84,15 +84,17 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
   private getContextBrokers(): ContextBrokerConfiguration[] {
     return this.contextBrokers.map(cb => {
+      const needServicesBool: boolean = cb.form.get('needServices').value;
+      const needHistoricalDataBool: boolean = cb.form.get('neeneedHistoricalDatadServices').value;
       return {
         name: cb.form.get('name').value,
         url: cb.form.get('url').value,
-        needServices: cb.form.get('needServices').value,
-        needHistoricalData: cb.form.get('needHistoricalData').value,
-        cygnus: cb.form.get('cygnus').value,
-        comet: cb.form.get('comet').value,
+        needServices: needServicesBool,
+        needHistoricalData: needHistoricalDataBool,
+        cygnus: needHistoricalDataBool ? cb.form.get('cygnus').value : '',
+        comet: needHistoricalDataBool ? cb.form.get('comet').value : '',
         entities: this.layerService.treeNodesToEntitiesConfiguration(cb.entities, cb.selectedEntities),
-        services: this.getServices(cb),
+        services: needServicesBool ? this.getServices(cb) : [],
       };
     });
   }
