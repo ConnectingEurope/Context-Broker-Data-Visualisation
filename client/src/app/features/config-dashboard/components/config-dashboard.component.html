@@ -1,16 +1,14 @@
-<!-- Toast for messages -->
-<p-toast></p-toast>
-
 <div class="container-fluid mt-3">
 
     <!-- Add Context Broker button -->
     <div class="row justify-content-center my-3">
         <div class="col-auto">
-            <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
+            <p-button *ngIf="configurationLoaded" icon="pi pi-plus" label="Add Context Broker"
+                (onClick)="onAddContextBroker()"></p-button>
         </div>
         <div class="col-auto">
-            <p-button *ngIf="contextBrokers.length > 0" icon="pi pi-check" label="Apply Configuration"
-                (onClick)="onApplyConfiguration()">
+            <p-button *ngIf="contextBrokers.length > 0 || addedAtLeastOnce" icon="pi pi-check"
+                label="Apply Configuration" (onClick)="onApplyConfiguration()">
             </p-button>
         </div>
     </div>
@@ -33,17 +31,17 @@
                         <form [formGroup]="cb.form">
 
                             <!-- General configuration -->
-                            <div class="py-3">
+                            <div class="mt-4 mb-5">
                                 <app-general-configuration [cb]="cb"></app-general-configuration>
                             </div>
 
                             <!-- Services configuration -->
-                            <div *ngIf="cb.form.get('needServices').value === true" class="py-3">
+                            <div *ngIf="cb.form.get('needServices').value === true" class="my-4">
                                 <app-service-configuration [cb]="cb"></app-service-configuration>
                             </div>
 
                             <!-- Historical Configuration -->
-                            <div *ngIf="cb.form.get('needHistoricalData').value === true" class="py-3">
+                            <div *ngIf="cb.form.get('needHistoricalData').value === true" class="my-4">
                                 <app-historical-configuration [cb]="cb"></app-historical-configuration>
                             </div>
 

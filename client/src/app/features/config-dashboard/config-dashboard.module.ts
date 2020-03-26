@@ -7,14 +7,14 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ToastModule } from 'primeng/toast';
 import { BlockUIModule } from 'primeng/blockui';
 import { TableModule } from 'primeng/table';
 import { TreeModule } from 'primeng/tree';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TooltipModule } from 'primeng/tooltip';
-import { MessageService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { MessageService, ConfirmationService } from 'primeng/api';
 import { GeneralConfigurationComponent } from './components/general-configuration/general-configuration.component';
 import { ServiceConfigurationComponent } from './components/service-configuration/service-configuration.component';
 import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
@@ -37,7 +37,6 @@ import { HistoricalConfigurationComponent } from './components/historical-config
     ButtonModule,
     InputTextModule,
     ReactiveFormsModule,
-    ToastModule,
     BlockUIModule,
     TableModule,
     TreeModule,
@@ -45,8 +44,6 @@ import { HistoricalConfigurationComponent } from './components/historical-config
     ScrollPanelModule,
     TooltipModule,
   ],
-  providers: [
-    MessageService,
-  ],
+  providers: [],
 })
 export class ConfigDashboardModule { }

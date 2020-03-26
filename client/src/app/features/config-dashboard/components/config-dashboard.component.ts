@@ -3,10 +3,11 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
-import { MessageService } from 'primeng/api';
 import { ContextBrokerForm, ServiceForm } from '../models/context-broker-form';
 import { ContextBrokerConfiguration, ServiceConfiguration } from '../models/context-broker-configuration';
 import { LayerService } from '../../map-dashboard/services/layer-service/layer-service';
+import { AppMessageService } from 'src/app/shared/services/app-message-service';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-config-dashboard',
@@ -15,13 +16,16 @@ import { LayerService } from '../../map-dashboard/services/layer-service/layer-s
 })
 export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
+  protected configurationLoaded: boolean = false;
+  protected addedAtLeastOnce: boolean = false;
   protected contextBrokers: ContextBrokerForm[] = [];
   private defaultContextName: string = 'New Context Broker';
 
   constructor(
     private configDashboardService: ConfigDashboardService,
-    private messageService: MessageService,
+    private appMessageService: AppMessageService,
     private layerService: LayerService,
+    private confirmationService: ConfirmationService,
   ) {
     super();
   }
@@ -30,10 +34,16 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     this.configDashboardService.getConfiguration().pipe(takeUntil(this.destroy$)).subscribe(
       contextBrokers => {
         this.loadConfiguration(contextBrokers);
-      });
+        this.configurationLoaded = true;
+      },
+      err => {
+        this.appMessageService.add({ severity: 'error', summary: 'Cannot load the configuration' });
+      },
+    );
   }
 
   protected onAddContextBroker(): void {
+    this.addedAtLeastOnce = true;
     this.contextBrokers.unshift({
       header: this.defaultContextName,
       form: new FormGroup({
@@ -51,14 +61,25 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   protected onRemoveContextBroker(index: number): void {
-    this.contextBrokers.splice(index, 1);
+    this.confirmationService.confirm({
+      icon: 'pi pi-info',
+      header: 'Are you sure you want to delete this context broker?',
+      message: 'All the configuration of this context broker will be deleted, including services and historical data.',
+      accept: (): void => {
+        this.removeContextBroker(index);
+      },
+    });
   }
 
   protected onApplyConfiguration(): void {
     const config: ContextBrokerConfiguration[] = this.getContextBrokers();
     this.configDashboardService.postConfiguration(config).pipe(takeUntil(this.destroy$)).subscribe({
-      error: (err): void => this.messageService.add({ severity: 'error', summary: 'Cannot apply the configuration' }),
+      error: (err): void => this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' }),
     });
+  }
+
+  private removeContextBroker(index: number): void {
+    this.contextBrokers.splice(index, 1);
   }
 
   private getContextBrokers(): ContextBrokerConfiguration[] {

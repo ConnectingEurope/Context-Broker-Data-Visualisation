@@ -1,12 +1,12 @@
 import { Component, Input, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
-import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
 import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel';
+import { AppMessageService } from 'src/app/shared/services/app-message-service';
 
 @Component({
   selector: 'app-general-configuration',
@@ -21,7 +21,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
   constructor(
     private configDashboardService: ConfigDashboardService,
-    private messageService: MessageService,
+    private appMessageService: AppMessageService,
     private layerService: LayerService,
   ) {
     super();
@@ -62,13 +62,11 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
   }
 
   private onCheckContextBrokerSuccess(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'success', summary: 'Context Broker is live!' });
+    this.appMessageService.add({ severity: 'success', summary: 'Connection succeded!' });
   }
 
   private onCheckContextBrokerFail(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
+    this.appMessageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
   }
 
   private onGetEntitiesSuccess(entities: EntityDto[]): void {
@@ -77,8 +75,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
   }
 
   private onGetEntitiesFail(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'warn', summary: 'Entities not found', detail: 'Maybe you have entities in specific services' });
+    this.appMessageService.add({ severity: 'warn', summary: 'Entities not found', detail: 'Maybe you have entities in specific services' });
   }
 
 }

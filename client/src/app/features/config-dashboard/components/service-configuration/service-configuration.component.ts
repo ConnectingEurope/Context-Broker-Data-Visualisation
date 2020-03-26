@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
-import { MessageService, TreeNode } from 'primeng/api';
 import { FormGroup, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
@@ -8,6 +7,8 @@ import { LayerService } from 'src/app/features/map-dashboard/services/layer-serv
 import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
+import { AppMessageService } from 'src/app/shared/services/app-message-service';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-service-configuration',
@@ -24,8 +25,9 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   constructor(
     private configDashboardService: ConfigDashboardService,
-    private messageService: MessageService,
+    private appMessageService: AppMessageService,
     private layerService: LayerService,
+    private confirmationService: ConfirmationService,
   ) {
     super();
   }
@@ -43,7 +45,14 @@ export class ServiceConfigurationComponent extends BaseComponent {
   }
 
   protected onRemoveService(index: number): void {
-    this.cb.services.splice(index, 1);
+    this.confirmationService.confirm({
+      icon: 'pi pi-info',
+      header: 'Are you sure you want to delete this service?',
+      message: 'All the configuration of this service will be deleted.',
+      accept: (): void => {
+        this.removeService(index);
+      },
+    });
   }
 
   protected onServiceConfigChange(index: number): void {
@@ -73,14 +82,17 @@ export class ServiceConfigurationComponent extends BaseComponent {
       });
   }
 
+  private removeService(index: number): void {
+    this.cb.services.splice(index, 1);
+  }
+
   private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
     this.cb.services[index].entities = this.layerService.getEntities(entities);
     this.cb.services[index].selectedEntities = this.layerService.getAllSelected(this.cb.services[index].entities);
   }
 
   private onChooseEntitiesFail(): void {
-    this.messageService.clear();
-    this.messageService.add({
+    this.appMessageService.add({
       severity: 'warn',
       summary: 'Entities not found in this service',
       detail: 'Try with another service or without using services in general configuration',
