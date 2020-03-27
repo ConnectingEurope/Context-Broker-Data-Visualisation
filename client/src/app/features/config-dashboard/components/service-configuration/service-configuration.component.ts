@@ -52,8 +52,9 @@ export class ServiceConfigurationComponent extends BaseComponent {
   protected onServiceConfigChange(index: number): void {
     const service: string = this.cb.services[index].form.value.service;
     const servicePath: string = this.cb.services[index].form.value.servicePath;
-
-    this.cb.services[index].header = service + (service && servicePath ? servicePath : '');
+    const header: string = service + (service && servicePath ? servicePath : '');
+    this.cb.services[index].header = header && !/^\s+$/.test(service) ? header :
+      this.configDashboardService.serviceHeaderWhenEmpty;
   }
 
   protected refreshEntitiesScroll(): void {

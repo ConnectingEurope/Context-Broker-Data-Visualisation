@@ -11,6 +11,7 @@ export interface ServiceForm {
 export interface ContextBrokerForm {
     header: string;
     form: FormGroup;
+    historicalForm: FormGroup;
     services: ServiceForm[];
     entities: TreeNode[];
     selectedEntities: TreeNode[];

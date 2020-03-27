@@ -12,17 +12,34 @@ export class ConfigDashboardService {
 
   public defaultContextName: string = 'New Context Broker';
   public defaulServiceHeader: string = 'New Service';
+  public contextHeaderWhenEmpty: string = 'Context Broker without name';
+  public serviceHeaderWhenEmpty: string = 'No service specified';
+  public whiteSpaceExp: RegExp = /[^\s]/;
+  public httpExp: RegExp = /^(http:\/\/|https:\/\/)/;
+  public pathExp: RegExp = /^\//;
 
   constructor(private http: HttpClient) { }
 
   public createContextBrokerForm(): FormGroup {
     return new FormGroup({
-      name: new FormControl(this.defaultContextName, [Validators.required]),
-      url: new FormControl('', [Validators.required]),
+      name: new FormControl(this.defaultContextName, [Validators.required, Validators.pattern(this.whiteSpaceExp)]),
+      url: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp), Validators.pattern(this.httpExp)]),
       needServices: new FormControl(false),
       needHistoricalData: new FormControl(false),
-      cygnus: new FormControl('', [Validators.required]),
-      comet: new FormControl('', [Validators.required]),
+    });
+  }
+
+  public createHistoricalForm(): FormGroup {
+    return new FormGroup({
+      cygnus: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp), Validators.pattern(this.httpExp)]),
+      comet: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp), Validators.pattern(this.httpExp)]),
+    });
+  }
+
+  public createServiceForm(): FormGroup {
+    return new FormGroup({
+      service: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp)]),
+      servicePath: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp)]),
     });
   }
 
@@ -30,18 +47,16 @@ export class ConfigDashboardService {
     const formGroup: FormGroup = this.createContextBrokerForm();
     formGroup.get('name').setValue(cbConfig.name);
     formGroup.get('url').setValue(cbConfig.url);
-    formGroup.get('needServices').setValue(true);
-    formGroup.get('needHistoricalData').setValue(true);
-    formGroup.get('cygnus').setValue(cbConfig.cygnus);
-    formGroup.get('comet').setValue(cbConfig.comet);
+    formGroup.get('needServices').setValue(cbConfig.needServices);
+    formGroup.get('needHistoricalData').setValue(cbConfig.needHistoricalData);
     return formGroup;
   }
 
-  public createServiceForm(): FormGroup {
-    return new FormGroup({
-      service: new FormControl('', [Validators.required]),
-      servicePath: new FormControl('', [Validators.required]),
-    });
+  public createHistoricalFormFromConfig(cbConfig: ContextBrokerConfiguration): FormGroup {
+    const formGroup: FormGroup = this.createHistoricalForm();
+    formGroup.get('cygnus').setValue(cbConfig.cygnus);
+    formGroup.get('comet').setValue(cbConfig.comet);
+    return formGroup;
   }
 
   public createServiceFormFromConfig(sConfig: ServiceConfiguration): FormGroup {

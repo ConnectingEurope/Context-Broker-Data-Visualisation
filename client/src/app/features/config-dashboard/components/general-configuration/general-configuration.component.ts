@@ -28,7 +28,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
   }
 
   protected onNameChange(): void {
-    this.cb.header = this.cb.form.value.name;
+    const header: string = this.cb.form.value.name;
+    this.cb.header = header && !/^\s+$/.test(header) ? header : this.configDashboardService.contextHeaderWhenEmpty;
   }
 
   protected refreshEntitiesScroll(): void {

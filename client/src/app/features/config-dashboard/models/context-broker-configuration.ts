@@ -16,6 +16,8 @@ export interface ServiceConfiguration {
 export interface ContextBrokerConfiguration {
     name: string;
     url: string;
+    needServices: boolean;
+    needHistoricalData: boolean;
     cygnus: string;
     comet: string;
     entities: EntityConfiguration[];

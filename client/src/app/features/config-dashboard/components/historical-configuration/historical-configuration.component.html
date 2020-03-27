@@ -1,22 +1,22 @@
 <p-card header="Historical Configuration">
-    <form [formGroup]="cb.form">
+    <form [formGroup]="cb.historicalForm">
         <div class="container-fluid mt-5 mb-4">
             <div class="row justify-content-center">
                 <div class="col-11">
 
                     <!-- Cygnus URL -->
                     <div>
-                        <app-input-with-validation [label]="'Cygnus URL'" [controlName]="'cygnus'" [group]="cb.form"
-                            [required]="true" [hasButton]="true" [buttonIcon]="'pi pi-check'"
-                            (buttonClick)="onCheckCygnus()">
+                        <app-input-with-validation [label]="'Cygnus URL'" [controlName]="'cygnus'"
+                            [group]="cb.historicalForm" [required]="true" [hasButton]="true"
+                            [buttonIcon]="'pi pi-check'" (buttonClick)="onCheckCygnus()">
                         </app-input-with-validation>
                     </div>
 
                     <!-- STH-Comet URL -->
                     <div class="mt-4">
-                        <app-input-with-validation [label]="'STH-Comet URL'" [controlName]="'comet'" [group]="cb.form"
-                            [required]="true" [hasButton]="true" [buttonIcon]="'pi pi-check'"
-                            (buttonClick)="onCheckComet()">
+                        <app-input-with-validation [label]="'STH-Comet URL'" [controlName]="'comet'"
+                            [group]="cb.historicalForm" [required]="true" [hasButton]="true"
+                            [buttonIcon]="'pi pi-check'" (buttonClick)="onCheckComet()">
                         </app-input-with-validation>
                     </div>
 

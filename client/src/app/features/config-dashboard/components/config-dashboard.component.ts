@@ -40,11 +40,20 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     );
   }
 
+  protected isValidConfiguration(): boolean {
+    return this.contextBrokers.every(cb => {
+      return cb.form.valid &&
+        (!cb.form.get('needHistoricalData').value || cb.historicalForm.valid) &&
+        (!cb.form.get('needServices').value || cb.services.every(s => s.form.valid));
+    });
+  }
+
   protected onAddContextBroker(): void {
     this.addedAtLeastOnce = true;
     this.contextBrokers.unshift({
       header: this.configDashboardService.defaultContextName,
       form: this.configDashboardService.createContextBrokerForm(),
+      historicalForm: this.configDashboardService.createHistoricalForm(),
       services: [],
       entities: [],
       selectedEntities: [],
@@ -63,29 +72,18 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   protected onApplyConfiguration(): void {
-    if (!this.contextBrokers.every(cb => cb.form.valid)) {
-      this.onInvalidConfiguration();
-    } else {
-      this.onValidConfiguration();
-    }
-  }
-
-  private removeContextBroker(index: number): void {
-    this.contextBrokers.splice(index, 1);
-  }
-
-  private onInvalidConfiguration(): void {
-  }
-
-  private onValidConfiguration(): void {
     const config: ContextBrokerConfiguration[] = this.getContextBrokers();
     this.configDashboardService.postConfiguration(config).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
-        this.appMessageService.add({ severity: 'success', summary: 'Configuration correctly applied' });
+        this.appMessageService.add({ severity: 'success', summary: 'Configuration applied' });
       },
       err => {
         this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' });
       });
+  }
+
+  private removeContextBroker(index: number): void {
+    this.contextBrokers.splice(index, 1);
   }
 
   private getContextBrokers(): ContextBrokerConfiguration[] {
@@ -97,8 +95,8 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         url: cb.form.get('url').value,
         needServices: needServicesBool,
         needHistoricalData: needHistoricalDataBool,
-        cygnus: needHistoricalDataBool ? cb.form.get('cygnus').value : '',
-        comet: needHistoricalDataBool ? cb.form.get('comet').value : '',
+        cygnus: needHistoricalDataBool ? cb.historicalForm.get('cygnus').value : '',
+        comet: needHistoricalDataBool ? cb.historicalForm.get('comet').value : '',
         entities: this.layerService.treeNodesToEntitiesConfiguration(cb.entities, cb.selectedEntities),
         services: needServicesBool ? this.getServices(cb) : [],
       };
@@ -121,6 +119,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
       this.contextBrokers.unshift({
         header: cb.name,
         form: this.configDashboardService.createContextBrokerFormFromConfig(cb),
+        historicalForm: this.configDashboardService.createHistoricalFormFromConfig(cb),
         services: this.loadServiceConfiguration(cb),
         entities: treeNodes,
         selectedEntities: selectedTreeNodes,

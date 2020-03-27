@@ -21,6 +21,9 @@ export class InputWithValidationComponent implements OnInit {
   private fControl: AbstractControl;
 
   private requiredError: string = 'This field is mandatory';
+  private emptySpacePatternError: string = this.requiredError;
+  private httpPatternError: string = 'The URL must start with "http://" or "https://"';
+  private pathPatternError: string = 'The path must start with "/"';
 
   constructor(protected configDashboardService: ConfigDashboardService) { }
 
@@ -34,6 +37,9 @@ export class InputWithValidationComponent implements OnInit {
 
   protected getErrorMessage(): string {
     if (this.fControl.hasError('required')) { return this.requiredError; }
+    if (this.checkWhteSpacePattern()) { return this.requiredError; }
+    if (this.checkHttpPattern()) { return this.httpPatternError; }
+    if (this.checkPathPattern()) { return this.pathPatternError; }
     return '-';
   }
 
@@ -43,6 +49,23 @@ export class InputWithValidationComponent implements OnInit {
 
   protected onClick(event: any): void {
     this.buttonClick.emit(event);
+  }
+
+  private checkWhteSpacePattern(): boolean {
+    return this.checkPattern(this.configDashboardService.whiteSpaceExp);
+  }
+
+  private checkHttpPattern(): boolean {
+    return this.checkPattern(this.configDashboardService.httpExp);
+  }
+
+  private checkPathPattern(): boolean {
+    return this.checkPattern(this.configDashboardService.pathExp);
+  }
+
+  private checkPattern(pattern: RegExp): boolean {
+    return this.fControl.hasError('pattern') &&
+      this.fControl.getError('pattern').requiredPattern === pattern.toString();
   }
 
 }

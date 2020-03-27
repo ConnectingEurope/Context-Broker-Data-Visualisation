@@ -8,7 +8,9 @@
         </div>
         <div class="col-auto">
             <p-button *ngIf="contextBrokers.length > 0 || addedAtLeastOnce" icon="pi pi-check"
-                label="Apply Configuration" (onClick)="onApplyConfiguration()">
+                label="Apply Configuration"
+                pTooltip="{{!isValidConfiguration() ? 'There are invalid fields' : undefined}}"
+                [disabled]="!isValidConfiguration()" (onClick)="onApplyConfiguration()">
             </p-button>
         </div>
     </div>
