@@ -19,6 +19,7 @@ import { GeneralConfigurationComponent } from './components/general-configuratio
 import { ServiceConfigurationComponent } from './components/service-configuration/service-configuration.component';
 import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
 import { HistoricalConfigurationComponent } from './components/historical-configuration/historical-configuration.component';
+import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { HistoricalConfigurationComponent } from './components/historical-config
     ServiceConfigurationComponent,
     HistoricalConfigurationComponent,
     AccordionTabHeaderComponent,
+    InputWithValidationComponent,
   ],
   imports: [
     CommonModule,

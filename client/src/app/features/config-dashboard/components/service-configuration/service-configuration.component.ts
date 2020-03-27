@@ -1,6 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
-import { FormGroup, FormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
@@ -19,8 +18,6 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   @Input() public cb: ContextBrokerForm;
 
-  private defaultHeader: string = 'New Service';
-
   @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
   constructor(
@@ -34,11 +31,8 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   protected onAddService(): void {
     this.cb.services.unshift({
-      header: this.defaultHeader,
-      form: new FormGroup({
-        service: new FormControl(''),
-        servicePath: new FormControl(''),
-      }),
+      header: this.configDashboardService.defaulServiceHeader,
+      form: this.configDashboardService.createServiceForm(),
       entities: [],
       selectedEntities: [],
     });

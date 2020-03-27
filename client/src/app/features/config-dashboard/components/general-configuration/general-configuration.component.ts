@@ -40,6 +40,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
   protected onCheckContextBroker(): void {
     const url: string = this.cb.form.value.url;
 
+
+
     this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
       isLive => {
         isLive ? this.onCheckContextBrokerSuccess() : this.onCheckContextBrokerFail();

@@ -28,18 +28,18 @@
 
                                             <!-- Service -->
                                             <div>
-                                                <h6 class="first">Service</h6>
-                                                <input class="largeInput" type="text" pInputText
-                                                    formControlName="service"
-                                                    (ngModelChange)="onServiceConfigChange(i)" />
+                                                <app-input-with-validation [label]="'Service'" [controlName]="'service'"
+                                                    [group]="service.form" [required]="true"
+                                                    (changeText)="onServiceConfigChange(i)">
+                                                </app-input-with-validation>
                                             </div>
 
                                             <!-- Service path -->
                                             <div class="mt-5">
-                                                <h6 class="first">Service Path</h6>
-                                                <input class="largeInput" type="text" pInputText
-                                                    formControlName="servicePath"
-                                                    (ngModelChange)="onServiceConfigChange(i)" />
+                                                <app-input-with-validation [label]="'Service Path'"
+                                                    [controlName]="'servicePath'" [group]="service.form"
+                                                    [required]="true" (changeText)="onServiceConfigChange(i)">
+                                                </app-input-with-validation>
                                             </div>
 
                                             <!-- Choose entities button -->

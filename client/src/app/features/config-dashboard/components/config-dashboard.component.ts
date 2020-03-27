@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
@@ -19,7 +18,6 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   protected configurationLoaded: boolean = false;
   protected addedAtLeastOnce: boolean = false;
   protected contextBrokers: ContextBrokerForm[] = [];
-  private defaultContextName: string = 'New Context Broker';
 
   constructor(
     private configDashboardService: ConfigDashboardService,
@@ -45,15 +43,8 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   protected onAddContextBroker(): void {
     this.addedAtLeastOnce = true;
     this.contextBrokers.unshift({
-      header: this.defaultContextName,
-      form: new FormGroup({
-        name: new FormControl(this.defaultContextName),
-        url: new FormControl(''),
-        needServices: new FormControl(false),
-        needHistoricalData: new FormControl(false),
-        cygnus: new FormControl(''),
-        comet: new FormControl(''),
-      }),
+      header: this.configDashboardService.defaultContextName,
+      form: this.configDashboardService.createContextBrokerForm(),
       services: [],
       entities: [],
       selectedEntities: [],
@@ -72,20 +63,35 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   protected onApplyConfiguration(): void {
-    const config: ContextBrokerConfiguration[] = this.getContextBrokers();
-    this.configDashboardService.postConfiguration(config).pipe(takeUntil(this.destroy$)).subscribe({
-      error: (err): void => this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' }),
-    });
+    if (!this.contextBrokers.every(cb => cb.form.valid)) {
+      this.onInvalidConfiguration();
+    } else {
+      this.onValidConfiguration();
+    }
   }
 
   private removeContextBroker(index: number): void {
     this.contextBrokers.splice(index, 1);
   }
 
+  private onInvalidConfiguration(): void {
+  }
+
+  private onValidConfiguration(): void {
+    const config: ContextBrokerConfiguration[] = this.getContextBrokers();
+    this.configDashboardService.postConfiguration(config).pipe(takeUntil(this.destroy$)).subscribe(
+      res => {
+        this.appMessageService.add({ severity: 'success', summary: 'Configuration correctly applied' });
+      },
+      err => {
+        this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' });
+      });
+  }
+
   private getContextBrokers(): ContextBrokerConfiguration[] {
     return this.contextBrokers.map(cb => {
       const needServicesBool: boolean = cb.form.get('needServices').value;
-      const needHistoricalDataBool: boolean = cb.form.get('neeneedHistoricalDatadServices').value;
+      const needHistoricalDataBool: boolean = cb.form.get('needHistoricalData').value;
       return {
         name: cb.form.get('name').value,
         url: cb.form.get('url').value,
@@ -114,14 +120,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
       const { treeNodes, selectedTreeNodes }: any = this.layerService.entitiesConfigurationToTreeNodes(cb.entities);
       this.contextBrokers.unshift({
         header: cb.name,
-        form: new FormGroup({
-          name: new FormControl(cb.name),
-          url: new FormControl(cb.url),
-          needServices: new FormControl(true),
-          needHistoricalData: new FormControl(true),
-          cygnus: new FormControl(cb.cygnus),
-          comet: new FormControl(cb.comet),
-        }),
+        form: this.configDashboardService.createContextBrokerFormFromConfig(cb),
         services: this.loadServiceConfiguration(cb),
         entities: treeNodes,
         selectedEntities: selectedTreeNodes,
@@ -134,10 +133,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
       const { treeNodes, selectedTreeNodes }: any = this.layerService.entitiesConfigurationToTreeNodes(s.entities);
       return {
         header: s.service + s.servicePath,
-        form: new FormGroup({
-          service: new FormControl(s.service),
-          servicePath: new FormControl(s.servicePath),
-        }),
+        form: this.configDashboardService.createServiceFormFromConfig(s),
         entities: treeNodes,
         selectedEntities: selectedTreeNodes,
       };

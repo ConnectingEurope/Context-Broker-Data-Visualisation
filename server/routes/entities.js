@@ -10,7 +10,7 @@ router.get('/', function (req, res, next) {
     'fiware-servicepath': req.query.servicePath,
   } : {};
   console.log(headers);
-  if (!url.startsWith('http://') && !url.startsWith('https://')) res.status(404).send('shit');
+  if (!url.startsWith('http://') && !url.startsWith('https://')) res.status(404).send();
   else {
     request({ url: url, headers: headers, json: true }, (e, r, b) => {
       res.send(b);

@@ -6,16 +6,18 @@
 
                     <!-- Cygnus URL -->
                     <div>
-                        <h6 class="first">Cygnus URL</h6>
-                        <input class="largeInput" type="text" pInputText formControlName="cygnus" />
-                        <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckCygnus()"></p-button>
+                        <app-input-with-validation [label]="'Cygnus URL'" [controlName]="'cygnus'" [group]="cb.form"
+                            [required]="true" [hasButton]="true" [buttonIcon]="'pi pi-check'"
+                            (buttonClick)="onCheckCygnus()">
+                        </app-input-with-validation>
                     </div>
 
                     <!-- STH-Comet URL -->
-                    <div class="mt-5">
-                        <h6 class="first">STH-Comet URL</h6>
-                        <input class="largeInput" type="text" pInputText formControlName="comet" />
-                        <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckComet()"></p-button>
+                    <div class="mt-4">
+                        <app-input-with-validation [label]="'STH-Comet URL'" [controlName]="'comet'" [group]="cb.form"
+                            [required]="true" [hasButton]="true" [buttonIcon]="'pi pi-check'"
+                            (buttonClick)="onCheckComet()">
+                        </app-input-with-validation>
                     </div>
 
                 </div>

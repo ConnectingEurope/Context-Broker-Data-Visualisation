@@ -5,20 +5,20 @@
 
                 <!-- Name -->
                 <div>
-                    <h6>Name</h6>
-                    <input class="largeInput" type="text" pInputText formControlName="name"
-                        (ngModelChange)="onNameChange()" />
+                    <app-input-with-validation [label]="'Name'" [controlName]="'name'" [group]="cb.form"
+                        [required]="true" (changeText)="onNameChange()">
+                    </app-input-with-validation>
                 </div>
 
                 <!-- URL -->
-                <div class="mt-5">
-                    <h6>URL</h6>
-                    <input class="largeInput" type="text" pInputText formControlName="url" />
-                    <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckContextBroker()"></p-button>
+                <div class="mt-4">
+                    <app-input-with-validation [label]="'URL'" [controlName]="'url'" [group]="cb.form" [required]="true"
+                        [hasButton]="true" [buttonIcon]="'pi pi-check'" (buttonClick)="onCheckContextBroker()">
+                    </app-input-with-validation>
                 </div>
 
                 <!-- Choose entities button -->
-                <div class="mt-5">
+                <div class="mt-4">
                     <p-button label="Choose entities and attributes" icon="pi pi-list" (onClick)="onChooseEntities()">
                     </p-button>
                 </div>
