@@ -1,0 +1,55 @@
+<div class="container">
+    <div class="row">
+
+        <!-- Selected filters -->
+        <div class="col-sm-6">
+            <div *ngIf="!filterList || filterList.length == 0; else showFilters" class="mt-3">
+                No filters selected yet
+            </div>
+            <div #showFilters *ngFor="let filter of filterList; let index=index">
+                <p-checkbox name="filters" label="{{ filter.attribute }} {{ filter.condition }} {{ filter.value }}"
+                    [(ngModel)]="filterList[index].selected" binary="true"></p-checkbox>
+            </div>
+        </div>
+
+        <!-- inputs to select filters -->
+        <div class="col-sm-6">
+            <div class="m-2 w-100">
+                <p-dropdown [options]="layers" [(ngModel)]="categorySelected" placeholder="Select a Category"
+                    optionLabel="label" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+            </div>
+            <div class="m-2 w-100">
+                <p-dropdown *ngIf="categorySelected?.children" [options]="categorySelected.children"
+                    [(ngModel)]="entitySelected" placeholder="Select an Entity" optionLabel="label" [showClear]="true"
+                    [style]="{'width':'100%'}">
+                </p-dropdown>
+            </div>
+            <div class="m-2 w-100">
+                <p-dropdown *ngIf="entitySelected?.children" [options]="entitySelected.children"
+                    [(ngModel)]="attrSelected" placeholder="Select an Attribute" optionLabel="label" [showClear]="true"
+                    [style]="{'width':'100%'}">
+                </p-dropdown>
+            </div>
+            <div class="m-2 w-100">
+                <p-dropdown *ngIf="attrSelected?.label" [options]="actions" [(ngModel)]="actionSelected"
+                    optionLabel="label" placeholder="Select an Action" [showClear]="true" [style]="{'width':'100%'}">
+                </p-dropdown>
+            </div>
+            <div class="m-2 w-100 ui-inputgroup">
+                <input *ngIf="attrSelected?.label" type="number" #text name="text" [(ngModel)]="textSelected"
+                    [style]="{'width':'100%'}">
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="col-sm-6">
+            <p-button styleClass="ui-button-danger" label="Clear All" (click)="clearAll()"></p-button>
+        </div>
+        <div class="col-sm-6">
+            <div class="float-right">
+                <p-button class="mr-2" label="Add" (click)="add()"></p-button>
+                <p-button styleClass="ui-button-danger" label="Clear" (click)="clear()"></p-button>
+            </div>
+        </div>
+    </div>
+</div>

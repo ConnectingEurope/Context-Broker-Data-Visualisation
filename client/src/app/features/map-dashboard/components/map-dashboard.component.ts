@@ -23,17 +23,6 @@ import { BaseComponent } from 'src/app/shared/misc/base.component';
 })
 export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit {
 
-    public selectedCategories: string[] = [];
-
-    public filters: any = {};
-    public optionsForNumber: any = [
-        { label: '<', value: '<' },
-        { label: '<=', value: '<=' },
-        { label: '=', value: '=' },
-        { label: '=>', value: '=>' },
-        { label: '>', value: '>' },
-    ];
-
     protected menuItems: MenuItem[];
     protected layers: TreeNode[];
     protected selectedLayers: TreeNode[];
@@ -66,11 +55,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
     protected onNodeUnselect(event: any): void {
         this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
-    }
-
-    protected createFilter(filter: any): void {
-        this.filters[filter] = {};
-        this.filters[filter].active = true;
     }
 
     private loadMap(): void {

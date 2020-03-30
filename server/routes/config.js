@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Datastore = require('nedb');
-const db = new Datastore({ filename: './configuration', autoload: true });
+// const db = new Datastore({ filename: './configuration', autoload: true });
+const db = new Datastore({ filename: 'configuration', nodeWebkitAppName: 'nwtest' })
 
 router.post('/', function (routerReq, routerRes, routerNext) {
   db.find({}, function (err, docs) {

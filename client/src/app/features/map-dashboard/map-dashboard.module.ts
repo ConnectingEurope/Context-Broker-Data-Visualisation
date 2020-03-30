@@ -9,10 +9,11 @@ import { TreeModule } from 'primeng/tree';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { LayerConditionsComponent } from './components/layer-conditions/layer-conditions.component';
 
 
 @NgModule({
-    declarations: [MapDashboardComponent],
+    declarations: [MapDashboardComponent, LayerConditionsComponent],
     imports: [
         CommonModule,
         MapDashboardRoutingModule,
