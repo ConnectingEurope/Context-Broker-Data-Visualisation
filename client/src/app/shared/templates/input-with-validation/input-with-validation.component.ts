@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
-import { ConfigDashboardService } from 'src/app/features/config-dashboard/services/config-dashboard-service/config-dashboard.service';
+import { ValidatorService } from '../../services/validator-service';
 
 @Component({
   selector: 'app-input-with-validation',
@@ -25,7 +25,7 @@ export class InputWithValidationComponent implements OnInit {
   private httpPatternError: string = 'The URL must start with "http://" or "https://"';
   private pathPatternError: string = 'The path must start with "/"';
 
-  constructor(protected configDashboardService: ConfigDashboardService) { }
+  constructor(private validatorService: ValidatorService) { }
 
   public ngOnInit(): void {
     this.fControl = this.group.get(this.controlName);
@@ -37,7 +37,7 @@ export class InputWithValidationComponent implements OnInit {
 
   protected getErrorMessage(): string {
     if (this.fControl.hasError('required')) { return this.requiredError; }
-    if (this.checkWhteSpacePattern()) { return this.requiredError; }
+    if (this.checkWhteSpacePattern()) { return this.emptySpacePatternError; }
     if (this.checkHttpPattern()) { return this.httpPatternError; }
     if (this.checkPathPattern()) { return this.pathPatternError; }
     return '-';
@@ -52,15 +52,15 @@ export class InputWithValidationComponent implements OnInit {
   }
 
   private checkWhteSpacePattern(): boolean {
-    return this.checkPattern(this.configDashboardService.whiteSpaceExp);
+    return this.checkPattern(this.validatorService.whiteSpaceExp);
   }
 
   private checkHttpPattern(): boolean {
-    return this.checkPattern(this.configDashboardService.httpExp);
+    return this.checkPattern(this.validatorService.httpExp);
   }
 
   private checkPathPattern(): boolean {
-    return this.checkPattern(this.configDashboardService.pathExp);
+    return this.checkPattern(this.validatorService.pathExp);
   }
 
   private checkPattern(pattern: RegExp): boolean {

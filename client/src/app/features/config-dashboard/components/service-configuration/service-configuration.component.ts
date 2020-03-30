@@ -43,6 +43,8 @@ export class ServiceConfigurationComponent extends BaseComponent {
       icon: 'pi pi-info',
       header: 'Are you sure you want to delete this service?',
       message: 'All the configuration of this service will be deleted.',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
       accept: (): void => {
         this.removeService(index);
       },

@@ -65,6 +65,8 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
       icon: 'pi pi-info',
       header: 'Are you sure you want to delete this context broker?',
       message: 'All the configuration of this context broker will be deleted, including services and historical data.',
+      acceptLabel: 'Delete',
+      rejectLabel: 'Cancel',
       accept: (): void => {
         this.removeContextBroker(index);
       },

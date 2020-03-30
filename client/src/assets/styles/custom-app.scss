@@ -1,7 +1,23 @@
+@import '../theme/nova-light-custom/_variables';
+
 /*****************************************************************************
  Forms
 *****************************************************************************/
 
 .largeInput {
   width: 300px;
+}
+
+.accordion-chevron-icon {
+  color: white;
+  display:inline-block;
+  vertical-align: middle;
+}
+
+.secondary-button {
+  background-color: white !important;
+}
+
+i {
+  color: $primaryDarkColor;
 }

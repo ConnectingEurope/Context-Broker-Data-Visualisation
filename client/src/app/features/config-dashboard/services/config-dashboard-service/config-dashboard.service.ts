@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ContextBrokerConfiguration, ServiceConfiguration } from '../../models/context-broker-configuration';
 import { EntityDto } from '../../models/entity-dto';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ValidatorService } from 'src/app/shared/services/validator-service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,16 +15,16 @@ export class ConfigDashboardService {
   public defaulServiceHeader: string = 'New Service';
   public contextHeaderWhenEmpty: string = 'Context Broker without name';
   public serviceHeaderWhenEmpty: string = 'No service specified';
-  public whiteSpaceExp: RegExp = /[^\s]/;
-  public httpExp: RegExp = /^(http:\/\/|https:\/\/)/;
-  public pathExp: RegExp = /^\//;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private validatorService: ValidatorService,
+  ) { }
 
   public createContextBrokerForm(): FormGroup {
     return new FormGroup({
-      name: new FormControl(this.defaultContextName, [Validators.required, Validators.pattern(this.whiteSpaceExp)]),
-      url: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp), Validators.pattern(this.httpExp)]),
+      name: new FormControl(this.defaultContextName, [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
+      url: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.httpExp)]),
       needServices: new FormControl(false),
       needHistoricalData: new FormControl(false),
     });
@@ -31,15 +32,15 @@ export class ConfigDashboardService {
 
   public createHistoricalForm(): FormGroup {
     return new FormGroup({
-      cygnus: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp), Validators.pattern(this.httpExp)]),
-      comet: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp), Validators.pattern(this.httpExp)]),
+      cygnus: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.httpExp)]),
+      comet: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.httpExp)]),
     });
   }
 
   public createServiceForm(): FormGroup {
     return new FormGroup({
-      service: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp)]),
-      servicePath: new FormControl('', [Validators.required, Validators.pattern(this.whiteSpaceExp)]),
+      service: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
+      servicePath: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
     });
   }
 

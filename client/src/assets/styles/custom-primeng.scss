@@ -1,3 +1,5 @@
+@import '../theme/nova-light-custom/_variables';
+
 /*****************************************************************************
  Tree
 *****************************************************************************/
@@ -13,6 +15,18 @@
 
 .ui-button {
   pointer-events: auto;
+  font-size: 16px !important;
+  border-width: 2px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 3px 7px rgba(50,50,93,.1), 0 1px 3px rgba(0,0,0,.08) !important;
+}
+
+.ui-button:enabled:hover {
+  border-width: 2px !important;
+}
+
+.ui-button:enabled:active {
+  border-width: 2px !important;
 }
 
 /*****************************************************************************
@@ -31,15 +45,15 @@
 .accordion-tab-remove-button .ui-button:enabled:focus {
   background-color: transparent;
   border: none;
-  box-shadow: none;
+  box-shadow: none !important;
 }
 
 .accordion-tab-remove-button .ui-button-icon-left {
-  color: darkslategray;
+  color: $textColor;
 }
 
 .accordion-tab-remove-button-selected .ui-button-icon-left {
-  color: white;
+  color: $textColor;
 }
 
 /*****************************************************************************

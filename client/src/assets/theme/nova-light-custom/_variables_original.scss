@@ -1,7 +1,7 @@
 //main color scheme
 $primaryColor: steelblue;
 $primaryDarkColor:#4681ff;
-$primaryDarkerColor:#335bb3;
+$primaryDarkColor:#335bb3;
 $primaryTextColor:#ffffff;
 
 //Global
@@ -15,7 +15,7 @@ $transitionDuration:.3s;
 //anchors
 $linkColor:$primaryColor;
 $linkHoverColor:$primaryDarkColor;
-$linkActiveColor:$primaryDarkerColor;
+$linkActiveColor:$primaryDarkColor;
 
 //highlight
 $highlightBgColor:$primaryColor;
@@ -88,10 +88,10 @@ $buttonTextColor:$primaryTextColor;
 $buttonHoverBgColor:$primaryDarkColor;
 $buttonHoverTextColor:$primaryTextColor;
 $buttonHoverBorderColor:$primaryDarkColor;
-$buttonActiveBgColor:$primaryDarkerColor;
+$buttonActiveBgColor:$primaryDarkColor;
 $buttonActiveTextColor:$primaryTextColor;
-$buttonActiveBorderColor:$primaryDarkerColor;
-$buttonFocusBorderColor:$primaryDarkerColor;
+$buttonActiveBorderColor:$primaryDarkColor;
+$buttonFocusBorderColor:$primaryDarkColor;
 $buttonFocusOutline:0 none;
 $buttonFocusOutlineOffset:0px;
 $buttonTransition:background-color $transitionDuration;
@@ -154,12 +154,12 @@ $checkboxHeight:20px;
 $checkboxActiveBorderColor:$primaryColor;
 $checkboxActiveBgColor:$primaryColor;
 $checkboxActiveTextColor:$primaryTextColor;
-$checkboxActiveHoverBgColor:$primaryDarkerColor;
+$checkboxActiveHoverBgColor:$primaryDarkColor;
 $checkboxActiveHoverTextColor:$primaryTextColor;
-$checkboxActiveHoverBorderColor:$primaryDarkerColor;
-$checkboxActiveFocusBgColor:$primaryDarkerColor;
+$checkboxActiveHoverBorderColor:$primaryDarkColor;
+$checkboxActiveFocusBgColor:$primaryDarkColor;
 $checkboxActiveFocusTextColor:$primaryTextColor;
-$checkboxActiveFocusBorderColor:$primaryDarkerColor;
+$checkboxActiveFocusBorderColor:$primaryDarkColor;
 $checkboxFocusBgColor:$inputBgColor;
 $checkboxFocusTextColor:$primaryColor;
 $checkboxFocusBorderColor:$primaryColor;
@@ -171,12 +171,12 @@ $radiobuttonHeight:20px;
 $radiobuttonActiveBorderColor:$primaryColor;
 $radiobuttonActiveBgColor:$primaryColor;
 $radiobuttonActiveTextColor:$primaryTextColor;
-$radiobuttonActiveHoverBgColor:$primaryDarkerColor;
+$radiobuttonActiveHoverBgColor:$primaryDarkColor;
 $radiobuttonActiveHoverTextColor:$primaryTextColor;
-$radiobuttonActiveHoverBorderColor:$primaryDarkerColor;
-$radiobuttonActiveFocusBgColor:$primaryDarkerColor;
+$radiobuttonActiveHoverBorderColor:$primaryDarkColor;
+$radiobuttonActiveFocusBgColor:$primaryDarkColor;
 $radiobuttonActiveFocusTextColor:$primaryTextColor;
-$radiobuttonActiveFocusBorderColor:$primaryDarkerColor;
+$radiobuttonActiveFocusBorderColor:$primaryDarkColor;
 $radiobuttonFocusBgColor:$inputBgColor;
 $radiobuttonFocusTextColor:$primaryColor;
 $radiobuttonFocusBorderColor:$primaryColor;
@@ -204,8 +204,8 @@ $toggleButtonFocusBgColor:#c8c8c8;
 $toggleButtonFocusBorderColor:#c8c8c8;
 $toggleButtonFocusTextColor:#333333;
 $toggleButtonFocusIconColor:#212121;
-$toggleButtonActiveFocusBgColor:$primaryDarkerColor;
-$toggleButtonActiveFocusBorderColor:$primaryDarkerColor;
+$toggleButtonActiveFocusBgColor:$primaryDarkColor;
+$toggleButtonActiveFocusBorderColor:$primaryDarkColor;
 $toggleButtonActiveFocusTextColor:$primaryTextColor;
 $toggleButtonActiveFocusIconColor:$primaryTextColor;
 
@@ -274,7 +274,7 @@ $inputSwitchOnBorderColor:$primaryColor;
 $inputSwitchOnBgColor:$primaryColor;
 $inputSwitchOnHandleBgColor:$primaryDarkColor;
 $inputSwitchOnHandleFocusBgColor:$primaryDarkColor;
-$inputSwitchOnHandleHoverBgColor:$primaryDarkerColor;
+$inputSwitchOnHandleHoverBgColor:$primaryDarkColor;
 $inputSwitchTransition:border-color $transitionDuration;
 $inputSwitchHandleTransition:background-color $transitionDuration;
 
@@ -303,8 +303,8 @@ $panelHeaderActiveBgColor:$primaryColor;
 $panelHeaderActiveBorder:1px solid $primaryColor;
 $panelHeaderActiveTextColor:#ffffff;
 $panelHeaderActiveIconColor:#ffffff;
-$panelHeaderActiveHoverBgColor:$primaryDarkerColor;
-$panelHeaderActiveHoverBorder:1px solid $primaryDarkerColor;
+$panelHeaderActiveHoverBgColor:$primaryDarkColor;
+$panelHeaderActiveHoverBorder:1px solid $primaryDarkColor;
 $panelHeaderActiveHoverTextColor:#ffffff;
 $panelHeaderActiveHoverIconColor:#ffffff;
 
@@ -419,7 +419,7 @@ $confirmDialogPadding:1.5em;
 //overlay panel
 $overlayPanelCloseIconBgColor:$primaryColor;
 $overlayPanelCloseIconColor:#ffffff;
-$overlayPanelCloseIconHoverBgColor:$primaryDarkerColor;
+$overlayPanelCloseIconHoverBgColor:$primaryDarkColor;
 $overlayPanelCloseIconHoverColor:#ffffff;
 
 //tooltip

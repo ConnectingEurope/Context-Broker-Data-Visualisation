@@ -86,7 +86,7 @@ body a:hover {
   color: $primaryDarkColor;
 }
 body a:active {
-  color: $primaryDarkerColor;
+  color: $primaryDarkColor;
 }
 body .ui-helper-reset {
   line-height: normal;
@@ -165,8 +165,8 @@ body .ui-chkbox .ui-chkbox-box.ui-state-active {
   color: #ffffff;
 }
 body .ui-chkbox .ui-chkbox-box.ui-state-active:not(.ui-state-disabled):hover {
-  border-color: $primaryDarkerColor;
-  background-color: $primaryDarkerColor;
+  border-color: $primaryDarkColor;
+  background-color: $primaryDarkColor;
   color: #ffffff;
 }
 body .ui-chkbox .ui-chkbox-box .ui-chkbox-icon {
@@ -219,8 +219,8 @@ body .ui-radiobutton .ui-radiobutton-box.ui-state-active .ui-radiobutton-icon {
   background-color: #ffffff;
 }
 body .ui-radiobutton .ui-radiobutton-box.ui-state-active:not(.ui-state-disabled):hover {
-  border-color: $primaryDarkerColor;
-  background-color: $primaryDarkerColor;
+  border-color: $primaryDarkColor;
+  background-color: $primaryDarkColor;
   color: #ffffff;
 }
 body .ui-radiobutton .ui-radiobutton-box .ui-radiobutton-icon {
@@ -292,7 +292,7 @@ body .ui-inputswitch.ui-inputswitch-checked:not(.ui-state-disabled):hover .ui-in
   background-color: $primaryDarkColor;
 }
 body .ui-inputswitch.ui-inputswitch-checked.ui-inputswitch-focus .ui-inputswitch-slider {
-  background: $primaryDarkerColor;
+  background: $primaryDarkColor;
 }
 body .ui-autocomplete .ui-autocomplete-input {
   padding: 0.429em;
@@ -1096,9 +1096,9 @@ body .ui-fileupload-choose:not(.ui-state-disabled):hover {
   border-color: $primaryDarkColor;
 }
 body .ui-fileupload-choose:not(.ui-state-disabled):active {
-  background-color: $primaryDarkerColor;
+  background-color: $primaryDarkColor;
   color: #ffffff;
-  border-color: $primaryDarkerColor;
+  border-color: $primaryDarkColor;
 }
 body .ui-fileupload-choose.ui-state-focus {
   outline: 0 none;
@@ -1212,9 +1212,9 @@ body p-togglebutton.ng-dirty.ng-invalid .ui-button {
 
 body .ui-button {
   margin: 0;
-  color: #ffffff;
-  background-color: $primaryColor;
-  border: 1px solid $primaryColor;
+  color: $buttonTextColor;
+  background-color: $secondaryColor;
+  border: 1px solid $secondaryColor;
   font-size: 14px;
   -moz-transition: background-color 0.2s, box-shadow 0.2s;
   -o-transition: background-color 0.2s, box-shadow 0.2s;
@@ -1222,8 +1222,8 @@ body .ui-button {
   transition: background-color 0.2s, box-shadow 0.2s;
 }
 body .ui-button:enabled:hover {
-  background-color: $primaryDarkColor;
-  color: #ffffff;
+  background-color: $secondaryLightColor;
+  color: $buttonTextColor;
   border-color: $primaryDarkColor;
 }
 body .ui-button:enabled:focus {
@@ -1234,9 +1234,9 @@ body .ui-button:enabled:focus {
   box-shadow: 0 0 0 0.2em $boxShadowColor;
 }
 body .ui-button:enabled:active {
-  background-color: $primaryDarkerColor;
-  color: #ffffff;
-  border-color: $primaryDarkerColor;
+  background-color: $secondaryLightColor;
+  color: $buttonTextColor;
+  border-color: $primaryDarkColor;
 }
 body .ui-button.ui-button-text-only .ui-button-text {
   padding: 0.429em 1em;
@@ -1416,9 +1416,9 @@ body .ui-button.ui-state-default.ui-button-info:enabled:focus, body .ui-buttonse
   box-shadow: 0 0 0 0.2em $boxShadowColor;
 }
 body .ui-button.ui-state-default.ui-button-info:enabled:active, body .ui-buttonset.ui-button-info > .ui-button.ui-state-default:enabled:active {
-  background-color: $primaryDarkerColor;
+  background-color: $primaryDarkColor;
   color: #ffffff;
-  border-color: $primaryDarkerColor;
+  border-color: $primaryDarkColor;
 }
 body .ui-button.ui-state-default.ui-button-success, body .ui-buttonset.ui-button-success > .ui-button.ui-state-default {
   color: #ffffff;
@@ -1600,10 +1600,10 @@ body .ui-accordion .ui-accordion-header {
 }
 body .ui-accordion .ui-accordion-header a {
   padding: 0.571em 1em;
-  border: 1px solid #c8c8c8;
-  color: #333333;
-  background-color: #f4f4f4;
-  color: #333333;
+  border: 1px solid $primaryLightColor;
+  color: $textColor;
+  background-color: $primaryLightColor;
+  color: $textColor;
   font-weight: 700;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
@@ -1624,12 +1624,12 @@ body .ui-accordion .ui-accordion-header a:focus {
   box-shadow: 0 0 0 0.2em $boxShadowColor;
 }
 body .ui-accordion .ui-accordion-header:not(.ui-state-active):not(.ui-state-disabled):hover a {
-  background-color: #dbdbdb;
-  border: 1px solid #dbdbdb;
-  color: #333333;
+  background-color: $primaryColor;
+  border: 1px solid $primaryColor;
+  color: $textColor;
 }
 body .ui-accordion .ui-accordion-header:not(.ui-state-active):not(.ui-state-disabled):hover a .ui-accordion-toggle-icon {
-  color: #333333;
+  color: $textColor;
 }
 body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active a {
   background-color: $primaryColor;
@@ -1640,8 +1640,8 @@ body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active 
   color: #ffffff;
 }
 body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:hover a {
-  border: 1px solid $primaryDarkerColor;
-  background-color: $primaryDarkerColor;
+  border: 1px solid $primaryDarkColor;
+  background-color: $primaryDarkColor;
   color: #ffffff;
 }
 body .ui-accordion .ui-accordion-header:not(.ui-state-disabled).ui-state-active:hover a .ui-accordion-toggle-icon {
@@ -1716,8 +1716,8 @@ body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active .ui-tabview-c
   color: #ffffff;
 }
 body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover, body .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover, body .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover, body .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover {
-  border: 1px solid $primaryDarkerColor;
-  background-color: $primaryDarkerColor;
+  border: 1px solid $primaryDarkColor;
+  background-color: $primaryDarkColor;
 }
 body .ui-tabview.ui-tabview-top .ui-tabview-nav li.ui-state-active:hover a, body .ui-tabview.ui-tabview-bottom .ui-tabview-nav li.ui-state-active:hover a, body .ui-tabview.ui-tabview-left .ui-tabview-nav li.ui-state-active:hover a, body .ui-tabview.ui-tabview-right .ui-tabview-nav li.ui-state-active:hover a {
   color: #ffffff;
@@ -1782,7 +1782,7 @@ body .ui-toolbar .ui-toolbar-separator {
   margin: 0 0.5em;
 }
 body .ui-card {
-  background-color: #ffffff;
+  background-color: $backgroundLightColor;
   color: #333333;
   -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
@@ -2979,7 +2979,7 @@ body .ui-overlaypanel .ui-overlaypanel-close .ui-overlaypanel-close-icon {
   line-height: inherit;
 }
 body .ui-overlaypanel .ui-overlaypanel-close:hover {
-  background-color: $primaryDarkerColor;
+  background-color: $primaryDarkColor;
   color: #ffffff;
 }
 body .ui-overlaypanel .ui-overlaypanel-close:focus {
@@ -3011,8 +3011,8 @@ body .ui-dialog {
 }
 body .ui-dialog .ui-dialog-titlebar {
   border: 1px solid #c8c8c8;
-  background-color: #f4f4f4;
-  color: #333333;
+  background-color: $primaryColor;
+  color: $textColor;
   padding: 1em;
   font-weight: 700;
   border-bottom: 0 none;
@@ -3022,7 +3022,7 @@ body .ui-dialog .ui-dialog-titlebar .ui-dialog-title {
   float: none;
 }
 body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon {
-  color: #848484;
+  color: $textColor;
   border: 0 none;
   padding: 0;
   margin-left: 0.5em;
@@ -3035,7 +3035,7 @@ body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon span {
   width: auto;
 }
 body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon:hover {
-  color: #333333;
+  color: $textColor;
 }
 body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon:focus {
   outline: 0 none;
@@ -3094,7 +3094,7 @@ body .ui-sidebar .ui-sidebar-close:hover {
   color: #333333;
 }
 body .ui-tooltip .ui-tooltip-text {
-  background-color: #333333;
+  background-color: $primaryDarkColor;
   color: #ffffff;
   padding: 0.429em;
   -webkit-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.16);
@@ -3302,7 +3302,7 @@ body .ui-tieredmenu .ui-menuitem-link .ui-menuitem-text,
 body .ui-contextmenu .ui-menuitem-link .ui-menuitem-text,
 body .ui-megamenu .ui-menuitem-link .ui-menuitem-text,
 body .ui-slidemenu .ui-menuitem-link .ui-menuitem-text {
-  color: #333333;
+  color: $textColor;
 }
 body .ui-menu .ui-menuitem-link .ui-menuitem-icon,
 body .ui-menubar .ui-menuitem-link .ui-menuitem-icon,
@@ -3310,7 +3310,7 @@ body .ui-tieredmenu .ui-menuitem-link .ui-menuitem-icon,
 body .ui-contextmenu .ui-menuitem-link .ui-menuitem-icon,
 body .ui-megamenu .ui-menuitem-link .ui-menuitem-icon,
 body .ui-slidemenu .ui-menuitem-link .ui-menuitem-icon {
-  color: #333333;
+  color: $textColor;
   margin-right: 0.5em;
 }
 body .ui-menu .ui-menuitem-link:hover,
@@ -3319,7 +3319,7 @@ body .ui-tieredmenu .ui-menuitem-link:hover,
 body .ui-contextmenu .ui-menuitem-link:hover,
 body .ui-megamenu .ui-menuitem-link:hover,
 body .ui-slidemenu .ui-menuitem-link:hover {
-  background-color: #eaeaea;
+  background-color: $primaryDarkColor
 }
 body .ui-menu .ui-menuitem-link:hover .ui-menuitem-text,
 body .ui-menubar .ui-menuitem-link:hover .ui-menuitem-text,
@@ -3327,7 +3327,7 @@ body .ui-tieredmenu .ui-menuitem-link:hover .ui-menuitem-text,
 body .ui-contextmenu .ui-menuitem-link:hover .ui-menuitem-text,
 body .ui-megamenu .ui-menuitem-link:hover .ui-menuitem-text,
 body .ui-slidemenu .ui-menuitem-link:hover .ui-menuitem-text {
-  color: #333333;
+  color: $textColor;
 }
 body .ui-menu .ui-menuitem-link:hover .ui-menuitem-icon,
 body .ui-menubar .ui-menuitem-link:hover .ui-menuitem-icon,
@@ -3335,7 +3335,7 @@ body .ui-tieredmenu .ui-menuitem-link:hover .ui-menuitem-icon,
 body .ui-contextmenu .ui-menuitem-link:hover .ui-menuitem-icon,
 body .ui-megamenu .ui-menuitem-link:hover .ui-menuitem-icon,
 body .ui-slidemenu .ui-menuitem-link:hover .ui-menuitem-icon {
-  color: #333333;
+  color: $textColor;
 }
 body .ui-menu .ui-menuitem-link:focus,
 body .ui-menubar .ui-menuitem-link:focus,
@@ -3377,7 +3377,7 @@ body .ui-menu .ui-menu-separator {
 }
 body .ui-menubar {
   padding: 0;
-  background-color: #ffffff;
+  background-color: $primaryColor;
   border: 1px solid #c8c8c8;
 }
 body .ui-menubar .ui-menubar-root-list > .ui-menuitem > .ui-menuitem-link {
@@ -3406,13 +3406,13 @@ body .ui-menubar .ui-menuitem {
   margin: 0;
 }
 body .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link {
-  background-color: #eaeaea;
+  background-color: $primaryColor;
 }
 body .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-menuitem-text {
-  color: #333333;
+  color: $textColor;
 }
 body .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-menuitem-icon, body .ui-menubar .ui-menuitem.ui-menuitem-active > .ui-menuitem-link .ui-submenu-icon {
-  color: #333333;
+  color: $textColor;
 }
 body .ui-contextmenu {
   padding: 0;
@@ -3680,8 +3680,8 @@ body .ui-panelmenu .ui-panelmenu-header.ui-state-active > a .ui-panelmenu-icon {
 }
 body .ui-panelmenu .ui-panelmenu-header.ui-state-active > a:hover {
   outline: 0 none;
-  border: 1px solid $primaryDarkerColor;
-  background-color: $primaryDarkerColor;
+  border: 1px solid $primaryDarkColor;
+  background-color: $primaryDarkColor;
   color: #ffffff;
 }
 body .ui-panelmenu .ui-panelmenu-header.ui-state-active > a:hover .ui-panelmenu-icon {
