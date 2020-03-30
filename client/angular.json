@@ -30,7 +30,7 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeicons/primeicons.css",
-              "src/assets/theme/nova-light-custom/theme.scss",
+              "src/assets/nova-light-custom/theme.scss",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
