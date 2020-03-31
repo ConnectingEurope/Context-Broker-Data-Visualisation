@@ -1,1 +1,1 @@
-{"contextBrokers":[],"_id":"W5ynMfoEouvaZZgQ"}
+{"contextBrokers":[{"name":"New Context Broker","url":"    this.appMessageService.add({ severity: 'success', summary: 'Configuration applied' });","needServices":false,"needHistoricalData":false,"cygnus":"","comet":"","entities":[],"services":[]}],"_id":"W5ynMfoEouvaZZgQ"}

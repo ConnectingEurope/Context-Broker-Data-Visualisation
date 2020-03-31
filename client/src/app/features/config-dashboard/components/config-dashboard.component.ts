@@ -7,6 +7,7 @@ import { ContextBrokerConfiguration, ServiceConfiguration } from '../models/cont
 import { LayerService } from '../../map-dashboard/services/layer-service/layer-service';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-config-dashboard',
@@ -24,6 +25,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     private appMessageService: AppMessageService,
     private layerService: LayerService,
     private confirmationService: ConfirmationService,
+    private router: Router,
   ) {
     super();
   }
@@ -78,11 +80,19 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     const config: ContextBrokerConfiguration[] = this.getContextBrokers();
     this.configDashboardService.postConfiguration(config).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
-        this.appMessageService.add({ severity: 'success', summary: 'Configuration applied' });
+        this.onApplyConfigurationSuccess();
       },
       err => {
-        this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' });
+        this.onApplyConfigurationFail();
       });
+  }
+
+  private onApplyConfigurationSuccess(): void {
+    this.router.navigate(['/map-dashboard']);
+  }
+
+  private onApplyConfigurationFail(): void {
+    this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' });
   }
 
   private removeContextBroker(index: number): void {

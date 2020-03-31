@@ -19,7 +19,7 @@ function readConfig(routerRes) {
       contextBrokers = docs[0].contextBrokers;
       processEntities(routerRes);
     } else {
-      routerRes.status(404).send();
+      routerRes.send([]);
     }
   });
 }
@@ -29,7 +29,12 @@ async function processEntities(routerRes) {
   for (const cb of contextBrokers) {
     for (const s of cb.services) {
       for (const e of s.entities) {
-        const entityData = await get(cb, s);
+        let entityData = null;
+        try {
+          entityData = await get(cb, s);
+        } catch (error) {
+          routerRes.status(500).send(error);
+        }
         const modelDto = getModelDto(e, entityData);
         modelDtos.push(modelDto);
       }
