@@ -1,17 +1,15 @@
 var express = require('express');
 var router = express.Router();
 const request = require('request');
+const utils = require('./utils');
 
 router.get('/', function (req, res, next) {
+  const url = utils.parseUrl(req.query.url) + '/version';
 
-  const url = req.query.url + '/version';
-  if (!url.startsWith('http://') && !url.startsWith('https://')) res.status(400).send();
-  else {
-    request({ url: url, json: true }, (e, r, b) => {
-      if (b && b.orion) res.send(true);
-      else res.send(false);
-    });
-  }
+  request({ url: url, json: true }, (e, r, b) => {
+    if (b && b.orion) res.send(true);
+    else res.send(false);
+  });
 
 });
 

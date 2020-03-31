@@ -2,19 +2,19 @@
 
 @import './variables';
 
-i {
+i.help-icon {
   color: $primaryDarkColor;
 }
 
-.largeInput {
+input.largeInput {
   width: 280px;
 }
 
-.secondary-button {
+button.secondary-button {
   background-color: white !important;
 }
 
-.accordion-chevron-icon {
+i.accordion-chevron-icon {
   color: white;
   display:inline-block;
   vertical-align: middle;

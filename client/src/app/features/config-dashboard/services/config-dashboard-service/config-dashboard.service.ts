@@ -24,7 +24,7 @@ export class ConfigDashboardService {
   public createContextBrokerForm(): FormGroup {
     return new FormGroup({
       name: new FormControl(this.defaultContextName, [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
-      url: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.httpExp)]),
+      url: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
       needServices: new FormControl(false),
       needHistoricalData: new FormControl(false),
     });
@@ -32,15 +32,15 @@ export class ConfigDashboardService {
 
   public createHistoricalForm(): FormGroup {
     return new FormGroup({
-      cygnus: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.httpExp)]),
-      comet: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.httpExp)]),
+      cygnus: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
+      comet: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
     });
   }
 
   public createServiceForm(): FormGroup {
     return new FormGroup({
       service: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
-      servicePath: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
+      servicePath: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.pathExp)]),
     });
   }
 

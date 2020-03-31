@@ -22,7 +22,6 @@ export class InputWithValidationComponent implements OnInit {
 
   private requiredError: string = 'This field is mandatory';
   private emptySpacePatternError: string = this.requiredError;
-  private httpPatternError: string = 'The URL must start with "http://" or "https://"';
   private pathPatternError: string = 'The path must start with "/"';
 
   constructor(private validatorService: ValidatorService) { }
@@ -38,7 +37,6 @@ export class InputWithValidationComponent implements OnInit {
   protected getErrorMessage(): string {
     if (this.fControl.hasError('required')) { return this.requiredError; }
     if (this.checkWhteSpacePattern()) { return this.emptySpacePatternError; }
-    if (this.checkHttpPattern()) { return this.httpPatternError; }
     if (this.checkPathPattern()) { return this.pathPatternError; }
     return '-';
   }
@@ -53,10 +51,6 @@ export class InputWithValidationComponent implements OnInit {
 
   private checkWhteSpacePattern(): boolean {
     return this.checkPattern(this.validatorService.whiteSpaceExp);
-  }
-
-  private checkHttpPattern(): boolean {
-    return this.checkPattern(this.validatorService.httpExp);
   }
 
   private checkPathPattern(): boolean {

@@ -64,15 +64,15 @@
  Input
 *****************************************************************************/
 
-body .ui-inputtext:enabled:hover:not(.ui-state-error):not(.ui-inputtext.ng-dirty.ng-invalid) {
-  border-color: #212121;
-}
+// body .ui-inputtext:enabled:hover:not(.ui-state-error):not(.ui-inputtext.ng-dirty.ng-invalid) {
+//   border-color: $wrongColor !important;
+// }
 
-body .ui-inputtext:enabled:focus:not(.ui-state-error):not(.ui-inputtext.ng-dirty.ng-invalid) {
-  outline: 0 none;
-  outline-offset: 0;
-  -webkit-box-shadow: 0 0 0 0.2em $boxShadowColor;
-  -moz-box-shadow: 0 0 0 0.2em $boxShadowColor;
-  box-shadow: 0 0 0 0.2em $boxShadowColor;
-  border-color: $primaryColor;
-}
+// body .ui-inputtext:enabled:focus:not(.ui-state-error):not(.ui-inputtext.ng-dirty.ng-invalid) {
+//   outline: 0 none;
+//   outline-offset: 0;
+//   -webkit-box-shadow: 0 0 0 0.2em $boxShadowColor;
+//   -moz-box-shadow: 0 0 0 0.2em $boxShadowColor;
+//   box-shadow: 0 0 0 0.2em $boxShadowColor;
+//   border-color: $primaryColor;
+// }

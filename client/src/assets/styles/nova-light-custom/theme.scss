@@ -119,10 +119,12 @@ body .ui-inputtext {
   -moz-appearance: none;
   appearance: none;
 }
-body .ui-inputtext:enabled:hover:not(.ui-state-error) {
+// body .ui-inputtext:enabled:hover:not(.ui-state-error) { // Original Nova Light code
+body .ui-inputtext:enabled:hover:not(.ui-state-error):not(.ui-inputtext.ng-dirty.ng-invalid) {
   border-color: #212121;
 }
-body .ui-inputtext:enabled:focus:not(.ui-state-error) {
+// body .ui-inputtext:enabled:focus:not(.ui-state-error) { // Original Nova Light code
+body .ui-inputtext:enabled:focus:not(.ui-state-error):not(.ui-inputtext.ng-dirty.ng-invalid) {
   outline: 0 none;
   outline-offset: 0;
   -webkit-box-shadow: 0 0 0 0.2em $boxShadowColor;
@@ -1210,7 +1212,7 @@ body p-multiselect.ng-dirty.ng-invalid > .ui-multiselect,
 body p-spinner.ng-dirty.ng-invalid > .ui-inputtext,
 body p-selectbutton.ng-dirty.ng-invalid .ui-button,
 body p-togglebutton.ng-dirty.ng-invalid .ui-button {
-  border: 1px solid #a80000;
+  border: 1px solid $wrongColor;
 }
 
 body .ui-button {

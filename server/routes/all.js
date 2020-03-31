@@ -3,6 +3,7 @@ const router = express.Router();
 const request = require('request');
 const Datastore = require('nedb');
 const db = new Datastore({ filename: './configuration', autoload: true });
+const utils = require('./utils');
 
 let contextBrokers = null;
 
@@ -43,7 +44,7 @@ function get(source, service) {
 }
 
 function getUrl(cb) {
-  return cb.url + (cb.port ? ":" + cb.port : '') + "/v2/entities";
+  return utils.parseUrl(cb.url) + "/v2/entities";
 }
 
 function getParams() {
