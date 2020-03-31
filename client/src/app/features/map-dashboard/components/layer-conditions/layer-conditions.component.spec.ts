@@ -8,7 +8,7 @@ describe('LayerConditionsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayerConditionsComponent ]
+      declarations: [LayerConditionsComponent],
     })
     .compileComponents();
   }));
