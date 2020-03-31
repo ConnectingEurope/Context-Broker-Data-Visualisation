@@ -19,7 +19,8 @@
 
                 <!-- Choose entities button -->
                 <div class="mt-4">
-                    <p-button label="Choose entities and attributes" icon="pi pi-list" (onClick)="onChooseEntities()">
+                    <p-button [disabled]="isDisabledChooseButton()" label="Choose entities and attributes"
+                        icon="pi pi-list" (onClick)="onChooseEntities()">
                     </p-button>
                 </div>
 

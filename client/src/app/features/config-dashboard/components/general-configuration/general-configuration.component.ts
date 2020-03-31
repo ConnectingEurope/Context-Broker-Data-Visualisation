@@ -52,6 +52,10 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
       });
   }
 
+  protected isDisabledChooseButton(): boolean {
+    return this.cb.form.get('url').invalid;
+  }
+
   protected onChooseEntities(): void {
     const url: string = this.cb.form.value.url;
 
@@ -78,6 +82,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
   }
 
   private onGetEntitiesFail(): void {
+    this.cb.entities = [];
+    this.cb.selectedEntities = [];
     this.appMessageService.add({ severity: 'warn', summary: 'Entities not found', detail: 'Maybe you have entities in specific services' });
   }
 

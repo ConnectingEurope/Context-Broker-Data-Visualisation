@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const request = require('request');
 const Datastore = require('nedb');
-const db = new Datastore({ filename: './configuration', autoload: true });
 const utils = require('./utils');
 
 let contextBrokers = null;
@@ -12,10 +11,15 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 });
 
 function readConfig(routerRes) {
+
+  const db = new Datastore({ filename: './configuration', autoload: true });
+
   db.find({}, function (err, docs) {
-    if (!err) {
+    if (!err && docs.length > 0) {
       contextBrokers = docs[0].contextBrokers;
       processEntities(routerRes);
+    } else {
+      routerRes.status(404).send();
     }
   });
 }

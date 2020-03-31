@@ -10,13 +10,15 @@ router.get('/', function (req, res, next) {
     'fiware-service': req.query.service,
     'fiware-servicepath': req.query.servicePath,
   } : {};
-  console.log(headers);
-  if (!url.startsWith('http://') && !url.startsWith('https://')) res.status(404).send();
-  else {
-    request({ url: url, headers: headers, json: true }, (e, r, b) => {
+
+  request({ url: url, headers: headers, json: true }, (e, r, b) => {
+    if (b) {
       res.send(b);
-    });
-  }
+    } else {
+      res.status(404).send();
+    }
+  });
+
 });
 
 module.exports = router;

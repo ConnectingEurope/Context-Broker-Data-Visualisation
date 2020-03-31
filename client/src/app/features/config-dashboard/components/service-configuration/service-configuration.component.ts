@@ -65,6 +65,12 @@ export class ServiceConfigurationComponent extends BaseComponent {
     });
   }
 
+  protected isDisabledChooseButton(index: number): boolean {
+    return this.cb.form.get('url').invalid ||
+      this.cb.services[index].form.get('service').invalid ||
+      this.cb.services[index].form.get('servicePath').invalid;
+  }
+
   protected onChooseEntities(index: number): void {
     const url: string = this.cb.form.value.url;
     const service: string = this.cb.services[index].form.value.service;
@@ -72,10 +78,10 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
     this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(
       entities => {
-        entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiesFail();
+        entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiesFail(index);
       },
       err => {
-        this.onChooseEntitiesFail();
+        this.onChooseEntitiesFail(index);
       });
   }
 
@@ -88,7 +94,9 @@ export class ServiceConfigurationComponent extends BaseComponent {
     this.cb.services[index].selectedEntities = this.layerService.getAllSelected(this.cb.services[index].entities);
   }
 
-  private onChooseEntitiesFail(): void {
+  private onChooseEntitiesFail(index: number): void {
+    this.cb.services[index].entities = [];
+    this.cb.services[index].selectedEntities = [];
     this.appMessageService.add({
       severity: 'warn',
       summary: 'Entities not found in this service',

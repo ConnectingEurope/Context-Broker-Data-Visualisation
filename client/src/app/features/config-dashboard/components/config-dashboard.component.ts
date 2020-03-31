@@ -16,7 +16,7 @@ import { ConfirmationService } from 'primeng/api';
 export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
   protected configurationLoaded: boolean = false;
-  protected addedAtLeastOnce: boolean = false;
+  protected addedOrRemovedAtLeastOnce: boolean = false;
   protected contextBrokers: ContextBrokerForm[] = [];
 
   constructor(
@@ -49,7 +49,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   protected onAddContextBroker(): void {
-    this.addedAtLeastOnce = true;
+    this.addedOrRemovedAtLeastOnce = true;
     this.contextBrokers.unshift({
       header: this.configDashboardService.defaultContextName,
       form: this.configDashboardService.createContextBrokerForm(),
@@ -61,6 +61,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   protected onRemoveContextBroker(index: number): void {
+    this.addedOrRemovedAtLeastOnce = true;
     this.confirmationService.confirm({
       icon: 'pi pi-info',
       header: 'Are you sure you want to delete this context broker?',

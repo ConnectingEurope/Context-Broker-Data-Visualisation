@@ -44,7 +44,8 @@
 
                                             <!-- Choose entities button -->
                                             <div class="mt-4">
-                                                <p-button label="Choose entities and attributes" icon="pi pi-list"
+                                                <p-button [disabled]="isDisabledChooseButton(i)"
+                                                    label="Choose entities and attributes" icon="pi pi-list"
                                                     (onClick)="onChooseEntities(i)">
                                                 </p-button>
                                             </div>
@@ -53,7 +54,7 @@
 
                                         <!-- Selected entities -->
                                         <div class="col-5">
-                                            <div *ngIf="cb.entities.length > 0">
+                                            <div *ngIf="service.entities.length > 0">
                                                 <p-scrollPanel #entitiesScroll
                                                     [style]="{width: '100%', height: '300px'}">
                                                     <p-tree [value]="service.entities" selectionMode="checkbox"

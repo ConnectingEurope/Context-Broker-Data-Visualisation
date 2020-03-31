@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Datastore = require('nedb');
-const db = new Datastore({ filename: './configuration', autoload: true });
+let db;
 
 router.get('/', function (routerReq, routerRes, routerNext) {
+  db = new Datastore({ filename: './configuration', autoload: true });
   db.find({}, function (err, docs) {
     if (!err) {
-      if (docs.length === 0) { routerRes.status(404).send(); }
+      if (docs.length === 0) { routerRes.send([]); }
       else {
         routerRes.send(docs[0].contextBrokers);
       }
@@ -15,6 +16,7 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 });
 
 router.post('/', function (routerReq, routerRes, routerNext) {
+  db = new Datastore({ filename: './configuration', autoload: true });
   db.find({}, function (err, docs) {
     if (!err) {
       let config = { contextBrokers: routerReq.body };
