@@ -40,7 +40,7 @@ export class ConfigDashboardService {
   public createServiceForm(): FormGroup {
     return new FormGroup({
       service: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.whiteSpaceExp)]),
-      servicePath: new FormControl('', [Validators.required, Validators.pattern(this.validatorService.pathExp)]),
+      servicePath: new FormControl('', [Validators.pattern(this.validatorService.pathExp)]),
     });
   }
 
@@ -68,24 +68,22 @@ export class ConfigDashboardService {
   }
 
   public checkBrokerHealth(url: string): Observable<boolean> {
-    return this.checkHealth(url, '/server/check-broker');
+    return this.checkHealth(url, '/server/check/broker');
   }
 
   public checkCygnusHealth(url: string): Observable<boolean> {
-    return this.checkHealth(url, '/server/check-cygnus');
+    return this.checkHealth(url, '/server/check/cygnus');
   }
 
   public checkCometHealth(url: string): Observable<boolean> {
-    return this.checkHealth(url, '/server/check-comet');
+    return this.checkHealth(url, '/server/check/comet');
   }
 
   public getEntitiesFromService(url: string, service?: string, servicePath?: string): Observable<EntityDto[]> {
     let parameters: HttpParams = new HttpParams();
     parameters = parameters.append('url', url);
-    if (service && servicePath) {
-      parameters = parameters.append('service', service);
-      parameters = parameters.append('servicePath', servicePath);
-    }
+    if (service) { parameters = parameters.append('service', service); }
+    if (servicePath) { parameters = parameters.append('servicePath', servicePath); }
 
     return this.http.get<EntityDto[]>('/server/entities', { params: parameters });
   }
