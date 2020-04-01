@@ -18,6 +18,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
   @Input() public cb: ContextBrokerForm;
   @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
+  @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
@@ -61,7 +62,11 @@ export class ServiceConfigurationComponent extends BaseComponent {
       this.configDashboardService.serviceHeaderWhenEmpty;
   }
 
-  protected refreshEntitiesScroll(): void {
+  protected onNodeChange(): void {
+    this.selectedEntitiesChange.emit();
+  }
+
+  protected refreshScroll(): void {
     setTimeout(() => {
       this.entitiesScroll.refresh();
     });
@@ -95,6 +100,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
   private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
     this.cb.services[index].entities = this.layerService.getEntities(entities);
     this.cb.services[index].selectedEntities = this.layerService.getAllSelected(this.cb.services[index].entities);
+    this.selectedEntitiesChange.emit();
   }
 
   private onChooseEntitiesFail(index: number): void {

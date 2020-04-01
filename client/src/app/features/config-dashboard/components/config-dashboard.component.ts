@@ -20,6 +20,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   protected addedContextBrokerAtLeastOnce: boolean = false;
   protected removedContextBrokerAtLeastOnce: boolean = false;
   protected removedServiceAtLeastOnce: boolean = false;
+  protected selectedEntitiesChange: boolean = false;
   protected contextBrokers: ContextBrokerForm[] = [];
 
   constructor(
@@ -73,8 +74,11 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     this.removedServiceAtLeastOnce = true;
   }
 
+  protected onSelectedEntitiesChange(): void {
+    this.selectedEntitiesChange = true;
+  }
+
   protected onRemoveContextBroker(index: number): void {
-    this.removedContextBrokerAtLeastOnce = true;
     this.confirmationService.confirm({
       icon: 'pi pi-info',
       header: 'Are you sure you want to delete this context broker?',
@@ -89,6 +93,36 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   protected onApplyConfiguration(): void {
+    if (this.checkEntities()) {
+      this.applyConfiguration();
+    }
+  }
+
+  private checkEntities(): boolean {
+    let valid: boolean = true;
+    this.contextBrokers.forEach(cb => {
+      if (cb.services.length === 0) {
+        if (cb.selectedEntities.length === 0) {
+          valid = false;
+        }
+      } else {
+        cb.services.forEach(s => {
+          if (s.selectedEntities.length === 0) {
+            valid = false;
+          }
+        });
+      }
+    });
+    if (!valid) {
+      this.appMessageService.add({
+        severity: 'error', summary: 'Cannot apply the configuration',
+        detail: 'There is at least one context broker or one service with no selected entities',
+      });
+    }
+    return valid;
+  }
+
+  private applyConfiguration(): void {
     const config: ContextBrokerConfiguration[] = this.getContextBrokers();
     this.configDashboardService.postConfiguration(config).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
@@ -111,6 +145,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     this.addedContextBrokerAtLeastOnce = false;
     this.removedContextBrokerAtLeastOnce = false;
     this.removedServiceAtLeastOnce = false;
+    this.selectedEntitiesChange = false;
     this.contextBrokers.forEach(cb => {
       cb.form.markAsPristine();
       cb.historicalForm.markAsPristine();
@@ -122,9 +157,8 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     return this.contextBrokers.some(cb => {
       return cb.form.dirty ||
         (cb.form.get('needHistoricalData').value && cb.historicalForm.dirty) ||
-        (cb.form.get('needServices').value && cb.services.some(s => s.form.dirty)) ||
-        this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce;
-    });
+        (cb.form.get('needServices').value && cb.services.some(s => s.form.dirty));
+    }) || this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce || this.selectedEntitiesChange;
   }
 
   private isValidConfiguration(): boolean {
@@ -136,6 +170,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   private removeContextBroker(index: number): void {
+    this.removedContextBrokerAtLeastOnce = true;
     this.contextBrokers.splice(index, 1);
   }
 

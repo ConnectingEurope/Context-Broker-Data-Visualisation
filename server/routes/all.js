@@ -4,8 +4,6 @@ const request = require('request');
 const Datastore = require('nedb');
 const utils = require('./utils');
 
-let contextBrokers = null;
-
 router.get('/', function (routerReq, routerRes, routerNext) {
   readConfig(routerRes);
 });
@@ -17,43 +15,49 @@ function readConfig(routerRes) {
   db.find({}, function (err, docs) {
     if (!err && docs.length > 0) {
       contextBrokers = docs[0].contextBrokers;
-      processEntities(routerRes);
+      processContextBrokers(routerRes);
     } else {
       routerRes.send([]);
     }
   });
 }
 
-async function processEntities(routerRes) {
+async function processContextBrokers(routerRes) {
   const modelDtos = [];
   for (const cb of contextBrokers) {
+    await processEntities(routerRes, modelDtos, cb);
     for (const s of cb.services) {
-      for (const e of s.entities) {
-        let entityData = null;
-        try {
-          entityData = await get(cb, s);
-        } catch (error) {
-          routerRes.status(500).send(error);
-        }
-        const modelDto = getModelDto(e, entityData);
-        modelDtos.push(modelDto);
-      }
+      await processEntities(routerRes, modelDtos, cb, s);
     }
   }
   routerRes.send(modelDtos);
 }
 
-function get(source, service) {
+async function processEntities(routerRes, modelDtos, cb, s) {
+  const entitiesContainer = s ? s : cb;
+  for (const e of entitiesContainer.entities) {
+    let entityData = null;
+    try {
+      entityData = await get(cb, s, e);
+    } catch (error) {
+      routerRes.status(500).send(error);
+    }
+    const modelDto = getModelDto(e, entityData);
+    modelDtos.push(modelDto);
+  }
+}
+
+function get(source, service, entity) {
   return new Promise((resolve, reject) => {
-    request({ url: getUrl(source), qs: getParams(), headers: getHeaders(service), json: true }, (err, res, body) => {
+    request({ url: getUrl(source, entity), qs: getParams(), headers: getHeaders(service), json: true }, (err, res, body) => {
       if (err) { reject(err); }
       resolve(body);
     });
   });
 }
 
-function getUrl(cb) {
-  return utils.parseUrl(cb.url) + "/v2/entities";
+function getUrl(cb, entity) {
+  return utils.parseUrl(cb.url) + "/v2/entities?type=" + entity.name;
 }
 
 function getParams() {
@@ -64,6 +68,7 @@ function getParams() {
 }
 
 function getHeaders(service) {
+  if (!service) return {};
   return {
     'fiware-service': service.service,
     'fiware-servicepath': service.servicepath,
