@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import * as L from 'leaflet';
@@ -11,8 +11,8 @@ import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { MapDashboardService } from '../services/map-dashboard-service/map-dashboard.service';
 import { LayerService } from '../services/layer-service/layer-service';
 import { PopupService } from '../services/popup-service/popup-service';
-import { Entity } from 'src/app/shared/data-models/fiware/entity';
-import { ModelDto } from 'src/app/shared/misc/model-dto';
+import { Entity } from 'src/app/shared/models/entity';
+import { ModelDto } from 'src/app/shared/models/model-dto';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 
@@ -35,6 +35,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private mapDashBoardService: MapDashboardService,
     private layerService: LayerService,
     private popupService: PopupService,
+    private elem: ElementRef,
   ) {
     super();
   }
@@ -79,11 +80,18 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     });
 
     this.map.addControl(searchControl);
+    this.addFocusOutEventToGeoSearch();
+  }
+
+  private addFocusOutEventToGeoSearch(): void {
+    const geosearchContainer: any = this.elem.nativeElement.querySelectorAll('.geosearch')[0];
+    const geosearchInput: any = this.elem.nativeElement.querySelectorAll('.glass')[0];
+    geosearchInput.addEventListener('focusout', (e) => { geosearchContainer.classList.remove('active'); }, false);
   }
 
   private loadLayerMenu(): void {
     this.layers = this.layerService.getMainLayers();
-    this.selectedLayers = this.layerService.getAllLayers(this.layers);
+    this.selectedLayers = this.layerService.getAllSelected(this.layers);
   }
 
   private loadEntities(): void {

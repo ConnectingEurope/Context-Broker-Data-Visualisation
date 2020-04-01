@@ -30,7 +30,7 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/nova-light/theme.css",
+              "src/assets/styles/nova-light-custom/theme.scss",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/leaflet.markercluster/dist/MarkerCluster.css",
@@ -38,6 +38,11 @@
               "node_modules/leaflet-geosearch/assets/css/leaflet.css",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/styles"
+              ]
+            },
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/popper.js/dist/umd/popper.min.js",

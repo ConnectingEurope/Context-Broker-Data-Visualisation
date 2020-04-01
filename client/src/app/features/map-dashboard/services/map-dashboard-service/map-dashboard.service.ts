@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ModelDto } from 'src/app/shared/misc/model-dto';
+import { ModelDto } from 'src/app/shared/models/model-dto';
 
 @Injectable({
   providedIn: 'root',

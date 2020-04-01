@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
-import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
+import { ContextBrokerForm } from '../../models/context-broker-form';
+import { AppMessageService } from 'src/app/shared/services/app-message-service';
 
 @Component({
   selector: 'app-historical-configuration',
@@ -12,61 +12,53 @@ import { ContextBrokerConfiguration } from '../../models/context-broker-configur
 })
 export class HistoricalConfigurationComponent extends BaseComponent {
 
-  @Input() public cb: ContextBrokerConfiguration;
+  @Input() public cb: ContextBrokerForm;
 
   constructor(
     private configDashboardService: ConfigDashboardService,
-    private messageService: MessageService,
+    private appMessageService: AppMessageService,
   ) {
     super();
   }
 
   protected onCheckCygnus(): void {
-    const url: string = this.cb.form.value.cygnus;
+    const url: string = this.cb.historicalForm.value.cygnus;
 
-    this.configDashboardService.checkCygnusHealth(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && res.statusCode === 200 && res.body && res.body.orion) {
-        this.onCheckCygnusSuccess();
-      } else {
-        this.onCheckCygnusSuccess();
-      }
-    }, err => {
-      this.onCheckCygnusFail();
-    });
+    this.configDashboardService.checkCygnusHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
+      isLive => {
+        isLive ? this.onCheckCygnusSuccess() : this.onCheckCygnusFail();
+      },
+      err => {
+        this.onCheckCygnusFail();
+      });
   }
 
   protected onCheckComet(): void {
-    const url: string = this.cb.form.value.comet;
+    const url: string = this.cb.historicalForm.value.comet;
 
-    this.configDashboardService.checkCometHealth(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && res.statusCode === 200 && res.body && res.body.orion) {
-        this.onCheckCometSuccess();
-      } else {
-        this.onCheckCometSuccess();
-      }
-    }, err => {
-      this.onCheckCometFail();
-    });
+    this.configDashboardService.checkCometHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
+      isLive => {
+        isLive ? this.onCheckCometSuccess() : this.onCheckCometFail();
+      },
+      err => {
+        this.onCheckCometFail();
+      });
   }
 
   private onCheckCygnusSuccess(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'success', summary: 'Cygnus is live!' });
+    this.appMessageService.add({ severity: 'success', summary: 'Connection succeded!' });
   }
 
   private onCheckCygnusFail(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'error', summary: 'Cannot find Cygnus' });
+    this.appMessageService.add({ severity: 'error', summary: 'Cannot find Cygnus' });
   }
 
   private onCheckCometSuccess(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'success', summary: 'STH-Comet is live!' });
+    this.appMessageService.add({ severity: 'success', summary: 'Connection succeded!' });
   }
 
   private onCheckCometFail(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'error', summary: 'Cannot find STH-Comet' });
+    this.appMessageService.add({ severity: 'error', summary: 'Cannot find STH-Comet' });
   }
 
 }

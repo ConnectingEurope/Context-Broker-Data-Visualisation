@@ -1,0 +1,29 @@
+// General styles, there should be only custom classes.
+
+@import './variables';
+
+i.help-icon {
+  color: $primaryDarkColor;
+}
+
+input.largeInput {
+  width: 280px;
+}
+
+button.secondary-button {
+  background-color: white !important;
+}
+
+i.accordion-chevron-icon {
+  color: white;
+  display:inline-block;
+  vertical-align: middle;
+}
+
+p.advertisement {
+  color: $primaryColor;
+}
+
+p.advertisement.wrong {
+  color: $wrongColor;
+}

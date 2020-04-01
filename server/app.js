@@ -24,9 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // API
 app.use('/', indexRouter);
-app.use('/check-broker', checkHealthRouter);
-app.use('/check-cygnus', checkHealthRouter);
-app.use('/check-comet', checkHealthRouter);
+app.use('/check', checkHealthRouter);
 app.use('/entities', entitiesRouter);
 app.use('/config', configRouter);
 app.use('/all', allRouter);

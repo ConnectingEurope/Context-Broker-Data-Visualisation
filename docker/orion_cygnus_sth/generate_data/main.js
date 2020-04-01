@@ -40,7 +40,18 @@ function getPayload(c, t) {
                 "type": "Point",
                 "coordinates": generateRandomLatLon()
             }
-        }
+        },
+		"dateModified": {
+			"type": "DateTime",
+			"value": "2011-03-11T08:46:36.00Z",
+			"metadata": {}
+		},
+		"count": {
+			"type": "Integer",
+			"value": "1",
+			"metadata": {}
+		}
+
     };
 }
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const request = require('request');
 const Datastore = require('nedb');
-const db = new Datastore({ filename: './configuration', autoload: true });
+const utils = require('./utils');
 
 let contextBrokers = null;
 
@@ -11,10 +11,15 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 });
 
 function readConfig(routerRes) {
+
+  const db = new Datastore({ filename: './configuration', autoload: true });
+
   db.find({}, function (err, docs) {
-    if (!err) {
+    if (!err && docs.length > 0) {
       contextBrokers = docs[0].contextBrokers;
       processEntities(routerRes);
+    } else {
+      routerRes.status(404).send();
     }
   });
 }
@@ -43,7 +48,7 @@ function get(source, service) {
 }
 
 function getUrl(cb) {
-  return cb.url + (cb.port ? ":" + cb.port : '') + "/v2/entities";
+  return utils.parseUrl(cb.url) + "/v2/entities";
 }
 
 function getParams() {
@@ -62,7 +67,7 @@ function getHeaders(service) {
 
 function getModelDto(entity, entityData) {
   return {
-    type: entity.type,
+    type: entity.name,
     data: entityData
   }
 }

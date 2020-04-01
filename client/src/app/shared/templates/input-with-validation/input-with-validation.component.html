@@ -1,0 +1,10 @@
+<div class="d-inline" [formGroup]="group">
+    <h6>{{label + (required ? '*' : '')}}</h6>
+    <input class="largeInput" type="text" pInputText formControlName="{{controlName}}"
+        (ngModelChange)="onChange($event)" />
+    <p-button *ngIf="hasButton" class=" ml-2" icon="{{buttonIcon}}" [disabled]="fControl.errors"
+        (onClick)="onClick($event)"></p-button>
+    <p [style.visibility]="shouldErrorBeDisplayed() ? 'visible' : 'hidden'">
+        {{getErrorMessage()}}
+    </p>
+</div>

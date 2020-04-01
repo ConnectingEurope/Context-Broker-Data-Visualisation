@@ -5,20 +5,22 @@
 
                 <!-- Name -->
                 <div>
-                    <h6 class="first">Name</h6>
-                    <input type="text" pInputText formControlName="name" (ngModelChange)="onNameChange()" />
+                    <app-input-with-validation [label]="'Name'" [controlName]="'name'" [group]="cb.form"
+                        [required]="true" (changeText)="onNameChange()">
+                    </app-input-with-validation>
                 </div>
 
                 <!-- URL -->
-                <div class="mt-5">
-                    <h6 class="first">URL</h6>
-                    <input type="text" pInputText formControlName="url" />
-                    <p-button class=" ml-2" icon="pi pi-check" (onClick)="onCheckContextBroker()"></p-button>
+                <div class="mt-4">
+                    <app-input-with-validation [label]="'URL'" [controlName]="'url'" [group]="cb.form" [required]="true"
+                        [hasButton]="true" [buttonIcon]="'pi pi-check'" (buttonClick)="onCheckContextBroker()">
+                    </app-input-with-validation>
                 </div>
 
                 <!-- Choose entities button -->
-                <div class="mt-5">
-                    <p-button label="Choose entities and attributes" icon="pi pi-list" (onClick)="onChooseEntities()">
+                <div class="mt-4">
+                    <p-button [disabled]="isDisabledChooseButton()" label="Choose entities and attributes"
+                        icon="pi pi-list" (onClick)="onChooseEntities()">
                     </p-button>
                 </div>
 
@@ -34,17 +36,23 @@
                     <p-checkbox label="Visualize historical data" binary="true"
                         [formControl]="cb.form.controls['needHistoricalData']">
                     </p-checkbox>
-                    <i class="ml-2 pi pi-question-circle"
+                    <i class="ml-2 pi pi-question-circle help-icon"
                         pTooltip="In order to have access to historical data, both Cygnus URL and STH-Comet URL should be provided"></i>
                 </div>
 
             </div>
 
             <!-- Selected entities -->
-            <div class="col-4">
-                <p-tree [value]="cb.entities" selectionMode="checkbox" [(selection)]="cb.selectedEntities"
-                    emptyMessage="">
-                </p-tree>
+            <div class="col-5">
+                <div *ngIf="cb.entities.length > 0">
+                    <h6>Entities and attributes to choose</h6>
+                    <p-scrollPanel #entitiesScroll class="m-3" [style]="{width: '100%', height: '300px'}">
+                        <p-tree [value]="cb.entities" selectionMode="checkbox" [(selection)]="cb.selectedEntities"
+                            emptyMessage="" (onNodeExpand)="refreshEntitiesScroll()"
+                            (onNodeCollapse)="refreshEntitiesScroll()">
+                        </p-tree>
+                    </p-scrollPanel>
+                </div>
             </div>
 
         </div>
