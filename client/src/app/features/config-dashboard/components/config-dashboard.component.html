@@ -1,17 +1,22 @@
 <div class="container-fluid mt-3">
 
     <!-- Add Context Broker button -->
-    <div class="row justify-content-center my-3">
-        <div class="col-auto">
-            <p-button *ngIf="configurationLoaded" icon="pi pi-plus" label="Add Context Broker"
-                (onClick)="onAddContextBroker()"></p-button>
+    <div class="row justify-content-center mt-3">
+        <div *ngIf="configurationLoaded" class="col-auto">
+            <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
         </div>
-        <div class="col-auto">
-            <p-button *ngIf=" configurationLoaded && (contextBrokers.length > 0 || addedOrRemovedAtLeastOnce)"
-                icon="pi pi-check" label="Apply Configuration"
-                pTooltip="{{!isValidConfiguration() ? 'There are invalid fields' : undefined}}"
-                [disabled]="!isValidConfiguration()" (onClick)="onApplyConfiguration()">
+        <div *ngIf="shouldApplyButtonBeDisplayed()" class="col-auto">
+            <p-button icon="pi pi-check" label="Apply Configuration" [disabled]="!shouldApplyButtonBeEnabled()"
+                (onClick)="onApplyConfiguration()">
             </p-button>
+        </div>
+    </div>
+    <div class="row justify-content-center my-2">
+        <div class="col-auto">
+            <p [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'" class="advertisement">
+                There are unsaved changes, apply the configuration to save them. Otherwise, the configuration will
+                not be stored.
+            </p>
         </div>
     </div>
 
@@ -40,7 +45,8 @@
 
                             <!-- Services configuration -->
                             <div *ngIf="cb.form.get('needServices').value === true" class="my-4">
-                                <app-service-configuration [cb]="cb"></app-service-configuration>
+                                <app-service-configuration [cb]="cb" (removeServiceEvent)="onRemoveService()">
+                                </app-service-configuration>
                             </div>
 
                             <!-- Historical Configuration -->
