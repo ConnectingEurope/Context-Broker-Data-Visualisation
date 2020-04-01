@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import * as L from 'leaflet';
@@ -35,6 +35,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private mapDashBoardService: MapDashboardService,
     private layerService: LayerService,
     private popupService: PopupService,
+    private elem: ElementRef,
   ) {
     super();
   }
@@ -79,6 +80,13 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     });
 
     this.map.addControl(searchControl);
+    this.addFocusOutEventToGeoSearch();
+  }
+
+  private addFocusOutEventToGeoSearch(): void {
+    const geosearchContainer: any = this.elem.nativeElement.querySelectorAll('.geosearch')[0];
+    const geosearchInput: any = this.elem.nativeElement.querySelectorAll('.glass')[0];
+    geosearchInput.addEventListener('focusout', (e) => { geosearchContainer.classList.remove('active'); }, false);
   }
 
   private loadLayerMenu(): void {
