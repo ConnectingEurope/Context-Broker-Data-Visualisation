@@ -13,9 +13,6 @@ export class LayerService {
             AirQualityObserved: {
                 label: 'Air Quality Observed',
                 icon: LeafletIcons.icons.airQualityObserved,
-                CO2: {
-                    label: 'CO2',
-                },
             },
         },
         transport: {

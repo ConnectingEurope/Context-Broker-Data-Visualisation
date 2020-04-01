@@ -1,3 +1,4 @@
+import { ConditionDto } from './../models/condition-dto';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
@@ -15,6 +16,7 @@ import { Entity } from 'src/app/shared/data-models/fiware/entity';
 import { ModelDto } from 'src/app/shared/misc/model-dto';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
+import { Utilities } from '../../../shared/utils/utilities';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -23,6 +25,8 @@ import { BaseComponent } from 'src/app/shared/misc/base.component';
 })
 export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit {
 
+    protected controlName: string = 'data';
+
     protected menuItems: MenuItem[];
     protected layers: TreeNode[];
     protected selectedLayers: TreeNode[];
@@ -30,6 +34,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
     private layerGroups: { [key: string]: L.LayerGroup } = {};
+    private layersBeforeFilter: L.Layer[];
+    private removedLayers: L.Layer[] = [];
+    private utils: Utilities = Utilities;
+    private filters: ConditionDto[] = [];
 
     constructor(
         private mapDashBoardService: MapDashboardService,
@@ -51,10 +59,55 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
     protected onNodeSelect(event: any): void {
         this.markerClusterGroup.addLayer(this.layerGroups[event.node.data]);
+        this.setFilters(this.filters);
     }
 
     protected onNodeUnselect(event: any): void {
         this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
+    }
+
+    /**
+     * Apply selected conditions in the map.
+     * @event
+     */
+    protected setFilters(event: ConditionDto[]): void {
+        this.filters = event;
+        // The markerClusterGroup is always filled in.
+        this.markerClusterGroup.addLayers(this.removedLayers);
+        this.removedLayers = [];
+        if (!this.layersBeforeFilter) {
+            this.layersBeforeFilter = this.markerClusterGroup.getLayers();
+        }
+
+        // Remove layers
+        const layersToRemove: L.Layer[] = [];
+        this.markerClusterGroup.getLayers().forEach((layer) => {
+            this.filters.forEach(filter => {
+                if (filter.selected && layer[this.controlName][filter.attribute]) {
+                    if (this.applyFilter(layer, filter, this.controlName)) {
+                        layersToRemove.push(layer);
+                        this.removedLayers.push(layer);
+                    }
+                }
+            });
+        });
+        this.markerClusterGroup.removeLayers(layersToRemove);
+    }
+
+    /**
+     * This method transforms the filter and checks whether it should be applied.
+     * @layer
+     * @filter
+     */
+    private applyFilter(layer: L.Layer, filter: ConditionDto, controlName: string): boolean {
+        let shouldBeRemoved: boolean = false;
+        // Check if the value is a number.
+        if (+filter.value) {
+            shouldBeRemoved = !this.utils.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
+        } else {
+            shouldBeRemoved = !layer[controlName][filter.attribute].includes(filter.value);
+        }
+        return shouldBeRemoved;
     }
 
     private loadMap(): void {
@@ -107,6 +160,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             { icon: LeafletIcons.icons[model.type] },
         );
         marker.bindPopup(this.popupService.getPopup(model.type, entity));
+        marker[this.controlName] = entity;
         this.layerGroups[model.type].addLayer(marker);
     }
 
