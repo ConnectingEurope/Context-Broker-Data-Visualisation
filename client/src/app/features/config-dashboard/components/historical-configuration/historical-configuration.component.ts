@@ -22,7 +22,7 @@ export class HistoricalConfigurationComponent extends BaseComponent {
   }
 
   protected onCheckCygnus(): void {
-    const url: string = this.cb.form.value.cygnus;
+    const url: string = this.cb.historicalForm.value.cygnus;
 
     this.configDashboardService.checkCygnusHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
       isLive => {
@@ -34,7 +34,7 @@ export class HistoricalConfigurationComponent extends BaseComponent {
   }
 
   protected onCheckComet(): void {
-    const url: string = this.cb.form.value.comet;
+    const url: string = this.cb.historicalForm.value.comet;
 
     this.configDashboardService.checkCometHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
       isLive => {

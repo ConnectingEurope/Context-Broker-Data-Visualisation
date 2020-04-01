@@ -19,3 +19,11 @@ i.accordion-chevron-icon {
   display:inline-block;
   vertical-align: middle;
 }
+
+p.advertisement {
+  color: $primaryColor;
+}
+
+p.advertisement.wrong {
+  color: $wrongColor;
+}

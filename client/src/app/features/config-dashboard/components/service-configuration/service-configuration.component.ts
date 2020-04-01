@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
@@ -17,6 +17,7 @@ import { ConfirmationService } from 'primeng/api';
 export class ServiceConfigurationComponent extends BaseComponent {
 
   @Input() public cb: ContextBrokerForm;
+  @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
 
   @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
@@ -42,7 +43,8 @@ export class ServiceConfigurationComponent extends BaseComponent {
     this.confirmationService.confirm({
       icon: 'pi pi-info',
       header: 'Are you sure you want to delete this service?',
-      message: 'All the configuration of this service will be deleted.',
+      message: 'All the configuration of this service will be deleted. ' +
+        'Note that this change will only be stored when applying the configuration.',
       acceptLabel: 'Delete',
       rejectLabel: 'Cancel',
       accept: (): void => {
@@ -54,7 +56,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
   protected onServiceConfigChange(index: number): void {
     const service: string = this.cb.services[index].form.value.service;
     const servicePath: string = this.cb.services[index].form.value.servicePath;
-    const header: string = service + (service && servicePath ? servicePath : '');
+    const header: string = service + (service && servicePath && this.cb.services[index].form.get('servicePath').valid ? servicePath : '');
     this.cb.services[index].header = header && !/^\s+$/.test(service) ? header :
       this.configDashboardService.serviceHeaderWhenEmpty;
   }
@@ -86,6 +88,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
   }
 
   private removeService(index: number): void {
+    this.removeServiceEvent.emit(index);
     this.cb.services.splice(index, 1);
   }
 

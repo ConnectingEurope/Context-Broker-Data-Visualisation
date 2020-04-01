@@ -17,7 +17,9 @@ import { Router } from '@angular/router';
 export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
   protected configurationLoaded: boolean = false;
-  protected addedOrRemovedAtLeastOnce: boolean = false;
+  protected addedContextBrokerAtLeastOnce: boolean = false;
+  protected removedContextBrokerAtLeastOnce: boolean = false;
+  protected removedServiceAtLeastOnce: boolean = false;
   protected contextBrokers: ContextBrokerForm[] = [];
 
   constructor(
@@ -42,16 +44,21 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     );
   }
 
-  protected isValidConfiguration(): boolean {
-    return this.contextBrokers.every(cb => {
-      return cb.form.valid &&
-        (!cb.form.get('needHistoricalData').value || cb.historicalForm.valid) &&
-        (!cb.form.get('needServices').value || cb.services.every(s => s.form.valid));
-    });
+  protected shouldApplyButtonBeDisplayed(): boolean {
+    return this.configurationLoaded
+      && (this.contextBrokers.length > 0 || this.addedContextBrokerAtLeastOnce || this.removedContextBrokerAtLeastOnce);
+  }
+
+  protected shouldApplyButtonBeEnabled(): boolean {
+    return this.shouldApplyButtonBeDisplayed() && this.isDirtyConfiguration() && this.isValidConfiguration();
+  }
+
+  protected shouldAdvertisementBeDisplayed(): boolean {
+    return this.shouldApplyButtonBeEnabled();
   }
 
   protected onAddContextBroker(): void {
-    this.addedOrRemovedAtLeastOnce = true;
+    this.addedContextBrokerAtLeastOnce = true;
     this.contextBrokers.unshift({
       header: this.configDashboardService.defaultContextName,
       form: this.configDashboardService.createContextBrokerForm(),
@@ -62,12 +69,17 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     });
   }
 
+  protected onRemoveService(): void {
+    this.removedServiceAtLeastOnce = true;
+  }
+
   protected onRemoveContextBroker(index: number): void {
-    this.addedOrRemovedAtLeastOnce = true;
+    this.removedContextBrokerAtLeastOnce = true;
     this.confirmationService.confirm({
       icon: 'pi pi-info',
       header: 'Are you sure you want to delete this context broker?',
-      message: 'All the configuration of this context broker will be deleted, including services and historical data.',
+      message: 'All the configuration of this context broker will be deleted. ' +
+        'Note that this change will only be stored when applying the configuration.',
       acceptLabel: 'Delete',
       rejectLabel: 'Cancel',
       accept: (): void => {
@@ -93,6 +105,34 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
   private onApplyConfigurationFail(): void {
     this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' });
+  }
+
+  private markFormsAsPristine(): void {
+    this.addedContextBrokerAtLeastOnce = false;
+    this.removedContextBrokerAtLeastOnce = false;
+    this.removedServiceAtLeastOnce = false;
+    this.contextBrokers.forEach(cb => {
+      cb.form.markAsPristine();
+      cb.historicalForm.markAsPristine();
+      cb.services.forEach(s => s.form.markAsPristine());
+    });
+  }
+
+  private isDirtyConfiguration(): boolean {
+    return this.contextBrokers.some(cb => {
+      return cb.form.dirty ||
+        (cb.form.get('needHistoricalData').value && cb.historicalForm.dirty) ||
+        (cb.form.get('needServices').value && cb.services.some(s => s.form.dirty)) ||
+        this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce;
+    });
+  }
+
+  private isValidConfiguration(): boolean {
+    return this.contextBrokers.every(cb => {
+      return cb.form.valid &&
+        (!cb.form.get('needHistoricalData').value || cb.historicalForm.valid) &&
+        (!cb.form.get('needServices').value || (cb.services.length > 0 && cb.services.every(s => s.form.valid)));
+    });
   }
 
   private removeContextBroker(index: number): void {

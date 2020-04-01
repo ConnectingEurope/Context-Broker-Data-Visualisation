@@ -6,10 +6,9 @@ const utils = require('./utils');
 router.get('/', function (req, res, next) {
 
   const url = utils.parseUrl(req.query.url) + '/v2/types';
-  const headers = req.query.service !== undefined && req.query.servicePath !== undefined ? {
-    'fiware-service': req.query.service,
-    'fiware-servicepath': req.query.servicePath,
-  } : {};
+  const headers = {};
+  if (req.query.service !== undefined) headers['fiware-service'] = req.query.service;
+  if (req.query.servicePath !== undefined) headers['fiware-servicepath'] = req.query.servicePath;
 
   request({ url: url, headers: headers, json: true }, (e, r, b) => {
     if (b) {
