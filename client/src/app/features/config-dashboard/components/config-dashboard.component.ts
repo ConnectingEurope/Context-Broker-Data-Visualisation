@@ -110,7 +110,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
   }
 
   private isDirtyConfiguration(): boolean {
-    return this.contextBrokers.every(cb => {
+    return this.contextBrokers.some(cb => {
       return cb.form.dirty ||
         (cb.form.get('needHistoricalData').value && cb.historicalForm.dirty) ||
         (cb.form.get('needServices').value && cb.services.some(s => s.form.dirty)) ||
