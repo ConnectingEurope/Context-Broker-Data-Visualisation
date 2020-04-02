@@ -88,6 +88,8 @@ export class LayerService {
             case 'ParkingSpot':
                 return 'parking';
 
+            case 'WeatherAlert':
+            case 'WeatherObserved':
             case 'WeatherForecast':
                 return 'weather';
 
