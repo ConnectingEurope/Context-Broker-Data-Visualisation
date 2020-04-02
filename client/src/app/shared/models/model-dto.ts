@@ -1,4 +1,4 @@
-import { Entity } from "../data-models/fiware/entity";
+import { Entity } from './entity';
 
 export interface ModelDto {
     type: string;

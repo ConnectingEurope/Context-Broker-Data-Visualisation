@@ -1,6 +1,8 @@
 import { TreeNode } from 'primeng/api/treenode';
 import { LeafletIcons } from '../../../../shared/misc/leaflet-icons';
 import { Injectable } from '@angular/core';
+import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
+import { EntityConfiguration } from 'src/app/features/config-dashboard/models/context-broker-configuration';
 
 @Injectable({
     providedIn: 'root',
@@ -35,7 +37,7 @@ export class LayerService {
         return Object.entries(this.layers).map(e => this.getTreeNodeLayer(e[0], e[1]));
     }
 
-    public getEntities(entities: any[]): TreeNode[] {
+    public getEntities(entities: EntityDto[]): TreeNode[] {
         const entitiesTree: TreeNode[] = [];
 
         entities.forEach(e => {
@@ -49,12 +51,62 @@ export class LayerService {
         return entitiesTree;
     }
 
-    public getAllLayers(layers: TreeNode[]): TreeNode[] {
+    public getAllSelected(layers: TreeNode[]): TreeNode[] {
         let concatenatedLayers: TreeNode[] = layers || [];
         if (layers) {
-            layers.forEach(t => concatenatedLayers = concatenatedLayers.concat(this.getAllLayers(t.children)));
+            layers.forEach(t => concatenatedLayers = concatenatedLayers.concat(this.getAllSelected(t.children)));
         }
         return concatenatedLayers;
+    }
+
+    public entitiesConfigurationToTreeNodes(entities: EntityConfiguration[]): { treeNodes: TreeNode[], selectedTreeNodes: TreeNode[] } {
+        const treeN: TreeNode[] = [];
+        const selectedTreeN: TreeNode[] = [];
+
+        entities.forEach(e => {
+            const treeNodeChildren: TreeNode[] = [];
+
+            e.attrs.forEach(a => {
+                const treeNodeChild: TreeNode = { data: a.name, label: a.name, parent: { data: e.name } };
+                treeNodeChildren.push(treeNodeChild);
+                if (a.selected) { selectedTreeN.push(treeNodeChild); }
+            });
+
+            const treeNode: TreeNode = { data: e.name, label: e.name, children: treeNodeChildren };
+
+            treeN.push(treeNode);
+
+            if (e.selected) {
+                selectedTreeN.push(treeNode);
+            } else {
+                this.checkIfTreeNodeIsPartialSelected(treeNode, e);
+            }
+        });
+
+        return { treeNodes: treeN, selectedTreeNodes: selectedTreeN };
+    }
+
+    public treeNodesToEntitiesConfiguration(treeNodes: TreeNode[], selectedTreeNodes: TreeNode[]): EntityConfiguration[] {
+        return treeNodes.map(t => {
+            return {
+                name: t.data,
+                selected: this.isTreeNodeSelected(t, selectedTreeNodes),
+                attrs: t.children.map(c => ({
+                    name: c.data,
+                    selected: this.isTreeNodeSelected(c, selectedTreeNodes),
+                })),
+            };
+        });
+    }
+
+    private checkIfTreeNodeIsPartialSelected(treeNode: TreeNode, e: EntityConfiguration): void {
+        if (e.attrs.some(a => a.selected)) {
+            treeNode.partialSelected = true;
+        }
+    }
+
+    private isTreeNodeSelected(treeNode: TreeNode, selectedTreeNodes: TreeNode[]): boolean {
+        return selectedTreeNodes.some(t => treeNode === t);
     }
 
     private getTreeNodeLayer(key: string, value: any): TreeNode {

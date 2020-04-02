@@ -1,0 +1,34 @@
+// Leaflet styles.
+
+@import './variables';
+
+/*****************************************************************************
+ MarkerCluster
+*****************************************************************************/
+
+.marker-cluster-large,
+.marker-cluster-large div {
+  background-color: $primaryDarkColor;
+}
+
+.marker-cluster-medium,
+.marker-cluster-medium div {
+  background-color: $primaryColor;
+}
+
+.marker-cluster-small,
+.marker-cluster-small div {
+  background-color: $primaryLightColor;
+}
+
+.marker-cluster span {
+  color: white;
+}
+
+/*****************************************************************************
+ GeoSearch
+*****************************************************************************/
+
+div.geosearch a.reset {
+  display: none;
+}

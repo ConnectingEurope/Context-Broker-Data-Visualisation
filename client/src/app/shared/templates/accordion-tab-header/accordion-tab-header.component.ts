@@ -10,10 +10,11 @@ export class AccordionTabHeaderComponent {
 
   @Input() public header: string;
   @Input() public selected: boolean;
-  @Output() public remove: EventEmitter<void> = new EventEmitter<void>();
+  @Output() public remove: EventEmitter<any> = new EventEmitter<any>();
 
-  protected onRemove(): void {
-    this.remove.emit();
+  protected onRemove(event: any): void {
+    event.stopPropagation();
+    this.remove.emit(event);
   }
 
 }

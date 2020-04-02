@@ -1,11 +1,12 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
-import { MessageService } from 'primeng/api';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
-import { ContextBrokerConfiguration } from '../../models/context-broker-configuration';
+import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
+import { ScrollPanel } from 'primeng/scrollpanel';
+import { AppMessageService } from 'src/app/shared/services/app-message-service';
 
 @Component({
   selector: 'app-general-configuration',
@@ -14,66 +15,76 @@ import { EntityDto } from '../../models/entity-dto';
 })
 export class GeneralConfigurationComponent extends BaseComponent implements OnDestroy {
 
-  @Input() public cb: ContextBrokerConfiguration;
+  @Input() public cb: ContextBrokerForm;
+
+  @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
   constructor(
     private configDashboardService: ConfigDashboardService,
-    private messageService: MessageService,
+    private appMessageService: AppMessageService,
     private layerService: LayerService,
   ) {
     super();
   }
 
   protected onNameChange(): void {
-    this.cb.header = this.cb.form.value.name;
+    const header: string = this.cb.form.value.name;
+    this.cb.header = header && !/^\s+$/.test(header) ? header : this.configDashboardService.contextHeaderWhenEmpty;
+  }
+
+  protected refreshEntitiesScroll(): void {
+    setTimeout(() => {
+      this.entitiesScroll.refresh();
+    });
   }
 
   protected onCheckContextBroker(): void {
     const url: string = this.cb.form.value.url;
 
-    this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && res.statusCode === 200 && res.body && res.body.orion) {
-        this.onCheckContextBrokerSuccess();
-      } else {
+
+
+    this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
+      isLive => {
+        isLive ? this.onCheckContextBrokerSuccess() : this.onCheckContextBrokerFail();
+      },
+      err => {
         this.onCheckContextBrokerFail();
-      }
-    }, err => {
-      this.onCheckContextBrokerFail();
-    });
+      });
+  }
+
+  protected isDisabledChooseButton(): boolean {
+    return this.cb.form.get('url').invalid;
   }
 
   protected onChooseEntities(): void {
     const url: string = this.cb.form.value.url;
 
-    this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(res => {
-      if (res && res.statusCode === 200 && res.body && res.body.length > 0) {
-        this.onGetEntitiesSuccess(res.body);
-      } else {
+    this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(
+      entities => {
+        entities.length > 0 ? this.onGetEntitiesSuccess(entities) : this.onGetEntitiesFail();
+      },
+      err => {
         this.onGetEntitiesFail();
-      }
-    }, err => {
-      this.onGetEntitiesFail();
-    });
+      });
   }
 
   private onCheckContextBrokerSuccess(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'success', summary: 'Context Broker is live!' });
+    this.appMessageService.add({ severity: 'success', summary: 'Connection succeded!' });
   }
 
   private onCheckContextBrokerFail(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
+    this.appMessageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
   }
 
   private onGetEntitiesSuccess(entities: EntityDto[]): void {
     this.cb.entities = this.layerService.getEntities(entities);
-    this.cb.selectedEntities = this.layerService.getAllLayers(this.cb.entities);
+    this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
   }
 
   private onGetEntitiesFail(): void {
-    this.messageService.clear();
-    this.messageService.add({ severity: 'warn', summary: 'Entities not found', detail: 'Maybe you have entities in specific services' });
+    this.cb.entities = [];
+    this.cb.selectedEntities = [];
+    this.appMessageService.add({ severity: 'warn', summary: 'Entities not found', detail: 'Maybe you have entities in specific services' });
   }
 
 }

@@ -3,12 +3,10 @@
         <div col="col-auto">
 
             <!-- Selection Icon -->
-            <span *ngIf="!selected" class="pi pi-chevron-right mr-3"
-                style="color: darkslategray; display:inline-block; vertical-align: middle;">
-            </span>
-            <span *ngIf="selected" class="pi pi-chevron-down mr-3"
-                style="color: white; display:inline-block; vertical-align: middle;">
-            </span>
+            <i *ngIf="!selected" class="pi pi-chevron-right mr-3 accordion-chevron-icon">
+            </i>
+            <i *ngIf="selected" class="pi pi-chevron-down mr-3 accordion-chevron-icon">
+            </i>
 
             <!-- Text -->
             <span>{{header}}</span>
@@ -17,10 +15,11 @@
 
         <!-- Remove button -->
         <div col="col-auto">
-            <p-button *ngIf="!selected" class="accordion-tab-remove-button" icon="pi pi-trash" (onClick)="onRemove()">
+            <p-button *ngIf="!selected" class="accordion-tab-remove-button" icon="pi pi-trash"
+                (onClick)="onRemove($event)">
             </p-button>
-            <p-button *ngIf="selected" class="accordion-tab-remove-button-selected" icon="pi pi-trash"
-                (onClick)="onRemove()">
+            <p-button *ngIf="selected" class="accordion-tab-remove-button accordion-tab-remove-button-selected"
+                icon="pi pi-trash" (onClick)="onRemove($event)">
             </p-button>
         </div>
 

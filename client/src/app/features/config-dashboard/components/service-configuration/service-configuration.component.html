@@ -22,39 +22,47 @@
                             </p-header>
 
                             <form [formGroup]="service.form">
-                                <div class="container-fluid mt-4">
-                                    <div class="row justify-content-center mb-4">
+                                <div class="container-fluid my-4">
+                                    <div class="row justify-content-center">
                                         <div class="col-6">
 
                                             <!-- Service -->
                                             <div>
-                                                <h6 class="first">Service</h6>
-                                                <input type="text" pInputText formControlName="service"
-                                                    (ngModelChange)="onServiceConfigChange(i)" />
+                                                <app-input-with-validation [label]="'Service'" [controlName]="'service'"
+                                                    [group]="service.form" [required]="true"
+                                                    (changeText)="onServiceConfigChange(i)">
+                                                </app-input-with-validation>
                                             </div>
 
                                             <!-- Service path -->
-                                            <div class="mt-5">
-                                                <h6 class="first">Service Path</h6>
-                                                <input type="text" pInputText formControlName="servicePath"
-                                                    (ngModelChange)="onServiceConfigChange(i)" />
+                                            <div class="mt-4">
+                                                <app-input-with-validation [label]="'Service Path'"
+                                                    [controlName]="'servicePath'" [group]="service.form"
+                                                    (changeText)="onServiceConfigChange(i)">
+                                                </app-input-with-validation>
                                             </div>
 
                                             <!-- Choose entities button -->
-                                            <div class="mt-5">
-                                                <p-button label="Choose entities and attributes" icon="pi pi-list"
-                                                    (onClick)="onGetEntities(i)">
+                                            <div class="mt-4">
+                                                <p-button [disabled]="isDisabledChooseButton(i)"
+                                                    label="Choose entities and attributes" icon="pi pi-list"
+                                                    (onClick)="onChooseEntities(i)">
                                                 </p-button>
                                             </div>
 
                                         </div>
 
                                         <!-- Selected entities -->
-                                        <div class="col-4">
-                                            <p-scrollPanel [style]="{width: '100%', height: '300px'}">
-                                                <p-tree [value]="service.entities" selectionMode="checkbox"
-                                                    [(selection)]="service.selectedEntities" emptyMessage=""></p-tree>
-                                            </p-scrollPanel>
+                                        <div class="col-5">
+                                            <div *ngIf="service.entities.length > 0">
+                                                <p-scrollPanel #entitiesScroll
+                                                    [style]="{width: '100%', height: '300px'}">
+                                                    <p-tree [value]="service.entities" selectionMode="checkbox"
+                                                        [(selection)]="service.selectedEntities" emptyMessage=""
+                                                        (onNodeExpand)="refreshEntitiesScroll()"
+                                                        (onNodeCollapse)="refreshEntitiesScroll()"></p-tree>
+                                                </p-scrollPanel>
+                                            </div>
                                         </div>
 
                                     </div>
