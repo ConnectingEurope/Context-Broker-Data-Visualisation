@@ -232,7 +232,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
                 entity.location.coordinates.reverse() as L.LatLngExpression,
                 { icon: LeafletIcons.icons[parentKey] },
             );
-            marker.bindPopup(this.popupService.getPopup(model.type, entity));
+            marker.bindPopup(this.popupService.getPopup(entity));
             marker[this.controlName] = entity;
             this.layerGroups[model.type].addLayer(marker);
         }
