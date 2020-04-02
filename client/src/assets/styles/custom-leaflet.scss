@@ -6,23 +6,20 @@
  MarkerCluster
 *****************************************************************************/
 
-.marker-cluster-large,
-.marker-cluster-large div {
-  background-color: $primaryDarkColor;
-}
-
-.marker-cluster-medium,
-.marker-cluster-medium div {
-  background-color: $primaryColor;
-}
-
 .marker-cluster-small,
-.marker-cluster-small div {
-  background-color: $primaryLightColor;
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: $primaryColorWithTransparency;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: white;
 }
 
 .marker-cluster span {
-  color: white;
+  color: $primaryColor;
 }
 
 /*****************************************************************************

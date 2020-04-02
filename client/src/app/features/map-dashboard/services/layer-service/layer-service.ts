@@ -28,8 +28,14 @@ export class LayerService {
 
     public getParentKey(type: string): string {
         switch (type) {
-            case 'AirQualityObserved': return 'environment';
-            case 'OffStreetParking': return 'transport';
+            case 'WaterQualityObserved':
+            case 'AirQualityObserved':
+                return 'environment';
+            case 'OffStreetParking':
+                return 'transport';
+            default:
+                return 'generic';
+
         }
     }
 

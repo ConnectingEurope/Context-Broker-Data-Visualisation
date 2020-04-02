@@ -119,7 +119,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
       const parentKey: string = this.layerService.getParentKey(model.type);
       this.layerGroups[model.type] = L.layerGroup();
       this.layerGroups[parentKey] = this.layerGroups[parentKey] || L.layerGroup();
-      model.data.forEach(entity => this.addEntity(model, entity));
+      model.data.forEach(entity => this.addEntity(model, entity, parentKey));
       this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
     });
 
@@ -143,11 +143,11 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     this.appMessageService.add({ severity: 'error', summary: 'Something went wrong trying to load the configuration' });
   }
 
-  private addEntity(model: ModelDto, entity: Entity): void {
+  private addEntity(model: ModelDto, entity: Entity, parentKey: string): void {
     if (entity.location && entity.location.coordinates) {
       const marker: L.Marker = L.marker(
         entity.location.coordinates.reverse() as L.LatLngExpression,
-        { icon: LeafletIcons.icons[model.type] },
+        { icon: LeafletIcons.icons[parentKey] },
       );
       marker.bindPopup(this.popupService.getPopup(model.type, entity));
       this.layerGroups[model.type].addLayer(marker);
