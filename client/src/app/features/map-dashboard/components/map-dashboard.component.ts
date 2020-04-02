@@ -1,3 +1,4 @@
+import { CategoryDto } from './../models/model-dto';
 import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
 import { ConditionDto } from './../models/condition-dto';
 import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
@@ -30,6 +31,7 @@ import { CategoryEntityDto } from '../models/model-dto';
 })
 export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit {
 
+    protected categories: CategoryDto[];
     protected entities: CategoryEntityDto[] = [];
     protected controlName: string = 'data';
     protected menuItems: MenuItem[];
@@ -180,8 +182,17 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private mapCategories(entities: CategoryEntityDto[]): CategoryEntityDto[] {
+        this.categories = [];
         entities.forEach((entity) => {
-            entity.category = this.layerService.getParentKey(entity.name);
+            const nameCategory: string = this.layerService.getParentKey(entity.name);
+            const categoryExist: CategoryDto = this.categories.find((category) => {
+                return category.name === nameCategory;
+            });
+            if (!categoryExist) {
+                this.categories.push({ name: nameCategory, entities: [entity] });
+            } else {
+                categoryExist.entities.push(entity);
+            }
         });
         return entities;
     }

@@ -32,13 +32,13 @@ export class LayerConditionsComponent implements OnInit {
     }
 
     public add(): void {
-        if (this.categorySelected.label && this.entitySelected.label && this.attrSelected.name &&
+        if (this.categorySelected.name && this.entitySelected.name && this.attrSelected.name &&
             this.actionSelected && this.textSelected) {
 
             this.filterList.push(
                 new ConditionDto(
-                    this.categorySelected.label,
-                    this.entitySelected.label,
+                    this.categorySelected.name,
+                    this.entitySelected.name,
                     this.attrSelected.name,
                     +this.textSelected ? this.actionSelected.label : 'contains',
                     this.textSelected,
@@ -70,15 +70,6 @@ export class LayerConditionsComponent implements OnInit {
 
     public emitFilterList(): void {
         this.eventFilters.emit(this.filterList);
-    }
-
-    protected getAttributes(): any[] {
-        if (this.entitySelected) {
-            // TODO: Call to entities service
-            return this.entities.find(elem => {
-                return elem.name === this.entitySelected.data;
-            }).attrs;
-        }
     }
 
 }

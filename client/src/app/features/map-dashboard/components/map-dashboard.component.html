@@ -1,6 +1,6 @@
 <!-- Layer panel -->
-<p-overlayPanel #layerConditionsPanel [style]="{width: '600px'}">
-    <app-layer-conditions [entities]="entities" (eventFilters)="setFilters($event)">
+<p-overlayPanel #layerConditionsPanel styleClass="w-800">
+    <app-layer-conditions [categories]="categories" [entities]="entities" (eventFilters)="setFilters($event)">
     </app-layer-conditions>
 </p-overlayPanel>
 <p-overlayPanel #layerPanel>
