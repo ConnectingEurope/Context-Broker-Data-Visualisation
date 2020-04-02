@@ -144,12 +144,14 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
   }
 
   private addEntity(model: ModelDto, entity: Entity): void {
-    const marker: L.Marker = L.marker(
-      entity.location.coordinates.reverse() as L.LatLngExpression,
-      { icon: LeafletIcons.icons[model.type] },
-    );
-    marker.bindPopup(this.popupService.getPopup(model.type, entity));
-    this.layerGroups[model.type].addLayer(marker);
+    if (entity.location && entity.location.coordinates) {
+      const marker: L.Marker = L.marker(
+        entity.location.coordinates.reverse() as L.LatLngExpression,
+        { icon: LeafletIcons.icons[model.type] },
+      );
+      marker.bindPopup(this.popupService.getPopup(model.type, entity));
+      this.layerGroups[model.type].addLayer(marker);
+    }
   }
 
   private loadMarkerCluster(): void {

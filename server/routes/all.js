@@ -36,14 +36,16 @@ async function processContextBrokers(routerRes) {
 async function processEntities(routerRes, modelDtos, cb, s) {
   const entitiesContainer = s ? s : cb;
   for (const e of entitiesContainer.entities) {
-    let entityData = null;
-    try {
-      entityData = await get(cb, s, e);
-    } catch (error) {
-      routerRes.status(500).send(error);
+    if (e.selected) {
+      let entityData = null;
+      try {
+        entityData = await get(cb, s, e);
+      } catch (error) {
+        routerRes.status(500).send(error);
+      }
+      const modelDto = getModelDto(e, entityData);
+      modelDtos.push(modelDto);
     }
-    const modelDto = getModelDto(e, entityData);
-    modelDtos.push(modelDto);
   }
 }
 
@@ -57,7 +59,12 @@ function get(source, service, entity) {
 }
 
 function getUrl(cb, entity) {
-  return utils.parseUrl(cb.url) + "/v2/entities?type=" + entity.name;
+  const url = utils.parseUrl(cb.url) + "/v2/entities?type=" + entity.name + "&options=keyValues&attrs=" + getAttrs(entity);
+  return utils.parseUrl(cb.url) + "/v2/entities?type=" + entity.name + "&options=keyValues&attrs=" + getAttrs(entity);
+}
+
+function getAttrs(entity) {
+  return entity.attrs.filter(a => a.selected).map(a => a.name).join();
 }
 
 function getParams() {
