@@ -10,107 +10,108 @@ import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 
 @Component({
-  selector: 'app-service-configuration',
-  templateUrl: './service-configuration.component.html',
-  styleUrls: ['./service-configuration.component.scss'],
+    selector: 'app-service-configuration',
+    templateUrl: './service-configuration.component.html',
+    styleUrls: ['./service-configuration.component.scss'],
 })
 export class ServiceConfigurationComponent extends BaseComponent {
 
-  @Input() public cb: ContextBrokerForm;
-  @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
-  @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
+    @Input() public cb: ContextBrokerForm;
+    @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
 
-  @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
+    @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
-  constructor(
-    private configDashboardService: ConfigDashboardService,
-    private appMessageService: AppMessageService,
-    private layerService: LayerService,
-    private confirmationService: ConfirmationService,
-  ) {
-    super();
-  }
+    constructor(
+        private configDashboardService: ConfigDashboardService,
+        private appMessageService: AppMessageService,
+        private layerService: LayerService,
+        private confirmationService: ConfirmationService,
+    ) {
+        super();
+    }
 
-  protected onAddService(): void {
-    this.cb.services.unshift({
-      header: this.configDashboardService.defaulServiceHeader,
-      form: this.configDashboardService.createServiceForm(),
-      entities: [],
-      selectedEntities: [],
-    });
-  }
+    protected onAddService(): void {
+        this.cb.services.unshift({
+            header: this.configDashboardService.defaulServiceHeader,
+            form: this.configDashboardService.createServiceForm(),
+            entities: [],
+            selectedEntities: [],
+        });
+    }
 
-  protected onRemoveService(index: number): void {
-    this.confirmationService.confirm({
-      icon: 'pi pi-info',
-      header: 'Are you sure you want to delete this service?',
-      message: 'All the configuration of this service will be deleted. ' +
-        'Note that this change will only be stored when applying the configuration.',
-      acceptLabel: 'Delete',
-      rejectLabel: 'Cancel',
-      accept: (): void => {
-        this.removeService(index);
-      },
-    });
-  }
+    protected onRemoveService(index: number): void {
+        this.confirmationService.confirm({
+            icon: 'pi pi-info',
+            header: 'Are you sure you want to delete this service?',
+            message: 'All the configuration of this service will be deleted. ' +
+                'Note that this change will only be stored when applying the configuration.',
+            acceptLabel: 'Delete',
+            rejectLabel: 'Cancel',
+            accept: (): void => {
+                this.removeService(index);
+            },
+        });
+    }
 
-  protected onServiceConfigChange(index: number): void {
-    const service: string = this.cb.services[index].form.value.service;
-    const servicePath: string = this.cb.services[index].form.value.servicePath;
-    const header: string = service + (service && servicePath && this.cb.services[index].form.get('servicePath').valid ? servicePath : '');
-    this.cb.services[index].header = header && !/^\s+$/.test(service) ? header :
-      this.configDashboardService.serviceHeaderWhenEmpty;
-  }
+    protected onServiceConfigChange(index: number): void {
+        const service: string = this.cb.services[index].form.value.service;
+        const servicePath: string = this.cb.services[index].form.value.servicePath;
+        const header: string = service + (service && servicePath &&
+            this.cb.services[index].form.get('servicePath').valid ? servicePath : '');
+        this.cb.services[index].header = header && !/^\s+$/.test(service) ? header :
+            this.configDashboardService.serviceHeaderWhenEmpty;
+    }
 
-  protected onNodeChange(): void {
-    this.selectedEntitiesChange.emit();
-  }
+    protected onNodeChange(): void {
+        this.selectedEntitiesChange.emit();
+    }
 
-  protected refreshScroll(): void {
-    setTimeout(() => {
-      this.entitiesScroll.refresh();
-    });
-  }
+    protected refreshScroll(): void {
+        setTimeout(() => {
+            this.entitiesScroll.refresh();
+        });
+    }
 
-  protected isDisabledChooseButton(index: number): boolean {
-    return this.cb.form.get('url').invalid ||
-      this.cb.services[index].form.get('service').invalid ||
-      this.cb.services[index].form.get('servicePath').invalid;
-  }
+    protected isDisabledChooseButton(index: number): boolean {
+        return this.cb.form.get('url').invalid ||
+            this.cb.services[index].form.get('service').invalid ||
+            this.cb.services[index].form.get('servicePath').invalid;
+    }
 
-  protected onChooseEntities(index: number): void {
-    const url: string = this.cb.form.value.url;
-    const service: string = this.cb.services[index].form.value.service;
-    const servicePath: string = this.cb.services[index].form.value.servicePath;
+    protected onChooseEntities(index: number): void {
+        const url: string = this.cb.form.value.url;
+        const service: string = this.cb.services[index].form.value.service;
+        const servicePath: string = this.cb.services[index].form.value.servicePath;
 
-    this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(
-      entities => {
-        entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiesFail(index);
-      },
-      err => {
-        this.onChooseEntitiesFail(index);
-      });
-  }
+        this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(
+            entities => {
+                entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiesFail(index);
+            },
+            err => {
+                this.onChooseEntitiesFail(index);
+            });
+    }
 
-  private removeService(index: number): void {
-    this.removeServiceEvent.emit(index);
-    this.cb.services.splice(index, 1);
-  }
+    private removeService(index: number): void {
+        this.removeServiceEvent.emit(index);
+        this.cb.services.splice(index, 1);
+    }
 
-  private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
-    this.cb.services[index].entities = this.layerService.getEntities(entities);
-    this.cb.services[index].selectedEntities = this.layerService.getAllSelected(this.cb.services[index].entities);
-    this.selectedEntitiesChange.emit();
-  }
+    private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
+        this.cb.services[index].entities = this.layerService.getEntities(entities);
+        this.cb.services[index].selectedEntities = this.layerService.getAllSelected(this.cb.services[index].entities);
+        this.selectedEntitiesChange.emit();
+    }
 
-  private onChooseEntitiesFail(index: number): void {
-    this.cb.services[index].entities = [];
-    this.cb.services[index].selectedEntities = [];
-    this.appMessageService.add({
-      severity: 'warn',
-      summary: 'Entities not found in this service',
-      detail: 'Try with another service or without using services in general configuration',
-    });
-  }
+    private onChooseEntitiesFail(index: number): void {
+        this.cb.services[index].entities = [];
+        this.cb.services[index].selectedEntities = [];
+        this.appMessageService.add({
+            severity: 'warn',
+            summary: 'Entities not found in this service',
+            detail: 'Try with another service or without using services in general configuration',
+        });
+    }
 
 }
