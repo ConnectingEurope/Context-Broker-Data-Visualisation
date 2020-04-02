@@ -10,25 +10,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { MessageService, ConfirmationService } from 'primeng/api';
+import { PopupComponent } from './shared/templates/popup/popup.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    MenubarModule,
-    ToastModule,
-    ConfirmDialogModule,
-    NgHttpLoaderModule.forRoot(),
-  ],
-  providers: [
-    MessageService,
-    ConfirmationService,
-  ],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent,
+        PopupComponent,
+    ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        MenubarModule,
+        ToastModule,
+        ConfirmDialogModule,
+        NgHttpLoaderModule.forRoot(),
+    ],
+    providers: [
+        MessageService,
+        ConfirmationService,
+    ],
+    entryComponents: [PopupComponent],
+    bootstrap: [AppComponent],
 })
 export class AppModule { }
