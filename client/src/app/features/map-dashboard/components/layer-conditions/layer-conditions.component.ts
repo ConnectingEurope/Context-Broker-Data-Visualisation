@@ -1,4 +1,4 @@
-import { CategoryEntityDto, CategoryDto } from './../../models/model-dto';
+import { CategoryEntityDto, CategoryDto, ActionDto, AttributeDto } from './../../models/model-dto';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ConditionDto } from '../../models/condition-dto';
 
@@ -9,12 +9,12 @@ import { ConditionDto } from '../../models/condition-dto';
 })
 export class LayerConditionsComponent implements OnInit {
 
-    public categorySelected: any = [];
-    public entitySelected: any = [];
-    public actionSelected: any = [];
+    public categorySelected: CategoryDto = undefined;
+    public entitySelected: CategoryEntityDto = undefined;
+    public actionSelected: ActionDto = undefined;
     public textSelected: string;
-    public attrSelected: any;
-    public actions: any[] = [{ label: '<' }, { label: '<=' }, { label: '=' }, { label: '>=' }, { label: '>' }];
+    public attrSelected: AttributeDto;
+    public actions: ActionDto[] = [{ label: '<' }, { label: '<=' }, { label: '=' }, { label: '>=' }, { label: '>' }];
 
     public filterList: ConditionDto[] = [];
 
@@ -51,10 +51,10 @@ export class LayerConditionsComponent implements OnInit {
     }
 
     public clear(): void {
-        this.categorySelected = [];
-        this.entitySelected = [];
-        this.actionSelected = [];
-        this.attrSelected = [];
+        this.categorySelected = undefined;
+        this.entitySelected = undefined;
+        this.actionSelected = undefined;
+        this.attrSelected = undefined;
         this.textSelected = undefined;
     }
 
