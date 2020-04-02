@@ -34,7 +34,7 @@ export class LayerService {
             case 'Park':
             case 'Garden':
             case 'FlowerBed':
-            case 'FlowerBed':
+            case 'GreenspaceRecord':
                 return 'smartEnvironment';
 
             case 'AeroAllergenObserved':
