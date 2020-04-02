@@ -29,3 +29,28 @@
 div.geosearch a.reset {
   display: none;
 }
+
+/*****************************************************************************
+ Popup
+*****************************************************************************/
+
+div.leaflet-popup-content {
+    width: 310px !important;
+}
+
+div.leaflet-popup-content-wrapper {
+    color: $textColor;
+    background-color: $primaryColor;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background-color: $primaryColor;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    color: $textColor;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+    color: $textColor;
+}
