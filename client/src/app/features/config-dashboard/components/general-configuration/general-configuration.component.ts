@@ -9,88 +9,91 @@ import { ScrollPanel } from 'primeng/scrollpanel';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 
 @Component({
-  selector: 'app-general-configuration',
-  templateUrl: './general-configuration.component.html',
-  styleUrls: ['./general-configuration.component.scss'],
+    selector: 'app-general-configuration',
+    templateUrl: './general-configuration.component.html',
+    styleUrls: ['./general-configuration.component.scss'],
 })
 export class GeneralConfigurationComponent extends BaseComponent implements OnDestroy {
 
-  @Input() public cb: ContextBrokerForm;
-  @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
+    @Input() public cb: ContextBrokerForm;
+    @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
 
-  @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
+    @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
-  constructor(
-    private configDashboardService: ConfigDashboardService,
-    private appMessageService: AppMessageService,
-    private layerService: LayerService,
-  ) {
-    super();
-  }
+    constructor(
+        private configDashboardService: ConfigDashboardService,
+        private appMessageService: AppMessageService,
+        private layerService: LayerService,
+    ) {
+        super();
+    }
 
-  protected onNameChange(): void {
-    const header: string = this.cb.form.value.name;
-    this.cb.header = header && !/^\s+$/.test(header) ? header : this.configDashboardService.contextHeaderWhenEmpty;
-  }
+    protected onNameChange(): void {
+        const header: string = this.cb.form.value.name;
+        this.cb.header = header && !/^\s+$/.test(header) ? header : this.configDashboardService.contextHeaderWhenEmpty;
+    }
 
-  protected onNodeChange(): void {
-    this.selectedEntitiesChange.emit();
-  }
+    protected onNodeChange(): void {
+        this.selectedEntitiesChange.emit();
+    }
 
-  protected refreshScroll(): void {
-    setTimeout(() => {
-      this.entitiesScroll.refresh();
-    });
-  }
+    protected refreshScroll(): void {
+        setTimeout(() => {
+            this.entitiesScroll.refresh();
+        });
+    }
 
-  protected onCheckContextBroker(): void {
-    const url: string = this.cb.form.value.url;
+    protected onCheckContextBroker(): void {
+        const url: string = this.cb.form.value.url;
 
 
 
-    this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
-      isLive => {
-        isLive ? this.onCheckContextBrokerSuccess() : this.onCheckContextBrokerFail();
-      },
-      err => {
-        this.onCheckContextBrokerFail();
-      });
-  }
+        this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
+            isLive => {
+                isLive ? this.onCheckContextBrokerSuccess() : this.onCheckContextBrokerFail();
+            },
+            err => {
+                this.onCheckContextBrokerFail();
+            });
+    }
 
-  protected isDisabledChooseButton(): boolean {
-    return this.cb.form.get('url').invalid;
-  }
+    protected isDisabledChooseButton(): boolean {
+        return this.cb.form.get('url').invalid;
+    }
 
-  protected onChooseEntities(): void {
-    const url: string = this.cb.form.value.url;
+    protected onChooseEntities(): void {
+        const url: string = this.cb.form.value.url;
 
-    this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(
-      entities => {
-        entities.length > 0 ? this.onChooseEntitiesSuccess(entities) : this.onChooseEntitiesFail();
-      },
-      err => {
-        this.onChooseEntitiesFail();
-      });
-  }
+        this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(
+            entities => {
+                entities.length > 0 ? this.onChooseEntitiesSuccess(entities) : this.onChooseEntitiesFail();
+            },
+            err => {
+                this.onChooseEntitiesFail();
+            });
+    }
 
-  private onCheckContextBrokerSuccess(): void {
-    this.appMessageService.add({ severity: 'success', summary: 'Connection succeded!' });
-  }
+    private onCheckContextBrokerSuccess(): void {
+        this.appMessageService.add({ severity: 'success', summary: 'Connection succeded!' });
+    }
 
-  private onCheckContextBrokerFail(): void {
-    this.appMessageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
-  }
+    private onCheckContextBrokerFail(): void {
+        this.appMessageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
+    }
 
-  private onChooseEntitiesSuccess(entities: EntityDto[]): void {
-    this.cb.entities = this.layerService.getEntities(entities);
-    this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
-    this.selectedEntitiesChange.emit();
-  }
+    private onChooseEntitiesSuccess(entities: EntityDto[]): void {
+        this.cb.entities = this.layerService.getEntities(entities);
+        this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
+        this.selectedEntitiesChange.emit();
+    }
 
-  private onChooseEntitiesFail(): void {
-    this.cb.entities = [];
-    this.cb.selectedEntities = [];
-    this.appMessageService.add({ severity: 'warn', summary: 'Entities not found', detail: 'Maybe you have entities in specific services' });
-  }
+    private onChooseEntitiesFail(): void {
+        this.cb.entities = [];
+        this.cb.selectedEntities = [];
+        this.appMessageService.add({
+            severity: 'warn', summary: 'Entities not found',
+            detail: 'Maybe you have entities in specific services',
+        });
+    }
 
 }
