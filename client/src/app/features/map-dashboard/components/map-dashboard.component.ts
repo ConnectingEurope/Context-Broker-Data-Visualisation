@@ -17,6 +17,9 @@ import { ModelDto } from 'src/app/shared/models/model-dto';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { Utilities } from '../../../shared/utils/utilities';
+import { AppMessageService } from 'src/app/shared/services/app-message-service';
+import { ConfirmationService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -24,7 +27,6 @@ import { Utilities } from '../../../shared/utils/utilities';
     styleUrls: ['./map-dashboard.component.scss'],
 })
 export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit {
-
     protected controlName: string = 'data';
     protected menuItems: MenuItem[];
     protected layers: TreeNode[];
@@ -42,6 +44,9 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         private layerService: LayerService,
         private popupService: PopupService,
         private elem: ElementRef,
+        private appMessageService: AppMessageService,
+        private confirmationService: ConfirmationService,
+        private router: Router,
     ) {
         super();
     }
@@ -146,28 +151,58 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private loadEntities(): void {
-        this.mapDashBoardService.getAllEntities().pipe(takeUntil(this.destroy$)).subscribe((res: ModelDto[]) => {
-
-            res.forEach(model => {
-                const parentKey: string = this.layerService.getParentKey(model.type);
-                this.layerGroups[model.type] = L.layerGroup();
-                this.layerGroups[parentKey] = this.layerGroups[parentKey] || L.layerGroup();
-                model.data.forEach(entity => this.addEntity(model, entity));
-                this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
+        this.mapDashBoardService.getAllEntities().pipe(takeUntil(this.destroy$)).subscribe(
+            (models: ModelDto[]) => {
+                if (models.length > 0) {
+                    this.onLoadEntitiesSuccess(models);
+                } else {
+                    this.onLoadEntitiesEmpty();
+                }
+            },
+            err => {
+                this.onLoadEntitiesFail();
             });
+    }
 
-            this.loadMarkerCluster();
+    private onLoadEntitiesSuccess(models: ModelDto[]): void {
+        models.forEach(model => {
+            const parentKey: string = this.layerService.getParentKey(model.type);
+            this.layerGroups[model.type] = L.layerGroup();
+            this.layerGroups[parentKey] = this.layerGroups[parentKey] || L.layerGroup();
+            model.data.forEach(entity => this.addEntity(model, entity));
+            this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
+        });
+
+        this.loadMarkerCluster();
+    }
+
+    private onLoadEntitiesEmpty(): void {
+        this.confirmationService.confirm({
+            icon: 'pi pi-info',
+            header: 'There is no configuration yet',
+            message: 'Do you want to configure the dashboard?',
+            acceptLabel: 'Configure',
+            rejectLabel: 'Cancel',
+            accept: (): void => {
+                this.router.navigate(['/config-dashboard']);
+            },
         });
     }
 
+    private onLoadEntitiesFail(): void {
+        this.appMessageService.add({ severity: 'error', summary: 'Something went wrong trying to load the configuration' });
+    }
+
     private addEntity(model: ModelDto, entity: Entity): void {
-        const marker: L.Marker = L.marker(
-            entity.location.coordinates.reverse() as L.LatLngExpression,
-            { icon: LeafletIcons.icons[model.type] },
-        );
-        marker.bindPopup(this.popupService.getPopup(model.type, entity));
-        marker[this.controlName] = entity;
-        this.layerGroups[model.type].addLayer(marker);
+        if (entity.location && entity.location.coordinates) {
+            const marker: L.Marker = L.marker(
+                entity.location.coordinates.reverse() as L.LatLngExpression,
+                { icon: LeafletIcons.icons[model.type] },
+            );
+            marker.bindPopup(this.popupService.getPopup(model.type, entity));
+            marker[this.controlName] = entity;
+            this.layerGroups[model.type].addLayer(marker);
+        }
     }
 
     private loadMarkerCluster(): void {
@@ -177,5 +212,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
         this.map.addLayer(this.markerClusterGroup);
     }
+
 
 }

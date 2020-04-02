@@ -106,7 +106,7 @@ export class LayerService {
     }
 
     private isTreeNodeSelected(treeNode: TreeNode, selectedTreeNodes: TreeNode[]): boolean {
-        return selectedTreeNodes.some(t => treeNode === t);
+        return treeNode.partialSelected || selectedTreeNodes.some(t => treeNode === t);
     }
 
     private getTreeNodeLayer(key: string, value: any): TreeNode {

@@ -48,8 +48,8 @@
                     <h6>Entities and attributes to choose</h6>
                     <p-scrollPanel #entitiesScroll class="m-3" [style]="{width: '100%', height: '300px'}">
                         <p-tree [value]="cb.entities" selectionMode="checkbox" [(selection)]="cb.selectedEntities"
-                            emptyMessage="" (onNodeExpand)="refreshEntitiesScroll()"
-                            (onNodeCollapse)="refreshEntitiesScroll()">
+                            emptyMessage="" (onNodeExpand)="refreshScroll()" (onNodeCollapse)="refreshScroll()"
+                            (onNodeSelect)="onNodeChange()" (onNodeUnselect)="onNodeChange()">
                         </p-tree>
                     </p-scrollPanel>
                 </div>

@@ -39,18 +39,20 @@
 
                             <!-- General configuration -->
                             <div class="mt-4 mb-5">
-                                <app-general-configuration [cb]="cb">
+                                <app-general-configuration [cb]="cb"
+                                    (selectedEntitiesChange)="onSelectedEntitiesChange()">
                                 </app-general-configuration>
                             </div>
 
                             <!-- Services configuration -->
                             <div *ngIf="cb.form.get('needServices').value === true" class="my-4">
-                                <app-service-configuration [cb]="cb" (removeServiceEvent)="onRemoveService()">
+                                <app-service-configuration [cb]="cb" (removeServiceEvent)="onRemoveService()"
+                                    (selectedEntitiesChange)="onSelectedEntitiesChange()">
                                 </app-service-configuration>
                             </div>
 
                             <!-- Historical Configuration -->
-                            <div *ngIf="cb.form.get('needHistoricalData').value === true" class="my-4">
+                            <div *ngIf=" cb.form.get('needHistoricalData').value===true" class="my-4">
                                 <app-historical-configuration [cb]="cb"></app-historical-configuration>
                             </div>
 

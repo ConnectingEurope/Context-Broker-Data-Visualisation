@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
@@ -16,6 +16,7 @@ import { AppMessageService } from 'src/app/shared/services/app-message-service';
 export class GeneralConfigurationComponent extends BaseComponent implements OnDestroy {
 
   @Input() public cb: ContextBrokerForm;
+  @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
 
   @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
@@ -32,7 +33,11 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     this.cb.header = header && !/^\s+$/.test(header) ? header : this.configDashboardService.contextHeaderWhenEmpty;
   }
 
-  protected refreshEntitiesScroll(): void {
+  protected onNodeChange(): void {
+    this.selectedEntitiesChange.emit();
+  }
+
+  protected refreshScroll(): void {
     setTimeout(() => {
       this.entitiesScroll.refresh();
     });
@@ -61,10 +66,10 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(
       entities => {
-        entities.length > 0 ? this.onGetEntitiesSuccess(entities) : this.onGetEntitiesFail();
+        entities.length > 0 ? this.onChooseEntitiesSuccess(entities) : this.onChooseEntitiesFail();
       },
       err => {
-        this.onGetEntitiesFail();
+        this.onChooseEntitiesFail();
       });
   }
 
@@ -76,12 +81,13 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     this.appMessageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
   }
 
-  private onGetEntitiesSuccess(entities: EntityDto[]): void {
+  private onChooseEntitiesSuccess(entities: EntityDto[]): void {
     this.cb.entities = this.layerService.getEntities(entities);
     this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
+    this.selectedEntitiesChange.emit();
   }
 
-  private onGetEntitiesFail(): void {
+  private onChooseEntitiesFail(): void {
     this.cb.entities = [];
     this.cb.selectedEntities = [];
     this.appMessageService.add({ severity: 'warn', summary: 'Entities not found', detail: 'Maybe you have entities in specific services' });
