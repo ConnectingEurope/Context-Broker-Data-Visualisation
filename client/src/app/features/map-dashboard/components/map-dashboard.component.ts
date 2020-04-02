@@ -1,3 +1,4 @@
+import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
 import { ConditionDto } from './../models/condition-dto';
 import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
@@ -20,6 +21,7 @@ import { Utilities } from '../../../shared/utils/utilities';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { CategoryEntityDto } from '../models/model-dto';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -27,6 +29,8 @@ import { Router } from '@angular/router';
     styleUrls: ['./map-dashboard.component.scss'],
 })
 export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit {
+
+    protected entities: CategoryEntityDto[] = [];
     protected controlName: string = 'data';
     protected menuItems: MenuItem[];
     protected layers: TreeNode[];
@@ -56,6 +60,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     public ngAfterViewInit(): void {
+        this.loadAllEntitiesForLayers();
         this.loadMap();
         this.loadSearchBar();
         this.loadEntities();
@@ -164,6 +169,23 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             });
     }
 
+    private loadAllEntitiesForLayers(): void {
+        this.mapDashBoardService.getAllEntitiesForLayers().pipe(takeUntil(this.destroy$)).subscribe(
+            (res: CategoryEntityDto[]) => {
+                this.entities = this.mapCategories(res);
+            },
+            err => {
+                this.onLoadEntitiesFail();
+            });
+    }
+
+    private mapCategories(entities: CategoryEntityDto[]): CategoryEntityDto[] {
+        entities.forEach((entity) => {
+            entity.category = this.layerService.getParentKey(entity.name);
+        });
+        return entities;
+    }
+
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
         models.forEach(model => {
             const parentKey: string = this.layerService.getParentKey(model.type);
@@ -212,6 +234,4 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
         this.map.addLayer(this.markerClusterGroup);
     }
-
-
 }

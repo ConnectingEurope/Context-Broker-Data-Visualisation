@@ -1,3 +1,4 @@
+import { CategoryEntityDto, CategoryDto } from './../../models/model-dto';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ConditionDto } from '../../models/condition-dto';
 
@@ -17,42 +18,13 @@ export class LayerConditionsComponent implements OnInit {
 
     public filterList: ConditionDto[] = [];
 
-    public entities: any[] = [
-        {
-            name: 'AirQualityObserved',
-            selected: true,
-            attrs: [
-                {
-                    name: 'BEN',
-                    selected: true,
-                },
-                {
-                    name: 'CH4',
-                    selected: true,
-                },
-                {
-                    name: 'dataProvider',
-                    selecte: true,
-                },
-            ],
-        },
-        {
-            name: 'OffStreetParking',
-            selected: true,
-            attrs: [
-                {
-                    name: 'Parking',
-                    selected: true,
-                },
-            ],
-        },
-    ];
+    @Input()
+    public entities: CategoryEntityDto[];
+    @Input()
+    public categories: CategoryDto[];
 
     @Output()
     public eventFilters: EventEmitter<ConditionDto[]> = new EventEmitter();
-
-    @Input()
-    public readonly layers: any;
 
     constructor() { }
 

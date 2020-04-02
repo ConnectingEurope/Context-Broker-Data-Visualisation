@@ -17,12 +17,13 @@
         <!-- inputs to select filters -->
         <div class="col-sm-6">
             <div class="m-2 w-100">
-                <p-dropdown [options]="layers" [(ngModel)]="categorySelected" placeholder="Select a Category"
-                    optionLabel="label" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
+                <p-dropdown [options]="entities" [(ngModel)]="categorySelected" placeholder="Select a Category"
+                    optionLabel="category" [showClear]="true" [style]="{'width':'100%'}"></p-dropdown>
             </div>
             <div class="m-2 w-100">
-                <p-dropdown *ngIf="categorySelected?.children" [options]="categorySelected.children" [(ngModel)]="entitySelected"
-                    placeholder="Select an Entity" optionLabel="label" [showClear]="true" [style]="{'width':'100%'}">
+                <p-dropdown *ngIf="categorySelected?.children" [options]="categorySelected.children"
+                    [(ngModel)]="entitySelected" placeholder="Select an Entity" optionLabel="label" [showClear]="true"
+                    [style]="{'width':'100%'}">
                 </p-dropdown>
             </div>
             <div class="m-2 w-100">
@@ -31,12 +32,13 @@
                 </p-dropdown>
             </div>
             <div class="m-2 w-100">
-                <p-dropdown *ngIf="attrSelected?.name" [options]="actions" [(ngModel)]="actionSelected" optionLabel="label"
-                    placeholder="Select an Action" [showClear]="true" [style]="{'width':'100%'}">
+                <p-dropdown *ngIf="attrSelected?.name" [options]="actions" [(ngModel)]="actionSelected"
+                    optionLabel="label" placeholder="Select an Action" [showClear]="true" [style]="{'width':'100%'}">
                 </p-dropdown>
             </div>
             <div class="m-2 w-100 ui-inputgroup">
-                <input *ngIf="attrSelected?.name" type="text" #text name="text" [(ngModel)]="textSelected" [style]="{'width':'100%'}">
+                <input *ngIf="attrSelected?.name" type="text" #text name="text" [(ngModel)]="textSelected"
+                    [style]="{'width':'100%'}">
             </div>
         </div>
 
