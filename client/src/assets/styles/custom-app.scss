@@ -27,3 +27,7 @@ p.advertisement {
 p.advertisement.wrong {
   color: $wrongColor;
 }
+
+div.leaflet-popup-content {
+    width: 310px !important;
+}
