@@ -58,7 +58,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     public ngOnInit(): void {
-        this.loadLayerMenu();
+
     }
 
     public ngAfterViewInit(): void {
@@ -153,7 +153,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private loadLayerMenu(): void {
-        this.layers = this.layerService.getMainLayers();
+        this.layers = this.layerService.getMainLayers(this.categories);
         this.selectedLayers = this.layerService.getAllSelected(this.layers);
     }
 
@@ -175,6 +175,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.mapDashBoardService.getAllEntitiesForLayers().pipe(takeUntil(this.destroy$)).subscribe(
             (res: CategoryEntityDto[]) => {
                 this.entities = this.mapCategories(res);
+                this.loadLayerMenu();
             },
             err => {
                 this.onLoadEntitiesFail();
@@ -184,12 +185,12 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private mapCategories(entities: CategoryEntityDto[]): CategoryEntityDto[] {
         this.categories = [];
         entities.forEach((entity) => {
-            const nameCategory: string = this.layerService.getParentKey(entity.name);
+            const parentKey: string = this.layerService.getParentKey(entity.name);
             const categoryExist: CategoryDto = this.categories.find((category) => {
-                return category.name === nameCategory;
+                return category.name === parentKey;
             });
             if (!categoryExist) {
-                this.categories.push({ name: nameCategory, entities: [entity] });
+                this.categories.push({ name: parentKey, icon: LeafletIcons.icons[parentKey], entities: [entity] });
             } else {
                 categoryExist.entities.push(entity);
             }
