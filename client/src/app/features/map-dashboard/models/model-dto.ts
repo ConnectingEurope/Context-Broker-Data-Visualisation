@@ -14,3 +14,7 @@ export interface AttributeDto {
     selected: string;
 }
 
+export interface ActionDto {
+    label: string;
+}
+
