@@ -36,7 +36,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private layerGroups: { [key: string]: L.LayerGroup } = {};
     private layersBeforeFilter: L.Layer[];
     private removedLayers: L.Layer[] = [];
-    private utils: Utilities = Utilities;
     private filters: ConditionDto[] = [];
 
     constructor(
@@ -103,7 +102,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         let shouldBeRemoved: boolean = false;
         // Check if the value is a number.
         if (+filter.value) {
-            shouldBeRemoved = !this.utils.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
+            shouldBeRemoved = !Utilities.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
         } else {
             shouldBeRemoved = !layer[controlName][filter.attribute].includes(filter.value);
         }
