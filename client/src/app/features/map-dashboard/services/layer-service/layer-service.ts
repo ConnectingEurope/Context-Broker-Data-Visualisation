@@ -3,13 +3,14 @@ import { LeafletIcons } from '../../../../shared/misc/leaflet-icons';
 import { Injectable } from '@angular/core';
 import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
 import { EntityConfiguration } from 'src/app/features/config-dashboard/models/context-broker-configuration';
+import { CategoryDto } from '../../models/model-dto';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LayerService {
 
-    private readonly layers: any = {
+    private layers: any = {
         environment: {
             label: 'Environment',
             AirQualityObserved: {
@@ -98,8 +99,25 @@ export class LayerService {
         }
     }
 
-    public getMainLayers(): TreeNode[] {
+    public getMainLayers(categories: CategoryDto[]): TreeNode[] {
+        this.layers = this.createTreeNode(categories);
         return Object.entries(this.layers).map(e => this.getTreeNodeLayer(e[0], e[1]));
+    }
+
+    public createTreeNode(categories: CategoryDto[]): any {
+        const layers: any = {};
+        categories.forEach((category) => {
+            const label: string = 'label';
+            const icon: string = 'icon';
+            layers[category.name] = {};
+            layers[category.name][label] = category.name;
+            category.entities.forEach((entity) => {
+                layers[category.name][entity.name] = {};
+                layers[category.name][entity.name][label] = entity.name;
+                layers[category.name][entity.name][icon] = LeafletIcons.icons.airQualityObserved;
+            });
+        });
+        return layers;
     }
 
     public getEntities(entities: EntityDto[]): TreeNode[] {
