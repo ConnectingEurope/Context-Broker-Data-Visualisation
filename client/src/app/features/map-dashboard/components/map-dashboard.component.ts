@@ -23,6 +23,7 @@ import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CategoryEntityDto } from '../models/model-dto';
+import { LoaderService } from 'src/app/shared/services/loader-service';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -53,6 +54,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         private appMessageService: AppMessageService,
         private confirmationService: ConfirmationService,
         private router: Router,
+        private loaderService: LoaderService,
     ) {
         super();
     }
@@ -65,7 +67,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.loadAllEntitiesForLayers();
         this.loadMap();
         this.loadSearchBar();
-        this.loadEntities();
+        // this.loadEntities();
+        this.visualizeEntities();
     }
 
     protected onNodeSelect(event: any): void {
@@ -199,6 +202,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
+        this.removeEntities();
         models.forEach(model => {
             const parentKey: string = this.layerService.getParentKey(model.type);
             this.layerGroups[model.type] = L.layerGroup();
@@ -208,6 +212,20 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         });
 
         this.loadMarkerCluster();
+    }
+
+    private visualizeEntities(): void {
+        this.loadEntities();
+        setInterval(() => {
+            console.log('UPDATED!');
+            this.loaderService.active = false;
+            this.loadEntities();
+        }, 5000);
+    }
+
+    private removeEntities(): void {
+        this.markerClusterGroup.removeLayers(Object.values(this.layerGroups));
+        this.layerGroups = {};
     }
 
     private onLoadEntitiesEmpty(): void {
@@ -228,7 +246,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private addEntity(model: ModelDto, entity: Entity, parentKey: string): void {
-        if (entity.location && entity.location.coordinates) {
+        if (entity.location && entity.location.coordinates && entity.location.coordinates[0] && entity.location.coordinates[1]) {
             const marker: L.Marker = L.marker(
                 entity.location.coordinates.reverse() as L.LatLngExpression,
                 { icon: LeafletIcons.icons[parentKey] },
