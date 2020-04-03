@@ -14,6 +14,15 @@ export class PopupComponent implements OnInit {
     private maxNumberChars: number = 45;
 
     public ngOnInit(): void {
+        this.updateAttrs();
+    }
+
+    public setEntity(entity: any): void {
+        this.entity = entity;
+        this.updateAttrs();
+    }
+
+    private updateAttrs(): void {
         this.attrs = Object.entries(this.entity).filter(a => typeof a[1] !== 'object').map(a => [a[0], this.transformAttr(a[1])]);
     }
 

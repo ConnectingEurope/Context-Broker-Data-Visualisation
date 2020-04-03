@@ -1,7 +1,6 @@
 import { CategoryDto } from './../models/model-dto';
-import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
 import { ConditionDto } from './../models/condition-dto';
-import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import * as L from 'leaflet';
@@ -30,7 +29,7 @@ import { LoaderService } from 'src/app/shared/services/loader-service';
     templateUrl: './map-dashboard.component.html',
     styleUrls: ['./map-dashboard.component.scss'],
 })
-export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
     protected categories: CategoryDto[];
     protected entities: CategoryEntityDto[] = [];
@@ -45,6 +44,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private layersBeforeFilter: L.Layer[];
     private removedLayers: L.Layer[] = [];
     private filters: ConditionDto[] = [];
+    private loadedIds: { [key: string]: string[] } = {};
+    private loadedIdsCopy: { [key: string]: string[] } = {};
+
+    private interval: any;
 
     constructor(
         private mapDashBoardService: MapDashboardService,
@@ -67,8 +70,12 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.loadAllEntitiesForLayers();
         this.loadMap();
         this.loadSearchBar();
-        // this.loadEntities();
         this.visualizeEntities();
+    }
+
+    public ngOnDestroy(): void {
+        clearInterval(this.interval);
+        this.loaderService.active = true;
     }
 
     protected onNodeSelect(event: any): void {
@@ -202,30 +209,24 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
-        this.removeEntities();
         models.forEach(model => {
             const parentKey: string = this.layerService.getParentKey(model.type);
-            this.layerGroups[model.type] = L.layerGroup();
+            this.layerGroups[model.type] = this.layerGroups[model.type] || L.layerGroup();
             this.layerGroups[parentKey] = this.layerGroups[parentKey] || L.layerGroup();
             model.data.forEach(entity => this.addEntity(model, entity, parentKey));
             this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
         });
-
+        // this.deleteOldSensors();
         this.loadMarkerCluster();
     }
 
     private visualizeEntities(): void {
         this.loadEntities();
-        setInterval(() => {
-            console.log('UPDATED!');
+        this.interval = setInterval(() => {
             this.loaderService.active = false;
+            // this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
-        }, 5000);
-    }
-
-    private removeEntities(): void {
-        this.markerClusterGroup.removeLayers(Object.values(this.layerGroups));
-        this.layerGroups = {};
+        }, 3000);
     }
 
     private onLoadEntitiesEmpty(): void {
@@ -247,14 +248,68 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
     private addEntity(model: ModelDto, entity: Entity, parentKey: string): void {
         if (entity.location && entity.location.coordinates && entity.location.coordinates[0] && entity.location.coordinates[1]) {
-            const marker: L.Marker = L.marker(
-                entity.location.coordinates.reverse() as L.LatLngExpression,
-                { icon: LeafletIcons.icons[parentKey] },
-            );
-            marker.bindPopup(this.popupService.getPopup(entity));
-            marker[this.controlName] = entity;
-            this.layerGroups[model.type].addLayer(marker);
+            const markers: any = this.layerGroups[model.type].getLayers();
+            const existentMarker: L.Marker = markers.find(m => m[this.controlName].id === entity.id);
+            if (existentMarker) {
+                this.updateEntity(existentMarker, model, entity);
+            } else {
+                this.insertEntity(model, entity, parentKey);
+            }
         }
+    }
+
+    private insertEntity(model: ModelDto, entity: Entity, parentKey: string): void {
+        const marker: L.Marker = L.marker(
+            entity.location.coordinates.reverse() as L.LatLngExpression,
+            { icon: LeafletIcons.icons[parentKey] },
+        );
+
+        const popup: L.Popup = L.popup();
+        popup.setContent(this.popupService.getPopupContent(entity));
+        marker.bindPopup(popup);
+
+        marker[this.controlName] = entity;
+        this.layerGroups[model.type].addLayer(marker);
+
+        // if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
+        // this.loadedIds[model.type].push(entity.id);
+    }
+
+    // private deleteOldSensors(): void {
+    //     Object.keys(this.loadedIdsCopy).forEach(entityType => {
+    //         const ids: string[] = this.loadedIdsCopy[entityType];
+    //         ids.forEach(id => {
+    //             const i: number = this.loadedIds[entityType].indexOf(id);
+    //             if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
+
+    //             const markers: any = this.layerGroups[entityType].getLayers();
+    //             const oldSensor: L.Marker = markers.find(m => m[this.controlName].id === id);
+    //             oldSensor.remove();
+    //         });
+    //     });
+    // }
+
+    private updateEntity(existentMarker: L.Marker, model: ModelDto, entity: Entity): void {
+        if (this.hasLocationBeenUpdated(existentMarker, entity)) {
+            existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
+        }
+        existentMarker.getPopup().setContent(this.popupService.getPopupContent(entity));
+        existentMarker[this.controlName] = entity;
+
+        // const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
+        // if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
+    }
+
+    private hasLocationBeenUpdated(existentMarker: L.Marker, entity: Entity): boolean {
+        const currentLatLng: L.LatLng = existentMarker.getLatLng();
+        const currentLat: number = currentLatLng.lat;
+        const currentLng: number = currentLatLng.lng;
+
+        const newLatLng: number[] = entity.location.coordinates.reverse();
+        const newLat: number = newLatLng[0];
+        const newLng: number = newLatLng[1];
+
+        return currentLat !== newLat || currentLng !== newLng;
     }
 
     private loadMarkerCluster(): void {
