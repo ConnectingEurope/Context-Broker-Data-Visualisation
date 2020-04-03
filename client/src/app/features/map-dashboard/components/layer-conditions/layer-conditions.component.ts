@@ -14,7 +14,7 @@ export class LayerConditionsComponent implements OnInit {
     public actionSelected: ActionDto = undefined;
     public textSelected: string;
     public attrSelected: AttributeDto;
-    public actions: ActionDto[] = [{ label: '<' }, { label: '<=' }, { label: '=' }, { label: '>=' }, { label: '>' }];
+    public actions: ActionDto[] = [{ label: 'contains' }, { label: '<' }, { label: '<=' }, { label: '=' }, { label: '>=' }, { label: '>' }];
 
     public filterList: ConditionDto[] = [];
 
