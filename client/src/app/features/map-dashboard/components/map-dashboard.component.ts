@@ -104,7 +104,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         const layersToRemove: L.Layer[] = [];
         this.markerClusterGroup.getLayers().forEach((layer) => {
             this.filters.forEach(filter => {
-                if (filter.selected && layer[this.controlName][filter.attribute]) {
+                if (filter.selected && layer[this.controlName][filter.attribute]
+                    && layer[this.controlName].type === filter.entity) {
                     if (this.applyFilter(layer, filter, this.controlName)) {
                         layersToRemove.push(layer);
                         this.removedLayers.push(layer);
