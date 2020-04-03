@@ -1,3 +1,4 @@
+import { FwiIcons } from './../../../shared/misc/fwi-icons';
 import { CategoryDto } from './../models/model-dto';
 import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
 import { ConditionDto } from './../models/condition-dto';
@@ -191,7 +192,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
                 return category.name === parentKey;
             });
             if (!categoryExist) {
-                this.categories.push({ name: parentKey, icon: LeafletIcons.icons[parentKey], entities: [entity] });
+                this.categories.push({ name: parentKey, icon: FwiIcons.icons[parentKey], entities: [entity] });
             } else {
                 categoryExist.entities.push(entity);
             }
