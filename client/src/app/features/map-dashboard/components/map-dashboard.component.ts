@@ -219,6 +219,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         });
         // this.deleteOldSensors();
         this.loadMarkerCluster();
+        this.setFilters(this.filters);
     }
 
     private visualizeEntities(): void {
@@ -227,7 +228,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             this.loaderService.active = false;
             // this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
-        }, 10000);
+        }, 3000);
     }
 
     private onLoadEntitiesEmpty(): void {
