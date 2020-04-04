@@ -44,6 +44,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private layersBeforeFilter: L.Layer[];
     private removedLayers: L.Layer[] = [];
     private filters: ConditionDto[] = [];
+    private unselectedLayers: any[] = [];
     private loadedIds: { [key: string]: string[] } = {};
     private loadedIdsCopy: { [key: string]: string[] } = {};
     private openPopup: L.Popup;
@@ -81,11 +82,14 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     protected onNodeSelect(event: any): void {
+        const i: number = this.unselectedLayers.indexOf(event.node.data);
+        this.unselectedLayers.splice(i, 1);
         this.markerClusterGroup.addLayer(this.layerGroups[event.node.data]);
         this.setFilters(this.filters);
     }
 
     protected onNodeUnselect(event: any): void {
+        this.unselectedLayers.push(event.node.data);
         this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
     }
 
@@ -223,6 +227,9 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         // this.deleteOldSensors();
         this.loadMarkerCluster();
         this.setFilters(this.filters);
+        this.unselectedLayers.forEach(l => {
+            this.markerClusterGroup.removeLayer(this.layerGroups[l]);
+        });
         if (this.openPopup) {
             this.openPopup.openPopup();
         }
