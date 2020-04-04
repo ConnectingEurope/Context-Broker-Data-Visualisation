@@ -3,10 +3,12 @@ var router = express.Router();
 const request = require('request');
 const utils = require('./utils');
 const Datastore = require('nedb');
-let db;
 
 router.get('/all', function (req, res, next) {
-    db = new Datastore({ filename: './configuration', autoload: true });
+    const db = new Datastore({ filename: './configuration' });
+    db.loadDatabase(function (err) {
+        if (err) console.log(err);
+    });
     db.find({}, function (err, docs) {
         if (!err) {
             if (docs.length === 0) { res.send([]); }

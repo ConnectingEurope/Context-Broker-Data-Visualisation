@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Datastore = require('nedb');
-let db;
 
 router.get('/', function (routerReq, routerRes, routerNext) {
-    db = new Datastore({ filename: './configuration', autoload: true });
+    const db = new Datastore({ filename: './configuration' });
+    db.loadDatabase(function (err) {
+        if (err) console.log(err);
+    });
     db.find({}, function (err, docs) {
         if (!err) {
             if (docs.length === 0) { routerRes.send([]); }
@@ -16,23 +18,26 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 });
 
 router.post('/', function (routerReq, routerRes, routerNext) {
-    db = new Datastore({ filename: './configuration', autoload: true });
+    const db = new Datastore({ filename: './configuration' });
+    db.loadDatabase(function (err) {
+        if (err) console.log(err);
+    });
     db.find({}, function (err, docs) {
         if (!err) {
             let config = { contextBrokers: routerReq.body };
-            if (docs.length === 0) { insert(config) }
-            else { update(config) }
+            if (docs.length === 0) { insert(db, config) }
+            else { update(db, config) }
         }
     });
     routerRes.send();
 });
 
-function insert(config) {
+function insert(db, config) {
     db.insert(config, function (err, newDoc) {
     });
 }
 
-function update(config) {
+function update(db, config) {
     db.update({}, config, {}, function (err, numReplaced) {
     });
 }
