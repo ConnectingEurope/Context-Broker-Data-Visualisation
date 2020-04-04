@@ -46,6 +46,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private filters: ConditionDto[] = [];
     private loadedIds: { [key: string]: string[] } = {};
     private loadedIdsCopy: { [key: string]: string[] } = {};
+    private openPopup: L.Popup;
+    private refreshing: boolean;
 
     private interval: any;
 
@@ -210,6 +212,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
+        this.refreshing = true;
         models.forEach(model => {
             const parentKey: string = this.layerService.getParentKey(model.type);
             this.layerGroups[model.type] = this.layerGroups[model.type] || L.layerGroup();
@@ -220,6 +223,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         // this.deleteOldSensors();
         this.loadMarkerCluster();
         this.setFilters(this.filters);
+        if (this.openPopup) {
+            this.openPopup.openPopup();
+        }
+        this.refreshing = false;
     }
 
     private visualizeEntities(): void {
@@ -269,6 +276,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         const popup: L.Popup = L.popup();
         popup.setContent(this.popupService.getPopupContent(entity));
         marker.bindPopup(popup);
+        marker.on('popupopen', () => this.openPopup = popup);
+        marker.on('popupclose', () => {
+            if (!this.refreshing) { this.openPopup = undefined; }
+        });
 
         marker[this.controlName] = entity;
         this.layerGroups[model.type].addLayer(marker);
