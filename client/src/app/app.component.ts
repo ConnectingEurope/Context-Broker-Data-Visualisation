@@ -1,24 +1,29 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
+import { LoaderService } from './shared/services/loader-service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
 
-  protected menuItems: MenuItem[];
+    protected menuItems: MenuItem[];
 
-  public ngOnInit(): void {
-    this.loadMenu();
-  }
+    constructor(
+        protected loaderService: LoaderService,
+    ) { }
 
-  private loadMenu(): void {
-    this.menuItems = [
-      { label: 'Map', icon: 'pi pi-globe', routerLink: '/map-dashboard' },
-      { label: 'Configuration', icon: 'pi pi-list', routerLink: '/config-dashboard' },
-    ];
-  }
+    public ngOnInit(): void {
+        this.loadMenu();
+    }
+
+    private loadMenu(): void {
+        this.menuItems = [
+            { label: 'Map', icon: 'pi pi-globe', routerLink: '/map-dashboard' },
+            { label: 'Configuration', icon: 'pi pi-list', routerLink: '/config-dashboard' },
+        ];
+    }
 
 }

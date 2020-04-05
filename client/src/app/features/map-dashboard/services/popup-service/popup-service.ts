@@ -26,4 +26,16 @@ export class PopupService {
 
         return popup;
     }
+
+    public getPopupContent(e: any): HTMLDivElement {
+        const compFactory: ComponentFactory<PopupComponent> = this.resolver.resolveComponentFactory(PopupComponent);
+        const popupComponentRef: ComponentRef<PopupComponent> = compFactory.create(this.injector);
+        popupComponentRef.instance.entity = e;
+        popupComponentRef.changeDetectorRef.detectChanges();
+
+        const div: HTMLDivElement = document.createElement('div');
+        div.appendChild(popupComponentRef.location.nativeElement);
+
+        return div;
+    }
 }

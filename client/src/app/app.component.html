@@ -1,4 +1,4 @@
-<ng-http-loader></ng-http-loader>
+<ng-http-loader *ngIf="loaderService.active"></ng-http-loader>
 
 <p-toast></p-toast>
 
@@ -6,19 +6,19 @@
 
 <div class="d-flex flex-column vh-100">
 
-  <!-- Header -->
-  <div class="w-100">
-    <p-menubar [model]="menuItems">
-    </p-menubar>
-  </div>
+    <!-- Header -->
+    <div class="w-100">
+        <p-menubar [model]="menuItems">
+        </p-menubar>
+    </div>
 
-  <!-- Content -->
-  <div class="flex-grow-1">
-    <router-outlet></router-outlet>
-  </div>
+    <!-- Content -->
+    <div class="flex-grow-1">
+        <router-outlet></router-outlet>
+    </div>
 
-  <!-- Footer -->
-  <!-- <div id="footer" class="d-flex align-items-center w-100">
+    <!-- Footer -->
+    <!-- <div id="footer" class="d-flex align-items-center w-100">
     <div class="w-100">
       <p class="text-center text-dark mb-0">
         Made by Everis
