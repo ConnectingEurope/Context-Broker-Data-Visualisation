@@ -110,7 +110,7 @@ export class LayerService {
             const label: string = 'label';
             const icon: string = 'icon';
             layers[category.name] = {};
-            layers[category.name][label] = category.name;
+            layers[category.name][label] = category.label;
             layers[category.name][icon] = 'pi ' + category.icon;
             category.entities.forEach((entity) => {
                 layers[category.name][entity.name] = {};

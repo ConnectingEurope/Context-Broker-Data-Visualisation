@@ -20,4 +20,22 @@ export class FwiIcons {
 
     };
 
+    public static readonly label: { [key: string]: string } = {
+
+        alerts: 'Alerts',
+        environment: 'Environment',
+        smartEnvironment: 'Smart Environment',
+        pointOfInterest: 'Point of Interest',
+        civicIssuesTracking: 'Civic Issues Tracking',
+        streetLighting: 'Street Lightingg',
+        device: 'Devices',
+        transport: 'Transportation',
+        indicators: 'Indicators',
+        wasteManagement: 'Waste Management',
+        parking: 'Parking',
+        weather: 'Weather',
+        generic: 'Generic',
+
+    };
+
 }

@@ -202,7 +202,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
                 return category.name === parentKey;
             });
             if (!categoryExist) {
-                this.categories.push({ name: parentKey, icon: FwiIcons.icons[parentKey], entities: [entity] });
+                this.categories.push({
+                    name: parentKey, label: FwiIcons.label[parentKey],
+                    icon: FwiIcons.icons[parentKey], entities: [entity],
+                });
             } else {
                 categoryExist.entities.push(entity);
             }
