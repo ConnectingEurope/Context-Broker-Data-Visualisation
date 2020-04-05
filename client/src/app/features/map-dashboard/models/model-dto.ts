@@ -1,5 +1,6 @@
 export interface CategoryDto {
     name: string;
+    label: string;
     icon: string;
     entities: CategoryEntityDto[];
 }
