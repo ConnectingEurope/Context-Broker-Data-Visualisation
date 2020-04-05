@@ -1,6 +1,6 @@
 export interface CategoryDto {
     name: string;
-    icon: L.Icon;
+    icon: string;
     entities: CategoryEntityDto[];
 }
 

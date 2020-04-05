@@ -33,14 +33,14 @@ export class LayerConditionsComponent implements OnInit {
 
     public add(): void {
         if (this.categorySelected.name && this.entitySelected.name && this.attrSelected.name &&
-            this.actionSelected && this.textSelected) {
+            this.actionSelected && this.textSelected !== undefined) {
 
             this.filterList.push(
                 new ConditionDto(
                     this.categorySelected.name,
                     this.entitySelected.name,
                     this.attrSelected.name,
-                    +this.textSelected ? this.actionSelected.label : 'contains',
+                    this.actionSelected.label,
                     this.textSelected,
                 ),
             );
