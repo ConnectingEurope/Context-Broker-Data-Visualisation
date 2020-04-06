@@ -13,9 +13,10 @@
     </div>
     <div class="row justify-content-center my-2">
         <div class="col-auto">
-            <p [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'" class="advertisement">
-                There are unsaved changes, apply the configuration to save them. Otherwise, the configuration will
-                not be stored.
+            <p [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'" class="alert alert-warning"
+                role="alert">
+                <i class="pi pi-exclamation-triangle"></i>
+                There are unsaved changes. Please, apply the configuration to confirm them.
             </p>
         </div>
     </div>
