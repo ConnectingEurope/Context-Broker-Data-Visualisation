@@ -6,7 +6,8 @@
         (ngModelChange)="onChange($event)" />
     <p-button *ngIf="hasButton" class=" ml-2" icon="{{buttonIcon}}" [disabled]="fControl.errors"
         (onClick)="onClick($event)"></p-button>
-    <p *ngIf="!shouldErrorBeDisplayed() && !shouldInfoBeDisplayed()" [style.visibility]="'hidden'">
+    <p *ngIf="!shouldErrorBeDisplayed() && !shouldInfoBeDisplayed() && !shouldWarningBeDisplayed()"
+        [style.visibility]="'hidden'">
         -
     </p>
     <p class="input-error" *ngIf="shouldErrorBeDisplayed()">
@@ -14,5 +15,8 @@
     </p>
     <p class="input-info" *ngIf="shouldInfoBeDisplayed()">
         {{getInfoMessage()}}
+    </p>
+    <p class="input-warning" *ngIf="shouldWarningBeDisplayed()">
+        {{getWarningMessage()}}
     </p>
 </div>

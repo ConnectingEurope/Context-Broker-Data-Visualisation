@@ -23,6 +23,8 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
     @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
 
+    private chooseWarningVisible: boolean;
+
     constructor(
         private configDashboardService: ConfigDashboardService,
         private appMessageService: AppMessageService,
@@ -30,6 +32,10 @@ export class ServiceConfigurationComponent extends BaseComponent {
         private confirmationService: ConfirmationService,
     ) {
         super();
+    }
+
+    public onContextBrokerUrlChange(): void {
+        this.chooseWarningVisible = false;
     }
 
     protected onAddService(): void {
@@ -56,6 +62,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
     }
 
     protected onServiceConfigChange(index: number): void {
+        this.chooseWarningVisible = false;
         const service: string = this.cb.services[index].form.value.service;
         const servicePath: string = this.cb.services[index].form.value.servicePath;
         const header: string = service + (service && servicePath &&
@@ -100,6 +107,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
     }
 
     private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
+        this.chooseWarningVisible = false;
         this.cb.services[index].entities = this.layerService.getEntities(entities);
         this.cb.services[index].selectedEntities = this.layerService.getAllSelected(this.cb.services[index].entities);
         this.selectedEntitiesChange.emit();
@@ -107,12 +115,7 @@ export class ServiceConfigurationComponent extends BaseComponent {
 
     private onChooseEntitiesFail(index: number): void {
         this.cb.services[index].entities = [];
-        this.cb.services[index].selectedEntities = [];
-        this.appMessageService.add({
-            severity: 'warn',
-            summary: 'Entities not found in this service',
-            detail: 'Try with another service or without using services in general configuration',
-        });
+        this.chooseWarningVisible = true;
     }
 
 }

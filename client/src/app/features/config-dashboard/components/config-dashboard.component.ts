@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { LayerService } from '../../map-dashboard/services/layer-service/layer-s
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { ServiceConfigurationComponent } from './service-configuration/service-configuration.component';
 
 @Component({
     selector: 'app-config-dashboard',
@@ -22,6 +23,8 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     protected removedServiceAtLeastOnce: boolean = false;
     protected selectedEntitiesChange: boolean = false;
     protected contextBrokers: ContextBrokerForm[] = [];
+
+    @ViewChild('serviceConfiguration', { static: false }) private serviceConfiguration: ServiceConfigurationComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -98,6 +101,10 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         }
     }
 
+    protected onUrlChange(): void {
+        this.serviceConfiguration.onContextBrokerUrlChange();
+    }
+
     private checkEntities(): boolean {
         let valid: boolean = true;
         this.contextBrokers.forEach(cb => {
@@ -134,6 +141,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     private onApplyConfigurationSuccess(): void {
+        this.appMessageService.add({ severity: 'success', summary: 'Configuration applied' });
         this.router.navigate(['/map-dashboard']);
     }
 

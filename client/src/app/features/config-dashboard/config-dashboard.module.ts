@@ -13,6 +13,7 @@ import { TreeModule } from 'primeng/tree';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TooltipModule } from 'primeng/tooltip';
+import { MessageModule } from 'primeng/message';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { GeneralConfigurationComponent } from './components/general-configuration/general-configuration.component';
@@ -22,30 +23,31 @@ import { HistoricalConfigurationComponent } from './components/historical-config
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 
 @NgModule({
-  declarations: [
-    ConfigDashboardComponent,
-    GeneralConfigurationComponent,
-    ServiceConfigurationComponent,
-    HistoricalConfigurationComponent,
-    AccordionTabHeaderComponent,
-    InputWithValidationComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ConfigDashboardRoutingModule,
-    AccordionModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    BlockUIModule,
-    TableModule,
-    TreeModule,
-    CheckboxModule,
-    ScrollPanelModule,
-    TooltipModule,
-  ],
-  providers: [],
+    declarations: [
+        ConfigDashboardComponent,
+        GeneralConfigurationComponent,
+        ServiceConfigurationComponent,
+        HistoricalConfigurationComponent,
+        AccordionTabHeaderComponent,
+        InputWithValidationComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ConfigDashboardRoutingModule,
+        AccordionModule,
+        CardModule,
+        ButtonModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        BlockUIModule,
+        TableModule,
+        TreeModule,
+        CheckboxModule,
+        ScrollPanelModule,
+        TooltipModule,
+        MessageModule,
+    ],
+    providers: [],
 })
 export class ConfigDashboardModule { }

@@ -50,21 +50,19 @@ export class HistoricalConfigurationComponent extends BaseComponent {
     }
 
     private onCheckCygnusSuccess(): void {
-        this.appMessageService.add({ severity: 'success', summary: 'Connection succeded' });
         this.cygnusInput.showInfo();
     }
 
     private onCheckCygnusFail(): void {
-        this.appMessageService.add({ severity: 'error', summary: 'Cannot find Cygnus' });
+        this.cygnusInput.showWarning();
     }
 
     private onCheckCometSuccess(): void {
-        this.appMessageService.add({ severity: 'success', summary: 'Connection succeded' });
         this.cometInput.showInfo();
     }
 
     private onCheckCometFail(): void {
-        this.appMessageService.add({ severity: 'error', summary: 'Cannot find STH-Comet' });
+        this.cometInput.showWarning();
     }
 
 }

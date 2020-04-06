@@ -1,7 +1,13 @@
 <p-card header="Historical Configuration">
     <form [formGroup]="cb.historicalForm">
-        <div class="container-fluid mt-5 mb-4">
-            <div class="row justify-content-center">
+        <div class="container-fluid mt-3">
+            <i class="pi pi-info info-message"></i>
+            <p class="d-inline info-message">
+                {{'Historical data is not provided from the Context Broker, but it is provided by a group of tools in charge of manage it,
+                which are integrated with the Context Broker. Because of that, the configuration of Cygnus and STH-Comet is needed into
+                the enabler to visualize historical data.'}}
+            </p>
+            <div class="row justify-content-center mt-5">
                 <div class="col-11">
 
                     <!-- Cygnus URL -->

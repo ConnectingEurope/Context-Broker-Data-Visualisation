@@ -21,6 +21,7 @@ export class InputWithValidationComponent implements OnInit {
 
     private fControl: AbstractControl;
     private infoRequested: boolean;
+    private warningRequested: boolean;
 
     private requiredError: string = 'This field is mandatory';
     private emptySpacePatternError: string = this.requiredError;
@@ -36,12 +37,20 @@ export class InputWithValidationComponent implements OnInit {
         this.infoRequested = true;
     }
 
+    public showWarning(): void {
+        this.warningRequested = true;
+    }
+
     protected shouldErrorBeDisplayed(): boolean {
         return this.fControl.dirty && this.fControl.errors !== null;
     }
 
     protected shouldInfoBeDisplayed(): boolean {
         return this.infoRequested;
+    }
+
+    protected shouldWarningBeDisplayed(): boolean {
+        return this.warningRequested;
     }
 
     protected getErrorMessage(): string {
@@ -55,8 +64,13 @@ export class InputWithValidationComponent implements OnInit {
         return 'Connection succeded';
     }
 
+    protected getWarningMessage(): string {
+        return 'Connection failed';
+    }
+
     protected onChange(event: any): void {
         this.infoRequested = false;
+        this.warningRequested = false;
         this.changeText.emit(event);
     }
 

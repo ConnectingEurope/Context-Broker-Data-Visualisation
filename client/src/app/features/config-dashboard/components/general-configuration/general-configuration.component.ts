@@ -18,6 +18,9 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     @Input() public cb: ContextBrokerForm;
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public urlChange: EventEmitter<void> = new EventEmitter<void>();
+
+    protected chooseWarningVisible: boolean;
 
     @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
     @ViewChild('urlInput', { static: false }) private urlInput: InputWithValidationComponent;
@@ -33,6 +36,11 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     protected onNameChange(): void {
         const header: string = this.cb.form.value.name;
         this.cb.header = header && !/^\s+$/.test(header) ? header : this.configDashboardService.contextHeaderWhenEmpty;
+    }
+
+    protected onUrlChange(): void {
+        this.chooseWarningVisible = false;
+        this.urlChange.emit();
     }
 
     protected onNodeChange(): void {
@@ -74,15 +82,15 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     }
 
     private onCheckContextBrokerSuccess(): void {
-        this.appMessageService.add({ severity: 'success', summary: 'Connection succeded' });
         this.urlInput.showInfo();
     }
 
     private onCheckContextBrokerFail(): void {
-        this.appMessageService.add({ severity: 'error', summary: 'Cannot find Context Broker' });
+        this.urlInput.showWarning();
     }
 
     private onChooseEntitiesSuccess(entities: EntityDto[]): void {
+        this.chooseWarningVisible = false;
         this.cb.entities = this.layerService.getEntities(entities);
         this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
         this.selectedEntitiesChange.emit();
@@ -90,11 +98,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     private onChooseEntitiesFail(): void {
         this.cb.entities = [];
-        this.cb.selectedEntities = [];
-        this.appMessageService.add({
-            severity: 'warn', summary: 'Entities not found',
-            detail: 'Maybe you have entities in specific services',
-        });
+        this.chooseWarningVisible = true;
     }
 
 }

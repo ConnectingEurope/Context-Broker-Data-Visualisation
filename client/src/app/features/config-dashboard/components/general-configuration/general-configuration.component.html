@@ -14,7 +14,7 @@
                 <div class="mt-4">
                     <app-input-with-validation #urlInput [label]="'URL'" [controlName]="'url'" [group]="cb.form"
                         [required]="true" [hasButton]="true" [buttonIcon]="'pi pi-check'"
-                        (buttonClick)="onCheckContextBroker()">
+                        (buttonClick)="onCheckContextBroker()" (changeText)="onUrlChange()">
                     </app-input-with-validation>
                 </div>
 
@@ -24,9 +24,12 @@
                         icon="pi pi-list" (onClick)="onChooseEntities()">
                     </p-button>
                 </div>
+                <p class="input-warning mt-2" [style.visibility]="chooseWarningVisible ? 'visible' : 'hidden'">
+                    {{'Entities not found (maybe you have entities in specific services)'}}
+                </p>
 
                 <!-- Services checkbox -->
-                <div class="mt-5">
+                <div class="mt-4">
                     <p-checkbox label="The Context Broker uses services" binary="true"
                         [formControl]="cb.form.controls['needServices']">
                     </p-checkbox>
