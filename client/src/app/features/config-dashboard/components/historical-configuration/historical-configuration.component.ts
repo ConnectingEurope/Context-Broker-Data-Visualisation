@@ -50,6 +50,7 @@ export class HistoricalConfigurationComponent extends BaseComponent {
     }
 
     private onCheckCygnusSuccess(): void {
+        this.appMessageService.add({ severity: 'success', summary: 'Connection succeded' });
         this.cygnusInput.showInfo();
     }
 
@@ -58,6 +59,7 @@ export class HistoricalConfigurationComponent extends BaseComponent {
     }
 
     private onCheckCometSuccess(): void {
+        this.appMessageService.add({ severity: 'success', summary: 'Connection succeded' });
         this.cometInput.showInfo();
     }
 

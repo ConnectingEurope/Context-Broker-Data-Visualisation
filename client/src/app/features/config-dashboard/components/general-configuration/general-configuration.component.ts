@@ -74,6 +74,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     }
 
     private onCheckContextBrokerSuccess(): void {
+        this.appMessageService.add({ severity: 'success', summary: 'Connection succeded' });
         this.urlInput.showInfo();
     }
 
