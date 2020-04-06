@@ -50,6 +50,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private loadedIdsCopy: { [key: string]: string[] } = {};
     private openPopup: L.Popup;
     private refreshing: boolean;
+    private firstFetch: boolean = true;
 
     private interval: any;
 
@@ -253,16 +254,19 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private onLoadEntitiesEmpty(): void {
-        this.confirmationService.confirm({
-            icon: 'pi pi-info',
-            header: 'There is no configuration yet',
-            message: 'Do you want to configure the dashboard?',
-            acceptLabel: 'Configure',
-            rejectLabel: 'Cancel',
-            accept: (): void => {
-                this.router.navigate(['/config-dashboard']);
-            },
-        });
+        if (this.firstFetch) {
+            this.firstFetch = false;
+            this.confirmationService.confirm({
+                icon: 'pi pi-info',
+                header: 'There is no configuration yet',
+                message: 'Do you want to configure the dashboard?',
+                acceptLabel: 'Configure',
+                rejectLabel: 'Cancel',
+                accept: (): void => {
+                    this.router.navigate(['/config-dashboard']);
+                },
+            });
+        }
     }
 
     private onLoadEntitiesFail(): void {
