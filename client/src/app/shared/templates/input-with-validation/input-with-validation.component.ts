@@ -20,6 +20,7 @@ export class InputWithValidationComponent implements OnInit {
     @Output() public buttonClick: EventEmitter<any> = new EventEmitter<any>();
 
     private fControl: AbstractControl;
+    private infoRequested: boolean;
 
     private requiredError: string = 'This field is mandatory';
     private emptySpacePatternError: string = this.requiredError;
@@ -31,8 +32,16 @@ export class InputWithValidationComponent implements OnInit {
         this.fControl = this.group.get(this.controlName);
     }
 
+    public showInfo(): void {
+        this.infoRequested = true;
+    }
+
     protected shouldErrorBeDisplayed(): boolean {
         return this.fControl.dirty && this.fControl.errors !== null;
+    }
+
+    protected shouldInfoBeDisplayed(): boolean {
+        return this.infoRequested;
     }
 
     protected getErrorMessage(): string {
@@ -42,7 +51,12 @@ export class InputWithValidationComponent implements OnInit {
         return '-';
     }
 
+    protected getInfoMessage(): string {
+        return 'Connection succeded';
+    }
+
     protected onChange(event: any): void {
+        this.infoRequested = false;
         this.changeText.emit(event);
     }
 

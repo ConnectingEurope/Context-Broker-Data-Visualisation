@@ -1,5 +1,9 @@
 @import './variables';
 
-p {
+p.input-error {
     color: $wrongColor;
+}
+
+p.input-info {
+    color: $primaryColor;
 }

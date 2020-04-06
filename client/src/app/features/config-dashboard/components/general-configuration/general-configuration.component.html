@@ -12,8 +12,9 @@
 
                 <!-- URL -->
                 <div class="mt-4">
-                    <app-input-with-validation [label]="'URL'" [controlName]="'url'" [group]="cb.form" [required]="true"
-                        [hasButton]="true" [buttonIcon]="'pi pi-check'" (buttonClick)="onCheckContextBroker()">
+                    <app-input-with-validation #urlInput [label]="'URL'" [controlName]="'url'" [group]="cb.form"
+                        [required]="true" [hasButton]="true" [buttonIcon]="'pi pi-check'"
+                        (buttonClick)="onCheckContextBroker()">
                     </app-input-with-validation>
                 </div>
 
