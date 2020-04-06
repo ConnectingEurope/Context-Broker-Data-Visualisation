@@ -5,7 +5,7 @@ const utils = require('./utils');
 const Datastore = require('nedb');
 
 router.get('/all', function (req, res, next) {
-    const db = new Datastore({ filename: './configuration' });
+    const db = new Datastore({ filename: './configuration.json' });
     db.loadDatabase(function (err) {
         if (err) console.log(err);
     });

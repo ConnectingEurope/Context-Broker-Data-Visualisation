@@ -3,7 +3,7 @@ const router = express.Router();
 const Datastore = require('nedb');
 
 router.get('/', function (routerReq, routerRes, routerNext) {
-    const db = new Datastore({ filename: './configuration' });
+    const db = new Datastore({ filename: './configuration.json' });
     db.loadDatabase(function (err) {
         if (err) console.log(err);
     });
@@ -18,7 +18,7 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 });
 
 router.post('/', function (routerReq, routerRes, routerNext) {
-    const db = new Datastore({ filename: './configuration' });
+    const db = new Datastore({ filename: './configuration.json' });
     db.loadDatabase(function (err) {
         if (err) console.log(err);
     });

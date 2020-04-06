@@ -10,7 +10,7 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 
 function readConfig(routerRes) {
 
-    const db = new Datastore({ filename: './configuration' });
+    const db = new Datastore({ filename: './configuration.json' });
     db.loadDatabase(function (err) {
         if (err) console.log(err);
     });
