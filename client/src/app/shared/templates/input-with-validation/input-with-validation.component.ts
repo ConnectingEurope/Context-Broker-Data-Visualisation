@@ -15,6 +15,7 @@ export class InputWithValidationComponent implements OnInit {
     @Input() public required: boolean;
     @Input() public hasButton: boolean;
     @Input() public buttonIcon: string;
+    @Input() public tooltipText: string;
     @Output() public changeText: EventEmitter<any> = new EventEmitter<any>();
     @Output() public buttonClick: EventEmitter<any> = new EventEmitter<any>();
 
