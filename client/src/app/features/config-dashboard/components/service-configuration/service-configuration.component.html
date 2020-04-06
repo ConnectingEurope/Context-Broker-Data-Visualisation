@@ -30,7 +30,8 @@
                                             <div>
                                                 <app-input-with-validation [label]="'Service'" [controlName]="'service'"
                                                     [group]="service.form" [required]="true"
-                                                    (changeText)="onServiceConfigChange(i)">
+                                                    (changeText)="onServiceConfigChange(i)"
+                                                    tooltipText="This field refers to the header: fiware-service.">
                                                 </app-input-with-validation>
                                             </div>
 
@@ -38,7 +39,8 @@
                                             <div class="mt-4">
                                                 <app-input-with-validation [label]="'Service Path'"
                                                     [controlName]="'servicePath'" [group]="service.form"
-                                                    (changeText)="onServiceConfigChange(i)">
+                                                    (changeText)="onServiceConfigChange(i)"
+                                                    tooltipText="This field refers to the header: fiware-servicePath. This service path must start by /">
                                                 </app-input-with-validation>
                                             </div>
 

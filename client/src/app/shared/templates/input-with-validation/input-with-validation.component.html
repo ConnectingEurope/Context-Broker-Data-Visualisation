@@ -1,5 +1,7 @@
 <div class="d-inline" [formGroup]="group">
-    <h6>{{label + (required ? '*' : '')}}</h6>
+    <h6>{{label + (required ? '*' : '')}}
+        <i *ngIf="tooltipText" class="ml-2 pi pi-question-circle help-icon" pTooltip="{{ tooltipText }}"></i>
+    </h6>
     <input class="largeInput" type="text" pInputText formControlName="{{controlName}}"
         (ngModelChange)="onChange($event)" />
     <p-button *ngIf="hasButton" class=" ml-2" icon="{{buttonIcon}}" [disabled]="fControl.errors"
