@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
     private loadMenu(): void {
         this.menuItems = [
             { label: 'Map', icon: 'pi pi-globe', routerLink: '/map-dashboard' },
-            { label: 'Configuration', icon: 'pi pi-list', routerLink: '/config-dashboard' },
+            { label: 'Configuration', icon: 'fas fa-cog', routerLink: '/config-dashboard' },
         ];
     }
 
