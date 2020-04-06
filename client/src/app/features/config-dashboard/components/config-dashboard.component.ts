@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ServiceConfigurationComponent } from './service-configuration/service-configuration.component';
+import { AccordionTab } from 'primeng/accordion/accordion';
 
 @Component({
     selector: 'app-config-dashboard',
@@ -25,6 +26,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     protected contextBrokers: ContextBrokerForm[] = [];
 
     @ViewChild('serviceConfiguration', { static: false }) private serviceConfiguration: ServiceConfigurationComponent;
+    @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -39,8 +41,13 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     public ngOnInit(): void {
         this.configDashboardService.getConfiguration().pipe(takeUntil(this.destroy$)).subscribe(
             contextBrokers => {
-                this.loadConfiguration(contextBrokers);
-                this.configurationLoaded = true;
+                if (contextBrokers.length === 0) {
+                    this.onAddContextBroker();
+                    this.configurationLoaded = true;
+                } else {
+                    this.loadConfiguration(contextBrokers);
+                    this.configurationLoaded = true;
+                }
             },
             err => {
                 this.appMessageService.add({ severity: 'error', summary: 'Cannot load the configuration' });
@@ -62,8 +69,11 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     protected onAddContextBroker(): void {
+        if (this.accordionTabs && this.accordionTabs.length > 0) {
+            this.accordionTabs.forEach(a => a.selected = false);
+        }
         this.addedContextBrokerAtLeastOnce = true;
-        this.contextBrokers.unshift({
+        this.contextBrokers.push({
             header: this.configDashboardService.defaultContextName,
             form: this.configDashboardService.createContextBrokerForm(),
             historicalForm: this.configDashboardService.createHistoricalForm(),
@@ -102,7 +112,9 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     protected onUrlChange(): void {
-        this.serviceConfiguration.onContextBrokerUrlChange();
+        if (this.serviceConfiguration) {
+            this.serviceConfiguration.onContextBrokerUrlChange();
+        }
     }
 
     private checkEntities(): boolean {
@@ -220,6 +232,11 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
                 entities: treeNodes,
                 selectedEntities: selectedTreeNodes,
             });
+        });
+        setTimeout(() => {
+            if (this.accordionTabs && this.accordionTabs.length > 0) {
+                this.accordionTabs.forEach(a => a.selected = false);
+            }
         });
     }
 

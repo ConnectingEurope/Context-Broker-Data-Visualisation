@@ -17,7 +17,7 @@
             <div class="col-12">
                 <p-accordion>
                     <ng-template ngFor let-service let-i="index" [ngForOf]="cb.services">
-                        <p-accordionTab #accordionTab>
+                        <p-accordionTab #accordionTab [selected]="true" [transitionOptions]="'0ms'">
 
                             <!-- AccordionTab header -->
                             <p-header>

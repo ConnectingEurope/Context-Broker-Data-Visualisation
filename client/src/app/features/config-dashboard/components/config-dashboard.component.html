@@ -11,7 +11,7 @@
             </p-button>
         </div>
     </div>
-    <div class="row justify-content-center my-2">
+    <div class="row justify-content-center mt-2">
         <div class="col-auto">
             <p [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'" class="alert alert-warning"
                 role="alert">
@@ -26,7 +26,7 @@
         <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-8">
             <p-accordion>
                 <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
-                    <p-accordionTab #accordionTab>
+                    <p-accordionTab #accordionTab [selected]="true" [transitionOptions]="'0ms'">
 
                         <!-- AccordionTab header -->
                         <p-header>

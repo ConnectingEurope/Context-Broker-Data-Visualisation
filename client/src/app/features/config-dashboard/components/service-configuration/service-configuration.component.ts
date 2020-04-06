@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter, ViewChildren, QueryList, OnInit, AfterViewInit } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
@@ -9,29 +9,42 @@ import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
+import { AccordionTab } from 'primeng/accordion/accordion';
 
 @Component({
     selector: 'app-service-configuration',
     templateUrl: './service-configuration.component.html',
     styleUrls: ['./service-configuration.component.scss'],
 })
-export class ServiceConfigurationComponent extends BaseComponent {
+export class ServiceConfigurationComponent extends BaseComponent implements OnInit {
 
     @Input() public cb: ContextBrokerForm;
     @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
 
-    @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
+    protected chooseWarningVisible: boolean;
 
-    private chooseWarningVisible: boolean;
+    @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
+    @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
-        private appMessageService: AppMessageService,
         private layerService: LayerService,
         private confirmationService: ConfirmationService,
     ) {
         super();
+    }
+
+    public ngOnInit(): void {
+        if (this.cb.services.length === 0) {
+            this.onAddService();
+        } else {
+            setTimeout(() => {
+                if (this.accordionTabs && this.accordionTabs.length > 0) {
+                    this.accordionTabs.forEach(a => a.selected = false);
+                }
+            });
+        }
     }
 
     public onContextBrokerUrlChange(): void {
@@ -39,7 +52,10 @@ export class ServiceConfigurationComponent extends BaseComponent {
     }
 
     protected onAddService(): void {
-        this.cb.services.unshift({
+        if (this.accordionTabs && this.accordionTabs.length > 0) {
+            this.accordionTabs.forEach(a => a.selected = false);
+        }
+        this.cb.services.push({
             header: this.configDashboardService.defaulServiceHeader,
             form: this.configDashboardService.createServiceForm(),
             entities: [],
