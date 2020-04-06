@@ -114,7 +114,7 @@ export class LayerService {
             layers[category.name][icon] = 'pi ' + category.icon;
             category.entities.forEach((entity) => {
                 layers[category.name][entity.name] = {};
-                layers[category.name][entity.name][label] = entity.name;
+                layers[category.name][entity.name][label] = entity.label;
             });
         });
         return layers;
