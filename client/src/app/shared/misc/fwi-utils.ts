@@ -40,7 +40,8 @@ export class FwiUtils {
 
     public static readonly entityName: { [key: string]: string } = {
 
-        AirQualityObserved: 'Air Quality Observer',
+        // TODO: Fill in.
+        // AirQualityObserved: 'Air Quality Observed',
 
     };
 
