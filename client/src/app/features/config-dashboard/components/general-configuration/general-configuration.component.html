@@ -29,6 +29,8 @@
                     <p-checkbox label="The Context Broker uses services" binary="true"
                         [formControl]="cb.form.controls['needServices']">
                     </p-checkbox>
+                    <i class="ml-2 pi pi-question-circle help-icon"
+                        pTooltip="If the information of the Context Broker is divided in services, please configure them in the Services panel."></i>
                 </div>
 
                 <!-- Historical checkbox -->
@@ -37,7 +39,7 @@
                         [formControl]="cb.form.controls['needHistoricalData']">
                     </p-checkbox>
                     <i class="ml-2 pi pi-question-circle help-icon"
-                        pTooltip="In order to have access to historical data, both Cygnus URL and STH-Comet URL should be provided"></i>
+                        pTooltip="In order to have access to historical data, both Cygnus URL and STH-Comet URL should be provided."></i>
                 </div>
 
             </div>
