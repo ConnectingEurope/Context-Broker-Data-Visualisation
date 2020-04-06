@@ -163,13 +163,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         });
 
         this.map.addControl(searchControl);
-        this.addFocusOutEventToGeoSearch();
-    }
-
-    private addFocusOutEventToGeoSearch(): void {
-        const geosearchContainer: any = this.elem.nativeElement.querySelectorAll('.geosearch')[0];
-        const geosearchInput: any = this.elem.nativeElement.querySelectorAll('.glass')[0];
-        geosearchInput.addEventListener('focusout', (e) => { geosearchContainer.classList.remove('active'); }, false);
     }
 
     private loadLayerMenu(): void {

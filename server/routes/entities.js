@@ -16,28 +16,32 @@ router.get('/all', function (req, res, next) {
                 let entities = [];
                 docs[0].contextBrokers.forEach(context => {
                     context.entities.forEach((entity) => {
-                        let exist = entities.find((element) => {
-                            return element.name == entity.name;
-                        });
-                        if (!exist) { entities.push(entity); }
+                        if (entity.selected) {
+                            let exist = entities.find((element) => {
+                                return element.name == entity.name;
+                            });
+                            if (!exist) { entities.push(entity); }
+                        }
                     });
 
                     context.services.forEach((service) => {
                         service.entities.forEach((entity) => {
-                            // Add entity if it does not exist.
-                            let entityExists = entities.find((element) => {
-                                return element.name == entity.name;
-                            });
-                            if (!entityExists) {
-                                entities.push(entity);
-                            } else {
-                                // Add attribute if it does not exist.
-                                entity.attrs.forEach((attr) => {
-                                    let attrExists = entityExists.attrs.find((element) => {
-                                        return element.name == attr.name;
-                                    });
-                                    if (!attrExists) { entityExists.attrs.push(attr) };
+                            if (entity.selected) {
+                                // Add entity if it does not exist.
+                                let entityExists = entities.find((element) => {
+                                    return element.name == entity.name;
                                 });
+                                if (!entityExists) {
+                                    entities.push(entity);
+                                } else {
+                                    // Add attribute if it does not exist.
+                                    entity.attrs.forEach((attr) => {
+                                        let attrExists = entityExists.attrs.find((element) => {
+                                            return element.name == attr.name;
+                                        });
+                                        if (!attrExists) { entityExists.attrs.push(attr) };
+                                    });
+                                }
                             }
                         });
                     })
