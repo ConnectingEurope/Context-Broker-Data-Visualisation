@@ -33,7 +33,9 @@ async function processContextBrokers(routerRes) {
             await processEntities(routerRes, modelDtos, cb, s);
         }
     }
-    routerRes.send(modelDtos);
+    if (!routerRes.headersSent) {
+        routerRes.send(modelDtos);
+    }
 }
 
 async function processEntities(routerRes, modelDtos, cb, s) {
