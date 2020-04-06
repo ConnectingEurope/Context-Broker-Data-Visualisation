@@ -7,6 +7,7 @@ import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
+import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 
 @Component({
     selector: 'app-general-configuration',
@@ -19,6 +20,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
 
     @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
+    @ViewChild('urlInput', { static: false }) private urlInput: InputWithValidationComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -46,8 +48,6 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     protected onCheckContextBroker(): void {
         const url: string = this.cb.form.value.url;
 
-
-
         this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
             isLive => {
                 isLive ? this.onCheckContextBrokerSuccess() : this.onCheckContextBrokerFail();
@@ -74,7 +74,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     }
 
     private onCheckContextBrokerSuccess(): void {
-        this.appMessageService.add({ severity: 'success', summary: 'Connection succeded!' });
+        this.urlInput.showInfo();
     }
 
     private onCheckContextBrokerFail(): void {

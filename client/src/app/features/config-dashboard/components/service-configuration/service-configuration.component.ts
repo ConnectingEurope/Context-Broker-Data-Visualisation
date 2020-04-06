@@ -8,6 +8,7 @@ import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
+import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 
 @Component({
     selector: 'app-service-configuration',
