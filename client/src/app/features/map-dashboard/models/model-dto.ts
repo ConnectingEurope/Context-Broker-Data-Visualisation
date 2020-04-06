@@ -1,11 +1,13 @@
 export interface CategoryDto {
     name: string;
-    icon: L.Icon;
+    label: string;
+    icon: string;
     entities: CategoryEntityDto[];
 }
 
 export interface CategoryEntityDto {
     name: string;
+    label: string;
     selected: boolean;
     attrs: AttributeDto[];
 }

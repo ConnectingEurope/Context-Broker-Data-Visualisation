@@ -14,7 +14,7 @@ export class LayerConditionsComponent implements OnInit {
     public actionSelected: ActionDto = undefined;
     public textSelected: string;
     public attrSelected: AttributeDto;
-    public actions: ActionDto[] = [{ label: '<' }, { label: '<=' }, { label: '=' }, { label: '>=' }, { label: '>' }];
+    public actions: ActionDto[] = [{ label: 'contains' }, { label: '<' }, { label: '<=' }, { label: '=' }, { label: '>=' }, { label: '>' }];
 
     public filterList: ConditionDto[] = [];
 
@@ -33,14 +33,14 @@ export class LayerConditionsComponent implements OnInit {
 
     public add(): void {
         if (this.categorySelected.name && this.entitySelected.name && this.attrSelected.name &&
-            this.actionSelected && this.textSelected) {
+            this.actionSelected && this.textSelected !== undefined) {
 
             this.filterList.push(
                 new ConditionDto(
                     this.categorySelected.name,
                     this.entitySelected.name,
                     this.attrSelected.name,
-                    +this.textSelected ? this.actionSelected.label : 'contains',
+                    this.actionSelected.label,
                     this.textSelected,
                 ),
             );

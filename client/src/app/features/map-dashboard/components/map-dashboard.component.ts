@@ -1,3 +1,4 @@
+import { FwiUtils } from '../../../shared/misc/fwi-utils';
 import { CategoryDto } from './../models/model-dto';
 import { ConditionDto } from './../models/condition-dto';
 import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
@@ -130,10 +131,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private applyFilter(layer: L.Layer, filter: ConditionDto, controlName: string): boolean {
         let shouldBeRemoved: boolean = false;
         // Check if the value is a number.
-        if (+filter.value) {
+        if (filter.condition !== 'contains') {
             shouldBeRemoved = !Utilities.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
         } else {
-            shouldBeRemoved = !layer[controlName][filter.attribute].includes(filter.value);
+            shouldBeRemoved = !layer[controlName][filter.attribute].toString().includes(filter.value);
         }
         return shouldBeRemoved;
     }
@@ -206,8 +207,14 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             const categoryExist: CategoryDto = this.categories.find((category) => {
                 return category.name === parentKey;
             });
+
+            entity.label = FwiUtils.entityName[entity.name] || entity.name;
+
             if (!categoryExist) {
-                this.categories.push({ name: parentKey, icon: LeafletIcons.icons[parentKey], entities: [entity] });
+                this.categories.push({
+                    name: parentKey, label: FwiUtils.categoryName[parentKey],
+                    icon: FwiUtils.icons[parentKey], entities: [entity],
+                });
             } else {
                 categoryExist.entities.push(entity);
             }

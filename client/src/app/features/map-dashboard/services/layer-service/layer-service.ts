@@ -110,11 +110,11 @@ export class LayerService {
             const label: string = 'label';
             const icon: string = 'icon';
             layers[category.name] = {};
-            layers[category.name][label] = category.name;
+            layers[category.name][label] = category.label;
+            layers[category.name][icon] = 'pi ' + category.icon;
             category.entities.forEach((entity) => {
                 layers[category.name][entity.name] = {};
-                layers[category.name][entity.name][label] = entity.name;
-                layers[category.name][entity.name][icon] = LeafletIcons.icons.airQualityObserved;
+                layers[category.name][entity.name][label] = entity.label;
             });
         });
         return layers;
@@ -199,6 +199,10 @@ export class LayerService {
         treeNode.data = key;
         treeNode.label = value.label;
         treeNode.children = children.map(c => this.getTreeNodeLayer(c[0], c[1]));
+        if (value.icon) {
+            treeNode.expandedIcon = value.icon;
+            treeNode.collapsedIcon = value.icon;
+        }
 
         return treeNode;
     }

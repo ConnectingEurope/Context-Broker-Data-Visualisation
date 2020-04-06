@@ -19,11 +19,11 @@
         <div class="col-sm-4">
             <div class="m-2 w-100">
                 <p-dropdown [options]="categories" [(ngModel)]="categorySelected" placeholder="Select a Category"
-                    optionLabel="name" [showClear]="true" styleClass="w-100"></p-dropdown>
+                    optionLabel="label" [showClear]="true" styleClass="w-100"></p-dropdown>
             </div>
             <div class="m-2 w-100">
                 <p-dropdown *ngIf="categorySelected?.entities" [options]="categorySelected.entities"
-                    [(ngModel)]="entitySelected" placeholder="Select an Entity" optionLabel="name" [showClear]="true"
+                    [(ngModel)]="entitySelected" placeholder="Select an Entity" optionLabel="label" [showClear]="true"
                     styleClass="w-100">
                 </p-dropdown>
             </div>
@@ -38,8 +38,12 @@
                 </p-dropdown>
             </div>
             <div class="m-2 w-100 ui-inputgroup">
-                <input *ngIf="attrSelected?.name" type="text" #text name="text" [(ngModel)]="textSelected"
-                    styleClass="w-100">
+                <input *ngIf="actionSelected?.label === 'contains'; else inputNumber" type="text" #text name="text"
+                    [(ngModel)]="textSelected" class="w-100">
+                <ng-template #inputNumber>
+                    <input *ngIf="actionSelected?.label" type="number" #text inputNumber="number"
+                        [(ngModel)]="textSelected" class="w-100">
+                </ng-template>
             </div>
         </div>
 
