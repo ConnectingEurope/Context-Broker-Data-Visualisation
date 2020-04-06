@@ -1,4 +1,4 @@
-export class FwiIcons {
+export class FwiUtils {
 
     public static iconSize: number = 40;
 
@@ -20,7 +20,7 @@ export class FwiIcons {
 
     };
 
-    public static readonly label: { [key: string]: string } = {
+    public static readonly categoryName: { [key: string]: string } = {
 
         alerts: 'Alerts',
         environment: 'Environment',
@@ -35,6 +35,12 @@ export class FwiIcons {
         parking: 'Parking',
         weather: 'Weather',
         generic: 'Generic',
+
+    };
+
+    public static readonly entityName: { [key: string]: string } = {
+
+        AirQualityObserved: 'Air Quality Observer',
 
     };
 

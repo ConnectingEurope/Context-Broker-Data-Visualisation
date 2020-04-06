@@ -7,6 +7,7 @@ export interface CategoryDto {
 
 export interface CategoryEntityDto {
     name: string;
+    label: string;
     selected: boolean;
     attrs: AttributeDto[];
 }

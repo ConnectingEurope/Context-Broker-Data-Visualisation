@@ -1,4 +1,4 @@
-import { FwiIcons } from './../../../shared/misc/fwi-icons';
+import { FwiUtils } from '../../../shared/misc/fwi-utils';
 import { CategoryDto } from './../models/model-dto';
 import { ConditionDto } from './../models/condition-dto';
 import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
@@ -201,10 +201,13 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             const categoryExist: CategoryDto = this.categories.find((category) => {
                 return category.name === parentKey;
             });
+
+            entity.label = FwiUtils.entityName[entity.name] || entity.name;
+
             if (!categoryExist) {
                 this.categories.push({
-                    name: parentKey, label: FwiIcons.label[parentKey],
-                    icon: FwiIcons.icons[parentKey], entities: [entity],
+                    name: parentKey, label: FwiUtils.categoryName[parentKey],
+                    icon: FwiUtils.icons[parentKey], entities: [entity],
                 });
             } else {
                 categoryExist.entities.push(entity);
