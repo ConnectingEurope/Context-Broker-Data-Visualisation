@@ -82,8 +82,8 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this context broker?',
-            message: 'All the configuration of this context broker will be deleted. ' +
-                'Note that this change will only be stored when applying the configuration.',
+            message: 'The configuration of the "' + this.contextBrokers[index].header + '" will be deleted. ' +
+                'Note that this change will only be confirmed when applying the configuration.',
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
             accept: (): void => {

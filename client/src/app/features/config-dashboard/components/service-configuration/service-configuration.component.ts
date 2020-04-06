@@ -45,8 +45,8 @@ export class ServiceConfigurationComponent extends BaseComponent {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this service?',
-            message: 'All the configuration of this service will be deleted. ' +
-                'Note that this change will only be stored when applying the configuration.',
+            message: 'The "' + this.cb.services[index].header +
+                '" service will be deleted. Note that this change will only be confirmed when applying the configuration',
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
             accept: (): void => {
