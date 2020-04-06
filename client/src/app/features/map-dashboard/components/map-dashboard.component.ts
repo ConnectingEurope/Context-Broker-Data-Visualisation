@@ -51,6 +51,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private openPopup: L.Popup;
     private refreshing: boolean;
     private firstFetch: boolean = true;
+    private showButtons: boolean = false;
 
     private interval: any;
 
@@ -180,8 +181,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.mapDashBoardService.getAllEntities().pipe(takeUntil(this.destroy$)).subscribe(
             (models: ModelDto[]) => {
                 if (models.length > 0) {
+                    this.showButtons = true;
                     this.onLoadEntitiesSuccess(models);
                 } else {
+                    this.showButtons = false;
                     this.onLoadEntitiesEmpty();
                 }
             },
