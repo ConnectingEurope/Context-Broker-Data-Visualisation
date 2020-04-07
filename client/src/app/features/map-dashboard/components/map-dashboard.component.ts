@@ -228,7 +228,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             model.data.forEach(entity => this.addEntity(model, entity, parentKey));
             this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
         });
-        // this.deleteOldSensors();
+        this.deleteOldSensors();
         this.loadMarkerCluster();
         this.setFilters(this.filters);
         this.unselectedLayers.forEach(l => {
@@ -244,7 +244,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.loadEntities();
         this.interval = setInterval(() => {
             this.loaderService.active = false;
-            // this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
+            this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
         }, 10000);
     }
@@ -298,23 +298,23 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         marker[this.controlName] = entity;
         this.layerGroups[model.type].addLayer(marker);
 
-        // if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
-        // this.loadedIds[model.type].push(entity.id);
+        if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
+        this.loadedIds[model.type].push(entity.id);
     }
 
-    // private deleteOldSensors(): void {
-    //     Object.keys(this.loadedIdsCopy).forEach(entityType => {
-    //         const ids: string[] = this.loadedIdsCopy[entityType];
-    //         ids.forEach(id => {
-    //             const i: number = this.loadedIds[entityType].indexOf(id);
-    //             if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
+    private deleteOldSensors(): void {
+        Object.keys(this.loadedIdsCopy).forEach(entityType => {
+            const ids: string[] = this.loadedIdsCopy[entityType];
+            ids.forEach(id => {
+                const i: number = this.loadedIds[entityType].indexOf(id);
+                if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
 
-    //             const markers: any = this.layerGroups[entityType].getLayers();
-    //             const oldSensor: L.Marker = markers.find(m => m[this.controlName].id === id);
-    //             oldSensor.remove();
-    //         });
-    //     });
-    // }
+                const markers: any = this.layerGroups[entityType].getLayers();
+                const oldSensor: L.Marker = markers.find(m => m[this.controlName].id === id);
+                oldSensor.remove();
+            });
+        });
+    }
 
     private updateEntity(existentMarker: L.Marker, model: ModelDto, entity: Entity): void {
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
@@ -323,8 +323,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         existentMarker.getPopup().setContent(this.popupService.getPopupContent(entity));
         existentMarker[this.controlName] = entity;
 
-        // const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
-        // if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
+        const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
+        if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
     }
 
     private hasLocationBeenUpdated(existentMarker: L.Marker, entity: Entity): boolean {
