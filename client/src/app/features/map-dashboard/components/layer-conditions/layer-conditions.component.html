@@ -49,12 +49,13 @@
 
         <!-- Buttons -->
         <div class="col-sm-6">
-            <p-button styleClass="ui-button-secondary" label="Clear All" (click)="clearAll()"></p-button>
+            <p-button styleClass="secondary-button" icon="pi pi-times" label="Clear All" (click)="clearAll()">
+            </p-button>
         </div>
         <div class="col-sm-6">
             <div class="float-right">
-                <p-button class="mr-2" label="Add" (click)="add()"></p-button>
-                <p-button styleClass="ui-button-secondary" label="Clear" (click)="clear()"></p-button>
+                <p-button class="mr-2" icon="pi pi-plus" label="Add" (click)="add()"></p-button>
+                <p-button styleClass="secondary-button" icon="pi pi-times" label="Clear" (click)="clear()"></p-button>
             </div>
         </div>
     </div>

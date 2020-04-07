@@ -3,10 +3,12 @@ var router = express.Router();
 const request = require('request');
 const utils = require('./utils');
 const Datastore = require('nedb');
-let db;
 
 router.get('/all', function (req, res, next) {
-    db = new Datastore({ filename: './configuration', autoload: true });
+    const db = new Datastore({ filename: './configuration.json' });
+    db.loadDatabase(function (err) {
+        if (err) console.log(err);
+    });
     db.find({}, function (err, docs) {
         if (!err) {
             if (docs.length === 0) { res.send([]); }
@@ -14,28 +16,33 @@ router.get('/all', function (req, res, next) {
                 let entities = [];
                 docs[0].contextBrokers.forEach(context => {
                     context.entities.forEach((entity) => {
-                        let exist = entities.find((element) => {
-                            return element.name == entity.name;
-                        });
-                        if (!exist) { entities.push(entity); }
+                        if (entity.selected) {
+                            let exist = entities.find((element) => {
+                                return element.name == entity.name;
+                            });
+                            if (!exist) { entities.push(entity); }
+                        }
                     });
 
                     context.services.forEach((service) => {
                         service.entities.forEach((entity) => {
-                            // Add entity if it does not exist.
-                            let entityExists = entities.find((element) => {
-                                return element.name == entity.name;
-                            });
-                            if (!entityExists) {
-                                entities.push(entity);
-                            } else {
-                                // Add attribute if it does not exist.
-                                entity.attrs.forEach((attr) => {
-                                    let attrExists = entityExists.attrs.find((element) => {
-                                        return element.name == attr.name;
-                                    });
-                                    if (!attrExists) { entityExists.attrs.push(attr) };
+                            if (entity.selected) {
+                                // Add entity if it does not exist.
+                                let entityExists = entities.find((element) => {
+                                    return element.name == entity.name;
                                 });
+                                if (!entityExists) {
+                                    entity.attrs = entity.attrs.filter((attr) => attr.selected);
+                                    entities.push(entity);
+                                } else {
+                                    // Add attribute if it does not exist.
+                                    entity.attrs.forEach((attr) => {
+                                        let attrExists = entityExists.attrs.find((element) => {
+                                            return element.name == attr.name;
+                                        });
+                                        if (!attrExists && attr.selected) { entityExists.attrs.push(attr) };
+                                    });
+                                }
                             }
                         });
                     })

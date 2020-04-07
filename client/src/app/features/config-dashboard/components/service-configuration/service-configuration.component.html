@@ -1,8 +1,13 @@
 <p-card header="Services">
     <div class="container-fluid mt-3">
-
+        <i class="pi pi-info info-message"></i>
+        <p class="d-inline info-message">
+            {{'The services of a Context Broker consist on a logical layer for the separation of the information
+            the Context Broker contains into different paths. The services are usually used to provide an extra level
+            of security to the information of the Context Broker.'}}
+        </p>
         <!-- Add service button -->
-        <div class="row justify-content-center my-3">
+        <div class="row justify-content-center mt-4 mb-3">
             <div class="col-auto">
                 <p-button icon="pi pi-plus" label="Add Service" (onClick)="onAddService()"></p-button>
             </div>
@@ -12,7 +17,7 @@
             <div class="col-12">
                 <p-accordion>
                     <ng-template ngFor let-service let-i="index" [ngForOf]="cb.services">
-                        <p-accordionTab #accordionTab>
+                        <p-accordionTab #accordionTab [selected]="true" [transitionOptions]="'0ms'">
 
                             <!-- AccordionTab header -->
                             <p-header>
@@ -30,7 +35,8 @@
                                             <div>
                                                 <app-input-with-validation [label]="'Service'" [controlName]="'service'"
                                                     [group]="service.form" [required]="true"
-                                                    (changeText)="onServiceConfigChange(i)">
+                                                    (changeText)="onServiceConfigChange(i)"
+                                                    tooltipText="This field refers to the header: fiware-service.">
                                                 </app-input-with-validation>
                                             </div>
 
@@ -38,7 +44,8 @@
                                             <div class="mt-4">
                                                 <app-input-with-validation [label]="'Service Path'"
                                                     [controlName]="'servicePath'" [group]="service.form"
-                                                    (changeText)="onServiceConfigChange(i)">
+                                                    (changeText)="onServiceConfigChange(i)"
+                                                    tooltipText="This field refers to the header: fiware-servicePath. This service path must start by /">
                                                 </app-input-with-validation>
                                             </div>
 
@@ -48,6 +55,10 @@
                                                     label="Choose entities and attributes" icon="pi pi-list"
                                                     (onClick)="onChooseEntities(i)">
                                                 </p-button>
+                                                <p class="input-warning mt-2"
+                                                    [style.visibility]="chooseWarningVisible ? 'visible' : 'hidden'">
+                                                    {{'Entities not found in this service'}}
+                                                </p>
                                             </div>
 
                                         </div>

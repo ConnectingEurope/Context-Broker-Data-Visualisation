@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
@@ -8,6 +8,8 @@ import { LayerService } from '../../map-dashboard/services/layer-service/layer-s
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { ServiceConfigurationComponent } from './service-configuration/service-configuration.component';
+import { AccordionTab } from 'primeng/accordion/accordion';
 
 @Component({
     selector: 'app-config-dashboard',
@@ -21,7 +23,12 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     protected removedContextBrokerAtLeastOnce: boolean = false;
     protected removedServiceAtLeastOnce: boolean = false;
     protected selectedEntitiesChange: boolean = false;
+    protected accordionTabsSelected: boolean = false;
     protected contextBrokers: ContextBrokerForm[] = [];
+
+
+    @ViewChild('serviceConfiguration', { static: false }) private serviceConfiguration: ServiceConfigurationComponent;
+    @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -36,8 +43,13 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     public ngOnInit(): void {
         this.configDashboardService.getConfiguration().pipe(takeUntil(this.destroy$)).subscribe(
             contextBrokers => {
-                this.loadConfiguration(contextBrokers);
-                this.configurationLoaded = true;
+                if (contextBrokers.length === 0) {
+                    this.onAddContextBroker();
+                    this.configurationLoaded = true;
+                } else {
+                    this.loadConfiguration(contextBrokers);
+                    this.configurationLoaded = true;
+                }
             },
             err => {
                 this.appMessageService.add({ severity: 'error', summary: 'Cannot load the configuration' });
@@ -59,8 +71,12 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     protected onAddContextBroker(): void {
+        this.accordionTabsSelected = true;
+        if (this.accordionTabs && this.accordionTabs.length > 0) {
+            this.accordionTabs.forEach(a => a.selected = false);
+        }
         this.addedContextBrokerAtLeastOnce = true;
-        this.contextBrokers.unshift({
+        this.contextBrokers.push({
             header: this.configDashboardService.defaultContextName,
             form: this.configDashboardService.createContextBrokerForm(),
             historicalForm: this.configDashboardService.createHistoricalForm(),
@@ -81,9 +97,9 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     protected onRemoveContextBroker(index: number): void {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
-            header: 'Are you sure you want to delete this context broker?',
-            message: 'All the configuration of this context broker will be deleted. ' +
-                'Note that this change will only be stored when applying the configuration.',
+            header: 'Are you sure you want to delete this Context Broker?',
+            message: 'The configuration of the Context Broker "' + this.contextBrokers[index].header + '" will be deleted. ' +
+                'Note that this change will only be confirmed when applying the configuration.',
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
             accept: (): void => {
@@ -95,6 +111,12 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     protected onApplyConfiguration(): void {
         if (this.checkEntities()) {
             this.applyConfiguration();
+        }
+    }
+
+    protected onUrlChange(): void {
+        if (this.serviceConfiguration) {
+            this.serviceConfiguration.onContextBrokerUrlChange();
         }
     }
 
@@ -134,6 +156,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     private onApplyConfigurationSuccess(): void {
+        this.appMessageService.add({ severity: 'success', summary: 'Configuration applied' });
         this.router.navigate(['/map-dashboard']);
     }
 
@@ -212,6 +235,11 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
                 entities: treeNodes,
                 selectedEntities: selectedTreeNodes,
             });
+        });
+        setTimeout(() => {
+            if (this.accordionTabs && this.accordionTabs.length > 0) {
+                this.accordionTabs.forEach(a => a.selected = false);
+            }
         });
     }
 

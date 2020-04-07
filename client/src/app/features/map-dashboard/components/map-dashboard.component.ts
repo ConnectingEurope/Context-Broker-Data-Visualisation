@@ -45,8 +45,13 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private layersBeforeFilter: L.Layer[];
     private removedLayers: L.Layer[] = [];
     private filters: ConditionDto[] = [];
+    private unselectedLayers: any[] = [];
     private loadedIds: { [key: string]: string[] } = {};
     private loadedIdsCopy: { [key: string]: string[] } = {};
+    private openPopup: L.Popup;
+    private refreshing: boolean;
+    private firstFetch: boolean = true;
+    private showButtons: boolean = false;
 
     private interval: any;
 
@@ -80,11 +85,14 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     protected onNodeSelect(event: any): void {
+        const i: number = this.unselectedLayers.indexOf(event.node.data);
+        this.unselectedLayers.splice(i, 1);
         this.markerClusterGroup.addLayer(this.layerGroups[event.node.data]);
         this.setFilters(this.filters);
     }
 
     protected onNodeUnselect(event: any): void {
+        this.unselectedLayers.push(event.node.data);
         this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
     }
 
@@ -155,13 +163,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         });
 
         this.map.addControl(searchControl);
-        this.addFocusOutEventToGeoSearch();
-    }
-
-    private addFocusOutEventToGeoSearch(): void {
-        const geosearchContainer: any = this.elem.nativeElement.querySelectorAll('.geosearch')[0];
-        const geosearchInput: any = this.elem.nativeElement.querySelectorAll('.glass')[0];
-        geosearchInput.addEventListener('focusout', (e) => { geosearchContainer.classList.remove('active'); }, false);
     }
 
     private loadLayerMenu(): void {
@@ -173,8 +174,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.mapDashBoardService.getAllEntities().pipe(takeUntil(this.destroy$)).subscribe(
             (models: ModelDto[]) => {
                 if (models.length > 0) {
+                    this.showButtons = true;
                     this.onLoadEntitiesSuccess(models);
                 } else {
+                    this.showButtons = false;
                     this.onLoadEntitiesEmpty();
                 }
             },
@@ -217,6 +220,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
+        this.refreshing = true;
         models.forEach(model => {
             const parentKey: string = this.layerService.getParentKey(model.type);
             this.layerGroups[model.type] = this.layerGroups[model.type] || L.layerGroup();
@@ -224,30 +228,41 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             model.data.forEach(entity => this.addEntity(model, entity, parentKey));
             this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
         });
-        // this.deleteOldSensors();
+        this.deleteOldSensors();
         this.loadMarkerCluster();
+        this.setFilters(this.filters);
+        this.unselectedLayers.forEach(l => {
+            this.markerClusterGroup.removeLayer(this.layerGroups[l]);
+        });
+        if (this.openPopup) {
+            this.openPopup.openPopup();
+        }
+        this.refreshing = false;
     }
 
     private visualizeEntities(): void {
         this.loadEntities();
         this.interval = setInterval(() => {
             this.loaderService.active = false;
-            // this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
+            this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
         }, 10000);
     }
 
     private onLoadEntitiesEmpty(): void {
-        this.confirmationService.confirm({
-            icon: 'pi pi-info',
-            header: 'There is no configuration yet',
-            message: 'Do you want to configure the dashboard?',
-            acceptLabel: 'Configure',
-            rejectLabel: 'Cancel',
-            accept: (): void => {
-                this.router.navigate(['/config-dashboard']);
-            },
-        });
+        if (this.firstFetch) {
+            this.firstFetch = false;
+            this.confirmationService.confirm({
+                icon: 'pi pi-info',
+                header: 'There is no configuration yet',
+                message: 'Do you want to configure the dashboard?',
+                acceptLabel: 'Configure',
+                rejectLabel: 'Cancel',
+                accept: (): void => {
+                    this.router.navigate(['/config-dashboard']);
+                },
+            });
+        }
     }
 
     private onLoadEntitiesFail(): void {
@@ -275,27 +290,31 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         const popup: L.Popup = L.popup();
         popup.setContent(this.popupService.getPopupContent(entity));
         marker.bindPopup(popup);
+        marker.on('popupopen', () => this.openPopup = popup);
+        marker.on('popupclose', () => {
+            if (!this.refreshing) { this.openPopup = undefined; }
+        });
 
         marker[this.controlName] = entity;
         this.layerGroups[model.type].addLayer(marker);
 
-        // if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
-        // this.loadedIds[model.type].push(entity.id);
+        if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
+        this.loadedIds[model.type].push(entity.id);
     }
 
-    // private deleteOldSensors(): void {
-    //     Object.keys(this.loadedIdsCopy).forEach(entityType => {
-    //         const ids: string[] = this.loadedIdsCopy[entityType];
-    //         ids.forEach(id => {
-    //             const i: number = this.loadedIds[entityType].indexOf(id);
-    //             if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
+    private deleteOldSensors(): void {
+        Object.keys(this.loadedIdsCopy).forEach(entityType => {
+            const ids: string[] = this.loadedIdsCopy[entityType];
+            ids.forEach(id => {
+                const i: number = this.loadedIds[entityType].indexOf(id);
+                if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
 
-    //             const markers: any = this.layerGroups[entityType].getLayers();
-    //             const oldSensor: L.Marker = markers.find(m => m[this.controlName].id === id);
-    //             oldSensor.remove();
-    //         });
-    //     });
-    // }
+                const markers: any = this.layerGroups[entityType].getLayers();
+                const oldSensor: L.Marker = markers.find(m => m[this.controlName].id === id);
+                oldSensor.remove();
+            });
+        });
+    }
 
     private updateEntity(existentMarker: L.Marker, model: ModelDto, entity: Entity): void {
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
@@ -304,8 +323,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         existentMarker.getPopup().setContent(this.popupService.getPopupContent(entity));
         existentMarker[this.controlName] = entity;
 
-        // const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
-        // if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
+        const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
+        if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
     }
 
     private hasLocationBeenUpdated(existentMarker: L.Marker, entity: Entity): boolean {

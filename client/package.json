@@ -1,6 +1,6 @@
 {
-    "name": "cb-baseline",
-    "version": "0.0.0",
+    "name": "cb-baseline-client",
+    "version": "0.1.0",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --proxy-config proxy.conf.json --port 5200",
@@ -28,6 +28,7 @@
         "@angular/platform-browser": "~8.2.14",
         "@angular/platform-browser-dynamic": "~8.2.14",
         "@angular/router": "~8.2.14",
+        "@fortawesome/fontawesome-free": "^5.13.0",
         "@types/leaflet": "^1.5.8",
         "@types/leaflet.markercluster": "^1.4.2",
         "bootstrap": "^4.4.1",

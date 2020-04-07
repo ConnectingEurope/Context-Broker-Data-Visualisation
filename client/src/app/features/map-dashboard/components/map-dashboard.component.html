@@ -10,8 +10,8 @@
 
 <!-- Map -->
 <div id="map" class="w-100 h-100">
-    <div class="leaflet-top leaflet-right">
-        <p-button class="mt-3 mr-3" label="Conditions" icon="pi pi-list" iconPos="left"
+    <div *ngIf="showButtons" class="leaflet-top leaflet-right">
+        <p-button class="mt-3 mr-3" label="Filters" icon="pi pi-sliders-h" iconPos="left"
             (onClick)="layerConditionsPanel.toggle($event)"></p-button>
         <p-button class="mt-3 mr-3" label="Layers" icon="pi pi-list" iconPos="left"
             (onClick)="layerPanel.toggle($event)"></p-button>
