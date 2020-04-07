@@ -23,7 +23,9 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     protected removedContextBrokerAtLeastOnce: boolean = false;
     protected removedServiceAtLeastOnce: boolean = false;
     protected selectedEntitiesChange: boolean = false;
+    protected accordionTabsSelected: boolean = false;
     protected contextBrokers: ContextBrokerForm[] = [];
+
 
     @ViewChild('serviceConfiguration', { static: false }) private serviceConfiguration: ServiceConfigurationComponent;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
@@ -69,6 +71,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     protected onAddContextBroker(): void {
+        this.accordionTabsSelected = true;
         if (this.accordionTabs && this.accordionTabs.length > 0) {
             this.accordionTabs.forEach(a => a.selected = false);
         }

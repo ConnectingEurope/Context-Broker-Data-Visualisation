@@ -26,7 +26,8 @@
         <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-8">
             <p-accordion>
                 <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
-                    <p-accordionTab #accordionTab [selected]="true" [transitionOptions]="'0ms'">
+                    <p-accordionTab #accordionTab [selected]="accordionTabsSelected && i == contextBrokers.length - 1"
+                        [transitionOptions]="'0ms'">
 
                         <!-- AccordionTab header -->
                         <p-header>
