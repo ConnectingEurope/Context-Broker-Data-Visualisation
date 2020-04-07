@@ -11,13 +11,21 @@
             </p-button>
         </div>
     </div>
-    <div class="row justify-content-center mt-2">
+    <!-- <div class="row justify-content-center mt-2">
         <div class="col-auto">
             <p [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'" class="alert alert-warning"
                 role="alert">
                 <i class="pi pi-exclamation-triangle"></i>
                 There are unsaved changes. Please, apply the configuration to confirm them.
             </p>
+        </div>
+    </div> -->
+    <div class="row justify-content-center my-2">
+        <div class="col-auto">
+            <div [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'">
+                <p-message severity="warn"
+                    text="There are unsaved changes. Please, apply the configuration to confirm them."></p-message>
+            </div>
         </div>
     </div>
 
