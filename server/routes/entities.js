@@ -32,6 +32,7 @@ router.get('/all', function (req, res, next) {
                                     return element.name == entity.name;
                                 });
                                 if (!entityExists) {
+                                    entity.attrs = entity.attrs.filter((attr) => attr.selected);
                                     entities.push(entity);
                                 } else {
                                     // Add attribute if it does not exist.
@@ -39,7 +40,7 @@ router.get('/all', function (req, res, next) {
                                         let attrExists = entityExists.attrs.find((element) => {
                                             return element.name == attr.name;
                                         });
-                                        if (!attrExists) { entityExists.attrs.push(attr) };
+                                        if (!attrExists && attr.selected) { entityExists.attrs.push(attr) };
                                     });
                                 }
                             }

@@ -98,6 +98,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     private onChooseEntitiesFail(): void {
         this.cb.entities = [];
+        this.cb.selectedEntities = [];
         this.chooseWarningVisible = true;
     }
 

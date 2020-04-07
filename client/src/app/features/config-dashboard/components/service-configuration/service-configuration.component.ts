@@ -68,7 +68,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this service?',
             message: 'The configuration of the service "' + this.cb.services[index].header +
-                '" will be deleted. Note that this change will only be confirmed when applying the configuration',
+                '" will be deleted. Note that this change will only be confirmed when applying the configuration.',
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
             accept: (): void => {
@@ -131,6 +131,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
 
     private onChooseEntitiesFail(index: number): void {
         this.cb.services[index].entities = [];
+        this.cb.services[index].selectedEntities = [];
         this.chooseWarningVisible = true;
     }
 
