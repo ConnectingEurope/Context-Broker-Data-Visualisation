@@ -1,0 +1,56 @@
+// Leaflet styles.
+
+@import './variables';
+
+/*****************************************************************************
+ MarkerCluster
+*****************************************************************************/
+
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-color: $primaryColorWithTransparency;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background-color: white;
+}
+
+.marker-cluster span {
+  color: $primaryColor;
+}
+
+/*****************************************************************************
+ GeoSearch
+*****************************************************************************/
+
+div.geosearch a.reset {
+  display: none;
+}
+
+/*****************************************************************************
+ Popup
+*****************************************************************************/
+
+div.leaflet-popup-content {
+    width: 310px !important;
+}
+
+div.leaflet-popup-content-wrapper {
+    color: $textColor;
+    background-color: $primaryColor;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background-color: $primaryColor;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    color: $textColor;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+    color: $textColor;
+}

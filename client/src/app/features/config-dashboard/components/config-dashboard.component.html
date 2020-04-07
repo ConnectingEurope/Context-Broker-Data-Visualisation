@@ -1,0 +1,76 @@
+<div class="container-fluid mt-3">
+
+    <!-- Add Context Broker button -->
+    <div class="row justify-content-center mt-3">
+        <div *ngIf="configurationLoaded" class="col-auto">
+            <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
+        </div>
+        <div *ngIf="shouldApplyButtonBeDisplayed()" class="col-auto">
+            <p-button icon="pi pi-check" label="Apply Configuration" [disabled]="!shouldApplyButtonBeEnabled()"
+                (onClick)="onApplyConfiguration()">
+            </p-button>
+        </div>
+    </div>
+    <!-- <div class="row justify-content-center mt-2">
+        <div class="col-auto">
+            <p [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'" class="alert alert-warning"
+                role="alert">
+                <i class="pi pi-exclamation-triangle"></i>
+                There are unsaved changes. Please, apply the configuration to confirm them.
+            </p>
+        </div>
+    </div> -->
+    <div class="row justify-content-center my-2">
+        <div class="col-auto">
+            <div [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'">
+                <p-message severity="warn"
+                    text="There are unsaved changes. Please, apply the configuration to confirm them."></p-message>
+            </div>
+        </div>
+    </div>
+
+    <!-- Context Brokers -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-8">
+            <p-accordion>
+                <ng-template ngFor let-cb let-i="index" [ngForOf]="contextBrokers">
+                    <p-accordionTab #accordionTab [selected]="accordionTabsSelected && i == contextBrokers.length - 1"
+                        [transitionOptions]="'0ms'">
+
+                        <!-- AccordionTab header -->
+                        <p-header>
+                            <app-accordion-tab-header [header]="cb.header" [selected]="accordionTab.selected"
+                                (remove)="onRemoveContextBroker(i)">
+                            </app-accordion-tab-header>
+                        </p-header>
+
+
+                        <form [formGroup]="cb.form">
+
+                            <!-- General configuration -->
+                            <div class="mt-4 mb-5">
+                                <app-general-configuration [cb]="cb"
+                                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (urlChange)="onUrlChange()">
+                                </app-general-configuration>
+                            </div>
+
+                            <!-- Services configuration -->
+                            <div *ngIf="cb.form.get('needServices').value === true" class="my-4">
+                                <app-service-configuration #serviceConfiguration [cb]="cb"
+                                    (removeServiceEvent)="onRemoveService()"
+                                    (selectedEntitiesChange)="onSelectedEntitiesChange()">
+                                </app-service-configuration>
+                            </div>
+
+                            <!-- Historical Configuration -->
+                            <div *ngIf=" cb.form.get('needHistoricalData').value===true" class="my-4">
+                                <app-historical-configuration [cb]="cb"></app-historical-configuration>
+                            </div>
+
+                        </form>
+                    </p-accordionTab>
+                </ng-template>
+            </p-accordion>
+        </div>
+    </div>
+</div>

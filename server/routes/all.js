@@ -1,74 +1,97 @@
-const importFresh = require('import-fresh');
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-let config = importFresh('config').get('config');
-
-const sources = config.sources;
+const Datastore = require('nedb');
+const utils = require('./utils');
 
 router.get('/', function (routerReq, routerRes, routerNext) {
-
-  (async () => {
-    const modelDtos = await processEntities();
-    routerRes.send(modelDtos);
-  })()
-
+    readConfig(routerRes);
 });
 
-async function processEntities() {
+function readConfig(routerRes) {
 
-  const modelDtos = [];
-
-  for (const s of sources) {
-
-    for (const e of s.entities) {
-      const entityData = await get(s, e);
-      const modelDto = getModelDto(e, entityData);
-      modelDtos.push(modelDto);
-    }
-
-  }
-
-  return modelDtos;
-}
-
-function get(source, entity) {
-
-  return new Promise((resolve, reject) => {
-
-    request({ url: getUrl(source), qs: getParams(entity), headers: getHeaders(entity), json: true }, (err, res, body) => {
-      if (err) { reject(err); }
-      resolve(body);
+    const db = new Datastore({ filename: './configuration.json' });
+    db.loadDatabase(function (err) {
+        if (err) console.log(err);
     });
 
-  });
-
+    db.find({}, function (err, docs) {
+        if (!err && docs.length > 0) {
+            contextBrokers = docs[0].contextBrokers;
+            processContextBrokers(routerRes);
+        } else {
+            routerRes.send([]);
+        }
+    });
 }
 
-function getUrl(source) {
-  return source.contextBrokerUrl + ":" + source.contextBrokerPort + "/" + source.apiVersion + "/entities";
+async function processContextBrokers(routerRes) {
+    const modelDtos = [];
+    for (const cb of contextBrokers) {
+        await processEntities(routerRes, modelDtos, cb);
+        for (const s of cb.services) {
+            await processEntities(routerRes, modelDtos, cb, s);
+        }
+    }
+    if (!routerRes.headersSent) {
+        routerRes.send(modelDtos);
+    }
 }
 
-function getParams(entity) {
-  return {
-    type: entity.type,
-    options: 'keyValues',
-    limit: '1000'
-  };
+async function processEntities(routerRes, modelDtos, cb, s) {
+    const entitiesContainer = s ? s : cb;
+    for (const e of entitiesContainer.entities) {
+        if (e.selected) {
+            let entityData = null;
+            try {
+                entityData = await get(cb, s, e);
+            } catch (error) {
+                routerRes.status(500).send(error);
+            }
+            const modelDto = getModelDto(e, entityData);
+            modelDtos.push(modelDto);
+        }
+    }
 }
 
-function getHeaders(entity) {
-  return {
-    'fiware-service': entity.service,
-    'fiware-servicepath': entity.servicepath,
-  };
+function get(source, service, entity) {
+    return new Promise((resolve, reject) => {
+        request({ url: getUrl(source, entity), qs: getParams(), headers: getHeaders(service), json: true }, (err, res, body) => {
+            if (err) { reject(err); }
+            resolve(body);
+        });
+    });
+}
+
+function getUrl(cb, entity) {
+    const url = utils.parseUrl(cb.url) + "/v2/entities?type=" + entity.name + "&options=keyValues&attrs=" + getAttrs(entity);
+    return utils.parseUrl(cb.url) + "/v2/entities?type=" + entity.name + "&options=keyValues&attrs=" + getAttrs(entity);
+}
+
+function getAttrs(entity) {
+    return entity.attrs.filter(a => a.selected).map(a => a.name).join();
+}
+
+function getParams() {
+    return {
+        options: 'keyValues',
+        limit: '1000'
+    };
+}
+
+function getHeaders(service) {
+    if (!service) return {};
+    return {
+        'fiware-service': service.service,
+        'fiware-servicepath': service.servicepath,
+    };
 }
 
 function getModelDto(entity, entityData) {
-  return {
-    type: entity.type,
-    data: entityData
-  }
+    return {
+        type: entity.name,
+        data: entityData
+    }
 }
 
 module.exports = router;

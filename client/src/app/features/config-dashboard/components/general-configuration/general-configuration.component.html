@@ -1,0 +1,66 @@
+<form [formGroup]="cb.form">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-6">
+
+                <!-- Name -->
+                <div>
+                    <app-input-with-validation [label]="'Name'" [controlName]="'name'" [group]="cb.form"
+                        [required]="true" (changeText)="onNameChange()">
+                    </app-input-with-validation>
+                </div>
+
+                <!-- URL -->
+                <div class="mt-4">
+                    <app-input-with-validation #urlInput [label]="'URL'" [controlName]="'url'" [group]="cb.form"
+                        [required]="true" [hasButton]="true" [buttonIcon]="'pi pi-check'"
+                        (buttonClick)="onCheckContextBroker()" (changeText)="onUrlChange()">
+                    </app-input-with-validation>
+                </div>
+
+                <!-- Choose entities button -->
+                <div class="mt-4">
+                    <p-button [disabled]="isDisabledChooseButton()" label="Choose entities and attributes"
+                        icon="pi pi-list" (onClick)="onChooseEntities()">
+                    </p-button>
+                </div>
+                <p class="input-warning mt-2" [style.visibility]="chooseWarningVisible ? 'visible' : 'hidden'">
+                    {{'Entities not found (maybe you have entities in specific services)'}}
+                </p>
+
+                <!-- Services checkbox -->
+                <div class="mt-4">
+                    <p-checkbox label="The Context Broker uses services" binary="true"
+                        [formControl]="cb.form.controls['needServices']">
+                    </p-checkbox>
+                    <i class="ml-2 pi pi-question-circle help-icon"
+                        pTooltip="If the information of the Context Broker is divided in services, please configure them in the Services panel."></i>
+                </div>
+
+                <!-- Historical checkbox -->
+                <div class="mt-5">
+                    <p-checkbox label="Visualize historical data" binary="true"
+                        [formControl]="cb.form.controls['needHistoricalData']">
+                    </p-checkbox>
+                    <i class="ml-2 pi pi-question-circle help-icon"
+                        pTooltip="In order to have access to historical data, both Cygnus URL and STH-Comet URL should be provided."></i>
+                </div>
+
+            </div>
+
+            <!-- Selected entities -->
+            <div class="col-5">
+                <div *ngIf="cb.entities.length > 0">
+                    <h6>Entities and attributes to choose</h6>
+                    <p-scrollPanel #entitiesScroll class="m-3" [style]="{width: '100%', height: '300px'}">
+                        <p-tree [value]="cb.entities" selectionMode="checkbox" [(selection)]="cb.selectedEntities"
+                            emptyMessage="" (onNodeExpand)="refreshScroll()" (onNodeCollapse)="refreshScroll()"
+                            (onNodeSelect)="onNodeChange()" (onNodeUnselect)="onNodeChange()">
+                        </p-tree>
+                    </p-scrollPanel>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>

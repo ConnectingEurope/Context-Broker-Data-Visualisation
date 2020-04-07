@@ -1,0 +1,66 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?l9yhc6');
+  src:  url('fonts/icomoon.eot?l9yhc6#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?l9yhc6') format('truetype'),
+    url('fonts/icomoon.woff?l9yhc6') format('woff'),
+    url('fonts/icomoon.svg?l9yhc6#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="fwi-"], [class*=" fwi-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak-as: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fwi-weather:before {
+  content: "\e902";
+}
+.fwi-waste-management:before {
+  content: "\e903";
+}
+.fwi-transportation:before {
+  content: "\e904";
+}
+.fwi-street-lightning:before {
+  content: "\e905";
+}
+.fwi-smart-environment:before {
+  content: "\e906";
+}
+.fwi-point-of-interest:before {
+  content: "\e907";
+}
+.fwi-parking:before {
+  content: "\e908";
+}
+.fwi-indicators:before {
+  content: "\e909";
+}
+.fwi-generic:before {
+  content: "\e90a";
+}
+.fwi-devices:before {
+  content: "\e90b";
+}
+.fwi-civic-issue-tracking:before {
+  content: "\e90c";
+}
+.fwi-alerts:before {
+  content: "\e900";
+}
+.fwi-environment:before {
+  content: "\e901";
+}

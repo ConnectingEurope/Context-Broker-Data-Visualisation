@@ -1,30 +1,41 @@
-import { Injectable } from '@angular/core';
-import { AirQualityObserved } from 'src/app/shared/data-models/fiware/specific/air-quality-observed';
-import { OffStreetParking } from 'src/app/shared/data-models/fiware/specific/offStreetParking';
-import { Entity } from 'src/app/shared/data-models/fiware/entity';
+import { Injectable, ComponentFactoryResolver, ComponentFactory, Injector, ComponentRef } from '@angular/core';
+import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
+import * as L from 'leaflet';
 
 @Injectable({
     providedIn: 'root',
 })
 export class PopupService {
 
-    public getPopup(modelKey: string, entity: any): string {
-        switch (modelKey) {
-            case 'AirQualityObserved': return this.getEntityPopup(entity);
-            case 'OffStreetParking': return this.getEntityPopup(entity);
-        }
+    constructor(
+        private resolver: ComponentFactoryResolver,
+        private injector: Injector,
+    ) { }
+
+    public getPopup(e: any): L.Popup {
+        const compFactory: ComponentFactory<PopupComponent> = this.resolver.resolveComponentFactory(PopupComponent);
+        const popupComponentRef: ComponentRef<PopupComponent> = compFactory.create(this.injector);
+        popupComponentRef.instance.entity = e;
+        popupComponentRef.changeDetectorRef.detectChanges();
+
+        const div: HTMLDivElement = document.createElement('div');
+        div.appendChild(popupComponentRef.location.nativeElement);
+
+        const popup: L.Popup = L.popup();
+        popup.setContent(div);
+
+        return popup;
     }
 
-    private getEntityPopup(e: Entity): string {
-        return e.id;
-    }
+    public getPopupContent(e: any): HTMLDivElement {
+        const compFactory: ComponentFactory<PopupComponent> = this.resolver.resolveComponentFactory(PopupComponent);
+        const popupComponentRef: ComponentRef<PopupComponent> = compFactory.create(this.injector);
+        popupComponentRef.instance.entity = e;
+        popupComponentRef.changeDetectorRef.detectChanges();
 
-    private getAirQualityObservedPopup(e: AirQualityObserved): string {
-        return 'Air Quality Observed';
-    }
+        const div: HTMLDivElement = document.createElement('div');
+        div.appendChild(popupComponentRef.location.nativeElement);
 
-    private getOffStreetParkingPopup(e: OffStreetParking): string {
-        return 'Off Street Parking';
+        return div;
     }
-
 }

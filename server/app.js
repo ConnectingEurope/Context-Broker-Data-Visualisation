@@ -5,8 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var checkHealthRouter = require('./routes/checkHealth');
+var entitiesRouter = require('./routes/entities');
 var allRouter = require('./routes/all');
-var airQualityObservedRouter = require('./routes/airQualityObserved');
+var configRouter = require('./routes/config');
 
 var app = express();
 
@@ -20,9 +22,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// API
 app.use('/', indexRouter);
+app.use('/check', checkHealthRouter);
+app.use('/entities', entitiesRouter);
+app.use('/config', configRouter);
 app.use('/all', allRouter);
-app.use('/air-quality-observed', airQualityObservedRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
