@@ -12,30 +12,12 @@ export class PopupService {
         private injector: Injector,
     ) { }
 
-    public getPopup(e: any): L.Popup {
+    public getPopupContent(e: any, cometUrl: string): ComponentRef<PopupComponent> {
         const compFactory: ComponentFactory<PopupComponent> = this.resolver.resolveComponentFactory(PopupComponent);
         const popupComponentRef: ComponentRef<PopupComponent> = compFactory.create(this.injector);
-        popupComponentRef.instance.entity = e;
+        popupComponentRef.instance.updatePopup(e, cometUrl);
         popupComponentRef.changeDetectorRef.detectChanges();
 
-        const div: HTMLDivElement = document.createElement('div');
-        div.appendChild(popupComponentRef.location.nativeElement);
-
-        const popup: L.Popup = L.popup();
-        popup.setContent(div);
-
-        return popup;
-    }
-
-    public getPopupContent(e: any): HTMLDivElement {
-        const compFactory: ComponentFactory<PopupComponent> = this.resolver.resolveComponentFactory(PopupComponent);
-        const popupComponentRef: ComponentRef<PopupComponent> = compFactory.create(this.injector);
-        popupComponentRef.instance.entity = e;
-        popupComponentRef.changeDetectorRef.detectChanges();
-
-        const div: HTMLDivElement = document.createElement('div');
-        div.appendChild(popupComponentRef.location.nativeElement);
-
-        return div;
+        return popupComponentRef;
     }
 }

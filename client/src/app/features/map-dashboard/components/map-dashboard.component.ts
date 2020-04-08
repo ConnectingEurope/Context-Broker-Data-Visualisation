@@ -1,7 +1,7 @@
 import { FwiUtils } from '../../../shared/misc/fwi-utils';
 import { CategoryDto } from './../models/model-dto';
 import { ConditionDto } from './../models/condition-dto';
-import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy, ComponentRef } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import * as L from 'leaflet';
@@ -24,6 +24,7 @@ import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CategoryEntityDto } from '../models/model-dto';
 import { LoaderService } from 'src/app/shared/services/loader-service';
+import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -35,6 +36,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     protected categories: CategoryDto[];
     protected entities: CategoryEntityDto[] = [];
     protected controlName: string = 'data';
+    protected popupName: string = 'popup';
     protected menuItems: MenuItem[];
     protected layers: TreeNode[];
     protected selectedLayers: TreeNode[];
@@ -246,7 +248,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             this.loaderService.active = false;
             this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
-        }, 10000);
+        }, 10000000000000000);
     }
 
     private onLoadEntitiesEmpty(): void {
@@ -288,14 +290,22 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         );
 
         const popup: L.Popup = L.popup();
-        popup.setContent(this.popupService.getPopupContent(entity));
+        const popupComponentRef: ComponentRef<PopupComponent> = this.popupService.getPopupContent(entity, model.cometUrl);
+        const div: HTMLDivElement = document.createElement('div');
+        div.appendChild(popupComponentRef.location.nativeElement);
+        popup.setContent(div);
         marker.bindPopup(popup);
-        marker.on('popupopen', () => this.openPopup = popup);
+
+        marker.on('popupopen', () => {
+            this.openPopup = popup;
+            popupComponentRef.instance.refreshScroll();
+        });
         marker.on('popupclose', () => {
             if (!this.refreshing) { this.openPopup = undefined; }
         });
 
         marker[this.controlName] = entity;
+        marker[this.popupName] = popupComponentRef;
         this.layerGroups[model.type].addLayer(marker);
 
         if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
@@ -320,7 +330,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
             existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
         }
-        existentMarker.getPopup().setContent(this.popupService.getPopupContent(entity));
+        existentMarker[this.popupName].updatePopup(entity, model.cometUrl);
         existentMarker[this.controlName] = entity;
 
         const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);

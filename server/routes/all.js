@@ -48,15 +48,15 @@ async function processEntities(routerRes, modelDtos, cb, s) {
             } catch (error) {
                 routerRes.status(500).send(error);
             }
-            const modelDto = getModelDto(e, entityData);
+            const modelDto = getModelDto(cb, e, entityData);
             modelDtos.push(modelDto);
         }
     }
 }
 
-function get(source, service, entity) {
+function get(cb, service, entity) {
     return new Promise((resolve, reject) => {
-        request({ url: getUrl(source, entity), qs: getParams(), headers: getHeaders(service), json: true }, (err, res, body) => {
+        request({ url: getUrl(cb, entity), qs: getParams(), headers: getHeaders(service), json: true }, (err, res, body) => {
             if (err) { reject(err); }
             resolve(body);
         });
@@ -87,10 +87,11 @@ function getHeaders(service) {
     };
 }
 
-function getModelDto(entity, entityData) {
+function getModelDto(cb, entity, entityData) {
     return {
         type: entity.name,
-        data: entityData
+        data: entityData,
+        cometUrl: cb.comet,
     }
 }
 

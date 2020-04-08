@@ -1,3 +1,32 @@
-<div *ngFor="let a of attrs">
-    <b>{{a[0]}}</b>: {{a[1]}}
+<!-- Attributes template -->
+<ng-template #content>
+    <div *ngFor="let a of attrs">
+        <b>{{a[0]}}</b>: {{a[1]}}
+    </div>
+</ng-template>
+
+<!-- Few attributes -->
+<div *ngIf="attrs.length <= 10 else showScroll">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+</div>
+
+<!-- Lots of attributes -->
+<ng-template #showScroll>
+    <p-scrollPanel #scrollPanel [style]="{width: '95%', height: '175px'}" styleClass="popupScrollBar">
+        <ng-container *ngTemplateOutlet="content"></ng-container>
+    </p-scrollPanel>
+</ng-template>
+
+<!-- Buttons -->
+<div class="fluid-container mt-3">
+    <div class="row justify-content-around">
+        <!-- TODO remove "|| true" -->
+        <div *ngIf="cometUrl || true" class="col-auto p-0">
+            <p-button styleClass="popupButton chart" icon="fas fa-chart-area" (onClick)="onClickStats()">
+            </p-button>
+        </div>
+        <div class="col-auto p-0">
+            <p-button styleClass="popupButton code" icon="fas fa-code" (onClick)="onClickDebug()"></p-button>
+        </div>
+    </div>
 </div>
