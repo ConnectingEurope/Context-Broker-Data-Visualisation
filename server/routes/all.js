@@ -48,7 +48,7 @@ async function processEntities(routerRes, modelDtos, cb, s) {
             } catch (error) {
                 routerRes.status(500).send(error);
             }
-            const modelDto = getModelDto(cb, e, entityData);
+            const modelDto = getModelDto(cb, s, e, entityData);
             modelDtos.push(modelDto);
         }
     }
@@ -87,11 +87,13 @@ function getHeaders(service) {
     };
 }
 
-function getModelDto(cb, entity, entityData) {
+function getModelDto(cb, s, entity, entityData) {
     return {
         type: entity.name,
-        data: entityData,
         cometUrl: cb.comet,
+        service: s ? s.service : '',
+        servicePath: s ? s.servicePath : '',
+        data: entityData,
     }
 }
 

@@ -290,7 +290,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         );
 
         const popup: L.Popup = L.popup();
-        const popupComponentRef: ComponentRef<PopupComponent> = this.popupService.getPopupContent(entity, model.cometUrl);
+        const popupComponentRef: ComponentRef<PopupComponent> = this.popupService.getPopupContent(entity, model);
         const div: HTMLDivElement = document.createElement('div');
         div.appendChild(popupComponentRef.location.nativeElement);
         popup.setContent(div);

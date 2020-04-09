@@ -2,6 +2,9 @@ import { Component, Input, ViewChild } from '@angular/core';
 import * as moment from 'moment';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { Router } from '@angular/router';
+import { ModelDto } from '../../models/model-dto';
+import { EntityMetadataResolverService } from '../../services/entity-metadata-resolver-service';
+import { EntityMetadata } from '../../models/entity-metadata';
 
 @Component({
     selector: 'app-popup',
@@ -11,20 +14,21 @@ import { Router } from '@angular/router';
 export class PopupComponent {
 
     @Input() public entity: any;
-    @Input() public cometUrl: string;
+    @Input() public modelDto: ModelDto;
     protected attrs: any;
     private maxNumberChars: number = 35;
     @ViewChild('scrollPanel', { static: false }) private scrollPanel: ScrollPanel;
 
     constructor(
         private router: Router,
+        private entityMetadataResolver: EntityMetadataResolverService,
     ) {
 
     }
 
-    public updatePopup(entity: any, cometUrl: string): void {
+    public updatePopup(entity: any, modelDto: ModelDto): void {
         this.entity = entity;
-        this.cometUrl = cometUrl;
+        this.modelDto = modelDto;
         this.updateAttrs();
     }
 
@@ -35,7 +39,15 @@ export class PopupComponent {
     }
 
     protected onClickStats(): void {
-        // TODO change this route for the proper route, passing entity and comet URL
+        const entityMetadata: EntityMetadata = {
+            id: this.entity.id,
+            type: this.modelDto.type,
+            attrs: Object.keys(this.entity),
+            cometUrl: this.modelDto.cometUrl,
+            service: this.modelDto.service,
+            servicePath: this.modelDto.servicePath,
+        };
+        this.entityMetadataResolver.setEntityMetadata(entityMetadata);
         this.router.navigate(['/config-dashboard']);
     }
 
