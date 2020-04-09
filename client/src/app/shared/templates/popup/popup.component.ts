@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { Router } from '@angular/router';
 import { ModelDto } from '../../models/model-dto';
-import { EntityMetadataResolverService } from '../../services/entity-metadata-resolver-service';
+import { EntityMetadataService } from '../../services/entity-metadata-service';
 import { EntityMetadata } from '../../models/entity-metadata';
 
 @Component({
@@ -21,7 +21,7 @@ export class PopupComponent {
 
     constructor(
         private router: Router,
-        private entityMetadataResolver: EntityMetadataResolverService,
+        private entityMetadataService: EntityMetadataService,
     ) {
 
     }
@@ -47,8 +47,8 @@ export class PopupComponent {
             service: this.modelDto.service,
             servicePath: this.modelDto.servicePath,
         };
-        this.entityMetadataResolver.setEntityMetadata(entityMetadata);
-        this.router.navigate(['/config-dashboard']);
+        this.entityMetadataService.setEntityMetadata(entityMetadata);
+        this.router.navigate(['/historical-data', this.modelDto.type, this.entity.id]);
     }
 
     protected onClickDebug(): void {
