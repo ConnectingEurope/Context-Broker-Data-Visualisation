@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { PopupComponent } from './shared/templates/popup/popup.component';
-import { LoaderService } from './shared/services/loader-service';
 
 @NgModule({
     declarations: [
