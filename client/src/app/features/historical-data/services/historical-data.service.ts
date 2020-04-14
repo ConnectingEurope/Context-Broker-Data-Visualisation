@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Moment } from 'moment';
-
-enum Operation {
-    FIRST_N = 'first',
-    LAST_N = 'last',
-    AGGR = 'aggr',
-}
 
 enum AggregateMethod {
-    SUM = 'sum',
-    AVG = 'avg',
     MIN = 'min',
     MAX = 'max',
+    SUM = 'sum',
+    SUM2 = 'sum2',
+    OCCUR = 'occur',
 }
 
 enum AggregatePeriod {
@@ -21,6 +15,7 @@ enum AggregatePeriod {
     MINUTE = 'minute',
     HOUR = 'hour',
     DAY = 'day',
+    MONTH = 'month',
 }
 
 interface RawParameters {
@@ -49,7 +44,6 @@ export interface HistoricalQuery {
     type?: string;
     id?: string;
     attr?: string;
-    operation?: Operation;
     operationParameters?: OperationParameters;
 }
 
@@ -60,23 +54,14 @@ export class MapDashboardService {
 
     constructor(private http: HttpClient) { }
 
-    public getFirstN(entityMetadata: any, attr: string, opParams: RawParameters): Observable<any> {
+    public getRaw(entityMetadata: any, attr: string, opParams: RawParameters): Observable<any> {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
-        body.operation = Operation.FIRST_N;
         body.operationParameters = opParams;
+        opParams.count = true;
         return this.getHistorical(body);
     }
-
-    public getLastN(entityMetadata: any, attr: string, opParams: RawParameters): Observable<any> {
-        const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
-        body.operation = Operation.LAST_N;
-        body.operationParameters = opParams;
-        return this.getHistorical(body);
-    }
-
     public getAggregate(entityMetadata: any, attr: string, opParams: AggregatedParameters): Observable<any> {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
-        body.operation = Operation.AGGR;
         body.operationParameters = opParams;
         return this.getHistorical(body);
     }

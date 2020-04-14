@@ -10,10 +10,10 @@ export class HistoricalDataGraphComponent implements OnInit {
     protected chartConfig: any = {
         type: 'line',
         data: {
-            labels: ['14:00', '15:00', '16:00', '17:00', '18:00'],
+            labels: ['14:00', '18:00'],
             datasets: [{
                 label: 'NO2',
-                data: [24, 20, 23, 15, 30],
+                data: [24, 20],
                 backgroundColor: 'lightblue',
                 borderColor: 'lightblue',
                 fill: false,

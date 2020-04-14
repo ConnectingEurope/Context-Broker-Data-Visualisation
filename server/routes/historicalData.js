@@ -7,8 +7,8 @@ router.post('/', function (req, res, next) {
     const b = req.body;
 
     request({ url: getUrl(b), qs: getParams(b), headers: getHeaders(b), json: true }, (e, r, b) => {
-        if (b && b.orion && b.orion.version) res.send(true);
-        else res.send(false);
+        if (b && b.contextResponses) res.send(b);
+        else res.status(500).send(e);
     });
 
     function getUrl(b) {
@@ -16,34 +16,7 @@ router.post('/', function (req, res, next) {
     }
 
     function getParams(b) {
-        switch (b.operation) {
-            case 'first':
-                return getParamsFirst(b);
-            case 'last':
-                return getParamsLast(b);
-            case 'aggr':
-                return getParamsAggr(b);
-        }
-    }
-
-    function getParamsFirst(b) {
-        return {
-            hLimit: b.n,
-            hOffset: b.offset,
-        }
-    }
-
-    function getParamsLast(b) {
-        return {
-            lastN: b.n,
-        }
-    }
-
-    function getParamsAggr(b) {
-        return {
-            aggrMethod: b.aggrMethod,
-            aggrPeriod: b.aggrPeriod,
-        }
+        return b.operationParameters;
     }
 
     function getHeaders(b) {
