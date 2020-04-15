@@ -15,7 +15,7 @@ const routes: Routes = [
         loadChildren: (): any => import('./features/stats-dashboard/stats-dashboard.module').then(m => m.StatsDashboardModule),
     },
     {
-        path: 'historical-data',
+        path: 'historical-data/:type/:id',
         loadChildren: (): any => import('./features/historical-data/historical-data.module').then(m => m.HistoricalDataModule),
     },
     {
