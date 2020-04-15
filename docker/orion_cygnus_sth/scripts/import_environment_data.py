@@ -7,6 +7,12 @@ DATA_HEADERS = {'fiware-service': 'environment', 'fiware-servicepath': '/Madrid'
 SECONDS_TO_SLEEP = 3600
 CONTEXT_BROKER_URL = 'http://localhost:1026/v2/entities'
 ENVIRONMENT_HEADERS = {'Content-Type': 'application/json', 'fiware-service': 'environment'}
+SUBSCRIPTION_URL = 'http://localhost:1026/v2/subscriptions'
+CREATE_SUBSCRIPTIONS = True
+NOTIFY_SUBS_URL = 'http://cygnus:5051/notify'
+HISTORICAL_ATTRS = [
+    'NO', 'NO2', 'NOx', 'O3', 'BEN', 'CH4', 'EBE',
+    'NHMC', 'PM10', 'TCH', 'TOL', 'PM2.5', 'SO2', 'CO']
 
 '''
     Initial import of the environment data, creating the entities in the local CB.
@@ -19,7 +25,36 @@ def import_environment_data():
                 CONTEXT_BROKER_URL,
                 data=json.dumps(env),
                 headers=ENVIRONMENT_HEADERS)
-            print (r)
+            print ('Creation of entity, response_code: ' + str(r.status_code))
+
+        # Create the subscription for the current entity and its attributes
+        if CREATE_SUBSCRIPTIONS:
+            subscription_json = {
+                "description": "Notify STH-Comet changes of environment",
+                "subject": {
+                    "entities": [
+                        {
+                            "type": "AirQualityObserved",
+                            "idPattern": "Madrid-AirQualityObserved.*"
+                        }
+                    ],
+                    "condition": {
+                        "attrs": []
+                    },
+                },
+                "notification": {
+                    "http": {
+                        "url": NOTIFY_SUBS_URL
+                    },
+                    "attrs": HISTORICAL_ATTRS
+                }
+            }
+            subs = requests.post(
+                SUBSCRIPTION_URL,
+                data=json.dumps(subscription_json),
+                headers=ENVIRONMENT_HEADERS
+            )
+            print('Subscription response code: ' + str(subs.status_code))
 
 '''
     Update of the already existent entities with the current values.
