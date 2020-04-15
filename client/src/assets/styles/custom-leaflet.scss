@@ -35,22 +35,43 @@ div.geosearch a.reset {
 *****************************************************************************/
 
 div.leaflet-popup-content {
-    width: 310px !important;
+    width: 250px !important;
 }
 
 div.leaflet-popup-content-wrapper {
     color: $textColor;
-    background-color: $primaryColor;
+    border-color: white !important;
+    border: solid;
+    border-width: 1px;
+    background-color: $primaryLightColor;
 }
 
 .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-    background-color: $primaryColor;
+    background-color: white;
 }
 
 .leaflet-container a.leaflet-popup-close-button {
     color: $textColor;
+    margin-top: 2px;
+    margin-right: 2px;
 }
 
 .leaflet-container a.leaflet-popup-close-button:hover {
     color: $textColor;
+}
+
+div.leaflet-popup-content .ui-scrollpanel-content {
+    font-family: "Helvetica Neue", "Arial", sans-serif !important;
+    font-size: 12px !important;
+}
+
+div.leaflet-popup-content .popupScrollBar .ui-scrollpanel-bar-y {
+    background-color: white;
+    width: 4px;
+    opacity: 1;
+    transition: background-color .3s;
+}
+
+div.leaflet-popup-content .popupScrollBar .ui-scrollpanel-bar-x {
+    display: none;
 }
