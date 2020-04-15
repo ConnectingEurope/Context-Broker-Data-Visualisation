@@ -48,6 +48,19 @@ p.input-error {
     color: $primaryColor;
 }
 
+button.popupButton {
+    width: 30px !important;
+    height: 30px;
+}
+
+button.popupButton.code .ui-button-icon-left {
+    left: 46% !important;
+}
+
+button.popupButton .ui-button-text {
+    display: hidden;
+}
+
 // App GraphicCard
 
 app-graphic-card .ui-card,

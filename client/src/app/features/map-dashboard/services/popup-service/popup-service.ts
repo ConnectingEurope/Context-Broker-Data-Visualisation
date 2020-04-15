@@ -1,6 +1,7 @@
 import { Injectable, ComponentFactoryResolver, ComponentFactory, Injector, ComponentRef } from '@angular/core';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 import * as L from 'leaflet';
+import { ModelDto } from 'src/app/shared/models/model-dto';
 
 @Injectable({
     providedIn: 'root',
@@ -12,30 +13,12 @@ export class PopupService {
         private injector: Injector,
     ) { }
 
-    public getPopup(e: any): L.Popup {
+    public getPopupContent(e: any, modelDto: ModelDto): ComponentRef<PopupComponent> {
         const compFactory: ComponentFactory<PopupComponent> = this.resolver.resolveComponentFactory(PopupComponent);
         const popupComponentRef: ComponentRef<PopupComponent> = compFactory.create(this.injector);
-        popupComponentRef.instance.entity = e;
+        popupComponentRef.instance.updatePopup(e, modelDto);
         popupComponentRef.changeDetectorRef.detectChanges();
 
-        const div: HTMLDivElement = document.createElement('div');
-        div.appendChild(popupComponentRef.location.nativeElement);
-
-        const popup: L.Popup = L.popup();
-        popup.setContent(div);
-
-        return popup;
-    }
-
-    public getPopupContent(e: any): HTMLDivElement {
-        const compFactory: ComponentFactory<PopupComponent> = this.resolver.resolveComponentFactory(PopupComponent);
-        const popupComponentRef: ComponentRef<PopupComponent> = compFactory.create(this.injector);
-        popupComponentRef.instance.entity = e;
-        popupComponentRef.changeDetectorRef.detectChanges();
-
-        const div: HTMLDivElement = document.createElement('div');
-        div.appendChild(popupComponentRef.location.nativeElement);
-
-        return div;
+        return popupComponentRef;
     }
 }
