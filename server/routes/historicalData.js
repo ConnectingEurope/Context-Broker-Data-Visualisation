@@ -4,9 +4,9 @@ const request = require('request');
 const utils = require('./utils');
 
 router.post('/', function (req, res, next) {
-    const b = req.body;
+    const body = req.body;
 
-    request({ url: getUrl(b), qs: getParams(b), headers: getHeaders(b), json: true }, (e, r, b) => {
+    request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
         if (b && b.contextResponses) res.send(b);
         else res.status(500).send(e);
     });
@@ -19,13 +19,40 @@ router.post('/', function (req, res, next) {
         return b.operationParameters;
     }
 
-    function getHeaders(b) {
-        const headers = {};
-        if (b.service) headers['fiware-service'] = b.service;
-        if (b.servicePath) headers['fiware-servicepath'] = b.servicePath;
-        return headers;
+});
+
+router.post('/attrs', function (req, res, next) {
+    const body = req.body;
+
+    request({ url: getUrl(body), headers: getHeaders(body), json: true }, (e, r, b) => {
+        if (b && b.length > 0) {
+            const attrs = new Set();
+            b.forEach(subscription => {
+                if (subscription.subject.entities.some(e => checkIfIdMatchs(e, body.entityId))) {
+                    subscription.notification.attrs.forEach(a => attrs.add(a));
+                }
+            });
+            res.send(Array.from(attrs));
+        }
+        else res.send([]);
+    });
+
+    function getUrl(b) {
+        return utils.parseUrl(b.contextUrl) + "/v2/subscriptions/";
+    }
+
+    function checkIfIdMatchs(entityPattern, entityId) {
+        return entityPattern.id && entityPattern.id === entityId ||
+            entityPattern.idPattern && (new RegExp(entityPattern.idPattern)).test(entityId);
     }
 
 });
+
+function getHeaders(b) {
+    const headers = {};
+    if (b.service) headers['fiware-service'] = b.service;
+    if (b.servicePath) headers['fiware-servicepath'] = b.servicePath;
+    return headers;
+}
 
 module.exports = router;

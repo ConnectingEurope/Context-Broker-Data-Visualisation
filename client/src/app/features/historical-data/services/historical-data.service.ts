@@ -79,7 +79,7 @@ export class MapDashboardService {
     }
 
     private getHistorical(body: HistoricalQuery): Observable<any> {
-        return this.http.post<Observable<any>>('/server/historical-data', body);
+        return this.http.post<any>('/server/historical-data', body);
     }
 
 }
