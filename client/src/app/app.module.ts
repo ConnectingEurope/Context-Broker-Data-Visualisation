@@ -5,6 +5,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { PopupComponent } from './shared/templates/popup/popup.component';
         MenubarModule,
         ToastModule,
         ConfirmDialogModule,
+        ScrollPanelModule,
         NgHttpLoaderModule.forRoot(),
     ],
     providers: [
