@@ -1,40 +1,73 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import * as moment from 'moment';
+import { ScrollPanel } from 'primeng/scrollpanel/public_api';
+import { Router } from '@angular/router';
+import { ModelDto } from '../../models/model-dto';
+import { EntityMetadataService } from '../../services/entity-metadata-service';
+import { EntityMetadata } from '../../models/entity-metadata';
 
 @Component({
     selector: 'app-popup',
     templateUrl: './popup.component.html',
     styleUrls: ['./popup.component.scss'],
 })
-export class PopupComponent implements OnInit {
+export class PopupComponent {
 
     @Input() public entity: any;
-
+    @Input() public modelDto: ModelDto;
     protected attrs: any;
-    private maxNumberChars: number = 45;
+    private maxNumberChars: number = 35;
+    @ViewChild('scrollPanel', { static: false }) private scrollPanel: ScrollPanel;
 
-    public ngOnInit(): void {
+    constructor(
+        private router: Router,
+        private entityMetadataService: EntityMetadataService,
+    ) {
+
+    }
+
+    public updatePopup(entity: any, modelDto: ModelDto): void {
+        this.entity = entity;
+        this.modelDto = modelDto;
         this.updateAttrs();
     }
 
-    public setEntity(entity: any): void {
-        this.entity = entity;
-        this.updateAttrs();
+    public refreshScroll(): void {
+        if (this.scrollPanel) {
+            this.scrollPanel.refresh();
+        }
+    }
+
+    protected onClickStats(): void {
+        const entityMetadata: EntityMetadata = {
+            id: this.entity.id,
+            type: this.modelDto.type,
+            attrs: Object.keys(this.entity),
+            cometUrl: this.modelDto.cometUrl,
+            service: this.modelDto.service,
+            servicePath: this.modelDto.servicePath,
+        };
+        this.entityMetadataService.setEntityMetadata(entityMetadata);
+        this.router.navigate(['/historical-data', this.modelDto.type, this.entity.id]);
+    }
+
+    protected onClickDebug(): void {
+        // TODO
     }
 
     private updateAttrs(): void {
-        this.attrs = Object.entries(this.entity).filter(a => typeof a[1] !== 'object').map(a => [a[0], this.transformAttr(a[1])]);
+        this.attrs = Object.entries(this.entity).filter(a => typeof a[1] !== 'object').map(a => [a[0], this.transformAttr(a[0], a[1])]);
     }
 
-    private transformAttr(attr: any): any {
+    private transformAttr(key: string, value: any): any {
         const dateExp: RegExp = new RegExp(/.*-.*-.*:.*:.*\..*Z/);
-        if (dateExp.test(attr)) {
-            return moment(attr).format('DD/MM/YYYY HH:mm:ss');
+        if (dateExp.test(value)) {
+            return moment(value).format('DD/MM/YYYY HH:mm:ss');
         }
-        if (typeof attr === 'string' && attr.length > this.maxNumberChars) {
-            return attr.substring(0, this.maxNumberChars) + '...';
+        if (typeof value === 'string' && key.length + value.length > this.maxNumberChars) {
+            return value.substring(0, this.maxNumberChars - key.length) + '...';
         }
-        return attr;
+        return value;
     }
 
 }
