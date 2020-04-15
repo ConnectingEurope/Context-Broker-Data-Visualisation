@@ -3,17 +3,18 @@ import requests
 import time
 import random
 
-#BUS_DATA_URL = 'https://datosabiertos.malaga.eu/recursos/transporte/EMT/EMTlineasUbicaciones/lineasyubicacionesfiware.geojson'
 PARKING_DATA_URL = 'https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json'
 SECONDS_TO_SLEEP = 6
 CONTEXT_BROKER_URL = 'http://localhost:1026/v2/entities'
 parking_headers = {'Content-Type': 'application/json',
                    'fiware-service': 'parking'}
-#transport_headers = {'Content-Type': 'application/json', 'fiware-service': 'transport'}
+SUBSCRIPTION_URL = 'http://localhost:1026/v2/subscriptions'
+CREATE_SUBSCRIPTIONS = True
+NOTIFY_SUBS_URL = 'http://cygnus:5051/notify'
 
-PARKINGS = {}
-
-
+'''
+    Initial import of the parkings data, creating the entities in the local CB.
+'''
 def import_parkings_data():
     parkings_data = requests.get(PARKING_DATA_URL)
     if parkings_data:
@@ -22,9 +23,42 @@ def import_parkings_data():
                 CONTEXT_BROKER_URL,
                 data=json.dumps(parking),
                 headers=parking_headers)
-            print(r)
+            print ('Creation of entity, response_code: ' + str(r.status_code))
 
+            # Create the subscription for the current entity and its attributes
+            if CREATE_SUBSCRIPTIONS and r.status_code == 201:
+                subscription_json = {
+                    "description": "Notify STH-Comet changes of " + parking.get('id'),
+                    "subject": {
+                        "entities": [
+                            {
+                                "type": parking.get('type'),
+                                "id": parking.get('id')
+                            }
+                        ],
+                        "condition": {
+                            "attrs": []
+                        },
+                    },
+                    "notification": {
+                        "http": {
+                            "url": NOTIFY_SUBS_URL
+                        },
+                        "attrs": [
+                            "availableSpotNumber"
+                        ]
+                    }
+                }
+                subs = requests.post(
+                    SUBSCRIPTION_URL,
+                    data=json.dumps(subscription_json),
+                    headers=parking_headers
+                )
+                print('Subscription response code: ' + str(subs.status_code))
 
+'''
+    Update of the already existent entities with mock values.
+'''
 def update_parkings_data():
     parkings_data = requests.get(PARKING_DATA_URL)
     if parkings_data:
@@ -32,14 +66,6 @@ def update_parkings_data():
             parking_id = parking.get('id')
             update_url = CONTEXT_BROKER_URL + '/' + \
                 parking_id + '/attrs/availableSpotNumber/value'
-            # available_spots = parking.get('availableSpotNumber').get('value')
-            # if parking_id in PARKINGS:
-            #     available_spots = PARKINGS[parking_id]
-            #     while PARKINGS[parking_id] == available_spots:
-            #         available_spots = random.randint(10, 99)
-            # else:
-            #     available_spots = random.randint(10, 99)
-            # PARKINGS[parking_id] = available_spots
             available_spots = random.randint(10, 99)
             r = requests.put(
                 update_url,
@@ -59,7 +85,7 @@ if __name__ == '__main__':
         print('There is not data for parkings. Importing...\n')
         import_parkings_data()
     while True:
-        print('Updating data of the parkings...\n')
+        print('Updating data of the parkings with mock values...\n')
         update_parkings_data()
         print('Sleeping ' + str(SECONDS_TO_SLEEP) + ' seconds...\n')
         time.sleep(SECONDS_TO_SLEEP)

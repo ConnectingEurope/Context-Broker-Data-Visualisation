@@ -6,6 +6,9 @@ PARKING_DATA_URL = 'https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupa
 SECONDS_TO_SLEEP = 300
 CONTEXT_BROKER_URL = 'http://localhost:1026/v2/entities'
 parking_headers = {'Content-Type': 'application/json', 'fiware-service': 'parking'}
+SUBSCRIPTION_URL = 'http://localhost:1026/v2/subscriptions'
+CREATE_SUBSCRIPTIONS = True
+NOTIFY_SUBS_URL = 'http://cygnus:5051/notify'
 
 '''
     Initial import of the parkings data, creating the entities in the local CB.
@@ -14,11 +17,44 @@ def import_parkings_data():
     parkings_data = requests.get(PARKING_DATA_URL)
     if parkings_data:
         for parking in parkings_data.json():
+
+            # Create the entity in the Context Broker
             r = requests.post(
                 CONTEXT_BROKER_URL,
                 data=json.dumps(parking),
                 headers=parking_headers)
-            print (r)
+            print ('Creation of entity, response_code: ' + str(r.status_code))
+
+            # Create the subscription for the current entity and its attributes
+            if CREATE_SUBSCRIPTIONS and r.status_code == 201:
+                subscription_json = {
+                    "description": "Notify STH-Comet changes of " + parking.get('id'),
+                    "subject": {
+                        "entities": [
+                            {
+                                "type": parking.get('type'),
+                                "id": parking.get('id')
+                            }
+                        ],
+                        "condition": {
+                            "attrs": []
+                        },
+                    },
+                    "notification": {
+                        "http": {
+                            "url": NOTIFY_SUBS_URL
+                        },
+                        "attrs": [
+                            "availableSpotNumber"
+                        ]
+                    }
+                }
+                subs = requests.post(
+                    SUBSCRIPTION_URL,
+                    data=json.dumps(subscription_json),
+                    headers=parking_headers
+                )
+                print('Subscription response code: ' + str(subs.status_code))
 
 '''
     Update of the already existent entities with the current values.
