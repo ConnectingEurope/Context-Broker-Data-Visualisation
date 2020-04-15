@@ -1,12 +1,19 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { PanelModule } from 'primeng/panel';
+import { TableModule } from 'primeng/table';
 
 @NgModule({
     declarations: [],
     imports: [
         CommonModule,
     ],
-    exports: [],
+    exports: [
+        PanelModule,
+        ButtonModule,
+        TableModule,
+    ],
 })
 export class SharedModule {
     public static forRoot(): ModuleWithProviders {
