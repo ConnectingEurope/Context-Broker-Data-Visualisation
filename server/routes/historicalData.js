@@ -7,8 +7,10 @@ router.post('/', function (req, res, next) {
     const b = req.body;
 
     request({ url: getUrl(b), qs: getParams(b), headers: getHeaders(b), json: true }, (e, r, b) => {
-        if (b && b.contextResponses) res.send(b);
-        else res.status(500).send(e);
+        if (b && b.contextResponses) {
+            res.send(r);
+        }
+        else { res.status(500).send(e) };
     });
 
     function getUrl(b) {

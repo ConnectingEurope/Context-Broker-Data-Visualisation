@@ -1,1 +1,33 @@
-<p>historical-data-table works!</p>
+<div class="ml-4 mt-4">
+    <p-table [value]="data">
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>
+                    Timestamp
+                </th>
+                <th *ngFor="let title of titles">
+                    {{title}}
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-row>
+            <tr>
+                <td>
+                    {{row[time] | date:'medium'}}
+                </td>
+                <td *ngFor="let title of titles">
+                    {{row[title]?.attrValue}}
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="titles.length + 1" style="text-align:left">No data found.</td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+</div>
