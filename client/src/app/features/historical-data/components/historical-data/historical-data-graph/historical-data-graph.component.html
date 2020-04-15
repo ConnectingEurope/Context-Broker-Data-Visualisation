@@ -1,3 +1,13 @@
 <div class="ml-4 mt-4">
+    <div class="container-fluid">
+        <div class="row justify-content-center my-3">
+            <div class="col-auto">
+                <p-dropdown [options]="attrs" [(ngModel)]="currentAttr"></p-dropdown>
+            </div>
+            <div class="col-auto">
+                <p-dropdown [options]="ranges" [(ngModel)]="currentRange"></p-dropdown>
+            </div>
+        </div>
+    </div>
     <app-graphic-card [chartConfig]="chartConfig"></app-graphic-card>
 </div>

@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SelectItem } from 'primeng/api/selectitem';
+import { AggregatePeriod } from '../../../services/historical-data.service';
 
 @Component({
     selector: 'app-historical-data-graph',
@@ -6,6 +8,20 @@ import { Component, OnInit, Input } from '@angular/core';
     styleUrls: ['./historical-data-graph.component.scss'],
 })
 export class HistoricalDataGraphComponent implements OnInit {
+
+    protected currentAttr: AggregatePeriod;
+    protected currentRange: string;
+
+    protected attrs: SelectItem[] = [
+        { label: 'NO', value: 'NO' },
+        { label: 'CO', value: 'CO' },
+    ];
+    protected ranges: SelectItem[] = [
+        { label: 'Minute', value: AggregatePeriod.MINUTE },
+        { label: 'Hour', value: AggregatePeriod.HOUR },
+        { label: 'Day', value: AggregatePeriod.DAY },
+        { label: 'Month', value: AggregatePeriod.MONTH },
+    ];
 
     protected chartConfig: any = {
         type: 'line',

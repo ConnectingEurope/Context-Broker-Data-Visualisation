@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
 
-enum AggregateMethod {
+export enum AggregateMethod {
     MIN = 'min',
     MAX = 'max',
     SUM = 'sum',
@@ -11,7 +11,7 @@ enum AggregateMethod {
     OCCUR = 'occur',
 }
 
-enum AggregatePeriod {
+export enum AggregatePeriod {
     SECOND = 'second',
     MINUTE = 'minute',
     HOUR = 'hour',
@@ -19,7 +19,7 @@ enum AggregatePeriod {
     MONTH = 'month',
 }
 
-interface RawParameters {
+export interface RawParameters {
     lastN?: number;
     hLimit?: number;
     hOffset?: number;
@@ -29,14 +29,14 @@ interface RawParameters {
     count?: boolean;
 }
 
-interface AggregatedParameters {
+export interface AggregatedParameters {
     aggrMethod?: AggregateMethod;
     aggrPeriod?: AggregatePeriod;
     dateFrom?: string;
     dateTo?: string;
 }
 
-type OperationParameters = RawParameters | AggregatedParameters;
+export type OperationParameters = RawParameters | AggregatedParameters;
 
 export interface HistoricalQuery {
     cometUrl?: string;
