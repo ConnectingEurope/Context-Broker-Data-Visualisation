@@ -6,14 +6,13 @@ import { StatsDashboardComponent } from './components/stats-dashboard.component'
 import { GraphicCardComponent } from '../../shared/templates/graphic-card/graphic-card.component';
 
 @NgModule({
-  declarations: [
-    StatsDashboardComponent,
-    GraphicCardComponent,
-  ],
-  imports: [
-    CommonModule,
-    StatsDashboardRoutingModule,
-    CardModule,
-  ],
+    declarations: [
+        StatsDashboardComponent,
+    ],
+    imports: [
+        CommonModule,
+        StatsDashboardRoutingModule,
+        CardModule,
+    ],
 })
 export class StatsDashboardModule { }
