@@ -34,10 +34,12 @@ export class InputWithValidationComponent implements OnInit {
     }
 
     public showInfo(): void {
+        this.warningRequested = false;
         this.infoRequested = true;
     }
 
     public showWarning(): void {
+        this.infoRequested = false;
         this.warningRequested = true;
     }
 
