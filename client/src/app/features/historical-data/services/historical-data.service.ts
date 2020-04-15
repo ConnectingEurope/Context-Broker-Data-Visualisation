@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
 
 enum AggregateMethod {
     MIN = 'min',
@@ -54,19 +55,19 @@ export class MapDashboardService {
 
     constructor(private http: HttpClient) { }
 
-    public getRaw(entityMetadata: any, attr: string, opParams: RawParameters): Observable<any> {
+    public getRaw(entityMetadata: EntityMetadata, attr: string, opParams: RawParameters): Observable<any> {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
         body.operationParameters = opParams;
         opParams.count = true;
         return this.getHistorical(body);
     }
-    public getAggregate(entityMetadata: any, attr: string, opParams: AggregatedParameters): Observable<any> {
+    public getAggregate(entityMetadata: EntityMetadata, attr: string, opParams: AggregatedParameters): Observable<any> {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
         body.operationParameters = opParams;
         return this.getHistorical(body);
     }
 
-    private getBaseQuery(entityMetadata: any, attribute: string): HistoricalQuery {
+    private getBaseQuery(entityMetadata: EntityMetadata, attribute: string): HistoricalQuery {
         return {
             cometUrl: entityMetadata.cometUrl,
             service: entityMetadata.service,
