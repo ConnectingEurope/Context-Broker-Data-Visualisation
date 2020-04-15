@@ -69,7 +69,7 @@ function getUrl(cb, entity) {
 }
 
 function getAttrs(entity) {
-    return entity.attrs.filter(a => a.selected).map(a => a.name).join();
+    return entity.attrs.filter(a => a.selected).map(a => a.name).concat(['location']).join();
 }
 
 function getParams() {
