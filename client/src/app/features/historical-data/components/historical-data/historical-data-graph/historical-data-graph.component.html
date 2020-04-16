@@ -3,11 +3,11 @@
         <div class="row justify-content-center my-3">
             <div class="col-auto">
                 <h6>Attribute</h6>
-                <p-dropdown [options]="attrs" [(ngModel)]="currentAttr"></p-dropdown>
+                <p-dropdown [options]="attrs" [(ngModel)]="currentAttr" (onChange)="onChange()"></p-dropdown>
             </div>
             <div class="col-auto">
                 <h6>Range</h6>
-                <p-dropdown [options]="ranges" [(ngModel)]="currentPeriod"></p-dropdown>
+                <p-dropdown [options]="ranges" [(ngModel)]="currentPeriod" (onChange)="onChange()"></p-dropdown>
             </div>
             <div class="col-auto">
                 <h6>Calendar</h6>
@@ -26,6 +26,10 @@
                 <p-calendar *ngIf="currentPeriod === aggrPeriod.DAY" [(ngModel)]="monthDate" view="month"
                     dateFormat="mm/yy" [yearNavigator]="true" yearRange="{{firstYear + ':' + currentYear}}"
                     [readonlyInput]="true" placeholder="MM/YY" (onClose)="onChange()"></p-calendar>
+
+                <!-- Year calendar -->
+                <p-dropdown *ngIf="currentPeriod === aggrPeriod.MONTH" [options]="years" [(ngModel)]="yearDate"
+                    (onChange)="onChange()"></p-dropdown>
 
             </div>
         </div>

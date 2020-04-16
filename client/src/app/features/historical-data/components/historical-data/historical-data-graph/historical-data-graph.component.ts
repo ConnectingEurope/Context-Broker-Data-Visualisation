@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { GraphicCardComponent } from 'src/app/shared/templates/graphic-card/graphic-card.component';
 import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
+import { Moment } from 'moment';
 
 @Component({
     selector: 'app-historical-data-graph',
@@ -18,6 +19,7 @@ export class HistoricalDataGraphComponent implements OnInit {
 
     protected firstYear: number = 2000;
     protected currentYear: number;
+    protected years: number[];
 
     protected graphicHasData: boolean = false;
 
@@ -25,16 +27,17 @@ export class HistoricalDataGraphComponent implements OnInit {
     protected currentAttr: string;
     protected currentPeriod: AggregatePeriod = AggregatePeriod.MINUTE;
 
-    protected minuteDate: Date;
     protected hourDate: Date;
     protected dayDate: Date;
     protected monthDate: Date;
+    protected yearDate: number;
 
     protected attrs: SelectItem[];
     protected ranges: SelectItem[] = [
         { label: 'Hour', value: AggregatePeriod.MINUTE },
         { label: 'Day', value: AggregatePeriod.HOUR },
         { label: 'Month', value: AggregatePeriod.DAY },
+        { label: 'Year', value: AggregatePeriod.MONTH },
     ];
 
     protected chartConfig: any = {
@@ -54,6 +57,8 @@ export class HistoricalDataGraphComponent implements OnInit {
 
     constructor(private historicalDataService: HistoricalDataService) {
         this.currentYear = new Date().getFullYear();
+        this.yearDate = this.currentYear;
+        this.years = [...Array(this.currentYear - this.firstYear).keys()].map(y => y + this.firstYear);
     }
 
     public ngOnInit(): void {
@@ -147,6 +152,10 @@ export class HistoricalDataGraphComponent implements OnInit {
                 d = new Date(d.getFullYear(), d.getMonth(), 1);
                 break;
 
+            case AggregatePeriod.MONTH:
+                d = new Date(this.yearDate, 0, 1);
+                break;
+
         }
         return d.toUTCString();
     }
@@ -157,7 +166,7 @@ export class HistoricalDataGraphComponent implements OnInit {
 
             case AggregatePeriod.MINUTE:
                 d = new Date(this.hourDate);
-                d.setHours(d.getHours() + 1);
+                d.setHours((d.getHours() + 1) % 24);
                 d.setMinutes(59);
                 d.setSeconds(59);
                 break;
@@ -171,7 +180,11 @@ export class HistoricalDataGraphComponent implements OnInit {
 
             case AggregatePeriod.DAY:
                 d = new Date(this.monthDate);
-                d = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+                d = new Date(d.getFullYear(), (d.getMonth() + 1) % 12, 1);
+                break;
+
+            case AggregatePeriod.MONTH:
+                d = new Date(this.yearDate + 1, 0, 1);
                 break;
 
         }
@@ -179,21 +192,24 @@ export class HistoricalDataGraphComponent implements OnInit {
     }
 
     private getDateFormat(offset: number): string {
-        let d: Date;
+        let d: Moment;
 
         switch (this.currentPeriod) {
 
             case AggregatePeriod.MINUTE:
-                d = new Date(this.hourDate);
-                d.setMinutes(offset);
-                return moment(d).format('HH:mm');
+                d = moment.utc(this.hourDate);
+                d.minutes(offset);
+                return moment(d).local().format('HH:mm');
 
             case AggregatePeriod.HOUR:
-                d = new Date(this.dayDate);
-                d.setHours(offset);
-                return moment(d).format('HH');
+                d = moment.utc(this.dayDate);
+                d.hours(offset);
+                return moment(d).local().format('HH');
 
             case AggregatePeriod.DAY:
+                return String(offset);
+
+            case AggregatePeriod.MONTH:
                 return String(offset);
 
         }
