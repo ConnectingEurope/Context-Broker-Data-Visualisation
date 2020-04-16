@@ -1,6 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
-import { AggregatePeriod } from '../../../services/historical-data.service';
+import { AggregatePeriod, HistoricalDataService, AggregateMethod } from '../../../services/historical-data.service';
+import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
+import * as moment from 'moment';
+import { GraphicCardComponent } from 'src/app/shared/templates/graphic-card/graphic-card.component';
+import { Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 
 @Component({
     selector: 'app-historical-data-graph',
@@ -9,32 +14,31 @@ import { AggregatePeriod } from '../../../services/historical-data.service';
 })
 export class HistoricalDataGraphComponent implements OnInit {
 
-    protected currentAttr: AggregatePeriod;
-    protected currentRange: string;
+    @Input() public entityMetadata: EntityMetadata;
 
-    protected attrs: SelectItem[] = [
-        { label: 'NO', value: 'NO' },
-        { label: 'CO', value: 'CO' },
-    ];
+    protected firstYear: number = 2000;
+    protected currentYear: number;
+
+    protected graphicHasData: boolean = false;
+
+    protected aggrPeriod: typeof AggregatePeriod = AggregatePeriod;
+    protected currentAttr: string;
+    protected currentPeriod: AggregatePeriod = AggregatePeriod.MINUTE;
+
+    protected minuteDate: Date;
+    protected hourDate: Date;
+    protected dayDate: Date;
+    protected monthDate: Date;
+
+    protected attrs: SelectItem[];
     protected ranges: SelectItem[] = [
-        { label: 'Minute', value: AggregatePeriod.MINUTE },
-        { label: 'Hour', value: AggregatePeriod.HOUR },
-        { label: 'Day', value: AggregatePeriod.DAY },
-        { label: 'Month', value: AggregatePeriod.MONTH },
+        { label: 'Hour', value: AggregatePeriod.MINUTE },
+        { label: 'Day', value: AggregatePeriod.HOUR },
+        { label: 'Month', value: AggregatePeriod.DAY },
     ];
 
     protected chartConfig: any = {
         type: 'line',
-        data: {
-            labels: ['14:00', '18:00'],
-            datasets: [{
-                label: 'NO2',
-                data: [24, 20],
-                backgroundColor: 'lightblue',
-                borderColor: 'lightblue',
-                fill: false,
-            }],
-        },
         options: {
             scales: {
                 yAxes: [{
@@ -46,11 +50,153 @@ export class HistoricalDataGraphComponent implements OnInit {
         },
     };
 
-    @Input() private entityMetadata: any;
+    @ViewChild('graphicCard', { static: false }) private graphicCard: GraphicCardComponent;
 
-    constructor() { }
+    constructor(private historicalDataService: HistoricalDataService) {
+        this.currentYear = new Date().getFullYear();
+    }
 
     public ngOnInit(): void {
+        this.attrs = this.entityMetadata.attrs.map(a => ({ label: a, value: a }));
+        this.currentAttr = this.attrs[0].value;
+    }
+
+    protected onChange(): void {
+        this.getHistoricalData();
+    }
+
+    protected getDefaultHourDate(): Date {
+        const date: Date = new Date();
+        date.setMinutes(0);
+        return date;
+    }
+
+    protected getHistoricalData(): void {
+        combineLatest([
+            this.getAggregatedData(AggregateMethod.SUM),
+            this.getAggregatedData(AggregateMethod.MIN),
+            this.getAggregatedData(AggregateMethod.MAX),
+        ]).subscribe(
+            ([sumValues, minValues, maxValues]) => {
+                this.showData(minValues, sumValues, maxValues);
+                this.graphicHasData = true;
+            },
+            err => {
+                this.graphicHasData = false;
+            });
+    }
+
+    private getAggregatedData(aMethod: AggregateMethod): Observable<any> {
+        return this.historicalDataService.getAggregate(this.entityMetadata, this.currentAttr, {
+            aggrMethod: aMethod,
+            aggrPeriod: this.currentPeriod,
+            dateFrom: this.getDateFrom(),
+            dateTo: this.getDateTo(),
+        });
+    }
+
+    private showData(sumValues: any[], minValues: any[], maxValues: any[]): void {
+        this.graphicCard.chart.data = {
+            labels: sumValues.map(p => {
+                return this.getDateFormat(p.offset);
+            }),
+            datasets: [
+
+                {
+                    label: 'Average',
+                    data: sumValues.map(p => Math.round(p.sum / p.samples)),
+                    backgroundColor: 'lightblue',
+                    borderColor: 'lightblue',
+                    fill: false,
+                },
+
+                {
+                    label: 'Minimum',
+                    data: minValues.map(p => p.min),
+                    backgroundColor: 'lightgreen',
+                    borderColor: 'lightgreen',
+                    fill: false,
+                },
+
+                {
+                    label: 'Maximum',
+                    data: maxValues.map(p => p.max),
+                    backgroundColor: 'purple',
+                    borderColor: 'purple',
+                    fill: false,
+                },
+            ],
+        };
+        this.graphicCard.chart.update();
+    }
+
+    private getDateFrom(): string {
+        let d: Date;
+        switch (this.currentPeriod) {
+
+            case AggregatePeriod.MINUTE:
+                d = new Date(this.hourDate);
+                break;
+
+            case AggregatePeriod.HOUR:
+                d = new Date(this.dayDate);
+                break;
+
+            case AggregatePeriod.DAY:
+                d = new Date(this.monthDate);
+                d = new Date(d.getFullYear(), d.getMonth(), 1);
+                break;
+
+        }
+        return d.toUTCString();
+    }
+
+    private getDateTo(): string {
+        let d: Date;
+        switch (this.currentPeriod) {
+
+            case AggregatePeriod.MINUTE:
+                d = new Date(this.hourDate);
+                d.setHours(d.getHours() + 1);
+                d.setMinutes(59);
+                d.setSeconds(59);
+                break;
+
+            case AggregatePeriod.HOUR:
+                d = new Date(this.dayDate);
+                d.setHours(23);
+                d.setMinutes(59);
+                d.setSeconds(59);
+                break;
+
+            case AggregatePeriod.DAY:
+                d = new Date(this.monthDate);
+                d = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+                break;
+
+        }
+        return d.toUTCString();
+    }
+
+    private getDateFormat(offset: number): string {
+        let d: Date;
+
+        switch (this.currentPeriod) {
+
+            case AggregatePeriod.MINUTE:
+                d = new Date(this.hourDate);
+                d.setMinutes(offset);
+                return moment(d).format('HH:mm');
+
+            case AggregatePeriod.HOUR:
+                d = new Date(this.dayDate);
+                d.setHours(offset);
+                return moment(d).format('HH');
+
+            case AggregatePeriod.DAY:
+                return String(offset);
+
+        }
     }
 
 }

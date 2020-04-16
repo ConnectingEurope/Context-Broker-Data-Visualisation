@@ -9,6 +9,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { HistoricalDataGraphComponent } from './components/historical-data/historical-data-graph/historical-data-graph.component';
 import { GraphicCardComponent } from 'src/app/shared/templates/graphic-card/graphic-card.component';
 import { CardModule } from 'primeng/card/';
+import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 
 
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
         HistoricalDataRoutingModule,
         DropdownModule,
         FormsModule,
+        CalendarModule,
     ],
 })
 export class HistoricalDataModule { }

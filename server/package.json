@@ -13,6 +13,7 @@
         "http-errors": "~1.6.3",
         "import-fresh": "^3.2.1",
         "jade": "~1.11.0",
+        "lodash": "^4.17.15",
         "morgan": "~1.9.1",
         "nedb": "^1.8.0",
         "request": "^2.88.0"

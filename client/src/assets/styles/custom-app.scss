@@ -63,17 +63,12 @@ button.popupButton .ui-button-text {
 
 // App GraphicCard
 
-// app-graphic-card .ui-card,
-// .ui-card div.row {
-//   height: 400px;
-//   width: 600px;
+app-graphic-card .graphicDiv,
+.graphicDivdiv.row {
+  height: 500px;
+  width: 800px;
+}
 
-// }
-
-// app-graphic-card .ui-card-body {
-//   padding: 0;
-// }
-
-// app-graphic-card .ui-card div.col-auto > div {
-//   width: 500px;
-// }
+app-graphic-card .graphicDiv div.col-auto > div {
+  width: 700px;
+}

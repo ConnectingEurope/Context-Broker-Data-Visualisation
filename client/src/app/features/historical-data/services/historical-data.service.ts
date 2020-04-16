@@ -51,7 +51,7 @@ export interface HistoricalQuery {
 @Injectable({
     providedIn: 'root',
 })
-export class MapDashboardService {
+export class HistoricalDataService {
 
     constructor(private http: HttpClient) { }
 

@@ -2,12 +2,37 @@
     <div class="container-fluid">
         <div class="row justify-content-center my-3">
             <div class="col-auto">
+                <h6>Attribute</h6>
                 <p-dropdown [options]="attrs" [(ngModel)]="currentAttr"></p-dropdown>
             </div>
             <div class="col-auto">
-                <p-dropdown [options]="ranges" [(ngModel)]="currentRange"></p-dropdown>
+                <h6>Range</h6>
+                <p-dropdown [options]="ranges" [(ngModel)]="currentPeriod"></p-dropdown>
+            </div>
+            <div class="col-auto">
+                <h6>Calendar</h6>
+                <!-- Hour calendar -->
+                <p-calendar *ngIf="currentPeriod === aggrPeriod.MINUTE" [(ngModel)]="hourDate"
+                    placeholder="DD/MM/YYYY HH:MM" [showTime]="true" [defaultDate]="getDefaultHourDate()"
+                    [stepMinute]="0" (onClose)="onChange()">
+                </p-calendar>
+
+                <!-- Day calendar -->
+                <p-calendar *ngIf="currentPeriod === aggrPeriod.HOUR" [(ngModel)]="dayDate" placeholder="DD/MM/YYYY"
+                    (onClose)="onChange()">
+                </p-calendar>
+
+                <!-- Month calendar -->
+                <p-calendar *ngIf="currentPeriod === aggrPeriod.DAY" [(ngModel)]="monthDate" view="month"
+                    dateFormat="mm/yy" [yearNavigator]="true" yearRange="{{firstYear + ':' + currentYear}}"
+                    [readonlyInput]="true" placeholder="MM/YY" (onClose)="onChange()"></p-calendar>
+
             </div>
         </div>
+        <div class="row justify-content-center mt-5">
+            <app-graphic-card [style.display]="graphicHasData ? 'block' : 'none'" #graphicCard
+                [chartConfig]="chartConfig"></app-graphic-card>
+            <p *ngIf="!graphicHasData">No data available</p>
+        </div>
     </div>
-    <app-graphic-card [chartConfig]="chartConfig"></app-graphic-card>
 </div>

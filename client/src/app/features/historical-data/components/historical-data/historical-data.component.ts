@@ -10,13 +10,16 @@ import { EntityMetadataService } from 'src/app/shared/services/entity-metadata-s
 })
 export class HistoricalDataComponent implements OnInit {
 
+    protected entityMetadata: EntityMetadata;
+
     constructor(
         private entityMetadataService: EntityMetadataService,
     ) { }
 
     public ngOnInit(): void {
-        const entityMetadata: EntityMetadata = this.entityMetadataService.getEntityMetadata();
-        console.log(entityMetadata);
+        // this.entityMetadata = this.entityMetadataService.getEntityMetadata();
+        this.entityMetadata = JSON.parse(localStorage.getItem('entityMetadata'));
+        console.log(this.entityMetadata);
     }
 
 }

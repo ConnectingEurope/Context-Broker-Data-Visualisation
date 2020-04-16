@@ -37,6 +37,7 @@ export class EntityMetadataService {
         };
         return this.getHistoricalAttrs().pipe(map(attrs => {
             this.entityMetadata.attrs = attrs;
+            localStorage.setItem('entityMetadata', JSON.stringify(this.entityMetadata));
             return;
         }));
     }
