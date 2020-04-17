@@ -19,7 +19,7 @@ export class HistoricalDataGraphComponent implements OnInit {
 
     protected firstYear: number = 2000;
     protected currentYear: number;
-    protected years: number[];
+    protected years: SelectItem[];
 
     protected graphicHasData: boolean = false;
 
@@ -58,7 +58,8 @@ export class HistoricalDataGraphComponent implements OnInit {
     constructor(private historicalDataService: HistoricalDataService) {
         this.currentYear = new Date().getFullYear();
         this.yearDate = this.currentYear;
-        this.years = [...Array(this.currentYear - this.firstYear).keys()].map(y => y + this.firstYear);
+        const yearsRange: number[] = [...Array(this.currentYear - this.firstYear).keys()].map(y => y + this.firstYear);
+        this.years = [];
     }
 
     public ngOnInit(): void {
@@ -210,7 +211,7 @@ export class HistoricalDataGraphComponent implements OnInit {
                 return String(offset);
 
             case AggregatePeriod.MONTH:
-                return String(offset);
+                return moment().month(offset).format('MMMM');
 
         }
     }
