@@ -8,6 +8,14 @@ import { AggregatePeriod, AggregateMethod } from 'src/app/features/historical-da
 import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { Moment } from 'moment';
+import { DateUtilsService } from '../../../services/date-utils.service';
+
+enum AttrType {
+    NUMBER,
+    STRING,
+    OBJECT,
+    UNDEFINED,
+}
 
 @Component({
     selector: 'app-historical-data-graph',
@@ -18,20 +26,26 @@ export class HistoricalDataGraphComponent implements OnInit {
 
     @Input() public entityMetadata: EntityMetadata;
 
-    protected firstYear: number = 2000;
-    protected currentYear: number;
-    protected years: SelectItem[];
+    public firstYear: number = 2000;
+    public currentYear: number;
+    public years: SelectItem[];
 
-    protected graphicHasData: boolean = false;
+    public currentAttr: string;
+    public currentPeriod: AggregatePeriod = AggregatePeriod.MINUTE;
 
-    protected aggrPeriod: typeof AggregatePeriod = AggregatePeriod;
-    protected currentAttr: string;
-    protected currentPeriod: AggregatePeriod = AggregatePeriod.MINUTE;
+    public hourDate: Date;
+    public dayDate: Date;
+    public monthDate: Date;
+    public yearDate: number;
 
-    protected hourDate: Date;
-    protected dayDate: Date;
-    protected monthDate: Date;
-    protected yearDate: number;
+    // protected graphicHasDataForNumber: boolean = false;
+    // protected graphicHasDataForString: boolean = false;
+    // protected complexAttrSelected: boolean = false;
+
+    protected attrType: AttrType;
+
+    protected aggrPeriodEnum: typeof AggregatePeriod = AggregatePeriod;
+    protected attrTypeEnum: typeof AttrType = AttrType;
 
     protected attrs: SelectItem[];
     protected ranges: SelectItem[] = [
@@ -41,40 +55,27 @@ export class HistoricalDataGraphComponent implements OnInit {
         { label: 'Year', value: AggregatePeriod.MONTH },
     ];
 
-    protected chartConfig: any = {
+    protected chartConfigForNumber: any = {
         type: 'line',
+        options: { scales: { yAxes: [{ ticks: { beginAtZero: false } }] } },
+    };
+
+    protected chartConfigForString: any = {
+        type: 'bar',
         options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: false,
-                    },
-                }],
-            },
+            scales: { yAxes: [{ ticks: { beginAtZero: true } }] },
+            legend: { labels: { boxWidth: 0 } },
         },
     };
 
-    @ViewChild('graphicCard', { static: false }) private graphicCard: GraphicCardComponent;
+    @ViewChild('graphicCardForNumber', { static: false }) private graphicCardForNumber: GraphicCardComponent;
+    @ViewChild('graphicCardForString', { static: false }) private graphicCardForString: GraphicCardComponent;
 
-    constructor(private historicalDataService: HistoricalDataService) {
-        const d: Date = new Date();
-
-        // Hours management
-        this.hourDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-        const hourBefore: number = d.getHours() - 1;
-        this.hourDate.setHours(hourBefore >= 0 ? hourBefore : 23);
-
-        // Days management
-        this.dayDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-
-        // Months management
-        this.monthDate = new Date(d.getFullYear(), d.getMonth());
-
-        // Years management
-        this.currentYear = new Date().getFullYear();
-        this.yearDate = this.currentYear;
-        const yearsRange: number[] = [...Array(this.currentYear - this.firstYear + 1).keys()].map(y => y + this.firstYear);
-        this.years = yearsRange.map(y => ({ label: String(y), value: y }));
+    constructor(
+        private historicalDataService: HistoricalDataService,
+        private dateUtilsService: DateUtilsService,
+    ) {
+        dateUtilsService.setupDates(this);
     }
 
     public ngOnInit(): void {
@@ -87,24 +88,30 @@ export class HistoricalDataGraphComponent implements OnInit {
         this.getHistoricalData();
     }
 
-    protected getDefaultHourDate(): Date {
-        const date: Date = new Date();
-        date.setMinutes(0);
-        return date;
+    protected getHistoricalData(): void {
+        if (!isNaN(this.entityMetadata.data[this.currentAttr])) {
+            this.getHistoricalDataForNumber();
+        } else if (typeof this.entityMetadata.data[this.currentAttr] === 'string') {
+            this.getHistoricalDataForString();
+        } else if (this.entityMetadata.data[this.currentAttr] === undefined) {
+            this.attrType = AttrType.UNDEFINED;
+        } else {
+            this.attrType = AttrType.OBJECT;
+        }
     }
 
-    protected getHistoricalData(): void {
+    private getHistoricalDataForNumber(): void {
         combineLatest([
             this.getAggregatedData(AggregateMethod.SUM),
             this.getAggregatedData(AggregateMethod.MIN),
             this.getAggregatedData(AggregateMethod.MAX),
         ]).subscribe(
             ([sumValues, minValues, maxValues]) => {
-                this.showData(sumValues, minValues, maxValues);
-                this.graphicHasData = true;
+                this.showDataForNumber(sumValues, minValues, maxValues);
+                this.attrType = AttrType.NUMBER;
             },
             err => {
-                this.graphicHasData = false;
+                this.attrType = AttrType.UNDEFINED;
             });
     }
 
@@ -112,18 +119,28 @@ export class HistoricalDataGraphComponent implements OnInit {
         return this.historicalDataService.getAggregate(this.entityMetadata, this.currentAttr, {
             aggrMethod: aMethod,
             aggrPeriod: this.currentPeriod,
-            dateFrom: this.getDateFrom(),
-            dateTo: this.getDateTo(),
+            dateFrom: this.dateUtilsService.getDateFrom(this),
+            dateTo: this.dateUtilsService.getDateTo(this),
         });
     }
 
-    private showData(sumValues: any[], minValues: any[], maxValues: any[]): void {
-        this.graphicCard.chart.data = {
+    private getHistoricalDataForString(): void {
+        this.getAggregatedData(AggregateMethod.OCCUR).subscribe(
+            occurValues => {
+                this.showDataForString(occurValues);
+                this.attrType = AttrType.STRING;
+            },
+            err => {
+                this.attrType = AttrType.UNDEFINED;
+            });
+    }
+
+    private showDataForNumber(sumValues: any[], minValues: any[], maxValues: any[]): void {
+        this.graphicCardForNumber.chart.data = {
             labels: sumValues.map(p => {
-                return this.getDateFormat(p.offset);
+                return this.dateUtilsService.getDateFormat(p.offset, this);
             }),
             datasets: [
-
                 {
                     label: 'Average',
                     data: sumValues.map(p => Math.round(p.sum / p.samples)),
@@ -149,89 +166,37 @@ export class HistoricalDataGraphComponent implements OnInit {
                 },
             ],
         };
-        this.graphicCard.chart.update();
+        this.graphicCardForNumber.chart.update();
     }
 
-    private getDateFrom(): string {
-        let d: Date;
-        console.log(this.dayDate);
-        switch (this.currentPeriod) {
-
-            case AggregatePeriod.MINUTE:
-                d = new Date(this.hourDate);
-                break;
-
-            case AggregatePeriod.HOUR:
-                d = new Date(this.dayDate);
-                break;
-
-            case AggregatePeriod.DAY:
-                d = new Date(this.monthDate);
-                d = new Date(d.getFullYear(), d.getMonth(), 1);
-                break;
-
-            case AggregatePeriod.MONTH:
-                d = new Date(this.yearDate, 0, 1);
-                break;
-
-        }
-        return d.toUTCString();
+    private showDataForString(occurValues: any[]): void {
+        const frecuency: any = this.getStringFrecuency(occurValues);
+        this.graphicCardForString.chart.data = {
+            labels: Object.keys(frecuency),
+            datasets: [
+                {
+                    label: 'Occurrences of "' + this.currentAttr + '" values ' + this.dateUtilsService.getDatePeriod(this),
+                    data: Object.values(frecuency),
+                    backgroundColor: Object.keys(frecuency).map(k => 'rgba(' +
+                        Math.floor(Math.random() * 255) + ',' +
+                        Math.floor(Math.random() * 255) + ',' +
+                        Math.floor(Math.random() * 255) + ', 0.5)',
+                    ),
+                },
+            ],
+        };
+        this.graphicCardForString.chart.update();
     }
 
-    private getDateTo(): string {
-        let d: Date;
-        switch (this.currentPeriod) {
-
-            case AggregatePeriod.MINUTE:
-                d = new Date(this.hourDate);
-                d.setHours((d.getHours() + 1) % 24);
-                d.setMinutes(59);
-                d.setSeconds(59);
-                break;
-
-            case AggregatePeriod.HOUR:
-                d = new Date(this.dayDate);
-                d.setHours(23);
-                d.setMinutes(59);
-                d.setSeconds(59);
-                break;
-
-            case AggregatePeriod.DAY:
-                d = new Date(this.monthDate);
-                d = new Date(d.getFullYear(), (d.getMonth() + 1) % 12, 1);
-                break;
-
-            case AggregatePeriod.MONTH:
-                d = new Date(this.yearDate + 1, 0, 1);
-                break;
-
-        }
-        return d.toUTCString();
-    }
-
-    private getDateFormat(offset: number): string {
-        let d: Moment;
-
-        switch (this.currentPeriod) {
-
-            case AggregatePeriod.MINUTE:
-                d = moment.utc(this.hourDate);
-                d.minutes(offset);
-                return moment(d).local().format('HH:mm');
-
-            case AggregatePeriod.HOUR:
-                d = moment.utc(this.dayDate);
-                const hourStart: string = moment(d.hours(offset)).local().format('HH');
-                const hourEnd: string = moment(d.hours((offset + 1) % 23)).local().format('HH');
-                return hourStart + ':00 - ' + hourEnd + ':00';
-
-            case AggregatePeriod.DAY:
-                return String(offset);
-
-            case AggregatePeriod.MONTH:
-                return moment().month(offset).format('MMMM');
-
-        }
+    private getStringFrecuency(occurValues: any[]): any {
+        const frecuency: any = {};
+        occurValues.forEach(v => {
+            Object.keys(v.occur).forEach(k => {
+                if (frecuency[k] === undefined) { frecuency[k] = 0; }
+                frecuency[k] += v.occur[k];
+            });
+        });
+        return frecuency;
     }
 
 }

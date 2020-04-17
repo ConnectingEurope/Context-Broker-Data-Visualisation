@@ -248,7 +248,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             this.loaderService.active = false;
             this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
-        }, 10000000000000000);
+        }, 10000);
     }
 
     private onLoadEntitiesEmpty(): void {

@@ -19,11 +19,6 @@ router.post('/aggr', function (req, res, next) {
     const body = req.body;
 
     request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
-        console.log(r);
-        console.log(b);
-        console.log(getUrl(body));
-        console.log(getParams(body));
-        console.log(getHeaders(body));
         if (_.get(b, 'contextResponses[0].contextElement.attributes[0].values[0].points'))
             res.send(b.contextResponses[0].contextElement.attributes[0].values[0].points);
         else res.status(404).send(b);
