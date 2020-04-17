@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
-import { AggregatePeriod, HistoricalDataService, AggregateMethod } from '../../../services/historical-data.service';
+import { HistoricalDataService } from '../../../services/historical-data.service';
 import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
 import * as moment from 'moment';
 import { GraphicCardComponent } from 'src/app/shared/templates/graphic-card/graphic-card.component';
+import { AggregatePeriod, AggregateMethod } from 'src/app/features/historical-data/models/historical-data-objects';
 import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { Moment } from 'moment';

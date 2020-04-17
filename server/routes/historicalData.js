@@ -8,10 +8,17 @@ router.post('/', function (req, res, next) {
     const body = req.body;
 
     request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
+        if (b && b.contextResponses) {
+            res.send(r);
+        }
+        else { res.status(500).send(e) };
+    });
+
+    /*request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
         if (_.get(b, 'contextResponses[0].contextElement.attributes[0].values[0].points'))
             res.send(b.contextResponses[0].contextElement.attributes[0].values[0].points);
         else res.status(404).send(b);
-    });
+    });*/
 
     function getUrl(b) {
         return utils.parseUrl(b.cometUrl) + "/STH/v1/contextEntities/type/" + b.type + "/id/" + b.id + "/attributes/" + b.attr;
@@ -22,10 +29,9 @@ router.post('/', function (req, res, next) {
     }
 
     function getHeaders(b) {
-        const headers = {
-            'fiware-service': b.service ? b.service : '/',
-            'fiware-servicepath': b.servicePath ? b.servicePath : '/',
-        };
+        const headers = {};
+        if (b.service) headers['fiware-service'] = b.service;
+        if (b.servicePath) headers['fiware-servicepath'] = b.servicePath;
         return headers;
     }
 
@@ -52,9 +58,10 @@ router.post('/attrs', function (req, res, next) {
     }
 
     function getHeaders(b) {
-        const headers = {};
-        if (b.service) headers['fiware-service'] = b.service;
-        if (b.servicePath) headers['fiware-servicepath'] = b.servicePath;
+        const headers = {
+            'fiware-service': b.service ? b.service : '/',
+            'fiware-servicepath': b.servicePath ? b.servicePath : '/',
+        };
         return headers;
     }
 
