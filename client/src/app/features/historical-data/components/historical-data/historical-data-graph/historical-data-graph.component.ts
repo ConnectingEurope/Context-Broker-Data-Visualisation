@@ -57,15 +57,30 @@ export class HistoricalDataGraphComponent implements OnInit {
     @ViewChild('graphicCard', { static: false }) private graphicCard: GraphicCardComponent;
 
     constructor(private historicalDataService: HistoricalDataService) {
+        const d: Date = new Date();
+
+        // Hours management
+        this.hourDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+        const hourBefore: number = d.getHours() - 1;
+        this.hourDate.setHours(hourBefore >= 0 ? hourBefore : 23);
+
+        // Days management
+        this.dayDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+
+        // Months management
+        this.monthDate = new Date(d.getFullYear(), d.getMonth());
+
+        // Years management
         this.currentYear = new Date().getFullYear();
         this.yearDate = this.currentYear;
-        const yearsRange: number[] = [...Array(this.currentYear - this.firstYear).keys()].map(y => y + this.firstYear);
+        const yearsRange: number[] = [...Array(this.currentYear - this.firstYear + 1).keys()].map(y => y + this.firstYear);
         this.years = yearsRange.map(y => ({ label: String(y), value: y }));
     }
 
     public ngOnInit(): void {
         this.attrs = this.entityMetadata.attrs.map(a => ({ label: a, value: a }));
         this.currentAttr = this.attrs[0].value;
+        this.getHistoricalData();
     }
 
     protected onChange(): void {
@@ -85,7 +100,7 @@ export class HistoricalDataGraphComponent implements OnInit {
             this.getAggregatedData(AggregateMethod.MAX),
         ]).subscribe(
             ([sumValues, minValues, maxValues]) => {
-                this.showData(minValues, sumValues, maxValues);
+                this.showData(sumValues, minValues, maxValues);
                 this.graphicHasData = true;
             },
             err => {
@@ -112,16 +127,16 @@ export class HistoricalDataGraphComponent implements OnInit {
                 {
                     label: 'Average',
                     data: sumValues.map(p => Math.round(p.sum / p.samples)),
-                    backgroundColor: 'lightblue',
-                    borderColor: 'lightblue',
+                    backgroundColor: 'lightgreen',
+                    borderColor: 'lightgreen',
                     fill: false,
                 },
 
                 {
                     label: 'Minimum',
                     data: minValues.map(p => p.min),
-                    backgroundColor: 'lightgreen',
-                    borderColor: 'lightgreen',
+                    backgroundColor: 'lightblue',
+                    borderColor: 'lightblue',
                     fill: false,
                 },
 
@@ -139,6 +154,7 @@ export class HistoricalDataGraphComponent implements OnInit {
 
     private getDateFrom(): string {
         let d: Date;
+        console.log(this.dayDate);
         switch (this.currentPeriod) {
 
             case AggregatePeriod.MINUTE:
@@ -205,8 +221,9 @@ export class HistoricalDataGraphComponent implements OnInit {
 
             case AggregatePeriod.HOUR:
                 d = moment.utc(this.dayDate);
-                d.hours(offset);
-                return moment(d).local().format('HH');
+                const hourStart: string = moment(d.hours(offset)).local().format('HH');
+                const hourEnd: string = moment(d.hours((offset + 1) % 23)).local().format('HH');
+                return hourStart + ':00 - ' + hourEnd + ':00';
 
             case AggregatePeriod.DAY:
                 return String(offset);
