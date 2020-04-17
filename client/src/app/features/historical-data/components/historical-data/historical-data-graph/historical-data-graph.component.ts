@@ -60,7 +60,7 @@ export class HistoricalDataGraphComponent implements OnInit {
         this.currentYear = new Date().getFullYear();
         this.yearDate = this.currentYear;
         const yearsRange: number[] = [...Array(this.currentYear - this.firstYear).keys()].map(y => y + this.firstYear);
-        this.years = [];
+        this.years = yearsRange.map(y => ({ label: String(y), value: y }));
     }
 
     public ngOnInit(): void {
