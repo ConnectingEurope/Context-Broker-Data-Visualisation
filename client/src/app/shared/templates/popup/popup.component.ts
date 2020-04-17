@@ -39,16 +39,9 @@ export class PopupComponent {
     }
 
     protected onClickStats(): void {
-        const entityMetadata: EntityMetadata = {
-            id: this.entity.id,
-            type: this.modelDto.type,
-            attrs: Object.keys(this.entity),
-            cometUrl: this.modelDto.cometUrl,
-            service: this.modelDto.service,
-            servicePath: this.modelDto.servicePath,
-        };
-        this.entityMetadataService.setEntityMetadata(entityMetadata);
-        this.router.navigate(['/historical-data', this.modelDto.type, this.entity.id]);
+        this.entityMetadataService.setEntityMetadata(this.entity, this.modelDto).subscribe(() => {
+            this.router.navigate(['/historical-data', this.modelDto.type, this.entity.id]);
+        });
     }
 
     protected onClickDebug(): void {

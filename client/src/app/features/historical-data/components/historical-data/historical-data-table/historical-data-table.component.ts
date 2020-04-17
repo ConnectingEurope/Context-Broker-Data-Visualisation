@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { takeUntil } from 'rxjs/operators';
 import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
-import { RawParameters } from '../../../models/historical-data-form';
+import { RawParameters } from '../../../models/historical-data-objects';
 
 @Component({
     selector: 'app-historical-data-table',

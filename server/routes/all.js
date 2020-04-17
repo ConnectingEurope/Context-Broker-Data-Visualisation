@@ -90,6 +90,7 @@ function getHeaders(service) {
 function getModelDto(cb, s, entity, entityData) {
     return {
         type: entity.name,
+        contextUrl: cb.url,
         cometUrl: cb.comet,
         service: s ? s.service : '',
         servicePath: s ? s.servicePath : '',
