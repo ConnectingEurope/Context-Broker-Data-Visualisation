@@ -4,7 +4,7 @@ const request = require('request');
 const utils = require('./utils');
 const _ = require('lodash');
 
-router.post('/', function (req, res, next) {
+router.post('/raw', function (req, res, next) {
     const body = req.body;
 
     request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
@@ -13,34 +13,42 @@ router.post('/', function (req, res, next) {
         }
         else { res.status(500).send(e) };
     });
+});
 
-    /*request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
+router.post('/aggr', function (req, res, next) {
+    const body = req.body;
+
+    request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
         if (_.get(b, 'contextResponses[0].contextElement.attributes[0].values[0].points'))
             res.send(b.contextResponses[0].contextElement.attributes[0].values[0].points);
         else res.status(404).send(b);
-    });*/
-
-    function getUrl(b) {
-        return utils.parseUrl(b.cometUrl) + "/STH/v1/contextEntities/type/" + b.type + "/id/" + b.id + "/attributes/" + b.attr;
-    }
-
-    function getParams(b) {
-        return b.operationParameters;
-    }
-
-    function getHeaders(b) {
-        const headers = {};
-        if (b.service) headers['fiware-service'] = b.service;
-        if (b.servicePath) headers['fiware-servicepath'] = b.servicePath;
-        return headers;
-    }
-
+    });
 });
+
+function getUrl(b) {
+    return utils.parseUrl(b.cometUrl) + "/STH/v1/contextEntities/type/" + b.type + "/id/" + b.id + "/attributes/" + b.attr;
+}
+
+function getParams(b) {
+    return b.operationParameters;
+}
+
+function getHeaders(b) {
+    const headers = {
+        'fiware-service': b.service ? b.service : '/',
+        'fiware-servicepath': b.servicePath ? b.servicePath : '/',
+    };
+    return headers;
+}
 
 router.post('/attrs', function (req, res, next) {
     const body = req.body;
 
     request({ url: getUrl(body), headers: getHeaders(body), json: true }, (e, r, b) => {
+        console.log(r);
+        console.log(b);
+        console.log(getUrl(body));
+        console.log(getHeaders(body));
         if (b && b.length > 0) {
             const attrs = new Set();
             b.forEach(subscription => {
@@ -58,10 +66,9 @@ router.post('/attrs', function (req, res, next) {
     }
 
     function getHeaders(b) {
-        const headers = {
-            'fiware-service': b.service ? b.service : '/',
-            'fiware-servicepath': b.servicePath ? b.servicePath : '/',
-        };
+        const headers = {};
+        if (b.service) headers['fiware-service'] = b.service;
+        if (b.servicePath) headers['fiware-servicepath'] = b.servicePath;
         return headers;
     }
 

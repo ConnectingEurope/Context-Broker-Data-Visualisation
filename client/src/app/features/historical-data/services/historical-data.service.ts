@@ -15,12 +15,12 @@ export class HistoricalDataService {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
         body.operationParameters = opParams;
         opParams.count = true;
-        return this.getHistorical(body);
+        return this.http.post<any>('/server/historical-data/raw', body);
     }
     public getAggregate(entityMetadata: EntityMetadata, attr: string, opParams: AggregatedParameters): Observable<any> {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
         body.operationParameters = opParams;
-        return this.getHistorical(body);
+        return this.http.post<any>('/server/historical-data/aggr', body);
     }
 
     private getBaseQuery(entityMetadata: EntityMetadata, attribute: string): HistoricalQuery {
@@ -32,10 +32,6 @@ export class HistoricalDataService {
             id: entityMetadata.id,
             attr: attribute,
         };
-    }
-
-    private getHistorical(body: HistoricalQuery): Observable<any> {
-        return this.http.post<any>('/server/historical-data', body);
     }
 
 }
