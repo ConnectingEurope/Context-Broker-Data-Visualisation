@@ -45,10 +45,6 @@ router.post('/attrs', function (req, res, next) {
     const body = req.body;
 
     request({ url: getUrl(body), headers: getHeaders(body), json: true }, (e, r, b) => {
-        console.log(r);
-        console.log(b);
-        console.log(getUrl(body));
-        console.log(getHeaders(body));
         if (b && b.length > 0) {
             const attrs = new Set();
             b.forEach(subscription => {

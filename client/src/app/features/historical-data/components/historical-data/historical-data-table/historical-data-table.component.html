@@ -1,13 +1,15 @@
 <div class="ml-4 mt-4">
-    <p-table [value]="data">
+    <p-table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false" styleClass="ui-table-historical-data"
+        currentPageReportTemplate="{{ totalRecords ? ('Showing ' + (first + 1) + ' to ' + last + ' of ' + totalRecords): '' }}"
+        [totalRecords]="totalRecords" [lazy]="true" [showCurrentPageReport]="true" (onLazyLoad)="onLazyLoad($event)">
 
         <ng-template pTemplate="header">
             <tr>
                 <th>
                     Timestamp
                 </th>
-                <th *ngFor="let title of titles">
-                    {{title}}
+                <th *ngFor="let attr of entityMetadata.attrs">
+                    {{attr}}
                 </th>
             </tr>
         </ng-template>
@@ -17,15 +19,15 @@
                 <td>
                     {{row[time] | date:'medium'}}
                 </td>
-                <td *ngFor="let title of titles">
-                    {{row[title]?.attrValue}}
+                <td *ngFor="let attr of entityMetadata.attrs">
+                    {{row[attr]?.attrValue}}
                 </td>
             </tr>
         </ng-template>
 
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td [attr.colspan]="titles.length + 1" style="text-align:left">No data found.</td>
+                <td [attr.colspan]="entityMetadata.attrs.length + 1" style="text-align:left">No data found.</td>
             </tr>
         </ng-template>
 
