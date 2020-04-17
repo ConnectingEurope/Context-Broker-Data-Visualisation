@@ -1,8 +1,9 @@
 export interface EntityMetadata {
-    id: string;
-    type: string;
-    attrs: string[];
-    cometUrl: string;
-    service: string;
-    servicePath: string;
+    id?: string;
+    type?: string;
+    attrs?: string[];
+    contextUrl?: string;
+    cometUrl?: string;
+    service?: string;
+    servicePath?: string;
 }

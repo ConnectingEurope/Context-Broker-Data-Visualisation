@@ -1,5 +1,5 @@
 
-enum AggregateMethod {
+export enum AggregateMethod {
     MIN = 'min',
     MAX = 'max',
     SUM = 'sum',
@@ -7,7 +7,7 @@ enum AggregateMethod {
     OCCUR = 'occur',
 }
 
-enum AggregatePeriod {
+export enum AggregatePeriod {
     SECOND = 'second',
     MINUTE = 'minute',
     HOUR = 'hour',
@@ -32,7 +32,7 @@ export interface AggregatedParameters {
     dateTo?: string;
 }
 
-type OperationParameters = RawParameters | AggregatedParameters;
+export type OperationParameters = RawParameters | AggregatedParameters;
 
 export interface HistoricalQuery {
     cometUrl?: string;
