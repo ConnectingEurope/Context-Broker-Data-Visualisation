@@ -8,7 +8,7 @@
                 <th>
                     Timestamp
                 </th>
-                <th *ngFor="let attr of entityMetadata.attrs">
+                <th *ngFor="let attr of titles">
                     {{attr}}
                 </th>
             </tr>
@@ -19,7 +19,7 @@
                 <td>
                     {{row[time] | date:'medium'}}
                 </td>
-                <td *ngFor="let attr of entityMetadata.attrs">
+                <td *ngFor="let attr of titles">
                     {{row[attr]?.attrValue}}
                 </td>
             </tr>
@@ -27,7 +27,7 @@
 
         <ng-template pTemplate="emptymessage">
             <tr>
-                <td [attr.colspan]="entityMetadata.attrs.length + 1" style="text-align:left">No data found.</td>
+                <td [attr.colspan]="titles.length + 1" style="text-align:left">No data found.</td>
             </tr>
         </ng-template>
 

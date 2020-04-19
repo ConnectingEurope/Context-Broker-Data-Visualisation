@@ -16,7 +16,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     @Input()
     protected entityMetadata: EntityMetadata;
-
+    protected titles: string[] = [];
     protected totalRecords: number;
     protected first: number = 0;
     protected last: number = 0;
@@ -26,6 +26,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     private hLimit: number = 10;
     private time: string = 'time';
     private rawParameters: RawParameters;
+    private totalCount: string = 'fiware-total-count';
 
     constructor(
         private historicalDataService: HistoricalDataService,
@@ -39,9 +40,6 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
             hOffset: this.first,
             count: true,
         };
-        if (this.entityMetadata && this.entityMetadata.attrs) {
-            this.getAllContent();
-        }
     }
 
     protected onLazyLoad(event: LazyLoadEvent): void {
@@ -50,10 +48,13 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         this.last = total > this.totalRecords ? this.totalRecords : total;
         this.data = [];
         this.changeRawParameter();
-        this.getAllContent();
+        if (this.entityMetadata && this.entityMetadata.attrs) {
+            this.getAllContent();
+        }
     }
 
     protected getAllContent(): void {
+        this.titles = [];
         this.entityMetadata.attrs.forEach((column) => {
             this.getContent(this.entityMetadata, column);
         });
@@ -71,17 +72,19 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         this.content[column] = [];
         this.historicalDataService.getRaw(entityMetadata, column, this.rawParameters).pipe(takeUntil(this.destroy$)).subscribe(
             (res: any) => {
-                this.content[column] = res.body.contextResponses[0].contextElement.attributes[0];
-                const totalCount: string = 'fiware-total-count';
-                this.totalRecords = res.headers[totalCount];
-                this.content[column].values.forEach((element, index) => {
-                    if (!this.data[index]) {
-                        this.data[index] = {};
-                        // RESET DATE
-                        this.data[index][this.time] = element.recvTime;
-                    }
-                    this.data[index][column] = element;
-                });
+                if (res.headers[this.totalCount] > 0) {
+                    this.totalRecords = res.headers[this.totalCount];
+                    if (!this.titles.includes(column)) { this.titles.push(column); }
+                    this.content[column] = res.body.contextResponses[0].contextElement.attributes[0];
+                    this.content[column].values.forEach((element, index) => {
+                        if (!this.data[index]) {
+                            this.data[index] = {};
+                            // RESET DATE
+                            this.data[index][this.time] = element.recvTime;
+                        }
+                        this.data[index][column] = element;
+                    });
+                }
             },
             err => {
                 console.log(err);
