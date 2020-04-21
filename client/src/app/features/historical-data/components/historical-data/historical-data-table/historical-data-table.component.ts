@@ -16,6 +16,8 @@ import { Observable, combineLatest } from 'rxjs';
 export class HistoricalDataTableComponent extends BaseComponent implements OnInit {
 
     @Input() public entityMetadata: EntityMetadata;
+    protected dateFrom: Date;
+    protected dateTo: Date;
     protected titles: string[] = [];
     protected totalRecords: number;
     protected first: number = 0;
@@ -44,8 +46,12 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     }
 
     protected onLazyLoad(event: LazyLoadEvent): void {
-        const total: number = event.first + event.rows;
-        this.first = event.first;
+        this.prepareParameters(event.first, event.rows);
+    }
+
+    protected prepareParameters(first: number, rows: number): void {
+        const total: number = first + rows;
+        this.first = first;
         this.last = total > this.totalRecords ? this.totalRecords : total;
         this.data = [];
         this.changeRawParameter();
@@ -72,8 +78,22 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         this.rawParameters = {
             hLimit: this.hLimit,
             hOffset: this.first,
+            dateFrom: this.dateFrom !== null ? this.dateFrom : undefined,
+            dateTo: this.dateTo !== null ? this.dateTo : undefined,
             count: true,
         };
+    }
+
+    protected onDateChange(): void {
+        if (this.dateFrom) {
+            this.dateFrom.setSeconds(0);
+            this.dateFrom.setMilliseconds(0);
+        }
+        if (this.dateTo) {
+            this.dateTo.setSeconds(0);
+            this.dateTo.setMilliseconds(0);
+        }
+        this.prepareParameters(0, this.hLimit);
     }
 
     private processContent(res: any, column: string): void {

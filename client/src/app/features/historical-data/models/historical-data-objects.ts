@@ -19,8 +19,8 @@ export interface RawParameters {
     lastN?: number;
     hLimit?: number;
     hOffset?: number;
-    dateFrom?: string;
-    dateTo?: string;
+    dateFrom?: Date;
+    dateTo?: Date;
     fileType?: string;
     count?: boolean;
 }

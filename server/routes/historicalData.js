@@ -13,6 +13,7 @@ router.post('/raw', function (req, res, next) {
 async function getRawData(res, body) {
     try {
         const historicalCount = await getHistoricalCount(body);
+        console.log(historicalCount);
         transformParametersForDescendentOrder(body, historicalCount);
         const data = await getHistoricalData(body);
         res.send(data);
@@ -35,11 +36,16 @@ function transformParametersForDescendentOrder(body, historicalCount) {
 
 function getHistoricalCount(body) {
     return new Promise((resolve, reject) => {
-        request({ url: getUrl(body), qs: { count: true, lastN: 1 }, headers: getHeaders(body), json: true }, (e, r, b) => {
+        request({ url: getUrl(body), qs: getHistoricalCountParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
             if (e) { reject(e); }
             resolve(r.headers['fiware-total-count']);
         });
     });
+}
+
+function getHistoricalCountParams(body) {
+    body.operationParameters.count = true;
+    return body.operationParameters;
 }
 
 function getHistoricalData(body) {
