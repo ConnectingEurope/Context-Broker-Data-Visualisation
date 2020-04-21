@@ -4,17 +4,22 @@ import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
 import { AccordionModule } from 'primeng/accordion';
+import { AccordionTabHeaderComponent } from './templates/accordion-tab-header/accordion-tab-header.component';
 
 @NgModule({
-    declarations: [],
+    declarations: [
+        AccordionTabHeaderComponent,
+    ],
     imports: [
         CommonModule,
+        ButtonModule,
     ],
     exports: [
         PanelModule,
         ButtonModule,
         TableModule,
         AccordionModule,
+        AccordionTabHeaderComponent,
     ],
 })
 export class SharedModule {

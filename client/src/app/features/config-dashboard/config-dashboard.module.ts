@@ -15,24 +15,17 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageModule } from 'primeng/message';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { MessageService, ConfirmationService } from 'primeng/api';
 import { GeneralConfigurationComponent } from './components/general-configuration/general-configuration.component';
 import { ServiceConfigurationComponent } from './components/service-configuration/service-configuration.component';
-import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
 import { HistoricalConfigurationComponent } from './components/historical-configuration/historical-configuration.component';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
+import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
-    declarations: [
-        ConfigDashboardComponent,
-        GeneralConfigurationComponent,
-        ServiceConfigurationComponent,
-        HistoricalConfigurationComponent,
-        AccordionTabHeaderComponent,
-        InputWithValidationComponent,
-    ],
     imports: [
         CommonModule,
+        SharedModule,
         FormsModule,
         ConfigDashboardRoutingModule,
         AccordionModule,
@@ -47,6 +40,13 @@ import { InputWithValidationComponent } from 'src/app/shared/templates/input-wit
         ScrollPanelModule,
         TooltipModule,
         MessageModule,
+    ],
+    declarations: [
+        ConfigDashboardComponent,
+        GeneralConfigurationComponent,
+        ServiceConfigurationComponent,
+        HistoricalConfigurationComponent,
+        InputWithValidationComponent,
     ],
     providers: [],
 })

@@ -137,7 +137,6 @@ export class HistoricalDataGraphComponent implements OnInit {
 
     private showDataForNumber(sumValues: any[], minValues: any[], maxValues: any[]): void {
         const avgHasDecimals: boolean = this.hasAvgDecimals(minValues, maxValues);
-        console.log(minValues);
         this.graphicCardForNumber.chart.data = {
             labels: sumValues.map(p => {
                 return this.dateUtilsService.getDateFormat(p.offset, this);
