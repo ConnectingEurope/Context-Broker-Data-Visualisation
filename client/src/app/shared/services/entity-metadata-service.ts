@@ -30,6 +30,7 @@ export class EntityMetadataService {
         this.entityMetadata = {
             id: entity.id,
             type: modelDto.type,
+            data: entity,
             contextUrl: modelDto.contextUrl,
             cometUrl: modelDto.cometUrl,
             service: modelDto.service,

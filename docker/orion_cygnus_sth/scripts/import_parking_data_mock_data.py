@@ -4,7 +4,7 @@ import time
 import random
 
 PARKING_DATA_URL = 'https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json'
-SECONDS_TO_SLEEP = 6
+SECONDS_TO_SLEEP = 20
 CONTEXT_BROKER_URL = 'http://localhost:1026/v2/entities'
 parking_headers = {'Content-Type': 'application/json',
                    'fiware-service': 'parking'}
@@ -15,6 +15,8 @@ NOTIFY_SUBS_URL = 'http://cygnus:5051/notify'
 '''
     Initial import of the parkings data, creating the entities in the local CB.
 '''
+
+
 def import_parkings_data():
     parkings_data = requests.get(PARKING_DATA_URL)
     if parkings_data:
@@ -23,7 +25,7 @@ def import_parkings_data():
                 CONTEXT_BROKER_URL,
                 data=json.dumps(parking),
                 headers=parking_headers)
-            print ('Creation of entity, response_code: ' + str(r.status_code))
+            print('Creation of entity, response_code: ' + str(r.status_code))
 
             # Create the subscription for the current entity and its attributes
             if CREATE_SUBSCRIPTIONS and r.status_code == 201:
@@ -56,9 +58,12 @@ def import_parkings_data():
                 )
                 print('Subscription response code: ' + str(subs.status_code))
 
+
 '''
     Update of the already existent entities with mock values.
 '''
+
+
 def update_parkings_data():
     parkings_data = requests.get(PARKING_DATA_URL)
     if parkings_data:
