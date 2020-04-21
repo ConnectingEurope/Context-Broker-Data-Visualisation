@@ -1,10 +1,21 @@
-<div class="container-fluid mt-3">
+<div class="container-fluid">
     <div class="row justify-content-center">
-        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
-            <app-historical-data-table [entityMetadata]="entityMetadata"></app-historical-data-table>
-        </div> -->
-        <div class="col-12 col-sm-12 col-md-12 col-lg-10 col-xl-8">
-            <app-historical-data-graph [entityMetadata]="entityMetadata"></app-historical-data-graph>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-11 my-5">
+            <div>
+                <p-accordion>
+                    <p-accordionTab header="Raw Data" [selected]="true">
+                        <div class="mx-4 my-4">
+                            <app-historical-data-table [entityMetadata]=" entityMetadata">
+                            </app-historical-data-table>
+                        </div>
+                    </p-accordionTab>
+                    <p-accordionTab header="Aggregated Data">
+                        <div class="mx-4 my-4">
+                            <app-historical-data-graph [entityMetadata]="entityMetadata"></app-historical-data-graph>
+                        </div>
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
         </div>
     </div>
 </div>

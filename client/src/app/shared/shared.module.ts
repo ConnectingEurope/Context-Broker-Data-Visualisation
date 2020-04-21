@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { PanelModule } from 'primeng/panel';
 import { TableModule } from 'primeng/table';
+import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
     declarations: [],
@@ -13,6 +14,7 @@ import { TableModule } from 'primeng/table';
         PanelModule,
         ButtonModule,
         TableModule,
+        AccordionModule,
     ],
 })
 export class SharedModule {

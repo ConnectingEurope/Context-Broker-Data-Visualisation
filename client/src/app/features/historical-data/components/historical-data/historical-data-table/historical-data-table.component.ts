@@ -1,6 +1,6 @@
 import { EntityMetadataService } from './../../../../../shared/services/entity-metadata-service';
 import { HistoricalDataService } from './../../../services/historical-data.service';
-import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { takeUntil, count } from 'rxjs/operators';
 import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
@@ -15,8 +15,7 @@ import { Observable, combineLatest } from 'rxjs';
 })
 export class HistoricalDataTableComponent extends BaseComponent implements OnInit {
 
-    @Input()
-    protected entityMetadata: EntityMetadata;
+    @Input() public entityMetadata: EntityMetadata;
     protected titles: string[] = [];
     protected totalRecords: number;
     protected first: number = 0;
@@ -24,6 +23,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     protected content: any = {};
     protected data: any[] = [];
     protected pageReport: string = '';
+    protected loading: boolean;
     private hLimit: number = 10;
     private time: string = 'time';
     private rawParameters: RawParameters;
@@ -56,11 +56,15 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     protected getAllContent(): void {
         this.titles = [];
+        this.loading = true;
         const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
             return this.historicalDataService.getRaw(this.entityMetadata, column, this.rawParameters);
         });
-        combineLatest(combinedCalls).subscribe(combinedResults => {
-            combinedResults.forEach((res, i) => this.processContent(res, this.entityMetadata.attrs[i]));
+        combineLatest(combinedCalls).subscribe({
+            next: (combinedResults): void => {
+                combinedResults.forEach((res, i) => this.processContent(res, this.entityMetadata.attrs[i]));
+            },
+            complete: (): void => { this.loading = false; },
         });
     }
 

@@ -22,7 +22,7 @@
                             <!-- AccordionTab header -->
                             <p-header>
                                 <app-accordion-tab-header [header]="service.header" [selected]="accordionTab.selected"
-                                    (remove)="onRemoveService(i)">
+                                    [removable]="true" (remove)="onRemoveService(i)">
                                 </app-accordion-tab-header>
                             </p-header>
 

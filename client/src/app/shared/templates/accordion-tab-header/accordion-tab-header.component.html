@@ -14,13 +14,15 @@
         </div>
 
         <!-- Remove button -->
-        <div col="col-auto">
-            <p-button *ngIf="!selected" class="accordion-tab-remove-button" icon="pi pi-trash"
-                (onClick)="onRemove($event)">
-            </p-button>
-            <p-button *ngIf="selected" class="accordion-tab-remove-button accordion-tab-remove-button-selected"
-                icon="pi pi-trash" (onClick)="onRemove($event)">
-            </p-button>
+        <div ngIf="removable">
+            <div col="col-auto">
+                <p-button *ngIf="!selected" class="accordion-tab-remove-button" icon="pi pi-trash"
+                    (onClick)="onRemove($event)">
+                </p-button>
+                <p-button *ngIf="selected" class="accordion-tab-remove-button accordion-tab-remove-button-selected"
+                    icon="pi pi-trash" (onClick)="onRemove($event)">
+                </p-button>
+            </div>
         </div>
 
     </div>

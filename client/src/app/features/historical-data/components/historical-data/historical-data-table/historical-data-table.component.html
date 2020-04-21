@@ -1,8 +1,7 @@
-<div class="ml-4 mt-4">
+<div [style.display]="data.length > 0 || !loading ? 'block' : 'none'">
     <p-table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false" styleClass="ui-table-historical-data"
         currentPageReportTemplate="{{ totalRecords ? ('Showing ' + (first + 1) + ' to ' + last + ' of ' + totalRecords): '' }}"
         [totalRecords]="totalRecords" [lazy]="true" [showCurrentPageReport]="true" (onLazyLoad)="onLazyLoad($event)">
-
         <ng-template pTemplate="header">
             <tr>
                 <th>
@@ -17,7 +16,7 @@
         <ng-template pTemplate="body" let-row>
             <tr>
                 <td>
-                    {{row[time] | date:'medium'}}
+                    {{row[time] | date:'dd/LL/yy - HH:mm:ss'}}
                 </td>
                 <td *ngFor="let attr of titles">
                     {{row[attr]?.attrValue}}
@@ -30,6 +29,5 @@
                 <td [attr.colspan]="titles.length + 1" style="text-align:left">No data found.</td>
             </tr>
         </ng-template>
-
     </p-table>
 </div>
