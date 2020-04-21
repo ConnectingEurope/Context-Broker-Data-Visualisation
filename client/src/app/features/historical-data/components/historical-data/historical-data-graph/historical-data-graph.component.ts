@@ -136,6 +136,8 @@ export class HistoricalDataGraphComponent implements OnInit {
     }
 
     private showDataForNumber(sumValues: any[], minValues: any[], maxValues: any[]): void {
+        const avgHasDecimals: boolean = this.hasAvgDecimals(minValues, maxValues);
+        console.log(minValues);
         this.graphicCardForNumber.chart.data = {
             labels: sumValues.map(p => {
                 return this.dateUtilsService.getDateFormat(p.offset, this);
@@ -143,10 +145,11 @@ export class HistoricalDataGraphComponent implements OnInit {
             datasets: [
                 {
                     label: 'Average',
-                    data: sumValues.map(p => (p.sum / p.samples).toFixed(2)),
+                    data: sumValues.map(p => avgHasDecimals ? (p.sum / p.samples).toFixed(2) : Math.round(p.sum / p.samples)),
                     backgroundColor: 'lightgreen',
                     borderColor: 'lightgreen',
                     fill: false,
+                    lineTension: 0,
                 },
 
                 {
@@ -155,6 +158,7 @@ export class HistoricalDataGraphComponent implements OnInit {
                     backgroundColor: 'lightblue',
                     borderColor: 'lightblue',
                     fill: false,
+                    lineTension: 0,
                 },
 
                 {
@@ -163,10 +167,19 @@ export class HistoricalDataGraphComponent implements OnInit {
                     backgroundColor: 'purple',
                     borderColor: 'purple',
                     fill: false,
+                    lineTension: 0,
                 },
             ],
         };
         this.graphicCardForNumber.chart.update();
+    }
+
+    private hasAvgDecimals(minValues: any[], maxValues: any[]): boolean {
+        return minValues.some(p => this.hasNumberDecimals(p.min)) || maxValues.some(p => this.hasNumberDecimals(p.max));
+    }
+
+    private hasNumberDecimals(value: any): boolean {
+        return value.toString().indexOf('.') !== -1 || value.toString().indexOf(',') !== -1 || value.toString().indexOf('\'') !== -1;
     }
 
     private showDataForString(occurValues: any[]): void {

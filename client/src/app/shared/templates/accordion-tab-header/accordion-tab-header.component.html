@@ -14,7 +14,7 @@
         </div>
 
         <!-- Remove button -->
-        <div ngIf="removable">
+        <div *ngIf="removable">
             <div col="col-auto">
                 <p-button *ngIf="!selected" class="accordion-tab-remove-button" icon="pi pi-trash"
                     (onClick)="onRemove($event)">

@@ -81,6 +81,8 @@ def update_environment_data():
             env_id = env.get('id')
             env_copy['dataProvider'] = {
                 'type': 'Text', 'value': get_random_provider(), 'metadata': {}}
+            env_copy['NO'] = {
+                'type': 'Number', 'value': 0.4, 'metadata': {}}
             update_url = CONTEXT_BROKER_URL + '/' + env_id + '/attrs'
             r = requests.put(
                 update_url,

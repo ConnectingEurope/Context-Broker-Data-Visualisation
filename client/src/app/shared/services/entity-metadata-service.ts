@@ -37,7 +37,7 @@ export class EntityMetadataService {
             servicePath: modelDto.servicePath,
         };
         return this.getHistoricalAttrs().pipe(map(attrs => {
-            this.entityMetadata.attrs = attrs;
+            this.entityMetadata.attrs = attrs.filter(a => Object.keys(entity).indexOf(a) >= 0);
             localStorage.setItem('entityMetadata', JSON.stringify(this.entityMetadata));
             return;
         }));
