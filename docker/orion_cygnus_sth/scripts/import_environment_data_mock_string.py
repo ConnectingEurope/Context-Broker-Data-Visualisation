@@ -1,11 +1,12 @@
 import json
 import requests
 import time
+import random
 
 DATA_URL = 'https://streams.lab.fiware.org/v2/entities?type=AirQualityObserved'
 DATA_HEADERS = {'fiware-service': 'environment',
                 'fiware-servicepath': '/Madrid'}
-SECONDS_TO_SLEEP = 3600
+SECONDS_TO_SLEEP = 6
 CONTEXT_BROKER_URL = 'http://localhost:1026/v2/entities'
 ENVIRONMENT_HEADERS = {
     'Content-Type': 'application/json', 'fiware-service': 'environment'}
@@ -14,7 +15,8 @@ CREATE_SUBSCRIPTIONS = True
 NOTIFY_SUBS_URL = 'http://cygnus:5051/notify'
 HISTORICAL_ATTRS = [
     'NO', 'NO2', 'NOx', 'O3', 'BEN', 'CH4', 'EBE',
-    'NHMC', 'PM10', 'TCH', 'TOL', 'PM2.5', 'SO2', 'CO']
+    'NHMC', 'PM10', 'TCH', 'TOL', 'PM2.5', 'SO2', 'CO', 'dataProvider']
+PROVIDERS = ['TEF', 'TYP', 'CPA', 'AJV']
 
 '''
     Initial import of the environment data, creating the entities in the local CB.
@@ -25,6 +27,8 @@ def import_environment_data():
     environment_data = requests.get(DATA_URL, headers=DATA_HEADERS)
     if environment_data:
         for env in environment_data.json():
+            env['dataProvider'] = {
+                'type': 'Text', 'value': get_random_provider(), 'metadata': {}}
             r = requests.post(
                 CONTEXT_BROKER_URL,
                 data=json.dumps(env),
@@ -75,6 +79,8 @@ def update_environment_data():
             del env_copy['id']
             del env_copy['type']
             env_id = env.get('id')
+            env_copy['dataProvider'] = {
+                'type': 'Text', 'value': get_random_provider(), 'metadata': {}}
             update_url = CONTEXT_BROKER_URL + '/' + env_id + '/attrs'
             r = requests.put(
                 update_url,
@@ -82,6 +88,10 @@ def update_environment_data():
                 headers=ENVIRONMENT_HEADERS
             )
             print(r)
+
+
+def get_random_provider():
+    return PROVIDERS[random.randint(0, len(PROVIDERS) - 1)]
 
 
 if __name__ == '__main__':

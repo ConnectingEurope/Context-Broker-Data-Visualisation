@@ -143,7 +143,7 @@ export class HistoricalDataGraphComponent implements OnInit {
             datasets: [
                 {
                     label: 'Average',
-                    data: sumValues.map(p => Math.round(p.sum / p.samples)),
+                    data: sumValues.map(p => (p.sum / p.samples).toFixed(2)),
                     backgroundColor: 'lightgreen',
                     borderColor: 'lightgreen',
                     fill: false,
