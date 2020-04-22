@@ -28,6 +28,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     protected data: any[] = [];
     protected pageReport: string = '';
     protected loading: boolean;
+    protected performSearch: boolean;
     private hLimit: number = 10;
     private time: string = 'time';
     private rawParameters: RawParameters;
@@ -58,11 +59,11 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         this.data = [];
         this.changeRawParameter();
         if (this.entityMetadata && this.entityMetadata.attrs) {
-            this.getAllContent();
+            this.getAllContent(total);
         }
     }
 
-    protected getAllContent(): void {
+    protected getAllContent(total?: number): void {
         this.titles = [];
         this.loading = true;
         const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
@@ -72,7 +73,10 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
             next: (combinedResults): void => {
                 combinedResults.forEach((res, i) => this.processContent(res, this.entityMetadata.attrs[i]));
             },
-            complete: (): void => { this.loading = false; },
+            complete: (): void => {
+                this.last = total > this.totalRecords ? this.totalRecords : total;
+                this.loading = false;
+            },
         });
     }
 
@@ -86,22 +90,30 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         };
     }
 
+    protected setPerformSearch(): void {
+        this.performSearch = true;
+    }
+
     protected onDateChange(): void {
-        if (this.dateFrom) {
-            this.dateFrom.setSeconds(0);
-            this.dateFrom.setMilliseconds(0);
+        if (this.performSearch) {
+            if (this.dateFrom) {
+                this.dateFrom.setSeconds(0);
+                this.dateFrom.setMilliseconds(0);
+            }
+            if (this.dateTo) {
+                this.dateTo.setSeconds(0);
+                this.dateTo.setMilliseconds(0);
+            }
+            this.resetTable();
+            this.prepareParameters(0, this.hLimit);
         }
-        if (this.dateTo) {
-            this.dateTo.setSeconds(0);
-            this.dateTo.setMilliseconds(0);
-        }
-        this.resetTable();
-        this.prepareParameters(0, this.hLimit);
+        this.performSearch = false;
     }
 
     protected clearDates(): void {
         this.dateFrom = undefined;
         this.dateTo = undefined;
+        this.performSearch = true;
         this.onDateChange();
     }
 

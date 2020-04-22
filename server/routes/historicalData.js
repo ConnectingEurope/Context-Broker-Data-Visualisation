@@ -13,7 +13,6 @@ router.post('/raw', function (req, res, next) {
 async function getRawData(res, body) {
     try {
         const historicalCount = await getHistoricalCount(body);
-        console.log(historicalCount);
         transformParametersForDescendentOrder(body, historicalCount);
         const data = await getHistoricalData(body);
         res.send(data);
