@@ -4,8 +4,6 @@ const request = require('request');
 const utils = require('./utils');
 const _ = require('lodash');
 
-const maxPageSize = 100;
-
 router.post('/raw', function (req, res, next) {
     const body = req.body;
 
@@ -15,7 +13,6 @@ router.post('/raw', function (req, res, next) {
 async function getRawData(res, body) {
     try {
         const historicalCount = await getHistoricalCount(body);
-        console.log(historicalCount);
         transformParametersForDescendentOrder(body, historicalCount);
         const data = await getHistoricalData(body);
         res.send(data);
