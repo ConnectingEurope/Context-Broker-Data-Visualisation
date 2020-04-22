@@ -5,14 +5,14 @@
             <div class="col-auto">
                 <h6>From</h6>
                 <p-calendar [(ngModel)]="dateFrom" placeholder="DD/MM/YYYY HH:MM" [showTime]="true"
-                    dateFormat="dd/mm/yy" [maxDate]="dateTo" [showButtonBar]="true" (onClose)="onDateChange()">
+                    dateFormat="dd/mm/yy" [maxDate]="dateTo" (onClose)="onDateChange()">
                 </p-calendar>
             </div>
 
             <div class="col-auto">
                 <h6>To</h6>
                 <p-calendar [(ngModel)]="dateTo" placeholder="DD/MM/YYYY HH:MM" [showTime]="true" dateFormat="dd/mm/yy"
-                    [minDate]="dateFrom" [showButtonBar]="true" (onClose)="onDateChange()">
+                    [minDate]="dateFrom" (onClose)="onDateChange()">
                 </p-calendar>
             </div>
 
