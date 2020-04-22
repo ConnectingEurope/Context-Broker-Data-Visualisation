@@ -36,7 +36,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     protected categories: CategoryDto[];
     protected entities: CategoryEntityDto[] = [];
     protected controlName: string = 'data';
-    protected popupName: string = 'popup';
+    protected popupName: string = 'popupRef';
     protected menuItems: MenuItem[];
     protected layers: TreeNode[];
     protected selectedLayers: TreeNode[];
@@ -248,7 +248,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             this.loaderService.active = false;
             this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
-        }, 10000000000000000);
+        }, 10000);
     }
 
     private onLoadEntitiesEmpty(): void {
@@ -305,7 +305,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         });
 
         marker[this.controlName] = entity;
-        marker[this.popupName] = popupComponentRef;
+        marker[this.popupName] = popupComponentRef.instance;
         this.layerGroups[model.type].addLayer(marker);
 
         if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
@@ -330,7 +330,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
             existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
         }
-        existentMarker[this.popupName].updatePopup(entity, model.cometUrl);
+        existentMarker[this.popupName].updatePopup(entity, model);
         existentMarker[this.controlName] = entity;
 
         const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);

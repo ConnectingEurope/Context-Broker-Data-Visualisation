@@ -11,6 +11,7 @@ import { GraphicCardComponent } from 'src/app/shared/templates/graphic-card/grap
 import { CardModule } from 'primeng/card/';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
+import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
 
 
 @NgModule({

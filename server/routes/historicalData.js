@@ -7,13 +7,59 @@ const _ = require('lodash');
 router.post('/raw', function (req, res, next) {
     const body = req.body;
 
-    request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
-        if (b && b.contextResponses) {
-            res.send(r);
-        }
-        else { res.status(500).send(e) };
-    });
+    getRawData(res, body);
 });
+
+async function getRawData(res, body) {
+    try {
+        const historicalCount = await getHistoricalCount(body);
+        console.log(historicalCount);
+        transformParametersForDescendentOrder(body, historicalCount);
+        const data = await getHistoricalData(body);
+        res.send(data);
+    } catch (error) {
+        res.send();
+    }
+}
+
+function transformParametersForDescendentOrder(body, historicalCount) {
+    const hLimit = _.get(body, 'operationParameters.hLimit');
+    const hOffset = _.get(body, 'operationParameters.hOffset');
+    if (hLimit !== undefined && hOffset !== undefined) {
+        body.operationParameters.hOffset = historicalCount - hLimit - hOffset;
+        if (body.operationParameters.hOffset < 0) {
+            body.operationParameters.hLimit = hLimit + body.operationParameters.hOffset;
+            body.operationParameters.hOffset = 0;
+        }
+    }
+}
+
+function getHistoricalCount(body) {
+    return new Promise((resolve, reject) => {
+        request({ url: getUrl(body), qs: getHistoricalCountParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
+            if (e) { reject(e); }
+            resolve(r.headers['fiware-total-count']);
+        });
+    });
+}
+
+function getHistoricalCountParams(body) {
+    body.operationParameters.count = true;
+    return body.operationParameters;
+}
+
+function getHistoricalData(body) {
+    return new Promise((resolve, reject) => {
+        request({ url: getUrl(body), qs: getParams(body), headers: getHeaders(body), json: true }, (e, r, b) => {
+            const dataValues = _.get(b, 'contextResponses[0].contextElement.attributes[0].values[0]');
+            if (e || !dataValues) { reject(e); }
+            else {
+                r.body.contextResponses[0].contextElement.attributes[0].values.reverse();
+                resolve(r);
+            }
+        });
+    });
+}
 
 router.post('/aggr', function (req, res, next) {
     const body = req.body;
@@ -45,10 +91,6 @@ router.post('/attrs', function (req, res, next) {
     const body = req.body;
 
     request({ url: getUrl(body), headers: getHeaders(body), json: true }, (e, r, b) => {
-        console.log(r);
-        console.log(b);
-        console.log(getUrl(body));
-        console.log(getHeaders(body));
         if (b && b.length > 0) {
             const attrs = new Set();
             b.forEach(subscription => {

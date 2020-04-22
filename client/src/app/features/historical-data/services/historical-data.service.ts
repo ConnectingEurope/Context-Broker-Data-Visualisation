@@ -14,7 +14,6 @@ export class HistoricalDataService {
     public getRaw(entityMetadata: EntityMetadata, attr: string, opParams: RawParameters): Observable<any> {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
         body.operationParameters = opParams;
-        opParams.count = true;
         return this.http.post<any>('/server/historical-data/raw', body);
     }
     public getAggregate(entityMetadata: EntityMetadata, attr: string, opParams: AggregatedParameters): Observable<any> {

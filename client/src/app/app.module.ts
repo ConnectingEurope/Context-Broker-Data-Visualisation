@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { PopupComponent } from './shared/templates/popup/popup.component';
+import { AccordionTabHeaderComponent } from './shared/templates/accordion-tab-header/accordion-tab-header.component';
 
 @NgModule({
     declarations: [
