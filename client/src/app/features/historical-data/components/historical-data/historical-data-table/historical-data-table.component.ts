@@ -8,6 +8,7 @@ import { RawParameters } from '../../../models/historical-data-objects';
 import { LazyLoadEvent } from 'primeng/api/public_api';
 import { Observable, combineLatest } from 'rxjs';
 import { saveAs } from 'file-saver';
+import { LoaderService } from 'src/app/shared/services/loader-service';
 
 @Component({
     selector: 'app-historical-data-table',
@@ -18,10 +19,12 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     @Input() public entityMetadata: EntityMetadata;
 
+    protected displayModal: boolean;
+    protected progressBarValue: number = 0;
     protected titlesCsv: string[] = [];
     protected contentCsv: any = {};
     protected dataCsv: any[] = [];
-
+    protected totalCsv: number = 0;
     protected dateFrom: Date;
     protected dateTo: Date;
     protected titles: string[] = [];
@@ -39,6 +42,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     constructor(
         private historicalDataService: HistoricalDataService,
+        private loaderService: LoaderService,
     ) {
         super();
     }
@@ -102,11 +106,19 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         this.prepareParameters(0, this.hLimit);
     }
 
-    protected exportToCsv(offset: number): void {
-        console.log(offset);
+    protected onExportToCsv(): void {
+        this.loaderService.active = false;
+        this.displayModal = true;
         this.titlesCsv = [];
         this.contentCsv = {};
         this.dataCsv = [];
+        this.totalCsv = 0;
+        this.progressBarValue = 0;
+        this.exportToCsv(0);
+    }
+
+    protected exportToCsv(offset: number): void {
+
         const rawParameters: RawParameters = {
             hLimit: 100,
             hOffset: offset,
@@ -120,16 +132,26 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         combineLatest(combinedCalls).subscribe({
             next: (combinedResults): void => {
                 combinedResults.forEach((res, i) => this.processContent2(res, this.entityMetadata.attrs[i], offset));
-                if (combinedResults.length > 0 && combinedResults[0].headers[this.totalCount] > offset + 100) {
+                if (this.totalCsv === 0) {
+                    if (combinedResults.length > 0 && combinedResults[0].headers[this.totalCount]) {
+                        this.totalCsv = combinedResults[0].headers[this.totalCount];
+                    }
+                }
+                if (this.totalCsv > offset + 100) {
+                    this.progressBarValue = Math.round((offset / this.totalCsv) * 100);
                     this.exportToCsv(offset + 100);
                 } else {
                     this.titlesCsv.unshift('Timestamp');
                     let csv: string = this.titlesCsv.join(',') + '\n';
                     this.dataCsv.forEach(r => {
-                        csv += Object.values(r).map((v: any, i: number) => i !== 0 ? v.attrValue : v).join(',') + '\n';
+                        csv += Object.values(r).map((v: any, i: number) => {
+                            return i === 0 ? v : (v.attrValue ? v.attrValue : '-');
+                        }).join(',') + '\n';
                     });
                     const blob: Blob = new Blob([csv], { type: 'text/plain;charset=utf-8' });
-                    saveAs(blob, 'data.csv');
+                    saveAs(blob, 'historical_data_' + this.entityMetadata.id + '.csv');
+                    this.displayModal = false;
+                    this.loaderService.active = true;
                 }
             },
         });

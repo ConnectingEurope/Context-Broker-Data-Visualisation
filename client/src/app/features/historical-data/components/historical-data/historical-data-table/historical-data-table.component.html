@@ -1,3 +1,9 @@
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false"
+    [resizable]="false" [closable]="false" [showHeader]="false">
+    <p class="text-center advertisement mb-2"><b>Exporting to CSV</b></p>
+    <p-progressBar [value]="progressBarValue"></p-progressBar>
+</p-dialog>
+
 <div [style.display]="data.length > 0 || !loading ? 'block' : 'none'">
     <div class="container-fluid">
         <div class="row justify-content-center my-3">
@@ -53,7 +59,7 @@
             </p-table>
         </div>
         <div class="row justify-content-center mt-4">
-            <p-button icon="fas fa-file-csv" label="Export to CSV" (click)="exportToCsv(0)"></p-button>
+            <p-button icon="fas fa-file-csv" label="Export to CSV" (click)="onExportToCsv()"></p-button>
         </div>
     </div>
 </div>

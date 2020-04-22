@@ -11,7 +11,8 @@ import { GraphicCardComponent } from 'src/app/shared/templates/graphic-card/grap
 import { CardModule } from 'primeng/card/';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
-import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -29,6 +30,8 @@ import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-
         DropdownModule,
         FormsModule,
         CalendarModule,
+        ProgressBarModule,
+        DialogModule,
     ],
 })
 export class HistoricalDataModule { }
