@@ -148,7 +148,7 @@ export class HistoricalDataGraphComponent implements OnInit {
                     backgroundColor: 'lightgreen',
                     borderColor: 'lightgreen',
                     fill: false,
-                    lineTension: 0,
+                    // lineTension: 0,
                 },
 
                 {
@@ -157,7 +157,7 @@ export class HistoricalDataGraphComponent implements OnInit {
                     backgroundColor: 'lightblue',
                     borderColor: 'lightblue',
                     fill: false,
-                    lineTension: 0,
+                    // lineTension: 0,
                 },
 
                 {
@@ -166,7 +166,7 @@ export class HistoricalDataGraphComponent implements OnInit {
                     backgroundColor: 'purple',
                     borderColor: 'purple',
                     fill: false,
-                    lineTension: 0,
+                    // lineTension: 0,
                 },
             ],
         };

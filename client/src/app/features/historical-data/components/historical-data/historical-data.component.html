@@ -14,7 +14,7 @@
                             </app-historical-data-table>
                         </div>
                     </p-accordionTab>
-                    <p-accordionTab #aggrTab>
+                    <p-accordionTab #aggrTab [selected]="true">
                         <!-- AccordionTab header -->
                         <p-header>
                             <app-accordion-tab-header [header]="'Aggregated Data'" [selected]="aggrTab.selected">
