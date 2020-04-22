@@ -1,12 +1,11 @@
-import { EntityMetadataService } from './../../../../../shared/services/entity-metadata-service';
 import { HistoricalDataService } from './../../../services/historical-data.service';
-import { Component, OnInit, Input, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { takeUntil, count } from 'rxjs/operators';
 import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
 import { RawParameters } from '../../../models/historical-data-objects';
 import { LazyLoadEvent } from 'primeng/api/public_api';
 import { Observable, combineLatest } from 'rxjs';
+import { Table } from 'primeng/table';
 
 @Component({
     selector: 'app-historical-data-table',
@@ -16,6 +15,9 @@ import { Observable, combineLatest } from 'rxjs';
 export class HistoricalDataTableComponent extends BaseComponent implements OnInit {
 
     @Input() public entityMetadata: EntityMetadata;
+
+    @ViewChild('table', { static: true }) protected table: Table;
+
     protected dateFrom: Date;
     protected dateTo: Date;
     protected titles: string[] = [];
@@ -26,6 +28,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     protected data: any[] = [];
     protected pageReport: string = '';
     protected loading: boolean;
+    protected performSearch: boolean;
     private hLimit: number = 10;
     private time: string = 'time';
     private rawParameters: RawParameters;
@@ -56,11 +59,11 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         this.data = [];
         this.changeRawParameter();
         if (this.entityMetadata && this.entityMetadata.attrs) {
-            this.getAllContent();
+            this.getAllContent(total);
         }
     }
 
-    protected getAllContent(): void {
+    protected getAllContent(total?: number): void {
         this.titles = [];
         this.loading = true;
         const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
@@ -70,7 +73,10 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
             next: (combinedResults): void => {
                 combinedResults.forEach((res, i) => this.processContent(res, this.entityMetadata.attrs[i]));
             },
-            complete: (): void => { this.loading = false; },
+            complete: (): void => {
+                this.last = total > this.totalRecords ? this.totalRecords : total;
+                this.loading = false;
+            },
         });
     }
 
@@ -84,21 +90,45 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         };
     }
 
+    protected setPerformSearch(): void {
+        this.performSearch = true;
+    }
+
     protected onDateChange(): void {
-        if (this.dateFrom) {
-            this.dateFrom.setSeconds(0);
-            this.dateFrom.setMilliseconds(0);
+        if (this.performSearch) {
+            if (this.dateFrom) {
+                this.dateFrom.setSeconds(0);
+                this.dateFrom.setMilliseconds(0);
+            }
+            if (this.dateTo) {
+                this.dateTo.setSeconds(0);
+                this.dateTo.setMilliseconds(0);
+            }
+            this.resetTable();
+            this.prepareParameters(0, this.hLimit);
         }
-        if (this.dateTo) {
-            this.dateTo.setSeconds(0);
-            this.dateTo.setMilliseconds(0);
-        }
-        this.prepareParameters(0, this.hLimit);
+        this.performSearch = false;
+    }
+
+    protected clearDates(): void {
+        this.dateFrom = undefined;
+        this.dateTo = undefined;
+        this.performSearch = true;
+        this.onDateChange();
+    }
+
+    private resetTable(): void {
+        this.totalRecords = undefined;
+        this.table.reset();
     }
 
     private processContent(res: any, column: string): void {
         if (res && res.headers[this.totalCount] > 0) {
             this.totalRecords = res.headers[this.totalCount];
+            // Manage last element of the table
+            if (this.totalRecords < this.hLimit) {
+                this.last = this.totalRecords;
+            }
             if (!this.titles.includes(column)) { this.titles.push(column); }
             this.content[column] = res.body.contextResponses[0].contextElement.attributes[0];
             this.content[column].values.forEach((element, index) => {

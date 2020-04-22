@@ -5,30 +5,36 @@
             <div class="col-auto">
                 <h6>From</h6>
                 <p-calendar [(ngModel)]="dateFrom" placeholder="DD/MM/YYYY HH:MM" [showTime]="true"
-                    dateFormat="dd/mm/yy" [maxDate]="dateTo" (onClose)="onDateChange()">
+                    dateFormat="dd/mm/yy" [maxDate]="dateTo" (onClose)="onDateChange()"
+                    (ngModelChange)="setPerformSearch()">
                 </p-calendar>
             </div>
 
             <div class="col-auto">
                 <h6>To</h6>
                 <p-calendar [(ngModel)]="dateTo" placeholder="DD/MM/YYYY HH:MM" [showTime]="true" dateFormat="dd/mm/yy"
-                    [minDate]="dateFrom" (onClose)="onDateChange()">
+                    [minDate]="dateFrom" (onClose)="onDateChange()" (ngModelChange)="setPerformSearch()">
                 </p-calendar>
             </div>
 
+            <div class="col-auto">
+                <p-button styleClass="secondary-button mt-4" icon="pi pi-times" label="Clear" (click)="clearDates()">
+                </p-button>
+            </div>
+
         </div>
-        <div class="row justify-content-center mt-5">
-            <p-table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false"
+        <div class="justify-content-center">
+            <p-table #table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false"
                 styleClass="ui-table-historical-data"
                 currentPageReportTemplate="{{ totalRecords ? ('Showing ' + (first + 1) + ' to ' + last + ' of ' + totalRecords): '' }}"
                 [totalRecords]="totalRecords" [lazy]="true" [showCurrentPageReport]="true"
                 (onLazyLoad)="onLazyLoad($event)">
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>
+                        <th [style.width.px]="150">
                             Timestamp
                         </th>
-                        <th *ngFor="let attr of titles">
+                        <th *ngFor="let attr of titles" [style.width.px]="150">
                             {{attr}}
                         </th>
                     </tr>
@@ -40,7 +46,7 @@
                             {{row[time] | date:'dd/LL/yy - HH:mm:ss'}}
                         </td>
                         <td *ngFor="let attr of titles">
-                            {{row[attr]?.attrValue}}
+                            {{row[attr]?.attrValue ? row[attr]?.attrValue : '-'}}
                         </td>
                     </tr>
                 </ng-template>

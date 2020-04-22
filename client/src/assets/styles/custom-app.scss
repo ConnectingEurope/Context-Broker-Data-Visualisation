@@ -72,3 +72,31 @@ app-graphic-card .graphicDiv,
 app-graphic-card .graphicDiv div.col-auto > div {
   width: 1000px;
 }
+
+// TABLE
+
+$width-for-scroll: 1000px;
+
+.ui-table-historical-data .ui-table-wrapper {
+    overflow-x: auto !important;
+}
+
+.disable-td {
+    pointer-events: none;
+}
+@media only screen and (max-width: $width-for-scroll) {
+    .ui-table-historical-data  table {
+        width: $width-for-scroll !important;
+    }
+}
+
+// PAGINATOR
+
+.ui-paginator-page {
+    width: 40px !important;
+}
+@media only screen and (max-width: 400px) {
+    .ui-paginator-page {
+        display: none !important;
+    }
+}
