@@ -4,8 +4,6 @@ const request = require('request');
 const utils = require('./utils');
 const _ = require('lodash');
 
-const maxPageSize = 100;
-
 router.post('/raw', function (req, res, next) {
     const body = req.body;
 
@@ -122,32 +120,5 @@ router.post('/attrs', function (req, res, next) {
     }
 
 });
-
-
-router.post('/csv', function (req, res, next) {
-    const body = req.body;
-
-    getCsvData(res, body);
-});
-
-async function getCsvData(res, body) {
-    try {
-
-        const historicalCount = await getHistoricalCount(body);
-        const offset = 0;
-        const data = {};
-        const attrs = body.operationParameters.attr;
-
-        while (offset < historicalCount) {
-
-            offset += maxPageSize;
-        }
-
-        const data = await getHistoricalData(body);
-        res.send(data);
-    } catch (error) {
-        res.send();
-    }
-}
 
 module.exports = router;

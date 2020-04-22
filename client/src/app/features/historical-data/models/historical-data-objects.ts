@@ -40,6 +40,6 @@ export interface HistoricalQuery {
     servicePath?: string;
     type?: string;
     id?: string;
-    attr?: any;
+    attr?: string;
     operationParameters?: OperationParameters;
 }
