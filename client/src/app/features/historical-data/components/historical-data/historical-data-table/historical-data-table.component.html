@@ -16,9 +16,14 @@
                 </p-calendar>
             </div>
 
+            <div class="col-auto">
+                <p-button styleClass="secondary-button mt-4" icon="pi pi-times" label="Clear" (click)="clearDates()">
+                </p-button>
+            </div>
+
         </div>
         <div class="row justify-content-center mt-5">
-            <p-table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false"
+            <p-table #table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false"
                 styleClass="ui-table-historical-data"
                 currentPageReportTemplate="{{ totalRecords ? ('Showing ' + (first + 1) + ' to ' + last + ' of ' + totalRecords): '' }}"
                 [totalRecords]="totalRecords" [lazy]="true" [showCurrentPageReport]="true"
