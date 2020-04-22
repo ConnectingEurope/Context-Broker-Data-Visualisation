@@ -113,7 +113,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     protected clearDates(): void {
         this.dateFrom = undefined;
         this.dateTo = undefined;
-        this.performSearch = true;
+        this.setPerformSearch();
         this.onDateChange();
     }
 
