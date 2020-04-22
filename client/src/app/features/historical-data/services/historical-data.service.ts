@@ -22,6 +22,13 @@ export class HistoricalDataService {
         return this.http.post<any>('/server/historical-data/aggr', body);
     }
 
+    public getCsv(entityMetadata: EntityMetadata, attrs: string[], opParams: RawParameters): Observable<any> {
+        const body: HistoricalQuery = this.getBaseQuery(entityMetadata, '');
+        body.operationParameters = opParams;
+        body.attr = attrs;
+        return this.http.post<any>('/server/historical-data/csv', body);
+    }
+
     private getBaseQuery(entityMetadata: EntityMetadata, attribute: string): HistoricalQuery {
         return {
             cometUrl: entityMetadata.cometUrl,
