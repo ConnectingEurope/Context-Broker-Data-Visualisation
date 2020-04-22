@@ -6,7 +6,7 @@
 
 <div [style.display]="data.length > 0 || !loading ? 'block' : 'none'">
     <div class="container-fluid">
-        <div class="row justify-content-center my-3">
+        <div class="row justify-content-center align-items-end my-3">
 
             <div class="col-auto">
                 <h6>From</h6>
@@ -24,7 +24,8 @@
             </div>
 
             <div class="col-auto">
-                <p-button styleClass="secondary-button mt-4" icon="pi pi-times" label="Clear" (click)="clearDates()">
+                <p-button styleClass="secondary-button input-height" icon="pi pi-times" label="Clear"
+                    (click)="clearDates()">
                 </p-button>
             </div>
 

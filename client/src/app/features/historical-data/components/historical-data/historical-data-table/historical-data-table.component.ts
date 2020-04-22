@@ -7,6 +7,7 @@ import { LazyLoadEvent } from 'primeng/api/public_api';
 import { Observable, combineLatest } from 'rxjs';
 import { Table } from 'primeng/table';
 import { LoaderService } from 'src/app/shared/services/loader-service';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-historical-data-table',
