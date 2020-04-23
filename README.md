@@ -1,5 +1,7 @@
 # CB-Baseline
 
+![Docker Image CI](https://github.com/calbapon/CB-Baseline/workflows/Docker%20Image%20CI/badge.svg)
+
 To setup the context broker:
 
 1. Go to docker/orion_cygnus_sth
