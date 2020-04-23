@@ -62,9 +62,9 @@ export class DateUtilsService {
 
             case AggregatePeriod.MINUTE:
                 d = new Date(historicalComp.hourDate);
-                d.setHours((d.getHours() + 1) % 24);
                 d.setMinutes(59);
                 d.setSeconds(59);
+                d.setMilliseconds(59);
                 break;
 
             case AggregatePeriod.HOUR:
@@ -72,6 +72,7 @@ export class DateUtilsService {
                 d.setHours(23);
                 d.setMinutes(59);
                 d.setSeconds(59);
+                d.setMilliseconds(59);
                 break;
 
             case AggregatePeriod.DAY:
@@ -104,10 +105,11 @@ export class DateUtilsService {
                 return hourStart + ':00 - ' + hourEnd + ':00';
 
             case AggregatePeriod.DAY:
-                return String(offset);
+                d = moment.utc(historicalComp.monthDate);
+                return String(offset) + ' (' + moment(d).local().date(offset).format('ddd') + ')';
 
             case AggregatePeriod.MONTH:
-                return moment().month(offset).format('MMMM');
+                return moment().month(offset - 1).format('MMMM');
 
         }
     }
