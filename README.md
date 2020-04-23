@@ -1,6 +1,4 @@
-# CB-Baseline
-
-Master: ![Master](https://github.com/calbapon/CB-Baseline/workflows/Docker%20Image%20CI/badge.svg) Develop: ![Develop](https://github.com/calbapon/CB-Baseline/workflows/Docker%20Image%20CI/badge.svg?branch=develop)
+# CB-Baseline Master: ![Master](https://github.com/calbapon/CB-Baseline/workflows/Docker%20Image%20CI/badge.svg) Develop: ![Develop](https://github.com/calbapon/CB-Baseline/workflows/Docker%20Image%20CI/badge.svg?branch=develop)
 
 To setup the context broker:
 
