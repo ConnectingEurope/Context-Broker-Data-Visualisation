@@ -1,6 +1,6 @@
 {
     "/server": {
-        "target": "http://192.168.48.1:3006",
+        "target": "http://localhost:3006",
         "secure": false,
         "pathRewrite": {
             "^/server": ""
