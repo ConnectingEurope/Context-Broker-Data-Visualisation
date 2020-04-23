@@ -22,4 +22,4 @@ COPY . /app
 
 # start app
 # RUN npm start
-CMD ng serve --host 0.0.0.0 --port 80
+CMD npm run start
