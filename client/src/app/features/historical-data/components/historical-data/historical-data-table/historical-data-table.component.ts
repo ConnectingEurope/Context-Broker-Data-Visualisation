@@ -6,7 +6,6 @@ import { RawParameters } from '../../../models/historical-data-objects';
 import { LazyLoadEvent } from 'primeng/api/public_api';
 import { Observable, combineLatest } from 'rxjs';
 import { Table } from 'primeng/table';
-import { LoaderService } from 'src/app/shared/services/loader-service';
 import { saveAs } from 'file-saver';
 import { takeUntil } from 'rxjs/operators';
 
@@ -44,7 +43,6 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     constructor(
         private historicalDataService: HistoricalDataService,
-        // private loaderService: LoaderService,
     ) {
         super();
     }
@@ -127,7 +125,6 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     }
 
     protected onExportToCsv(): void {
-        // this.loaderService.active = false;
         this.displayModal = true;
         this.totalCsv = 0;
         this.progressBarValue = 0;
@@ -168,7 +165,6 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
                     const blob: Blob = new Blob([csv], { type: 'text/plain;charset=utf-8' });
                     saveAs(blob, 'historical_data_' + this.entityMetadata.id + '.csv');
                     this.displayModal = false;
-                    // this.loaderService.active = true;
                 }
             },
         });

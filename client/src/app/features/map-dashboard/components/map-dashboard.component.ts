@@ -23,7 +23,6 @@ import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CategoryEntityDto } from '../models/model-dto';
-import { LoaderService } from 'src/app/shared/services/loader-service';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 
 @Component({
@@ -70,7 +69,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         private appMessageService: AppMessageService,
         private confirmationService: ConfirmationService,
         private router: Router,
-        // private loaderService: LoaderService,
     ) {
         super();
     }
@@ -88,7 +86,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
     public ngOnDestroy(): void {
         clearInterval(this.interval);
-        // this.loaderService.active = true;
     }
 
     protected onNodeSelect(event: any): void {
@@ -259,7 +256,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private visualizeEntities(): void {
         this.loadEntities();
         this.interval = setInterval(() => {
-            // this.loaderService.active = false;
             this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
         }, 5000);
