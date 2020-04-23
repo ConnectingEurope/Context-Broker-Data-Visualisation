@@ -1,6 +1,12 @@
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false"
+    [resizable]="false" [closable]="false" [showHeader]="false">
+    <p class="text-center advertisement mb-2"><b>Exporting to CSV</b></p>
+    <p-progressBar [value]="progressBarValue"></p-progressBar>
+</p-dialog>
+
 <div [style.display]="data.length > 0 || !loading ? 'block' : 'none'">
     <div class="container-fluid">
-        <div class="row justify-content-center my-3">
+        <div class="row justify-content-center align-items-end mt-3 mb-4">
 
             <div class="col-auto">
                 <h6>From</h6>
@@ -18,7 +24,8 @@
             </div>
 
             <div class="col-auto">
-                <p-button styleClass="secondary-button mt-4" icon="pi pi-times" label="Clear" (click)="clearDates()">
+                <p-button styleClass="secondary-button input-height" icon="pi pi-times" label="Clear"
+                    (click)="clearDates()">
                 </p-button>
             </div>
 
@@ -57,6 +64,9 @@
                     </tr>
                 </ng-template>
             </p-table>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <p-button icon="fas fa-file-csv" label="Export to CSV" (click)="onExportToCsv()"></p-button>
         </div>
     </div>
 </div>
