@@ -8,6 +8,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { Table } from 'primeng/table';
 import { LoaderService } from 'src/app/shared/services/loader-service';
 import { saveAs } from 'file-saver';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-historical-data-table',
@@ -43,7 +44,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     constructor(
         private historicalDataService: HistoricalDataService,
-        private loaderService: LoaderService,
+        // private loaderService: LoaderService,
     ) {
         super();
     }
@@ -77,7 +78,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
             return this.historicalDataService.getRaw(this.entityMetadata, column, this.rawParameters);
         });
-        combineLatest(combinedCalls).subscribe({
+        combineLatest(combinedCalls).pipe(takeUntil(this.destroy$)).subscribe({
             next: (combinedResults): void => {
                 combinedResults.forEach((res, i) => this.processContent(res, this.entityMetadata.attrs[i]));
             },
@@ -126,7 +127,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     }
 
     protected onExportToCsv(): void {
-        this.loaderService.active = false;
+        // this.loaderService.active = false;
         this.displayModal = true;
         this.totalCsv = 0;
         this.progressBarValue = 0;
@@ -143,9 +144,9 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
             count: true,
         };
         const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
-            return this.historicalDataService.getRaw(this.entityMetadata, column, rawParameters);
+            return this.historicalDataService.getRawCsv(this.entityMetadata, column, rawParameters);
         });
-        combineLatest(combinedCalls).subscribe({
+        combineLatest(combinedCalls).pipe(takeUntil(this.destroy$)).subscribe({
             next: (combinedResults): void => {
                 combinedResults.forEach((res, i) => this.processContentCsv(res, this.entityMetadata.attrs[i], offset));
                 if (this.totalCsv === 0) {
@@ -167,7 +168,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
                     const blob: Blob = new Blob([csv], { type: 'text/plain;charset=utf-8' });
                     saveAs(blob, 'historical_data_' + this.entityMetadata.id + '.csv');
                     this.displayModal = false;
-                    this.loaderService.active = true;
+                    // this.loaderService.active = true;
                 }
             },
         });
