@@ -22,4 +22,4 @@ COPY . /app
 
 # start app
 # RUN npm start
-CMD npm run start
+CMD ng serve --proxy-config proxy.conf.json --port 5200
