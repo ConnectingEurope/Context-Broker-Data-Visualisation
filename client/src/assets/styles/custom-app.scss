@@ -73,6 +73,14 @@ app-graphic-card .graphicDiv div.col-auto > div {
   width: 1000px;
 }
 
+.ui-button.input-height {
+    height: 33px;
+}
+
+.ui-button.input-height .ui-button-text {
+    padding: .25em 1em .25em 2.1em !important;
+}
+
 // TABLE
 
 $width-for-scroll: 1000px;
