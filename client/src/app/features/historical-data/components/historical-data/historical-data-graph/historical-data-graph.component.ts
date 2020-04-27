@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
 import { Moment } from 'moment';
 import { DateUtilsService } from '../../../services/date-utils.service';
+import { BaseComponent } from 'src/app/shared/misc/base.component';
+import { takeUntil } from 'rxjs/operators';
 
 enum AttrType {
     NUMBER,
@@ -22,7 +24,7 @@ enum AttrType {
     templateUrl: './historical-data-graph.component.html',
     styleUrls: ['./historical-data-graph.component.scss'],
 })
-export class HistoricalDataGraphComponent implements OnInit {
+export class HistoricalDataGraphComponent extends BaseComponent implements OnInit {
 
     @Input() public entityMetadata: EntityMetadata;
 
@@ -75,6 +77,7 @@ export class HistoricalDataGraphComponent implements OnInit {
         private historicalDataService: HistoricalDataService,
         private dateUtilsService: DateUtilsService,
     ) {
+        super();
         dateUtilsService.setupDates(this);
     }
 
@@ -105,7 +108,7 @@ export class HistoricalDataGraphComponent implements OnInit {
             this.getAggregatedData(AggregateMethod.SUM),
             this.getAggregatedData(AggregateMethod.MIN),
             this.getAggregatedData(AggregateMethod.MAX),
-        ]).subscribe(
+        ]).pipe(takeUntil(this.destroy$)).subscribe(
             ([sumValues, minValues, maxValues]) => {
                 this.showDataForNumber(sumValues, minValues, maxValues);
                 this.attrType = AttrType.NUMBER;
@@ -125,7 +128,7 @@ export class HistoricalDataGraphComponent implements OnInit {
     }
 
     private getHistoricalDataForString(): void {
-        this.getAggregatedData(AggregateMethod.OCCUR).subscribe(
+        this.getAggregatedData(AggregateMethod.OCCUR).pipe(takeUntil(this.destroy$)).subscribe(
             occurValues => {
                 this.showDataForString(occurValues);
                 this.attrType = AttrType.STRING;

@@ -5,13 +5,15 @@ import { Router } from '@angular/router';
 import { ModelDto } from '../../models/model-dto';
 import { EntityMetadataService } from '../../services/entity-metadata-service';
 import { EntityMetadata } from '../../models/entity-metadata';
+import { BaseComponent } from '../../misc/base.component';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-popup',
     templateUrl: './popup.component.html',
     styleUrls: ['./popup.component.scss'],
 })
-export class PopupComponent {
+export class PopupComponent extends BaseComponent {
 
     @Input() public entity: any;
     @Input() public modelDto: ModelDto;
@@ -23,7 +25,7 @@ export class PopupComponent {
         private router: Router,
         private entityMetadataService: EntityMetadataService,
     ) {
-
+        super();
     }
 
     public updatePopup(entity: any, modelDto: ModelDto): void {
@@ -39,7 +41,7 @@ export class PopupComponent {
     }
 
     protected onClickStats(): void {
-        this.entityMetadataService.setEntityMetadata(this.entity, this.modelDto).subscribe(() => {
+        this.entityMetadataService.setEntityMetadata(this.entity, this.modelDto).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.router.navigate(['/historical-data', this.modelDto.type, this.entity.id]);
         });
     }

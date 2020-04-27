@@ -15,8 +15,8 @@ CREATE_SUBSCRIPTIONS = True
 NOTIFY_SUBS_URL = 'http://cygnus:5051/notify'
 HISTORICAL_ATTRS = [
     'NO', 'NO2', 'NOx', 'O3', 'BEN', 'CH4', 'EBE',
-    'NHMC', 'PM10', 'TCH', 'TOL', 'PM2.5', 'SO2', 'CO', 'dataProvider']
-PROVIDERS = ['TEF', 'TYP', 'CPA', 'AJV']
+    'NHMC', 'PM10', 'TCH', 'TOL', 'PM2.5', 'SO2', 'CO', 'airQualityLevel']
+LEVELS = ['good', 'good', 'good', 'moderate', 'moderate', 'unhealthy']
 
 '''
     Initial import of the environment data, creating the entities in the local CB.
@@ -27,8 +27,8 @@ def import_environment_data():
     environment_data = requests.get(DATA_URL, headers=DATA_HEADERS)
     if environment_data:
         for env in environment_data.json():
-            env['dataProvider'] = {
-                'type': 'Text', 'value': get_random_provider(), 'metadata': {}}
+            env['airQualityLevel'] = {
+                'type': 'Text', 'value': get_random_level(), 'metadata': {}}
             r = requests.post(
                 CONTEXT_BROKER_URL,
                 data=json.dumps(env),
@@ -79,10 +79,8 @@ def update_environment_data():
             del env_copy['id']
             del env_copy['type']
             env_id = env.get('id')
-            env_copy['dataProvider'] = {
-                'type': 'Text', 'value': get_random_provider(), 'metadata': {}}
-            env_copy['NO'] = {
-                'type': 'Number', 'value': 0.4, 'metadata': {}}
+            env_copy['airQualityLevel'] = {
+                'type': 'Text', 'value': get_random_level(), 'metadata': {}}
             update_url = CONTEXT_BROKER_URL + '/' + env_id + '/attrs'
             r = requests.put(
                 update_url,
@@ -92,8 +90,8 @@ def update_environment_data():
             print(r)
 
 
-def get_random_provider():
-    return PROVIDERS[random.randint(0, len(PROVIDERS) - 1)]
+def get_random_level():
+    return LEVELS[random.randint(0, len(LEVELS) - 1)]
 
 
 if __name__ == '__main__':
