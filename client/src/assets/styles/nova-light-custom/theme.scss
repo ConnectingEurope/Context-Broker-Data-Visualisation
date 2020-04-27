@@ -1495,10 +1495,10 @@ body .ui-panel {
   border: 0 none;
 }
 body .ui-panel .ui-panel-titlebar {
-  border: 1px solid #c8c8c8;
+  border: 1px solid $primaryLightColor;
   padding: 0.571em 1em;
-  background-color: #f4f4f4;
-  color: #333333;
+  background-color: $primaryColor;
+  color: $textColor;
   -moz-border-radius-topleft: 3px;
   -webkit-border-top-left-radius: 3px;
   border-top-left-radius: 3px;
@@ -3731,7 +3731,7 @@ body .ui-progressbar {
 body .ui-progressbar .ui-progressbar-value {
   border: 0 none;
   margin: 0;
-  background: $primaryColor;
+  background: $primaryLighterColor;
 }
 body .ui-progressbar .ui-progressbar-label {
   margin-top: 0;

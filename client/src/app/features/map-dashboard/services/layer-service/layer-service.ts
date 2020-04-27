@@ -127,7 +127,11 @@ export class LayerService {
             entitiesTree.push({
                 data: e.type,
                 label: e.type,
-                children: Object.keys(e.attrs).map((a: string) => ({ data: a, label: a, parent: { data: e.type } } as TreeNode)),
+                children: Object.keys(e.attrs).filter(a => a !== 'location').map((a: string) => ({
+                    data: a,
+                    label: a,
+                    parent: { data: e.type },
+                } as TreeNode)),
             });
         });
 
@@ -150,9 +154,16 @@ export class LayerService {
             const treeNodeChildren: TreeNode[] = [];
 
             e.attrs.forEach(a => {
-                const treeNodeChild: TreeNode = { data: a.name, label: a.name, parent: { data: e.name } };
-                treeNodeChildren.push(treeNodeChild);
-                if (a.selected) { selectedTreeN.push(treeNodeChild); }
+                if (a.name !== 'location') {
+                    const treeNodeChild: TreeNode = {
+                        data: a.name,
+                        label: a.name,
+                        parent: { data: e.name },
+                        selectable: a.name !== 'location',
+                    };
+                    treeNodeChildren.push(treeNodeChild);
+                    if (a.selected) { selectedTreeN.push(treeNodeChild); }
+                }
             });
 
             const treeNode: TreeNode = { data: e.name, label: e.name, children: treeNodeChildren };

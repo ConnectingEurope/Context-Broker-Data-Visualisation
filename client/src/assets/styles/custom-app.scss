@@ -47,3 +47,64 @@ p.input-error {
 .info-message {
     color: $primaryColor;
 }
+
+button.popupButton {
+    width: 30px !important;
+    height: 30px;
+}
+
+button.popupButton.code .ui-button-icon-left {
+    left: 46% !important;
+}
+
+button.popupButton .ui-button-text {
+    display: hidden;
+}
+
+// App GraphicCard
+
+app-graphic-card .graphicDiv,
+.graphicDivdiv.row {
+  height: 500px;
+  width: 1100px;
+}
+
+app-graphic-card .graphicDiv div.col-auto > div {
+  width: 1000px;
+}
+
+.ui-button.input-height {
+    height: 33px;
+}
+
+.ui-button.input-height .ui-button-text {
+    padding: .25em 1em .25em 2.1em !important;
+}
+
+// TABLE
+
+$width-for-scroll: 1000px;
+
+.ui-table-historical-data .ui-table-wrapper {
+    overflow-x: auto !important;
+}
+
+.disable-td {
+    pointer-events: none;
+}
+@media only screen and (max-width: $width-for-scroll) {
+    .ui-table-historical-data  table {
+        width: $width-for-scroll !important;
+    }
+}
+
+// PAGINATOR
+
+.ui-paginator-page {
+    width: 40px !important;
+}
+@media only screen and (max-width: 400px) {
+    .ui-paginator-page {
+        display: none !important;
+    }
+}

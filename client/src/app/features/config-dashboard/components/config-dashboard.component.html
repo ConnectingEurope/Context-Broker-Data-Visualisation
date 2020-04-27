@@ -40,7 +40,7 @@
                         <!-- AccordionTab header -->
                         <p-header>
                             <app-accordion-tab-header [header]="cb.header" [selected]="accordionTab.selected"
-                                (remove)="onRemoveContextBroker(i)">
+                                [removable]="true" (remove)="onRemoveContextBroker(i)">
                             </app-accordion-tab-header>
                         </p-header>
 

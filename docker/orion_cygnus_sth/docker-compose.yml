@@ -15,7 +15,7 @@ services:
       - "${ORION_PORT}:${ORION_PORT}" # localhost:1026
     command: -dbhost mongo-db -logLevel DEBUG
     volumes:
-      - "C:/context_broker_environment/orion:/tmp"
+      - "../../../orion:/tmp"
     healthcheck:
       test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
 
@@ -29,16 +29,17 @@ services:
     networks:
       - default
     expose:
-      - "${CYGNUS_SERVICE_PORT}"  # localhost:5050
-      - "${CYGNUS_API_PORT}"  # localhost:5080
+      - "${CYGNUS_API_PORT}"
+      - "${CYGNUS_MONGO_SERVICE_PORT}"
     ports:
-      - "${CYGNUS_SERVICE_PORT}:${CYGNUS_SERVICE_PORT}"
-      - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}"
+      - "${CYGNUS_MONGO_SERVICE_PORT}:${CYGNUS_MONGO_SERVICE_PORT}" # localhost:5051
+      - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}" # localhost:5080
     environment:
+      - "CYGNUS_MONGO_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}" # Port that Cygnus listens on for operational reasons
       - "CYGNUS_MONGO_HOSTS=mongo-db:${MONGO_DB_PORT}" # Comma separated list of Mongo-DB servers which Cygnus will contact to persist historical context data
-      - "CYGNUS_LOG_LEVEL=DEBUG" # The logging level for Cygnus
-      - "CYGNUS_SERVICE_PORT=${CYGNUS_SERVICE_PORT}" # Notification Port that Cygnus listens when subcribing to context data changes
+      - "CYGNUS_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"
       - "CYGNUS_API_PORT=${CYGNUS_API_PORT}" # Port that Cygnus listens on for operational reasons
+      - "CYGNUS_LOG_LEVEL=DEBUG" # The logging level for Cygnus
     healthcheck:
       test: curl --fail -s http://cygnus:${CYGNUS_API_PORT}/v1/version || exit 1
 
@@ -118,9 +119,9 @@ services:
       - "WEB_APP_PORT=${TUTORIAL_APP_PORT}" # Port used by the content provider proxy and web-app for viewing data
       - "IOTA_HTTP_HOST=iot-agent"
       - "IOTA_HTTP_PORT=${IOTA_SOUTH_PORT}"
+      - "IOTA_DEFAULT_RESOURCE=/iot/d"
       - "DUMMY_DEVICES_PORT=${TUTORIAL_DUMMY_DEVICE_PORT}" # Port used by the dummy IOT devices to receive commands
       - "DUMMY_DEVICES_TRANSPORT=HTTP" # Default transport used by dummy Io devices
-      - "DUMMY_DEVICES_API_KEY=4jggokgpepnvsb2uv4s40d59ov"
       - "CONTEXT_BROKER=http://orion:${ORION_PORT}/v2" # URL of the context broker to update context
       - "NGSI_LD_PREFIX="
       - "STH_COMET_SERVICE_URL=http://sth-comet:${STH_COMET_PORT}/STH/v1"

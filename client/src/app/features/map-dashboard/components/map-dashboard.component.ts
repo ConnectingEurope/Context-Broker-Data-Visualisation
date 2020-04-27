@@ -1,7 +1,7 @@
 import { FwiUtils } from '../../../shared/misc/fwi-utils';
 import { CategoryDto } from './../models/model-dto';
 import { ConditionDto } from './../models/condition-dto';
-import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy, ComponentRef } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import * as L from 'leaflet';
@@ -23,7 +23,7 @@ import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CategoryEntityDto } from '../models/model-dto';
-import { LoaderService } from 'src/app/shared/services/loader-service';
+import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -35,9 +35,11 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     protected categories: CategoryDto[];
     protected entities: CategoryEntityDto[] = [];
     protected controlName: string = 'data';
+    protected popupName: string = 'popupRef';
     protected menuItems: MenuItem[];
     protected layers: TreeNode[];
     protected selectedLayers: TreeNode[];
+    protected showButtons: boolean = false;
 
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
@@ -51,9 +53,13 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private openPopup: L.Popup;
     private refreshing: boolean;
     private firstFetch: boolean = true;
-    private showButtons: boolean = false;
-
     private interval: any;
+    private minLat: number = Number.MAX_VALUE;
+    private minLon: number = Number.MAX_VALUE;
+    private maxLat: number = Number.MIN_VALUE;
+    private maxLon: number = Number.MIN_VALUE;
+    private defaultZoom: number = 4;
+    private firstLoad: boolean = true;
 
     constructor(
         private mapDashBoardService: MapDashboardService,
@@ -63,7 +69,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         private appMessageService: AppMessageService,
         private confirmationService: ConfirmationService,
         private router: Router,
-        private loaderService: LoaderService,
     ) {
         super();
     }
@@ -81,7 +86,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
     public ngOnDestroy(): void {
         clearInterval(this.interval);
-        this.loaderService.active = true;
     }
 
     protected onNodeSelect(event: any): void {
@@ -144,8 +148,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private loadMap(): void {
 
         this.map = L.map('map', {
-            center: [40.416775, -3.703790],
-            zoom: 4,
+            center: [50.85045, 4.34878],
+            zoom: this.defaultZoom,
             minZoom: 3,
             maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)),
             maxBoundsViscosity: 0.5,
@@ -171,7 +175,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private loadEntities(): void {
-        this.mapDashBoardService.getAllEntities().pipe(takeUntil(this.destroy$)).subscribe(
+        this.mapDashBoardService.getAllEntities(!this.firstLoad).pipe(takeUntil(this.destroy$)).subscribe(
             (models: ModelDto[]) => {
                 if (models.length > 0) {
                     this.showButtons = true;
@@ -228,6 +232,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             model.data.forEach(entity => this.addEntity(model, entity, parentKey));
             this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
         });
+        if (this.firstLoad) { this.adjustView(); }
         this.deleteOldSensors();
         this.loadMarkerCluster();
         this.setFilters(this.filters);
@@ -240,13 +245,20 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.refreshing = false;
     }
 
+    private adjustView(): void {
+        this.firstLoad = false;
+        this.map.setView([
+            (this.minLat + this.maxLat) / 2,
+            (this.minLon + this.maxLon) / 2,
+        ], this.defaultZoom);
+    }
+
     private visualizeEntities(): void {
         this.loadEntities();
         this.interval = setInterval(() => {
-            this.loaderService.active = false;
             this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
-        }, 10000);
+        }, 20000);
     }
 
     private onLoadEntitiesEmpty(): void {
@@ -271,6 +283,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
     private addEntity(model: ModelDto, entity: Entity, parentKey: string): void {
         if (entity.location && entity.location.coordinates && entity.location.coordinates[0] && entity.location.coordinates[1]) {
+            this.storeMinMaxLocation(entity.location.coordinates[1], entity.location.coordinates[0]);
             const markers: any = this.layerGroups[model.type].getLayers();
             const existentMarker: L.Marker = markers.find(m => m[this.controlName].id === entity.id);
             if (existentMarker) {
@@ -281,6 +294,13 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         }
     }
 
+    private storeMinMaxLocation(lat: number, lon: number): void {
+        this.minLat = this.minLat > lat ? lat : this.minLat;
+        this.minLon = this.minLon > lon ? lon : this.minLon;
+        this.maxLat = this.maxLat < lat ? lat : this.maxLat;
+        this.maxLon = this.maxLon < lon ? lon : this.maxLon;
+    }
+
     private insertEntity(model: ModelDto, entity: Entity, parentKey: string): void {
         const marker: L.Marker = L.marker(
             entity.location.coordinates.reverse() as L.LatLngExpression,
@@ -288,14 +308,22 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         );
 
         const popup: L.Popup = L.popup();
-        popup.setContent(this.popupService.getPopupContent(entity));
+        const popupComponentRef: ComponentRef<PopupComponent> = this.popupService.getPopupContent(entity, model);
+        const div: HTMLDivElement = document.createElement('div');
+        div.appendChild(popupComponentRef.location.nativeElement);
+        popup.setContent(div);
         marker.bindPopup(popup);
-        marker.on('popupopen', () => this.openPopup = popup);
+
+        marker.on('popupopen', () => {
+            this.openPopup = popup;
+            popupComponentRef.instance.refreshScroll();
+        });
         marker.on('popupclose', () => {
             if (!this.refreshing) { this.openPopup = undefined; }
         });
 
         marker[this.controlName] = entity;
+        marker[this.popupName] = popupComponentRef.instance;
         this.layerGroups[model.type].addLayer(marker);
 
         if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
@@ -320,7 +348,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
             existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
         }
-        existentMarker.getPopup().setContent(this.popupService.getPopupContent(entity));
+        existentMarker[this.popupName].updatePopup(entity, model);
         existentMarker[this.controlName] = entity;
 
         const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);

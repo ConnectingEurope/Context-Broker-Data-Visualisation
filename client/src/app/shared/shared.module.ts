@@ -1,12 +1,26 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonModule } from 'primeng/button';
+import { PanelModule } from 'primeng/panel';
+import { TableModule } from 'primeng/table';
+import { AccordionModule } from 'primeng/accordion';
+import { AccordionTabHeaderComponent } from './templates/accordion-tab-header/accordion-tab-header.component';
 
 @NgModule({
-    declarations: [],
+    declarations: [
+        AccordionTabHeaderComponent,
+    ],
     imports: [
         CommonModule,
+        ButtonModule,
     ],
-    exports: [],
+    exports: [
+        PanelModule,
+        ButtonModule,
+        TableModule,
+        AccordionModule,
+        AccordionTabHeaderComponent,
+    ],
 })
 export class SharedModule {
     public static forRoot(): ModuleWithProviders {

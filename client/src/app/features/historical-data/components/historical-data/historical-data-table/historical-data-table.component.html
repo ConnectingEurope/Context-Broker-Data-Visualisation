@@ -1,0 +1,72 @@
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false"
+    [resizable]="false" [closable]="false" [showHeader]="false">
+    <p class="text-center advertisement mb-2"><b>Exporting to CSV</b></p>
+    <p-progressBar [value]="progressBarValue"></p-progressBar>
+</p-dialog>
+
+<div [style.display]="data.length > 0 || !loading ? 'block' : 'none'">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-end mt-3 mb-4">
+
+            <div class="col-auto">
+                <h6>From</h6>
+                <p-calendar [(ngModel)]="dateFrom" placeholder="DD/MM/YYYY HH:MM" [showTime]="true"
+                    dateFormat="dd/mm/yy" [maxDate]="dateTo" (onClose)="onDateChange()"
+                    (ngModelChange)="setPerformSearch()">
+                </p-calendar>
+            </div>
+
+            <div class="col-auto">
+                <h6>To</h6>
+                <p-calendar [(ngModel)]="dateTo" placeholder="DD/MM/YYYY HH:MM" [showTime]="true" dateFormat="dd/mm/yy"
+                    [minDate]="dateFrom" (onClose)="onDateChange()" (ngModelChange)="setPerformSearch()">
+                </p-calendar>
+            </div>
+
+            <div class="col-auto">
+                <p-button styleClass="secondary-button input-height" icon="pi pi-times" label="Clear"
+                    (click)="clearDates()">
+                </p-button>
+            </div>
+
+        </div>
+        <div class="justify-content-center">
+            <p-table #table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false"
+                styleClass="ui-table-historical-data"
+                currentPageReportTemplate="{{ totalRecords ? ('Showing ' + (first + 1) + ' to ' + last + ' of ' + totalRecords): '' }}"
+                [totalRecords]="totalRecords" [lazy]="true" [showCurrentPageReport]="true"
+                (onLazyLoad)="onLazyLoad($event)">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th [style.width.px]="150">
+                            Timestamp
+                        </th>
+                        <th *ngFor="let attr of titles" [style.width.px]="150">
+                            {{attr}}
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-row>
+                    <tr>
+                        <td>
+                            {{row[time] | date:'dd/LL/yy - HH:mm:ss'}}
+                        </td>
+                        <td *ngFor="let attr of titles">
+                            {{row[attr]?.attrValue ? row[attr]?.attrValue : '-'}}
+                        </td>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="titles.length + 1" style="text-align:left">No data found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <div class="row justify-content-center mt-4">
+            <p-button icon="fas fa-file-csv" label="Export to CSV" (click)="onExportToCsv()"></p-button>
+        </div>
+    </div>
+</div>
