@@ -24,7 +24,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
 
     protected chooseWarningVisible: boolean;
 
-    @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
+    @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
 
     constructor(

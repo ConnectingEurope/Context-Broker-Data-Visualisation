@@ -27,7 +27,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     protected contextBrokers: ContextBrokerForm[] = [];
 
 
-    @ViewChild('serviceConfiguration', { static: false }) private serviceConfiguration: ServiceConfigurationComponent;
+    @ViewChild('serviceConfiguration') private serviceConfiguration: ServiceConfigurationComponent;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
 
     constructor(

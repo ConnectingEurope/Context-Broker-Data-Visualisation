@@ -22,8 +22,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     protected chooseWarningVisible: boolean;
 
-    @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
-    @ViewChild('urlInput', { static: false }) private urlInput: InputWithValidationComponent;
+    @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
+    @ViewChild('urlInput') private urlInput: InputWithValidationComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,

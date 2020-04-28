@@ -15,8 +15,8 @@ export class HistoricalConfigurationComponent extends BaseComponent {
 
     @Input() public cb: ContextBrokerForm;
 
-    @ViewChild('cygnusInput', { static: false }) private cygnusInput: InputWithValidationComponent;
-    @ViewChild('cometInput', { static: false }) private cometInput: InputWithValidationComponent;
+    @ViewChild('cygnusInput') private cygnusInput: InputWithValidationComponent;
+    @ViewChild('cometInput') private cometInput: InputWithValidationComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,

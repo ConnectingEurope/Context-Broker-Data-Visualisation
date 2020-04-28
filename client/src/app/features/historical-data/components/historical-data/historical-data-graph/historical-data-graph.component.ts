@@ -70,8 +70,8 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         },
     };
 
-    @ViewChild('graphicCardForNumber', { static: false }) private graphicCardForNumber: GraphicCardComponent;
-    @ViewChild('graphicCardForString', { static: false }) private graphicCardForString: GraphicCardComponent;
+    @ViewChild('graphicCardForNumber') private graphicCardForNumber: GraphicCardComponent;
+    @ViewChild('graphicCardForString') private graphicCardForString: GraphicCardComponent;
 
     constructor(
         private historicalDataService: HistoricalDataService,

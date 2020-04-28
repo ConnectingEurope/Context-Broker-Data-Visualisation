@@ -19,7 +19,7 @@ export class PopupComponent extends BaseComponent {
     @Input() public modelDto: ModelDto;
     protected attrs: any;
     private maxNumberChars: number = 35;
-    @ViewChild('scrollPanel', { static: false }) private scrollPanel: ScrollPanel;
+    @ViewChild('scrollPanel') private scrollPanel: ScrollPanel;
 
     constructor(
         private router: Router,
