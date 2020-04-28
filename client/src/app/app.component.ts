@@ -8,7 +8,7 @@ import { MenuItem } from 'primeng/api/menuitem';
 })
 export class AppComponent implements OnInit {
 
-    protected menuItems: MenuItem[];
+    public menuItems: MenuItem[];
 
     constructor(
     ) { }

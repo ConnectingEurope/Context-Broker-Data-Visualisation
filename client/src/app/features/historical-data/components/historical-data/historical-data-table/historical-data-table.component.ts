@@ -18,28 +18,28 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     @Input() public entityMetadata: EntityMetadata;
 
-    @ViewChild('table', { static: true }) protected table: Table;
-    protected displayModal: boolean;
-    protected progressBarValue: number = 0;
-    protected titlesCsv: string[] = [];
-    protected dataCsv: any[] = [];
-    protected contentCsv: any = {};
-    protected totalCsv: number = 0;
-    protected dateFrom: Date;
-    protected dateTo: Date;
-    protected titles: string[] = [];
-    protected totalRecords: number;
-    protected first: number = 0;
-    protected last: number = 0;
-    protected content: any = {};
-    protected data: any[] = [];
-    protected pageReport: string = '';
-    protected loading: boolean;
-    protected performSearch: boolean;
-    private hLimit: number = 10;
-    private time: string = 'time';
+    public displayModal: boolean;
+    public progressBarValue: number = 0;
+    public titlesCsv: string[] = [];
+    public dataCsv: any[] = [];
+    public contentCsv: any = {};
+    public totalCsv: number = 0;
+    public dateFrom: Date;
+    public dateTo: Date;
+    public titles: string[] = [];
+    public totalRecords: number;
+    public first: number = 0;
+    public last: number = 0;
+    public content: any = {};
+    public data: any[] = [];
+    public pageReport: string = '';
+    public loading: boolean = true;
+    public performSearch: boolean;
+    public hLimit: number = 10;
+    public time: string = 'time';
     private rawParameters: RawParameters;
     private totalCount: string = 'fiware-total-count';
+    @ViewChild('table', { static: true }) private table: Table;
 
     constructor(
         private historicalDataService: HistoricalDataService,
@@ -55,11 +55,11 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         };
     }
 
-    protected onLazyLoad(event: LazyLoadEvent): void {
+    public onLazyLoad(event: LazyLoadEvent): void {
         this.prepareParameters(event.first, event.rows);
     }
 
-    protected prepareParameters(first: number, rows: number): void {
+    public prepareParameters(first: number, rows: number): void {
         const total: number = first + rows;
         this.first = first;
         this.last = total > this.totalRecords ? this.totalRecords : total;
@@ -70,7 +70,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         }
     }
 
-    protected getAllContent(total?: number): void {
+    public getAllContent(total?: number): void {
         this.titles = [];
         this.loading = true;
         const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
@@ -87,7 +87,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         });
     }
 
-    protected changeRawParameter(): void {
+    public changeRawParameter(): void {
         this.rawParameters = {
             hLimit: this.hLimit,
             hOffset: this.first,
@@ -97,11 +97,11 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         };
     }
 
-    protected setPerformSearch(): void {
+    public setPerformSearch(): void {
         this.performSearch = true;
     }
 
-    protected onDateChange(): void {
+    public onDateChange(): void {
         if (this.performSearch) {
             if (this.dateFrom) {
                 this.dateFrom.setSeconds(0);
@@ -117,21 +117,21 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         this.performSearch = false;
     }
 
-    protected clearDates(): void {
+    public clearDates(): void {
         this.dateFrom = undefined;
         this.dateTo = undefined;
         this.setPerformSearch();
         this.onDateChange();
     }
 
-    protected onExportToCsv(): void {
+    public onExportToCsv(): void {
         this.displayModal = true;
         this.totalCsv = 0;
         this.progressBarValue = 0;
         this.exportToCsv(0);
     }
 
-    protected exportToCsv(offset: number): void {
+    private exportToCsv(offset: number): void {
 
         const rawParameters: RawParameters = {
             hLimit: 100,

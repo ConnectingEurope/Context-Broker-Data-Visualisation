@@ -20,7 +20,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
     @Output() public urlChange: EventEmitter<void> = new EventEmitter<void>();
 
-    protected chooseWarningVisible: boolean;
+    public chooseWarningVisible: boolean;
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChild('urlInput') private urlInput: InputWithValidationComponent;
@@ -33,27 +33,27 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
         super();
     }
 
-    protected onNameChange(): void {
+    public onNameChange(): void {
         const header: string = this.cb.form.value.name;
         this.cb.header = header && !/^\s+$/.test(header) ? header : this.configDashboardService.contextHeaderWhenEmpty;
     }
 
-    protected onUrlChange(): void {
+    public onUrlChange(): void {
         this.chooseWarningVisible = false;
         this.urlChange.emit();
     }
 
-    protected onNodeChange(): void {
+    public onNodeChange(): void {
         this.selectedEntitiesChange.emit();
     }
 
-    protected refreshScroll(): void {
+    public refreshScroll(): void {
         setTimeout(() => {
             this.entitiesScroll.refresh();
         });
     }
 
-    protected onCheckContextBroker(): void {
+    public onCheckContextBroker(): void {
         const url: string = this.cb.form.value.url;
 
         this.configDashboardService.checkBrokerHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
@@ -65,11 +65,11 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
             });
     }
 
-    protected isDisabledChooseButton(): boolean {
+    public isDisabledChooseButton(): boolean {
         return this.cb.form.get('url').invalid;
     }
 
-    protected onChooseEntities(): void {
+    public onChooseEntities(): void {
         const url: string = this.cb.form.value.url;
 
         this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(
@@ -81,22 +81,22 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
             });
     }
 
-    private onCheckContextBrokerSuccess(): void {
+    public onCheckContextBrokerSuccess(): void {
         this.urlInput.showInfo();
     }
 
-    private onCheckContextBrokerFail(): void {
+    public onCheckContextBrokerFail(): void {
         this.urlInput.showWarning();
     }
 
-    private onChooseEntitiesSuccess(entities: EntityDto[]): void {
+    public onChooseEntitiesSuccess(entities: EntityDto[]): void {
         this.chooseWarningVisible = false;
         this.cb.entities = this.layerService.getEntities(entities);
         this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
         this.selectedEntitiesChange.emit();
     }
 
-    private onChooseEntitiesFail(): void {
+    public onChooseEntitiesFail(): void {
         this.cb.entities = [];
         this.cb.selectedEntities = [];
         this.chooseWarningVisible = true;

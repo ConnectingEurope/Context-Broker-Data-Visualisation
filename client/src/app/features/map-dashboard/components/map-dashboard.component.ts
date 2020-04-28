@@ -32,14 +32,14 @@ import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 })
 export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    protected categories: CategoryDto[];
-    protected entities: CategoryEntityDto[] = [];
-    protected controlName: string = 'data';
-    protected popupName: string = 'popupRef';
-    protected menuItems: MenuItem[];
-    protected layers: TreeNode[];
-    protected selectedLayers: TreeNode[];
-    protected showButtons: boolean = false;
+    public categories: CategoryDto[];
+    public entities: CategoryEntityDto[] = [];
+    public controlName: string = 'data';
+    public popupName: string = 'popupRef';
+    public menuItems: MenuItem[];
+    public layers: TreeNode[];
+    public selectedLayers: TreeNode[];
+    public showButtons: boolean = false;
 
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
@@ -88,14 +88,14 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         clearInterval(this.interval);
     }
 
-    protected onNodeSelect(event: any): void {
+    public onNodeSelect(event: any): void {
         const i: number = this.unselectedLayers.indexOf(event.node.data);
         this.unselectedLayers.splice(i, 1);
         this.markerClusterGroup.addLayer(this.layerGroups[event.node.data]);
         this.setFilters(this.filters);
     }
 
-    protected onNodeUnselect(event: any): void {
+    public onNodeUnselect(event: any): void {
         this.unselectedLayers.push(event.node.data);
         this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
     }
@@ -104,7 +104,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
      * Apply selected conditions in the map.
      * @event
      */
-    protected setFilters(event: ConditionDto[]): void {
+    public setFilters(event: ConditionDto[]): void {
         this.filters = event;
         // The markerClusterGroup is always filled in.
         this.markerClusterGroup.addLayers(this.removedLayers);

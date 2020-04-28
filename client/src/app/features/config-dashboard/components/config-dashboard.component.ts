@@ -18,14 +18,13 @@ import { AccordionTab } from 'primeng/accordion/accordion';
 })
 export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
-    protected configurationLoaded: boolean = false;
-    protected addedContextBrokerAtLeastOnce: boolean = false;
-    protected removedContextBrokerAtLeastOnce: boolean = false;
-    protected removedServiceAtLeastOnce: boolean = false;
-    protected selectedEntitiesChange: boolean = false;
-    protected accordionTabsSelected: boolean = false;
-    protected contextBrokers: ContextBrokerForm[] = [];
-
+    public configurationLoaded: boolean = false;
+    public addedContextBrokerAtLeastOnce: boolean = false;
+    public removedContextBrokerAtLeastOnce: boolean = false;
+    public removedServiceAtLeastOnce: boolean = false;
+    public selectedEntitiesChange: boolean = false;
+    public accordionTabsSelected: boolean = false;
+    public contextBrokers: ContextBrokerForm[] = [];
 
     @ViewChild('serviceConfiguration') private serviceConfiguration: ServiceConfigurationComponent;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
@@ -57,20 +56,20 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         );
     }
 
-    protected shouldApplyButtonBeDisplayed(): boolean {
+    public shouldApplyButtonBeDisplayed(): boolean {
         return this.configurationLoaded
             && (this.contextBrokers.length > 0 || this.addedContextBrokerAtLeastOnce || this.removedContextBrokerAtLeastOnce);
     }
 
-    protected shouldApplyButtonBeEnabled(): boolean {
+    public shouldApplyButtonBeEnabled(): boolean {
         return this.shouldApplyButtonBeDisplayed() && this.isDirtyConfiguration() && this.isValidConfiguration();
     }
 
-    protected shouldAdvertisementBeDisplayed(): boolean {
+    public shouldAdvertisementBeDisplayed(): boolean {
         return this.shouldApplyButtonBeEnabled();
     }
 
-    protected onAddContextBroker(): void {
+    public onAddContextBroker(): void {
         this.accordionTabsSelected = true;
         if (this.accordionTabs && this.accordionTabs.length > 0) {
             this.accordionTabs.forEach(a => a.selected = false);
@@ -86,15 +85,15 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         });
     }
 
-    protected onRemoveService(): void {
+    public onRemoveService(): void {
         this.removedServiceAtLeastOnce = true;
     }
 
-    protected onSelectedEntitiesChange(): void {
+    public onSelectedEntitiesChange(): void {
         this.selectedEntitiesChange = true;
     }
 
-    protected onRemoveContextBroker(index: number): void {
+    public onRemoveContextBroker(index: number): void {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this Context Broker?',
@@ -108,13 +107,13 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         });
     }
 
-    protected onApplyConfiguration(): void {
+    public onApplyConfiguration(): void {
         if (this.checkEntities()) {
             this.applyConfiguration();
         }
     }
 
-    protected onUrlChange(): void {
+    public onUrlChange(): void {
         if (this.serviceConfiguration) {
             this.serviceConfiguration.onContextBrokerUrlChange();
         }

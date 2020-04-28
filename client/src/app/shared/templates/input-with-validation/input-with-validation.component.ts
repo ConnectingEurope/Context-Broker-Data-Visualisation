@@ -19,7 +19,8 @@ export class InputWithValidationComponent implements OnInit {
     @Output() public changeText: EventEmitter<any> = new EventEmitter<any>();
     @Output() public buttonClick: EventEmitter<any> = new EventEmitter<any>();
 
-    private fControl: AbstractControl;
+    public fControl: AbstractControl;
+
     private infoRequested: boolean;
     private warningRequested: boolean;
 
@@ -43,40 +44,40 @@ export class InputWithValidationComponent implements OnInit {
         this.warningRequested = true;
     }
 
-    protected shouldErrorBeDisplayed(): boolean {
+    public shouldErrorBeDisplayed(): boolean {
         return this.fControl.dirty && this.fControl.errors !== null;
     }
 
-    protected shouldInfoBeDisplayed(): boolean {
+    public shouldInfoBeDisplayed(): boolean {
         return this.infoRequested;
     }
 
-    protected shouldWarningBeDisplayed(): boolean {
+    public shouldWarningBeDisplayed(): boolean {
         return this.warningRequested;
     }
 
-    protected getErrorMessage(): string {
+    public getErrorMessage(): string {
         if (this.fControl.hasError('required')) { return this.requiredError; }
         if (this.checkWhteSpacePattern()) { return this.emptySpacePatternError; }
         if (this.checkPathPattern()) { return this.pathPatternError; }
         return '-';
     }
 
-    protected getInfoMessage(): string {
+    public getInfoMessage(): string {
         return 'Connection succeded';
     }
 
-    protected getWarningMessage(): string {
+    public getWarningMessage(): string {
         return 'Connection failed';
     }
 
-    protected onChange(event: any): void {
+    public onChange(event: any): void {
         this.infoRequested = false;
         this.warningRequested = false;
         this.changeText.emit(event);
     }
 
-    protected onClick(event: any): void {
+    public onClick(event: any): void {
         this.buttonClick.emit(event);
     }
 

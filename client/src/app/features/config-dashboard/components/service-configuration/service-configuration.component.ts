@@ -22,7 +22,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
 
-    protected chooseWarningVisible: boolean;
+    public chooseWarningVisible: boolean;
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
@@ -51,7 +51,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         this.chooseWarningVisible = false;
     }
 
-    protected onAddService(): void {
+    public onAddService(): void {
         if (this.accordionTabs && this.accordionTabs.length > 0) {
             this.accordionTabs.forEach(a => a.selected = false);
         }
@@ -63,7 +63,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         });
     }
 
-    protected onRemoveService(index: number): void {
+    public onRemoveService(index: number): void {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this service?',
@@ -77,7 +77,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         });
     }
 
-    protected onServiceConfigChange(index: number): void {
+    public onServiceConfigChange(index: number): void {
         this.chooseWarningVisible = false;
         const service: string = this.cb.services[index].form.value.service;
         const servicePath: string = this.cb.services[index].form.value.servicePath;
@@ -87,23 +87,23 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             this.configDashboardService.serviceHeaderWhenEmpty;
     }
 
-    protected onNodeChange(): void {
+    public onNodeChange(): void {
         this.selectedEntitiesChange.emit();
     }
 
-    protected refreshScroll(): void {
+    public refreshScroll(): void {
         setTimeout(() => {
             this.entitiesScroll.refresh();
         });
     }
 
-    protected isDisabledChooseButton(index: number): boolean {
+    public isDisabledChooseButton(index: number): boolean {
         return this.cb.form.get('url').invalid ||
             this.cb.services[index].form.get('service').invalid ||
             this.cb.services[index].form.get('servicePath').invalid;
     }
 
-    protected onChooseEntities(index: number): void {
+    public onChooseEntities(index: number): void {
         const url: string = this.cb.form.value.url;
         const service: string = this.cb.services[index].form.value.service;
         const servicePath: string = this.cb.services[index].form.value.servicePath;
