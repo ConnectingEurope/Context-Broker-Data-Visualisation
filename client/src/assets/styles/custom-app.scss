@@ -108,3 +108,40 @@ $width-for-scroll: 1000px;
         display: none !important;
     }
 }
+
+body .ui-tree.attrsTree {
+    width: 100%;
+}
+
+body .ui-tree.attrsTree .ui-treenode-label.ui-state-highlight {
+    background-color: transparent !important;
+    // color: #ffffff;
+}
+
+body .ui-tree.attrsTree .ui-treenode-label.ui-state-highlight p {
+    padding: 3px;
+    border: solid;
+    border-color: transparent;
+    border-radius: 3px;
+    background-color: $primaryColor;
+    color: $textColor;
+}
+
+body .ui-tree.attrsTree p {
+    padding: 3px;
+}
+
+.favButton .ui-button,
+.favButton .ui-button:active,
+.favButton .ui-button:hover,
+.favButton .ui-button:focus,
+.favButton .ui-button:enabled:hover,
+.favButton .ui-button:enabled:focus {
+    width: 29px !important;
+    height: 29px !important;
+    background-color: transparent;
+    border: none;
+    box-shadow: none !important;
+    color: $primaryColor;
+    font-size: 14px !important;
+}

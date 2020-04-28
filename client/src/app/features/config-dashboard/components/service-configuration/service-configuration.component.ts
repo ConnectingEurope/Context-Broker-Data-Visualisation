@@ -3,11 +3,11 @@ import { ConfigDashboardService } from '../../services/config-dashboard-service/
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
-import { ContextBrokerForm } from '../../models/context-broker-form';
+import { ContextBrokerForm, ServiceForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, TreeNode } from 'primeng/api';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { AccordionTab } from 'primeng/accordion/accordion';
 
@@ -23,6 +23,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
 
     public chooseWarningVisible: boolean;
+    public accordionTabsSelected: boolean = false;
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
@@ -52,6 +53,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     }
 
     public onAddService(): void {
+        this.accordionTabsSelected = true;
         if (this.accordionTabs && this.accordionTabs.length > 0) {
             this.accordionTabs.forEach(a => a.selected = false);
         }
@@ -87,7 +89,12 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             this.configDashboardService.serviceHeaderWhenEmpty;
     }
 
-    public onNodeChange(): void {
+    public onNodeSelect(event: any): void {
+        this.selectedEntitiesChange.emit();
+    }
+
+    public onNodeUnselect(event: any): void {
+        if (event.node.data.fav) { event.node.data.fav = false; }
         this.selectedEntitiesChange.emit();
     }
 
@@ -103,6 +110,12 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             this.cb.services[index].form.get('servicePath').invalid;
     }
 
+    public shouldButtonFavBeDisplayed(node: TreeNode, service: ServiceForm): boolean {
+        return node.data.fav !== undefined && service.selectedEntities.some(e => {
+            return e.parent && node.parent && e.parent.label === node.parent.label && e.label === node.label;
+        });
+    }
+
     public onChooseEntities(index: number): void {
         const url: string = this.cb.form.value.url;
         const service: string = this.cb.services[index].form.value.service;
@@ -115,6 +128,19 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             err => {
                 this.onChooseEntitiesFail(index);
             });
+    }
+
+    public onClickFav(event: any, node: TreeNode): void {
+        event.stopPropagation();
+        node.parent.children.forEach(c => {
+            c.data.fav = false;
+        });
+        node.data.fav = true;
+    }
+
+    public onClickUnfav(event: any, node: TreeNode): void {
+        event.stopPropagation();
+        node.data.fav = false;
     }
 
     private removeService(index: number): void {

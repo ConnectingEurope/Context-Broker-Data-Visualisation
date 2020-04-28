@@ -4,6 +4,7 @@ export interface EntityConfiguration {
     attrs: {
         name: string;
         selected: boolean;
+        fav: boolean;
     }[];
 }
 

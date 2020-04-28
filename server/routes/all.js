@@ -88,8 +88,10 @@ function getHeaders(service) {
 }
 
 function getModelDto(cb, s, entity, entityData) {
+    const favAttribute = entity.attrs.find(a => a.fav);
     return {
         type: entity.name,
+        favAttr: favAttribute ? favAttribute.name : undefined,
         contextUrl: cb.url,
         cometUrl: cb.comet,
         service: s ? s.service : '',

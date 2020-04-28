@@ -17,7 +17,8 @@
             <div class="col-12">
                 <p-accordion>
                     <ng-template ngFor let-service let-i="index" [ngForOf]="cb.services">
-                        <p-accordionTab #accordionTab [selected]="true" [transitionOptions]="'0ms'">
+                        <p-accordionTab #accordionTab [selected]="accordionTabsSelected && i == cb.services.length - 1"
+                            [transitionOptions]="'0ms'">
 
                             <!-- AccordionTab header -->
                             <p-header>
@@ -72,8 +73,33 @@
                                                         [(selection)]="service.selectedEntities" emptyMessage=""
                                                         (onNodeExpand)="refreshScroll()"
                                                         (onNodeCollapse)="refreshScroll()"
-                                                        (onNodeSelect)="onNodeChange()"
-                                                        (onNodeUnselect)="onNodeChange()"></p-tree>
+                                                        (onNodeSelect)="onNodeSelect($event)"
+                                                        (onNodeUnselect)="onNodeUnselect($event)"
+                                                        styleClass="attrsTree">
+                                                        <ng-template let-node pTemplate="default">
+                                                            <div class="container-fluid" style="height: 29px;">
+                                                                <div class="row align-items-center"
+                                                                    style="height: 29px;">
+                                                                    <div class="col-auto p-0">
+                                                                        <p class="d-inline">{{node.label}}</p>
+                                                                    </div>
+                                                                    <div class="col-auto p-0">
+                                                                        <ng-container
+                                                                            *ngIf="shouldButtonFavBeDisplayed(node, service)">
+                                                                            <p-button *ngIf="node.data.fav === false"
+                                                                                class="favButton" icon="far fa-star"
+                                                                                (onClick)="onClickFav($event, node)">
+                                                                            </p-button>
+                                                                            <p-button *ngIf="node.data.fav === true"
+                                                                                class="favButton" icon="fas fa-star"
+                                                                                (onClick)="onClickUnfav($event, node)">
+                                                                            </p-button>
+                                                                        </ng-container>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </p-tree>
                                                 </p-scrollPanel>
                                             </div>
                                         </div>
