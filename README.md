@@ -1,5 +1,7 @@
 # Context Broker Data Visualization
 
+![](https://nexus.lab.fiware.org/repository/raw/public/badges/chapters/visualization.svg) ![](https://img.shields.io/github/license/ConnectingEurope/Context-Broker-Data-Visualisation) ![](https://img.shields.io/docker/pulls/cbenablereveris/TODO) ![](https://img.shields.io/docker/v/cbenablereveris/TODO) ![](https://img.shields.io/docker/automated/cbenablereveris/TODO) ![](https://img.shields.io/docker/build/cbenablereveris/TODO) ![](https://img.shields.io/travis/user/TODO) ![](https://img.shields.io/github/contributors/ConnectingEurope/Context-Broker-Data-Visualisation) ![](https://img.shields.io/github/stars/ConnectingEurope/Context-Broker-Data-Visualisation?style=social)
+
 The **Context Broker Data Visualization** is an **enabler** which consists on a **visualization layer** over the Context Broker, and also for historical data tools. It provides the following features:
 
 - **Real-time data** visualization through geo-localized sensors in a map, based on the information from the **Orion Context Broker**.
