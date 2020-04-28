@@ -68,7 +68,7 @@
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
     "markdownlint-cli": "^0.22.0",
-    "protractor": "~5.4.0",
+    "protractor": "~5.4.4",
     "rxjs-tslint-rules": "^4.29.1",
     "stylelint": "^13.0.0",
     "stylelint-config-standard": "^19.0.0",
