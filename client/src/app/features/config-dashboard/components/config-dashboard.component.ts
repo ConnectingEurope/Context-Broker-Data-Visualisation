@@ -24,6 +24,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     public removedServiceAtLeastOnce: boolean = false;
     public selectedEntitiesChange: boolean = false;
     public accordionTabsSelected: boolean = false;
+    public favAttrChange: boolean = false;
     public contextBrokers: ContextBrokerForm[] = [];
 
     @ViewChild('serviceConfiguration') private serviceConfiguration: ServiceConfigurationComponent;
@@ -91,6 +92,10 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
     public onSelectedEntitiesChange(): void {
         this.selectedEntitiesChange = true;
+    }
+
+    public onFavChange(): void {
+        this.favAttrChange = true;
     }
 
     public onRemoveContextBroker(index: number): void {
@@ -168,6 +173,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         this.removedContextBrokerAtLeastOnce = false;
         this.removedServiceAtLeastOnce = false;
         this.selectedEntitiesChange = false;
+        this.favAttrChange = false;
         this.contextBrokers.forEach(cb => {
             cb.form.markAsPristine();
             cb.historicalForm.markAsPristine();
@@ -180,7 +186,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
             return cb.form.dirty ||
                 (cb.form.get('needHistoricalData').value && cb.historicalForm.dirty) ||
                 (cb.form.get('needServices').value && cb.services.some(s => s.form.dirty));
-        }) || this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce || this.selectedEntitiesChange;
+        }) || this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce || this.selectedEntitiesChange || this.favAttrChange;
     }
 
     private isValidConfiguration(): boolean {

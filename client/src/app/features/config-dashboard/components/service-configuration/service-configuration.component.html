@@ -67,6 +67,9 @@
                                         <!-- Selected entities -->
                                         <div class="col-5">
                                             <div *ngIf="service.entities.length > 0">
+                                                <h6 class="d-inline">Entities and attributes to choose</h6>
+                                                <i class="ml-2 pi pi-question-circle help-icon"
+                                                    pTooltip="The map will only display the entities and the attributes marked here. The attribute chosen by the star will be shown above the entity marker."></i>
                                                 <p-scrollPanel #entitiesScroll
                                                     [style]="{width: '100%', height: '300px'}">
                                                     <p-tree [value]="service.entities" selectionMode="checkbox"

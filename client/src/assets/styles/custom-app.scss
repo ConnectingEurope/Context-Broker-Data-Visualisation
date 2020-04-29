@@ -145,3 +145,29 @@ body .ui-tree.attrsTree p {
     color: $primaryColor;
     font-size: 14px !important;
 }
+
+.favCheckDiv {
+    height: 39.72px;
+    color: $buttonTextColor;
+    background-color: $secondaryColor;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    box-shadow: 0 3px 7px rgba(50,50,93,.1), 0 1px 3px rgba(0,0,0,.08) !important;
+    pointer-events: auto !important;
+    cursor: default !important;
+}
+
+.favCheckDiv .ui-inputswitch {
+    display: block;
+}
+
+.favAttrsContainer {
+    background-color: $primaryLightColor;
+    color: $textColor;
+    border-radius: 8px;
+    opacity: 0.9;
+}
+
+.favAttrsContainer hr {
+    background-color: $textColor;
+}

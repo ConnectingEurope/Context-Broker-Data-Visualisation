@@ -21,6 +21,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     @Input() public cb: ContextBrokerForm;
     @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public favChange: EventEmitter<void> = new EventEmitter<void>();
 
     public chooseWarningVisible: boolean;
     public accordionTabsSelected: boolean = false;
@@ -136,11 +137,13 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             c.data.fav = false;
         });
         node.data.fav = true;
+        this.favChange.emit();
     }
 
     public onClickUnfav(event: any, node: TreeNode): void {
         event.stopPropagation();
         node.data.fav = false;
+        this.favChange.emit();
     }
 
     private removeService(index: number): void {

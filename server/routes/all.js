@@ -12,15 +12,16 @@ function readConfig(routerRes) {
 
     const db = new Datastore({ filename: './configuration.json' });
     db.loadDatabase(function (err) {
-        if (err) console.log(err);
-    });
-
-    db.find({}, function (err, docs) {
-        if (!err && docs.length > 0) {
-            contextBrokers = docs[0].contextBrokers;
-            processContextBrokers(routerRes);
-        } else {
-            routerRes.send([]);
+        if (err) routerRes.status(500).send();
+        else {
+            db.find({}, function (err, docs) {
+                if (!err && docs.length > 0) {
+                    contextBrokers = docs[0].contextBrokers;
+                    processContextBrokers(routerRes);
+                } else {
+                    routerRes.send([]);
+                }
+            });
         }
     });
 }
@@ -75,7 +76,7 @@ function getAttrs(entity) {
 function getParams() {
     return {
         options: 'keyValues',
-        limit: '1000'
+        limit: '1000',
     };
 }
 
