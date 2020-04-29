@@ -27,6 +27,8 @@ The following picture represents the architecture of the Context Broker Data Vis
 
 ![Architecture](../img/Architecture.png)
 
+> *Illustration 1. Architecture of the Context Broker Visualization enabler*
+
 It is recommended to read the links of the [Reference documentation](../../README.md#reference-documentation) section before continue reading the rest of the content.
 
 Hereunder, the set of tools of the architecture are going to be detailed:
@@ -108,7 +110,76 @@ The graphs of the enabler are generated using [ChartJS](https://www.chartjs.org/
 
 Currently, the enabler uses the [line graph](https://www.chartjs.org/docs/latest/charts/line.html) for numerical attributes and the [bar graph](https://www.chartjs.org/docs/latest/charts/bar.html) for text (String) attributes.
 
-**TO DO: COMPLETE THE SECTION**
+The following steps explain how to develop a new graph:
+
+1. Open the **historical-data-graph.component.ts** and **historical-data-graph.component.html** files.
+
+2. In the **historical-data-graph.component.ts**, there are two different configurations for the line and bar graphs of the enabler:
+
+    ```typescript
+        protected chartConfigForNumber: any = {
+            type: 'line',
+            options: { scales: { yAxes: [{ ticks: { beginAtZero: false } }] } },
+        };
+
+        protected chartConfigForString: any = {
+            type: 'bar',
+            options: {
+                scales: { yAxes: [{ ticks: { beginAtZero: true } }] },
+                legend: { labels: { boxWidth: 0 } },
+            },
+        };
+
+    ```
+
+    A **new configuration** is needed for the new graph to be developed:
+
+    ```typescript
+        protected newChartConfig: any = {
+            type: 'TYPE_OF_CHART',
+            options: { OPTIONS_OF_THE_CHART } },
+        };
+    ```
+
+3. There are also two ViewChild for the current graphs:
+
+    ```typescript
+        @ViewChild('graphicCardForNumber', { static: false }) private graphicCardForNumber: GraphicCardComponent;
+        @ViewChild('graphicCardForString', { static: false }) private graphicCardForString: GraphicCardComponent;
+    ```
+
+    So a **new ViewChild** is needed for the new graph. With the following structure:
+
+    ```typescript
+        @ViewChild('newGraphicCard', { static: false }) private newGraphicCard: GraphicCardComponent;
+    ```
+
+4. There is a function called **getHistoricalData()** which is in charge of obtaining the historical data for each type of graph. Inside of that functions, there are other functions, and all of them end up coming to the **getAggregatedData()** function.
+
+5. The available **aggregated methods of STH-Comet** are already defined in the **AggregateMethod** enum.
+
+6. At this point, new functions may be needed to manage the desired data, based on the new graph purposes.
+
+7. Returning to the **getAggregatedData()** function, it uses inside the **historicalDataService**. This is a class called **HistoricalDataService** which is in charge of **sending the requests** to the Back-end of the enabler (and it will send them to STH-Comet). There are **4 ready-to-use functions** (depending on the type of data to be retrieved, i.e. raw data or aggregated data).
+
+8. Go to the **historical-data-graph.component.html** file and look at the two existent graphs:
+
+    ```html
+        <!-- Graphic for numbers -->
+        <app-graphic-card [style.display]="attrType === attrTypeEnum.NUMBER ? 'block' : 'none'" #graphicCardForNumber [chartConfig]="chartConfigForNumber"></app-graphic-card>
+
+        <!-- Graphic for strings -->
+        <app-graphic-card [style.display]="attrType === attrTypeEnum.STRING ? 'block' : 'none'"  #graphicCardForString [chartConfig]="chartConfigForString"></app-graphic-card>
+    ```
+
+    The **new graph** has to be added below them, with its correspondent variables:
+
+    ```html
+        <!-- New graphic -->
+        <app-graphic-card [style.display]="attrType === attrTypeEnum.NUMBER ? 'block' : 'none'" #newGraphicCard [chartConfig]="newChartConfig"></app-graphic-card>
+    ```
+
+9. If all the previous steps are completed and the new needed functions have been correctly added, the development of the new graph should be ready.
 
 #### How to change the refresh time of the information
 
