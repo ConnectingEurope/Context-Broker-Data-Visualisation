@@ -106,7 +106,7 @@ The objective of this section is to explain different technical points of the en
 
 The graphs of the enabler are generated using [ChartJS](https://www.chartjs.org/). There are available different [types of graphs](https://www.chartjs.org/docs/latest/charts/).
 
-Currentle, the enabler uses the [line graph](https://www.chartjs.org/docs/latest/charts/line.html) for numerical attributes and the [bar graph](https://www.chartjs.org/docs/latest/charts/bar.html) for text (String) attributes.
+Currently, the enabler uses the [line graph](https://www.chartjs.org/docs/latest/charts/line.html) for numerical attributes and the [bar graph](https://www.chartjs.org/docs/latest/charts/bar.html) for text (String) attributes.
 
 **TO DO: COMPLETE THE SECTION**
 
@@ -146,7 +146,7 @@ All the desired attributes to be subscribed for the specific entity, need to be 
 
 This is the structure of the request for this kind of subscription:
 
-**URL:** http://localhost:1026/v2/subscriptions/
+**URL:** <http://localhost:1026/v2/subscriptions/>
 
 ```json
 {
@@ -183,7 +183,7 @@ All the desired attributes to be subscribed for the specific entity, need to be 
 
 This is the structure of the request for this kind of subscription:
 
-**URL:** http://localhost:1026/v2/subscriptions/
+**URL:** <http://localhost:1026/v2/subscriptions/>
 
 ```json
 {
@@ -220,7 +220,7 @@ All the desired attributes to be subscribed for the specific entity, need to be 
 
 This is the structure of the request for this kind of subscription:
 
-**URL:** http://localhost:1026/v2/subscriptions/
+**URL:** <http://localhost:1026/v2/subscriptions/>
 
 ```json
 {
