@@ -2,7 +2,7 @@
 
 Depending on the necessities for the deployment of the Context Broker Data Visualisation enabler, there are four different tutorials.
 
-They are also divided between local environment and FIWARE lab.
+They are also divided between **local environment** and **FIWARE lab (or Sandbox)**.
 
 ## Content
 

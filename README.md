@@ -21,7 +21,7 @@ You can find more info at the [FIWARE developers](https://developers.fiware.org/
 
 The complete list of FIWARE GEs and Incubated FIWARE GEs can be found at the [FIWARE Catalogue](https://catalogue.fiware.org/).
 
-| :books: [User manual](doc/user/index.md) | :books: [Deployment manual](doc/tutorials/index.md) | :books: [Technical manual](doc/technical/index.md) | :whale: [Docker Hub](https://hub.docker.com/u/cbenablereveris) |
+| :earth_africa: [CEF Digital](https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/Services+Context+Broker) | :briefcase: [FIWARE Marketplace](https://marketplace.fiware.org/pages/enablers) | :books: [User manual](doc/user/index.md) | :books: [Deployment manual](doc/tutorials/index.md) | :books: [Technical manual](doc/technical/index.md) | :whale: [DockerHub](https://hub.docker.com/u/cbenablereveris) |
 
 ## Content
 
