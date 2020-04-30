@@ -41,6 +41,8 @@ It is also integrated with Cygnus and, optionally, it notifies the changes of th
 
 By default, it serves on the port 1026.
 
+[Top](#technical-documentation)
+
 #### Cygnus
 
 Through its integration with the Context Broker, Cygnus is subscribed to the changes of the real-time data information.
@@ -48,6 +50,8 @@ Through its integration with the Context Broker, Cygnus is subscribed to the cha
 Because of that, Cygnus generates historical data, storing all the data that is received in the MongoDB.
 
 By default, it serves on the port 5050.
+
+[Top](#technical-documentation)
 
 #### STH-Comet
 
@@ -57,6 +61,8 @@ It provides the historical data information to the Enabler Back-end.
 
 By default, it serves on the port 8666.
 
+[Top](#technical-documentation)
+
 #### MongoDB
 
 The database which stores both real-time data (from the Context Broker) and historical data (from Cygnus).
@@ -64,6 +70,8 @@ The database which stores both real-time data (from the Context Broker) and hist
 It also provides the information to the rest of the tools, when they need to read the data.
 
 By default, it serves on the port 27017.
+
+[Top](#technical-documentation)
 
 #### Enabler Back-end
 
@@ -75,11 +83,15 @@ It also stores the configuration of the Configuration page in an internal JSON f
 
 By default, it serves on the port 3000.
 
+[Top](#technical-documentation)
+
 #### Enabler Front-end
 
 The Front-end of the enabler consists on the visualization layer. It contains all the views of the enabler (map, configuration, historical data, etc.) and requests all the information to be displayed directly to the Back-end.
 
 By default, it serves on the port 4200.
+
+[Top](#technical-documentation)
 
 ### Used technologies
 
@@ -100,9 +112,13 @@ The following technologies has been used for the development and the deployment 
 - [FIWARE lab](https://www.fiware.org/developers/fiware-lab/)
 - [Markdown](https://www.markdownguide.org/)
 
+[Top](#technical-documentation)
+
 ### Understanding the code
 
 The objective of this section is to explain different technical points of the enabler, including new developments, modify parts of the enabler, etc.
+
+[Top](#technical-documentation)
 
 #### How to generate new graphs
 
@@ -181,6 +197,8 @@ The following steps explain how to develop a new graph:
 
 9. If all the previous steps are completed and the new needed functions have been correctly added, the development of the new graph should be ready.
 
+[Top](#technical-documentation)
+
 #### How to change the refresh time of the information
 
 By default, the refresh time of the real-time data in the map is 1 minute. In milliseconds, it is 60000.
@@ -198,6 +216,8 @@ private visualizeEntities(): void {
 ```
 
 In this case, the last value of the function (60000) can be replaced by the desired refresh time (in milliseconds).
+
+[Top](#technical-documentation)
 
 #### Supported types of subscriptions
 
@@ -246,6 +266,8 @@ This is the structure of the request for this kind of subscription:
 }
 ```
 
+[Top](#technical-documentation)
+
 ##### Subscriptions for a group of entities of the same type with multiple attributes
 
 This type of subscription is focused to a **group of entities of the same type**.
@@ -282,6 +304,8 @@ This is the structure of the request for this kind of subscription:
   }
 }
 ```
+
+[Top](#technical-documentation)
 
 ##### Subscriptions for a group of entities with an idPattern with multiple attributes
 
@@ -320,6 +344,8 @@ This is the structure of the request for this kind of subscription:
 }
 ```
 
+[Top](#technical-documentation)
+
 #### How the historical data page gets the subscribed attributes
 
 First of all and **before loading** the historical data page, a **calculation** is made in order to collect the attributes which have subscriptions for changes.
@@ -335,3 +361,5 @@ This is an example of a calculation:
 - List of attributes of the subscription list of the Context Broker: [ATTR1, ATTR2, ATTR3, ATTR4, ATTR5]
 - List of attributes for the type of the sensor in the Configuration page: [ATTR2, ATTR4, ATTR5, ATTR6]
 - Attributes to be displayed in the historical data page: [ATTR2, ATTR4, ATTR5]
+
+[Top](#technical-documentation)

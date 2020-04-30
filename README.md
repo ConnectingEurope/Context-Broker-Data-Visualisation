@@ -18,7 +18,7 @@ You can find more info at the [FIWARE developers](https://developers.fiware.org/
 
 The complete list of FIWARE GEs and Incubated FIWARE GEs can be found at the [FIWARE Catalogue](https://catalogue.fiware.org/).
 
-| :books: [User manual](doc/user/index.md) | :whale: [Docker Hub](https://hub.docker.com/u/cbenablereveris) |
+| :books: [User manual](doc/user/index.md) | :books: [Deployment manual](doc/tutorials/index.md) | :books: [Technical manual](doc/technical/index.md) | :whale: [Docker Hub](https://hub.docker.com/u/cbenablereveris) |
 
 ## Content
 
@@ -37,15 +37,21 @@ It is a **learning tool** for data visualization, not a product.
 
 It could also be adapted to the necessities of every user by developing its own features, taking profit of the base of the enabler. More information can be found in the [documentation](#documentation) section.
 
+[Top](#context-broker-data-visualization)
+
 ## Documentation
 
-The documentation of the Context Broker Data Visualization enabler is available in the following [link](doc/index.md)
+The documentation of the Context Broker Data Visualization enabler is available in the following [link](doc/index.md).
+
+[Top](#context-broker-data-visualization)
 
 ## Deployment
 
 There are four different tutorials for the deployment of the enabler, in a local environment or in [FIWARE lab](https://www.fiware.org/developers/fiware-lab/).
 
 They can be found on the following [link](doc/tutorials/index.md).
+
+[Top](#context-broker-data-visualization)
 
 ## Reference documentation
 
@@ -60,6 +66,8 @@ The following documentation is recommended to be read just before starting to us
 - [FIWARE lab](https://www.fiware.org/developers/fiware-lab/)
 - [NGSI v2 specifications](http://fiware.github.io/specifications/ngsiv2/stable/)
 
+[Top](#context-broker-data-visualization)
+
 ## Testing
 
 The Context Broker Data Visualization enabler has been tested with the following version of the tools which it is integrated:
@@ -69,9 +77,13 @@ The Context Broker Data Visualization enabler has been tested with the following
 - [STH-Comet v2.7.0](https://github.com/telefonicaid/fiware-sth-comet/tree/2.7.0)
 - [MongoDB v3.6](https://github.com/mongodb/mongo/tree/r3.6.0)
 
+[Top](#context-broker-data-visualization)
+
 ## License
 
-TO DO
+Context Broker Data Visualization is licensed under [European Union Public License v1.2](LICENSE).
+
+[Top](#context-broker-data-visualization)
 
 ## Contributors
 
@@ -80,3 +92,5 @@ The Context Broker Data Visualization enabler has been carried out by:
 - [CEF Digital](https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/CEF+Digital+Home)
 - [everis Valencia & Brussels](https://www.everis.com/)
 - [FIWARE](https://www.fiware.org/)
+
+[Top](#context-broker-data-visualization)

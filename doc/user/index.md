@@ -4,9 +4,9 @@ The aim of this document is to create a functional guide to ensure the understan
 
 The Context Broker Data Visualization enabler has been created to ease the understanding of data and use of the Context Broker and to fasten its learning curve for new stakeholders who would like to experiment. It consists in a visualization layer over the Sandbox environment of the Context Broker used for playground purposes.
 
-The enabler is available for use in local or remote environments. There is available a [deployment manual](../tutorials/index.md) to ease its implementation and deployment.
+The enabler is available for use in local or remote environments. There is also available a [deployment manual](../tutorials/index.md) to ease its implementation and deployment.
 
-On the other hand, the enabler gives the opportunity to play with a sensor’s historical data, if configured. Having selected a range of time, it can be represented in a table or even downloaded in a CSV file to further exploit. Furthermore, one of the attributes at a time can be selected and represented in a graphic.
+On the other hand, the enabler gives the opportunity to play with a sensor’s historical data, if configured. Having selected a range of time, it can be represented in a table or even downloaded in a CSV file to further exploit. Furthermore, one of the attributes at a time can be selected and represented in a graph.
 
 ## Contents
 
@@ -32,14 +32,16 @@ On the other hand, the enabler gives the opportunity to play with a sensor’s h
   - [Tables](#tables)
     - [Filters of the table](#filters-of-the-table)
     - [Information of the table](#information-of-the-table)
-  - [Graphics](#graphics)
-    - [Filters of the graphic](#filters-of-the-graphic)
-    - [Information of the graphic](#information-of-the-graphic)
+  - [Graphs](#graphs)
+    - [Filters of the graph](#filters-of-the-graph)
+    - [Information of the graph](#information-of-the-graph)
   - [CSV Data Export](#csv-data-export)
 
 ## How to start
 
 This section describes how to start using the Context Broker Data Visualization enabler, once it has been deployed.
+
+[Top](#user-manual)
 
 ### How to access the Enabler
 
@@ -50,6 +52,8 @@ In order to access the user should introduce in the web browser’s search bar t
 ![WebBrowserAccess](../img/WebBrowserAccess.png)
 >*Illustration 1. Web browser’s search bar.*
 
+[Top](#user-manual)
+
 ### Initial configuration assistant
 
 Once the user access for the first time to the Enabler, there is no information to be displayed. It is necessary to configure one instance of a Context Broker at least. Hence, a pop-up will appear giving the option to the user to be redirected to the Configuration page and start configuring a new instance.
@@ -57,11 +61,15 @@ Once the user access for the first time to the Enabler, there is no information 
 ![ConfigurationAssistant](../img/ConfigurationAssistant.png)
 > *Illustration 2. Initial configuration pop-up*
 
+[Top](#user-manual)
+
 ## Configuration
 
 With the purpose of facilitating the integration of one or various Context Brokers and historical data tools, the Enabler provides a configuration panel that is visual and intuitive. The user can use this panel to configure the information that is desired to be visualized.
 
 This configuration is divided into three sections: how to configure and edit a Context Broker, how to add services, if any, and how to configure the historical data tools if necessary.
+
+[Top](#user-manual)
 
 ### Configuring Context Broker
 
@@ -99,6 +107,8 @@ If various Context Brokers are added, they will appear as a list where each one 
 
 ![DeleteService](../img/DeleteService.png)
 >*Illustration 9. Deleting a Context Broker.*
+
+[Top](#user-manual)
 
 #### Services
 
@@ -138,19 +148,27 @@ A list of the introduced services will appear where the user can edit by clickin
 ![DeleteService](../img/DeleteService.png)
 >*Illustration 17. Deleting a Service.*
 
+[Top](#user-manual)
+
 ### Historical data tools
 
 In order to complement the real-time data, the Enabler offers the possibility to combine it with historical data. Hence, the user is able to optionally configure tools for its implementation in the Configuration page.
 
 The historical data in the Enabler supports two tools that must be configured for each of the Context Brokers as they work together, if any of the tools is not available, the visualization of the historical data will not be possible. The supported tools for the historical data are Cygnus and STH-Comet.
 
+[Top](#user-manual)
+
 #### Cygnus
 
 The first of this two tools is Cygnus. It acts as a connector between the Context Broker’s information that the sensors produce and the MongoDB database that will storage that information. Basically, Cygnus is subscribed to the information the CB produces and creates the historical data for the database. More information can be found at this [link](https://fiware-cygnus.readthedocs.io/en/latest/).
 
+[Top](#user-manual)
+
 #### STH-Comet
 
 The second tool is STH-Comet. In essence, this tool retrieves the historical data created by Cygnus from the database and allows the user to consult and work with it. If needed, the user can find more information [here](https://fiware-sth-comet.readthedocs.io/en/latest/).
+
+[Top](#user-manual)
 
 #### Tool configuration
 
@@ -164,12 +182,16 @@ If the introduced URL is not correct, an error message informing of the unsucces
 ![CygnusIncorrectURL](../img/CygnusIncorrectURL.png)
 >*Illustration 19. Incorrect Cygnus or STH-Comet URL.*
 
+[Top](#user-manual)
+
 ### Saving configuration
 
 Once the user has finished configuring the Context Broker, its services and tools, the “Apply Configuration” at the top part of the page should be clicked so as to save it. If not, the current configuration will be lost and the deleted options will continue to appear.
 
 ![MessageUnsavedChanges](../img/MessageUnsavedChanges.png)
 >*Illustration 20. Saving the configuration.*
+
+[Top](#user-manual)
 
 ## Dashboard
 
@@ -185,6 +207,8 @@ When zooming out in the map, the icons will start to cluster together in a singl
 
 ![MapSensors](../img/MapSensors.png)
 >*Illustration 21. The Enabler Map.*
+
+[Top](#user-manual)
 
 ### Sensors
 
@@ -254,12 +278,16 @@ Apart from showing the real-time data of the sensor, the pop-up offers other fun
 
 On the other hand, when clicking the left button of the pop-up, the user will be redirected to the historical data page with the available data for that sensor, if it was added in the Context Broker configuration.
 
+[Top](#user-manual)
+
 ### Search Bar
 
 ![MapSearchBar](../img/MapSearchBar.png)
 >*Illustration 27. Using the search bar.*
 
 A search bar is available to localize cities in a faster way. The user has to introduce the name of the city they wish to see and, after selecting one of the results, the map will automatically change its focus to the city.
+
+[Top](#user-manual)
 
 ### Managing the sensors
 
@@ -270,12 +298,16 @@ There are available two types of filters at the top right part of the page: the 
 ![MapButtons](../img/MapButtons.png)
 >*Illustration 28. Filtering Options.*
 
+[Top](#user-manual)
+
 #### Layers
 
 This option, is available by clicking the button “Layers”, shown in illustration 28. It is based on being able to hide attributes by unchecking any of the information that was previously added in the CB’s initial configuration. If the user wants to hide any of the entities or attributes that were included before, it will be possible to modify this configuration from this interface by clicking on the checkbox next to the desired variable.
 
 ![MapLayersPanel](../img/MapLayersPanel.png)
 >*Illustration 29. Selecting entities and attributes.*
+
+[Top](#user-manual)
 
 #### Filters
 
@@ -303,6 +335,8 @@ After choosing the desired condition, the user will have to write the desired va
 
 By clicking the button “Clear” the user will be able to delete the current filter that is being created. In order to delete an existing filter, the user should click the bin icon. Furthermore, to delete all the existing filters, the “Clear all” button in illustration 31 should be pressed.
 
+[Top](#user-manual)
+
 ## Historical data
 
 When selecting a sensor there might be another button available at the left part of the pop-up, as shown in illustration 32. In order for this option to appear, the Context Broker that provides information for that selected sensor has to have the historical data tools correctly configured.
@@ -315,12 +349,16 @@ With this option, the user will be redirected to the historical data consultatio
 ![HistoricalDataPage](../img/HistoricalDataPage.png)
 >*Illustration 33. Historical data window.*
 
+[Top](#user-manual)
+
 ### Tables
 
 After selecting the option of visualizing historical data from a sensor, a table with the sensor’s attributes’ information will appear.
 
 ![HistoricalDataTable](../img/HistoricalDataTable.png)
 >*Illustration 34. Attribute table.*
+
+[Top](#user-manual)
 
 #### Filters of the table
 
@@ -333,6 +371,8 @@ By clicking on the date and time options, the user can configure the filter. A c
 
 ![HistoricalDataTableFilters](../img/HistoricalDataTableFilters.png)
 >*Illustration 36. Filter calendar.*
+
+[Top](#user-manual)
 
 #### Information of the table
 
@@ -354,14 +394,18 @@ The rest of the entries can be consulted through different ways:
 
 To the right side of the page selection, the table informs of the entries that are being shown at the moment and the total of entries that are available to consult.
 
-### Graphics
+[Top](#user-manual)
 
-The purpose of is this functionality is to help the user to further study one of the attributes’ measures. With the aid of the graphic representation of the attribute’s evolution, the user can study more specific aspects about it.
+### Graphs
+
+The purpose of is this functionality is to help the user to further study one of the attributes’ measures. With the aid of the graph representation of the attribute’s evolution, the user can study more specific aspects about it.
 
 ![HistoricalDataGraph](../img/HistoricalDataGraph.png)
->*Illustration 39. Historical data graphic.*
+>*Illustration 39. Historical data graph.*
 
-#### Filters of the graphic
+[Top](#user-manual)
+
+#### Filters of the graph
 
 The user will be able to choose different ranges of time for a same attribute. The ranges of times available are:
 
@@ -372,23 +416,27 @@ The user will be able to choose different ranges of time for a same attribute. T
 
 The user will also be able to customize the beginning of the time period depending on the range selected, in case a specific range of dates or times is required. This can be selected with the calendar option next to the range selection, which will adapt to the range selected. For example if the user has selected months, a calendar with the months to choose from will appear.
 
-The table or graphic will show up to the next time level. For instance, if the user selects hours, information up to a day will appear. Note that the range selection is independent for tables and graphics.
+The table or graph will show up to the next time level. For instance, if the user selects hours, information up to a day will appear. Note that the range selection is independent for tables and graphs.
 
 ![HistoricalDataGraphRange](../img/HistoricalDataGraphRange.png)
 >*Illustration 40.Range Selection.*
 
-#### Information of the graphic
+[Top](#user-manual)
 
-The user should choose one of the attributes from the sensor and the range of time desired to be visualized in the graphic, as mentioned before, up to a greater unit will be represented. After selecting all the options, a linear graph will appear automatically with the configuration that the user chose. If the range of time selected is greater than the data available no graphic will appear for the lacking data.
+#### Information of the graph
+
+The user should choose one of the attributes from the sensor and the range of time desired to be visualized in the graph, as mentioned before, up to a greater unit will be represented. After selecting all the options, a linear graph will appear automatically with the configuration that the user chose. If the range of time selected is greater than the data available no graph will appear for the lacking data.
 
 ![HistoricalDataGraphSelect](../img/HistoricalDataGraphSelect.png)
->*Illustration 41. Graphic of one Attribute.*
+>*Illustration 41. Graph of one Attribute.*
 
-The default graphic will show the information connected with lines and will show the evolution of the maximum and minimum values for that specific attribute. Also it will show the evolution of the average values for that range of time. For example, if a month is being represented it will show the minimum, maximum and average of each day.
+The default graph will show the information connected with lines and will show the evolution of the maximum and minimum values for that specific attribute. Also it will show the evolution of the average values for that range of time. For example, if a month is being represented it will show the minimum, maximum and average of each day.
 
-If any of these options is not desired, the user can hide it by clicking on the name at the legend that is placed above the graphic.
+If any of these options is not desired, the user can hide it by clicking on the name at the legend that is placed above the graph.
 
-If the user desires to change the default graphic, a tutorial is available in the technical documentation explaining step by step how to do so. It can be found here.
+If the user desires to change the default graph, a tutorial is available in the technical documentation explaining step by step how to do so. It can be found here.
+
+[Top](#user-manual)
 
 ### CSV Data Export
 
@@ -398,3 +446,5 @@ The aim of this compatible data exportation is to allow the user to further stud
 
 ![HistoricalDataExport](../img/HistoricalDataExport.png)
 >*Illustration 42. Historical data exportation.*
+
+[Top](#user-manual)
