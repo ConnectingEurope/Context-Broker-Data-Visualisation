@@ -289,7 +289,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     private storeFavAttrs(models: ModelDto[]): void {
-        this.favAttrs = models.map(m => ({ entity: m.type, favAttr: m.favAttr }));
+        this.favAttrs = models.filter(m => m.favAttr).map(m => ({ entity: m.type, favAttr: m.favAttr }));
     }
 
     private adjustView(): void {

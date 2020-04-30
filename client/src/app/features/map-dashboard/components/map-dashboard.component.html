@@ -19,7 +19,7 @@
             <div class="row align-items-center">
 
                 <!-- Main attributes -->
-                <div class="col-auto p-0 mr-3">
+                <div *ngIf="favAttrs.length > 0" class="col-auto p-0 mr-3">
                     <div class="favCheckDiv">
                         <div class="container-fluid h-100">
                             <div class="row align-items-center h-100">
@@ -58,12 +58,12 @@
     </div>
 
     <!-- Bottom left corner controls -->
-    <div *ngIf="favChecked" class="leaflet-bottom leaflet-left">
+    <div *ngIf="favChecked && favAttrs.length > 0" class="leaflet-bottom leaflet-left">
         <div class="favAttrsContainer mb-3 ml-3 p-3">
             <h6>Main attributes</h6>
             <hr />
             <ng-template ngFor let-f let-i="index" [ngForOf]="favAttrs">
-                <div><b>{{f.entity + ': '}}</b>{{f.favAttr}}</div>
+                <div *ngIf="f.favAttr"><b>{{f.entity + ': '}}</b>{{f.favAttr}}</div>
             </ng-template>
         </div>
     </div>
