@@ -7,11 +7,11 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
 ## Content
 
 - [Local environment](#local-environment)
-  - [Tutorial 1: Enabler](#tutorial-1:-enabler)
-  - [Tutorial 2: Enabler + Context Broker](#tutorial-2:-enabler-+-context-broker)
-  - [Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet](#tutorial-3:-enabler-+-context-broker-+-cygnus-+-sth-comet)
+  - [Tutorial 1: Enabler](#tutorial%201:%20enabler)
+  - [Tutorial 2: Enabler + Context Broker](#tutorial%202:%20enabler%20+%20context-broker)
+  - [Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet](#tutorial%203:%20enabler%20+%20context%20broker%20+%20cygnus%20+%20sth%20comet)
 - [FIWARE lab](#fiware-lab)
-  - [Tutorial 4: FIWARE lab](#tutorial-4:-fiware-lab)
+  - [Tutorial 4: FIWARE lab](#tutorial%204:%20fiware%20lab)
 
 ## Local environment
 
