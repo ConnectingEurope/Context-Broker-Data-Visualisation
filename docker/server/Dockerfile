@@ -19,7 +19,7 @@ RUN npm install
 # add app
 COPY . /app
 
-EXPOSE 3006
+EXPOSE 3000
 
 # start app
 # RUN npm start
