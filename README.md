@@ -1,6 +1,12 @@
 # Context Broker Data Visualisation
 
-![FIWARE Visualisation](https://nexus.lab.fiware.org/repository/raw/public/badges/chapters/visualization.svg) ![License](https://img.shields.io/github/license/ConnectingEurope/Context-Broker-Data-Visualisation) ![Docker version](https://img.shields.io/docker/v/cbenablereveris/cb-data-visualisation-enabler) ![Travis](https://img.shields.io/travis/user/TODO) ![GitHub contributors](https://img.shields.io/github/contributors/ConnectingEurope/Context-Broker-Data-Visualisation) ![GitHub stars](https://img.shields.io/github/stars/ConnectingEurope/Context-Broker-Data-Visualisation?style=social)
+![FIWARE Visualisation](https://nexus.lab.fiware.org/repository/raw/public/badges/chapters/visualization.svg)
+![License](https://img.shields.io/github/license/ConnectingEurope/Context-Broker-Data-Visualisation)
+![Docker version](https://img.shields.io/docker/v/cbenablereveris/cb-data-visualisation-enabler)
+![StackOverflow](https://nexus.lab.fiware.org/repository/raw/public/badges/stackoverflow/orion.svg)
+![Travis](https://img.shields.io/travis/user/TODO)
+![GitHub contributors](https://img.shields.io/github/contributors/ConnectingEurope/Context-Broker-Data-Visualisation)
+![GitHub stars](https://img.shields.io/github/stars/ConnectingEurope/Context-Broker-Data-Visualisation?style=social)
 
 **Master:** ![Master](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation/workflows/Docker%20Image%20CI/badge.svg) **Develop:** ![Develop](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation/workflows/Docker%20Image%20CI/badge.svg?branch=develop)
 ![Docker pulls](https://img.shields.io/docker/pulls/cbenablereveris/cb-data-visualisation-enabler)
