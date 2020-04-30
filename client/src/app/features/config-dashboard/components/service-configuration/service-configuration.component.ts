@@ -90,19 +90,12 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             this.configDashboardService.serviceHeaderWhenEmpty;
     }
 
-    public onNodeSelect(event: any): void {
+    public onSelectedEntitiesChange(): void {
         this.selectedEntitiesChange.emit();
     }
 
-    public onNodeUnselect(event: any): void {
-        if (event.node.data.fav) { event.node.data.fav = false; }
-        this.selectedEntitiesChange.emit();
-    }
-
-    public refreshScroll(): void {
-        setTimeout(() => {
-            this.entitiesScroll.refresh();
-        });
+    public onFavChange(): void {
+        this.favChange.emit();
     }
 
     public isDisabledChooseButton(index: number): boolean {
@@ -129,21 +122,6 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             err => {
                 this.onChooseEntitiesFail(index);
             });
-    }
-
-    public onClickFav(event: any, node: TreeNode): void {
-        event.stopPropagation();
-        node.parent.children.forEach(c => {
-            c.data.fav = false;
-        });
-        node.data.fav = true;
-        this.favChange.emit();
-    }
-
-    public onClickUnfav(event: any, node: TreeNode): void {
-        event.stopPropagation();
-        node.data.fav = false;
-        this.favChange.emit();
     }
 
     private removeService(index: number): void {

@@ -18,8 +18,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     @Input() public cb: ContextBrokerForm;
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
-    @Output() public urlChange: EventEmitter<void> = new EventEmitter<void>();
     @Output() public favChange: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public urlChange: EventEmitter<void> = new EventEmitter<void>();
 
     public chooseWarningVisible: boolean;
 
@@ -44,14 +44,12 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
         this.urlChange.emit();
     }
 
-    public onNodeChange(): void {
+    public onSelectedEntitiesChange(): void {
         this.selectedEntitiesChange.emit();
     }
 
-    public refreshScroll(): void {
-        setTimeout(() => {
-            this.entitiesScroll.refresh();
-        });
+    public onFavChange(): void {
+        this.favChange.emit();
     }
 
     public onCheckContextBroker(): void {
