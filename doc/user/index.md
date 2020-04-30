@@ -1,8 +1,16 @@
 # User manual
 
+The aim of this document is to create a functional guide to ensure the understanding of the enabler, so the users are able to exploit it to its fullest.
+
+The Context Broker Data Visualization enabler has been created to ease the understanding of data and use of the Context Broker and to fasten its learning curve for new stakeholders who would like to experiment. It consists in a visualization layer over the Sandbox environment of the Context Broker used for playground purposes.
+
+The enabler is available for use in local or remote environments. There is available a [deployment manual](../tutorials/index.md) to ease its implementation and deployment.
+
+On the other hand, the enabler gives the opportunity to play with a sensor’s historical data, if configured. Having selected a range of time, it can be represented in a table or even downloaded in a CSV file to further exploit. Furthermore, one of the attributes at a time can be selected and represented in a graphic.
+
 ## Contents
 
-- [Introduction](#introduction)
+- [How to start](#how-to-start)
   - [How to access the  Enabler](#how-to-access-the-enabler)
   - [Initial configuration assistant](#initial-configuration-assistant)
 - [Configuration](#configuration)
@@ -29,15 +37,9 @@
     - [Information of the graphic](#information-of-the-graphic)
   - [CSV Data Export](#csv-data-export)
 
-## Introduction
+## How to start
 
-The aim of this document is to create a functional guide to ensure the understanding of the enabler, so the users are able to exploit it to its fullest.
-
-The Context Broker Data Visualization enabler has been created to ease the understanding of data and use of the Context Broker and to fasten its learning curve for new stakeholders who would like to experiment. It consists in a visualization layer over the Sandbox environment of the Context Broker used for playground purposes.
-
-The enabler is available for use in local or remote environments. There is available a [deployment manual](../tutorials/index.md) to ease its implementation and deployment.
-
-On the other hand, the enabler gives the opportunity to play with a sensor’s historical data, if configured. Having selected a range of time, it can be represented in a table or even downloaded in a CSV file to further exploit. Furthermore, one of the attributes at a time can be selected and represented in a graphic.
+This section describes how to start using the Context Broker Data Visualization enabler, once it has been deployed.
 
 ### How to access the Enabler
 
