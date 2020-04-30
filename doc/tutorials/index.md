@@ -1,6 +1,6 @@
 # Tutorials for deployment
 
-Depending on the necessities for the deployment of the Context Broker Data Visualization enabler, there are four different possibilities.
+Depending on the necessities for the deployment of the Context Broker Data Visualisation enabler, there are four different possibilities.
 
 They are also divided between local environment and FIWARE lab.
 

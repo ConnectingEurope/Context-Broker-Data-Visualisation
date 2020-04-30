@@ -2,7 +2,7 @@
 
 The aim of this document is to create a functional guide to ensure the understanding of the enabler, so the users are able to exploit it to its fullest.
 
-The Context Broker Data Visualization enabler has been created to ease the understanding of data and use of the Context Broker and to fasten its learning curve for new stakeholders who would like to experiment. It consists in a visualization layer over the Sandbox environment of the Context Broker used for playground purposes.
+The Context Broker Data Visualisation enabler has been created to ease the understanding of data and use of the Context Broker and to fasten its learning curve for new stakeholders who would like to experiment. It consists in a visualisation layer over the Sandbox environment of the Context Broker used for playground purposes.
 
 The enabler is available for use in local or remote environments. There is also available a [deployment manual](../tutorials/index.md) to ease its implementation and deployment.
 
@@ -41,7 +41,7 @@ On the other hand, the enabler gives the opportunity to play with a sensor’s h
 
 ## How to start
 
-This section describes how to start using the Context Broker Data Visualization enabler, once it has been deployed.
+This section describes how to start using the Context Broker Data Visualisation enabler, once it has been deployed.
 
 [Top](#user-manual)
 
@@ -156,11 +156,11 @@ A list of the introduced services will appear where the user can edit by clickin
 
 Once the entities and the attributes of the Context Broker (or one of its services) has been loaded, there are also **star icons** on the right of each attribute.
 
-This star allow the user to select the **main attribute of the entity**, for a special visualization on the map.
+This star allow the user to select the **main attribute of the entity**, for a special visualisation on the map.
 
 It is only allowed to select one main attribute per each category.
 
-![MainAttributesInConfiguration](../img/ServicesMainAttributes.png)
+![MainAttributesInConfiguration](../img/ServicesMainAttributes.PNG)
 
 >*Illustration 18. Configuring main attributes*
 
@@ -170,7 +170,7 @@ It is only allowed to select one main attribute per each category.
 
 In order to complement the real-time data, the Enabler offers the possibility to combine it with historical data. Hence, the user is able to optionally configure tools for its implementation in the Configuration page.
 
-The historical data in the Enabler supports two tools that must be configured for each of the Context Brokers as they work together, if any of the tools is not available, the visualization of the historical data will not be possible. The supported tools for the historical data are Cygnus and STH-Comet.
+The historical data in the Enabler supports two tools that must be configured for each of the Context Brokers as they work together, if any of the tools is not available, the visualisation of the historical data will not be possible. The supported tools for the historical data are Cygnus and STH-Comet.
 
 [Top](#user-manual)
 
@@ -228,9 +228,9 @@ When zooming out in the map, the icons will start to cluster together in a singl
 
 #### Main attributes
 
-If at least one important attribute for the different types of sensors has been configured in the Configuration page, the visualization of the map will include the visualization of **Main attributes**.
+If at least one important attribute for the different types of sensors has been configured in the Configuration page, the visualisation of the map will include the visualisation of **Main attributes**.
 
-![MapWithMainAttributes](../img/MapSensorsWithMainAttributes.png)
+![MapWithMainAttributes](../img/MapSensorsWithMainAttributes.PNG)
 
 >*Illustration 22. Main attributes over the sensors*
 
@@ -238,7 +238,7 @@ There is also a **caption** on the bottom left of the map, which indicates the a
 
 The switch option on the top right of the map, allow the user to show or hide the main attributes over the sensors.
 
-![MapWithoutMainAttributes](../img/MapSensorsWithoutMainAttributes.png)
+![MapWithoutMainAttributes](../img/MapSensorsWithoutMainAttributes.PNG)
 
 >*Illustration 23. Main attributes disabled*
 
