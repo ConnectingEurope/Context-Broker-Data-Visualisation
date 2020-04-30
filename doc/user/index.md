@@ -16,6 +16,7 @@ On the other hand, the enabler gives the opportunity to play with a sensor’s h
 - [Configuration](#configuration)
   - [Configuring Context Broker](#configuring-context-broker)
     - [Services](#services)
+    - [Configuring main attributes](#configuring-main-attributes)
   - [Historical data tools](#historical-data-tools)
     - [Cygnus](#cygnus)
     - [STH-Comet](#sth-comet)
@@ -23,6 +24,7 @@ On the other hand, the enabler gives the opportunity to play with a sensor’s h
   - [Saving configuration](#saving-configuration)
 - [Dashboard](#dashboard)
   - [Map](#map)
+    - [Main attributes](#main-attributes)
   - [Sensors](#sensors)
   - [Search Bar](#search-bar)
   - [Managing the sensors](#managing-the-sensors)
@@ -150,6 +152,20 @@ A list of the introduced services will appear where the user can edit by clickin
 
 [Top](#user-manual)
 
+#### Configuring main attributes
+
+Once the entities and the attributes of the Context Broker (or one of its services) has been loaded, there are also **star icons** on the right of each attribute.
+
+This star allow the user to select the **main attribute of the entity**, for a special visualization on the map.
+
+It is only allowed to select one main attribute per each category.
+
+![MainAttributesInConfiguration](../img/ServicesMainAttributes.png)
+
+>*Illustration 18. Configuring main attributes*
+
+[Top](#user-manual)
+
 ### Historical data tools
 
 In order to complement the real-time data, the Enabler offers the possibility to combine it with historical data. Hence, the user is able to optionally configure tools for its implementation in the Configuration page.
@@ -210,6 +226,24 @@ When zooming out in the map, the icons will start to cluster together in a singl
 
 [Top](#user-manual)
 
+#### Main attributes
+
+If at least one important attribute for the different types of sensors has been configured in the Configuration page, the visualization of the map will include the visualization of **Main attributes**.
+
+![MapWithMainAttributes](../img/MapSensorsWithMainAttributes.png)
+
+>*Illustration 22. Main attributes over the sensors*
+
+There is also a **caption** on the bottom left of the map, which indicates the attributes that are displayed for each type of sensor.
+
+The switch option on the top right of the map, allow the user to show or hide the main attributes over the sensors.
+
+![MapWithoutMainAttributes](../img/MapSensorsWithoutMainAttributes.png)
+
+>*Illustration 23. Main attributes disabled*
+
+[Top](#user-manual)
+
 ### Sensors
 
 The icons that appear in the map respond to a list of categories that classifies the data in different groups depending on the type of information it gives:
@@ -260,7 +294,7 @@ Whenever the icon of a sensor is clicked, a pop-up with the sensor’s informati
 ![PopupAttributes](../img/PopupAttributes.png)
 >*Illustration 22. Example of pop-up attributes.*
 
-![SensorPopup](../img/SensorPopup.png)
+![SensorPopup](../img/SensorPopUp.png)
 >*Illustration 23. Sensor pop-up.*
 
 However, if the user unselects any of the attributes in the configuration of the desired Context Broker, they will disappear in the pop-up as seen in the next illustration.
@@ -271,7 +305,7 @@ However, if the user unselects any of the attributes in the configuration of the
 ![MapPopUpAfterFilterAttrs](../img/MapPopUpAfterFilterAttrs.png)
 >*Illustration 25. Same pop-up without the attributes.*
 
-![SensorPopupCharacteristics](../img/SensorPopupCharacteristics.png)
+![SensorPopupCharacteristics](../img/SensorPopUpCharacteristics.png)
 >*Illustration 26. Sensor pop-up characteristics.*
 
 Apart from showing the real-time data of the sensor, the pop-up offers other functionalities. As seen in illustration 26, there are two buttons that offer different actions. The right button will show the debug option of the sensor. This consists in showing the sensor’s information in a technical way, is basically the response of the sensor after receiving a petition for information, without being processed. It will appear at the right part of the screen.
@@ -341,7 +375,7 @@ By clicking the button “Clear” the user will be able to delete the current f
 
 When selecting a sensor there might be another button available at the left part of the pop-up, as shown in illustration 32. In order for this option to appear, the Context Broker that provides information for that selected sensor has to have the historical data tools correctly configured.
 
-![ParkingPopup](../img/ParkingPopup.png)
+![ParkingPopup](../img/ParkingPopUp.png)
 >*Illustration 32. Historical data option.*
 
 With this option, the user will be redirected to the historical data consultation page for that specific sensor. In this page, this data will be read from the available historical data of the sensor and the user can choose the rage of time for it to be represented i.e. from one date to other. Note that the applied filters will be maintained when consulting the historical data.
@@ -376,7 +410,7 @@ By clicking on the date and time options, the user can configure the filter. A c
 
 #### Information of the table
 
-This table maintains the filters that were configured before and displays the attributes in the table from the newest to the oldest. This table can hold up to 10 entries per page so as to not overload the table and make it difficult to read.
+This table maintains the filters that were configured before and displays the attributes in the table from the newest to the oldest. The number of results per page can be configured on the bottom left selector field, allowing to show 10, 25, 50, 75 or 100 results per page.
 
 The rest of the entries can be consulted through different ways:
 
