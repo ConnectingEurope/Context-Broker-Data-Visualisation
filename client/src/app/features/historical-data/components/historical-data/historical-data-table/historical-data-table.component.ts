@@ -56,6 +56,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     }
 
     public onLazyLoad(event: LazyLoadEvent): void {
+        this.hLimit = event.rows;
         this.prepareParameters(event.first, event.rows);
     }
 
