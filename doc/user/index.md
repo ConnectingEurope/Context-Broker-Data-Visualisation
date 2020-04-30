@@ -248,43 +248,43 @@ The switch option on the top right of the map, allow the user to show or hide th
 
 The icons that appear in the map respond to a list of categories that classifies the data in different groups depending on the type of information it gives:
 
-![IconAlert](../img/IconAlert.png)
+![IconAlert](../img/IconAlert.png =24x48)
 **Alerts**: Alerts Events related to risk or warning conditions which require action taking.
 
-![IconSmartEnvironment](../img/IconSmartEnvironment.png)
+![IconSmartEnvironment](../img/IconSmartEnvironment.png =24x48)
 **Smart Environment**: Domain repository for topics related with environment. Currently available Environment, Waster management and Weather.
 
-![IconEnvironment](../img/IconEnvironment.png)
+![IconEnvironment](../img/IconEnvironment.png =24x48)
 **Environment**: Enable to monitor air quality and other environmental conditions for a healthier living.
 
-![IconPoi](../img/IconPoi.png)
+![IconPoi](../img/IconPoi.png =24x48)
 **Point of interest**: Specific point locations that someone may find useful or interesting. For instance, weather stations, touristic landmarks, etc.
 
-![IconCivicIssueTracking](../img/IconCivicIssueTracking.png)
+![IconCivicIssueTracking](../img/IconCivicIssueTracking.png =24x48)
 **Civic issue tracking**: Data models for civic issue tracking interoperable with the de-facto standard Open311.
 
-![IconStreetLighting](../img/IconStreetLighting.png)
+![IconStreetLighting](../img/IconStreetLighting.png =24x48)
 **Street lighting**: Modeling street lights and all their controlling equipment towards energyefficient and effective urban illuminance.
 
-![IconDevice](../img/IconDevice.png)
+![IconDevice](../img/IconDevice.png =24x48)
 **Device**: IoT devices (sensors, actuators, wearables, etc.) with their characteristics and dynamic status.
 
-![IconTransport](../img/IconTransport.png)
+![IconTransport](../img/IconTransport.png =24x48)
 **Transportation**: Transportation data models for smart mobility and efficient management of municipal services.
 
-![IconIndicators](../img/IconIndicators.png)
+![IconIndicators](../img/IconIndicators.png =24x48)
 **Indicators**: Key performance indicators intended to measure the success of an organization or of a particular activity in which it engages.
 
-![IconWaste](../img/IconWaste.png)
+![IconWaste](../img/IconWaste.png =24x48)
 **Waste management**: Enable efficient, recycling friendly, municipal or industrial waste management using containers, litters, etc.
 
-![IconParking](../img/IconParking.png)
+![IconParking](../img/IconParking.png =24x48)
 **Parking**: Real time and static parking data (on street and off street) interoperable with the EU standard DATEX II.
 
-![IconWeather](../img/IconWeather.png)
+![IconWeather](../img/IconWeather.png =24x48)
 **Weather**: Weather observed, weather forecasted or warnings about potential extreme weather conditions.
 
-![IconGeneric](../img/IconGeneric.png)
+![IconGeneric](../img/IconGeneric.png =24x48)
 **Generic**: For other categories not included in the FIWARE data models.
 
 If more information about these categories is needed, the FIWARE data models can be consulted through this  [link](https://www.fiware.org/developers/data-models/).
