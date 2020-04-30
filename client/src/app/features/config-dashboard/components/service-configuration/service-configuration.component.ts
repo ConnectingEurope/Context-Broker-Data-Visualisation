@@ -24,6 +24,10 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     @Output() public favChange: EventEmitter<void> = new EventEmitter<void>();
 
     public chooseWarningVisible: boolean;
+    public subsWarningVisible: boolean;
+    public displaySubs: boolean;
+    public displaySubsHeader: string;
+    public displaySubsContent: any;
     public accordionTabsSelected: boolean = false;
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
@@ -51,6 +55,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
 
     public onContextBrokerUrlChange(): void {
         this.chooseWarningVisible = false;
+        this.subsWarningVisible = false;
     }
 
     public onAddService(): void {
@@ -82,6 +87,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
 
     public onServiceConfigChange(index: number): void {
         this.chooseWarningVisible = false;
+        this.subsWarningVisible = false;
         const service: string = this.cb.services[index].form.value.service;
         const servicePath: string = this.cb.services[index].form.value.servicePath;
         const header: string = service + (service && servicePath &&
@@ -104,6 +110,10 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             this.cb.services[index].form.get('servicePath').invalid;
     }
 
+    public isDisabledSubsButton(index: number): boolean {
+        return this.isDisabledChooseButton(index);
+    }
+
     public shouldButtonFavBeDisplayed(node: TreeNode, service: ServiceForm): boolean {
         return node.data.fav !== undefined && service.selectedEntities.some(e => {
             return e.parent && node.parent && e.parent.label === node.parent.label && e.label === node.label;
@@ -124,6 +134,35 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             });
     }
 
+    public onClickSubscriptions(i: number): void {
+        this.configDashboardService.getSubscriptions(this.cb.form.get('url').value,
+            this.cb.services[i].form.get('service').value,
+            this.cb.services[i].form.get('servicePath').value,
+        ).pipe(takeUntil(this.destroy$)).subscribe(
+            subs => {
+                if (subs.length > 0) {
+                    this.onClickSubscriptionsSuccess(subs);
+                } else {
+                    this.onClickSubscriptionsFail();
+                }
+            },
+            err => {
+                this.onClickSubscriptionsFail();
+            },
+        );
+    }
+
+    private onClickSubscriptionsSuccess(subs: any[]): void {
+        this.subsWarningVisible = false;
+        this.displaySubsHeader = 'Subscriptions';
+        this.displaySubsContent = subs;
+        this.displaySubs = true;
+    }
+
+    private onClickSubscriptionsFail(): void {
+        this.subsWarningVisible = true;
+    }
+
     private removeService(index: number): void {
         this.removeServiceEvent.emit(index);
         this.cb.services.splice(index, 1);
@@ -137,9 +176,9 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     }
 
     private onChooseEntitiesFail(index: number): void {
+        this.chooseWarningVisible = true;
         this.cb.services[index].entities = [];
         this.cb.services[index].selectedEntities = [];
-        this.chooseWarningVisible = true;
     }
 
 }

@@ -6,7 +6,7 @@ const utils = require('./utils');
 router.post('/', function (req, res, next) {
 
     const b = req.body;
-    request({ url: getUrl(b), qs: getParams(b), headers: getHeaders(b), json: true }, (e, r, b) => {
+    request({ url: getUrl(b), headers: getHeaders(b), json: true }, (e, r, b) => {
         if (b) {
             res.send(b);
         } else {
@@ -15,14 +15,7 @@ router.post('/', function (req, res, next) {
     });
 
     function getUrl(b) {
-        return utils.parseUrl(b.url) + '/v2/entities';
-    }
-
-    function getParams(b) {
-        return {
-            type: b.type,
-            id: b.id,
-        }
+        return utils.parseUrl(b.url) + '/v2/subscriptions';
     }
 
     function getHeaders(b) {
