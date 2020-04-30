@@ -26,6 +26,7 @@ As a pre-requisite, **it is needed to have installed [Docker](https://www.docker
 [Top](#tutorials-for-deployment)
 
 <a name="firstTutorial" />
+
 ### Tutorial 1: Enabler
 
 This option is recommended for those who want to deploy the enabler in a local environment and **already have a Context Broker** or want to use an **external Context Broker (possibly, in a server)**. So they only need to deploy the enabler.
@@ -74,6 +75,7 @@ The steps for the deployment are the following:
 [Top](#tutorials-for-deployment)
 
 <a name="secondTutorial" />
+
 ### Tutorial 2: Enabler + Context Broker
 
 This second option is recommended for those who want to deploy the enabler in a local environment and they **don't have any Context Broker for testing**, so they are **interested in real-time data** and need one Context Broker. Additionally, they are **not interested in historical data**.
@@ -124,6 +126,7 @@ The steps for the deployment are the following:
 [Top](#tutorials-for-deployment)
 
 <a name="thirdTutorial" />
+
 ### Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet
 
 This third option is recommended for those who want to deploy the enabler in a local environment and they are **interested in both real-time data (Context Broker) and historical data (Cygnus and STH-Comet)**.
@@ -192,6 +195,7 @@ After the registration, the deployment can be carried out following the [Tutoria
 [Top](#tutorials-for-deployment)
 
 <a name="fourthTutorial" />
+
 ### Tutorial 4: FIWARE lab
 
 TO DO
