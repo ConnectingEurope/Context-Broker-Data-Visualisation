@@ -249,14 +249,13 @@ The switch option on the top right of the map, allow the user to show or hide th
 The icons that appear in the map respond to a list of categories that classifies the data in different groups depending on the type of information it gives:
 
 <img src="../img/IconAlert.png" align="left" height="30" width="30" /></img>
-**Alerts**: Alerts Events related to risk or warning conditions which require action taking.<br /><br />
+**Alerts**: Alerts Events related to risk or warning conditions which require action taking.
 
 <img src="../img/IconSmartEnvironment.png" align="left" height="30" width="30" /></img>
 **Smart Environment**: Domain repository for topics related with environment. Currently available Environment, Waster management and Weather.
 
 <img src="../img/IconEnvironment.png" align="left" height="30" width="30" /></img>
-**Environment**: Enable to monitor air quality and other environmental conditions for a healthier living.<br /><br />
-
+**Environment**: Enable to monitor air quality and other environmental conditions for a healthier living.
 
 <img src="../img/IconPoi.png" align="left" height="30" width="30" /></img>
 **Point of interest**: Specific point locations that someone may find useful or interesting. For instance, weather stations, touristic landmarks, etc.
@@ -268,8 +267,7 @@ The icons that appear in the map respond to a list of categories that classifies
 **Street lighting**: Modeling street lights and all their controlling equipment towards energyefficient and effective urban illuminance.
 
 <img src="../img/IconDevice.png" align="left" height="30" width="30" /></img>
-**Device**: IoT devices (sensors, actuators, wearables, etc.) with their characteristics and dynamic status.<br /><br />
-
+**Device**: IoT devices (sensors, actuators, wearables, etc.) with their characteristics and dynamic status.
 
 <img src="../img/IconTransport.png" align="left" height="30" width="30" /></img>
 **Transportation**: Transportation data models for smart mobility and efficient management of municipal services.
