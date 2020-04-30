@@ -217,5 +217,4 @@ export class LayerService {
 
         return treeNode;
     }
-
 }
