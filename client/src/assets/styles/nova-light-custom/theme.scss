@@ -3050,15 +3050,15 @@ body .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon:focus {
   box-shadow: 0 0 0 0.2em $boxShadowColor;
 }
 body .ui-dialog .ui-dialog-content {
-  background-color: #ffffff;
-  color: #333333;
+  background-color: $primaryLightColor;
+  color: $textColor;
   border: 1px solid #c8c8c8;
   padding: 0.571em 1em;
 }
 body .ui-dialog .ui-dialog-footer {
   border: 1px solid #c8c8c8;
-  background-color: #ffffff;
-  color: #333333;
+  background-color: $primaryLightColor;
+  color: $textColor;
   padding: 0.571em 1em;
   margin: 0;
   text-align: right;

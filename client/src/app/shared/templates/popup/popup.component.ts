@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { Router } from '@angular/router';
@@ -17,6 +17,8 @@ export class PopupComponent extends BaseComponent {
 
     @Input() public entity: any;
     @Input() public modelDto: ModelDto;
+    @Output() public clickDebug: EventEmitter<void> = new EventEmitter<void>();
+
     public attrs: any;
     private maxNumberChars: number = 35;
     @ViewChild('scrollPanel') private scrollPanel: ScrollPanel;
@@ -47,7 +49,7 @@ export class PopupComponent extends BaseComponent {
     }
 
     public onClickDebug(): void {
-        // TODO
+        this.clickDebug.emit();
     }
 
     private updateAttrs(): void {

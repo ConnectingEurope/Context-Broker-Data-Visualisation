@@ -10,11 +10,16 @@ import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { DialogModule } from 'primeng/dialog';
+import { ClipboardModule } from 'ngx-clipboard';
 import { LayerConditionsComponent } from './components/layer-conditions/layer-conditions.component';
 
 
 @NgModule({
-    declarations: [MapDashboardComponent, LayerConditionsComponent],
+    declarations: [
+        MapDashboardComponent,
+        LayerConditionsComponent,
+    ],
     imports: [
         CommonModule,
         MapDashboardRoutingModule,
@@ -26,6 +31,8 @@ import { LayerConditionsComponent } from './components/layer-conditions/layer-co
         CheckboxModule,
         DropdownModule,
         InputSwitchModule,
+        DialogModule,
+        ClipboardModule,
     ],
 })
 export class MapDashboardModule { }

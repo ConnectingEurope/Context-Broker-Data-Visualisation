@@ -10,6 +10,18 @@ export class MapDashboardService {
 
     constructor(private http: HttpClient) { }
 
+    public getEntity(model: ModelDto, entity: any): Observable<ModelDto[]> {
+        const body: any = {
+            url: model.contextUrl,
+            service: model.service,
+            servicePath: model.servicePath,
+            type: model.type,
+            id: entity.id,
+        };
+
+        return this.http.post<ModelDto[]>('/server/entity', body);
+    }
+
     public getAllEntities(avoidHttpInterceptor?: boolean): Observable<ModelDto[]> {
         let headers: HttpHeaders = new HttpHeaders();
         if (avoidHttpInterceptor) {

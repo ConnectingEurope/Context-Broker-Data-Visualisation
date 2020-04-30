@@ -71,3 +71,16 @@
 .ui-message-icon {
     padding-right: 10px;
 }
+
+/*****************************************************************************
+ Dialog
+*****************************************************************************/
+
+.ui-dialog .ui-dialog-content,
+.ui-dialog .ui-dialog-titlebar {
+    border: none !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+    height: 65px;
+}
