@@ -3,11 +3,11 @@ import { ConfigDashboardService } from '../../services/config-dashboard-service/
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
-import { ContextBrokerForm } from '../../models/context-broker-form';
+import { ContextBrokerForm, ServiceForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, TreeNode } from 'primeng/api';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { AccordionTab } from 'primeng/accordion/accordion';
 
@@ -21,10 +21,12 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     @Input() public cb: ContextBrokerForm;
     @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public favChange: EventEmitter<void> = new EventEmitter<void>();
 
-    protected chooseWarningVisible: boolean;
+    public chooseWarningVisible: boolean;
+    public accordionTabsSelected: boolean = false;
 
-    @ViewChild('entitiesScroll', { static: false }) private entitiesScroll: ScrollPanel;
+    @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
 
     constructor(
@@ -51,7 +53,8 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         this.chooseWarningVisible = false;
     }
 
-    protected onAddService(): void {
+    public onAddService(): void {
+        this.accordionTabsSelected = true;
         if (this.accordionTabs && this.accordionTabs.length > 0) {
             this.accordionTabs.forEach(a => a.selected = false);
         }
@@ -63,7 +66,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         });
     }
 
-    protected onRemoveService(index: number): void {
+    public onRemoveService(index: number): void {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this service?',
@@ -77,7 +80,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         });
     }
 
-    protected onServiceConfigChange(index: number): void {
+    public onServiceConfigChange(index: number): void {
         this.chooseWarningVisible = false;
         const service: string = this.cb.services[index].form.value.service;
         const servicePath: string = this.cb.services[index].form.value.servicePath;
@@ -87,23 +90,27 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             this.configDashboardService.serviceHeaderWhenEmpty;
     }
 
-    protected onNodeChange(): void {
+    public onSelectedEntitiesChange(): void {
         this.selectedEntitiesChange.emit();
     }
 
-    protected refreshScroll(): void {
-        setTimeout(() => {
-            this.entitiesScroll.refresh();
-        });
+    public onFavChange(): void {
+        this.favChange.emit();
     }
 
-    protected isDisabledChooseButton(index: number): boolean {
+    public isDisabledChooseButton(index: number): boolean {
         return this.cb.form.get('url').invalid ||
             this.cb.services[index].form.get('service').invalid ||
             this.cb.services[index].form.get('servicePath').invalid;
     }
 
-    protected onChooseEntities(index: number): void {
+    public shouldButtonFavBeDisplayed(node: TreeNode, service: ServiceForm): boolean {
+        return node.data.fav !== undefined && service.selectedEntities.some(e => {
+            return e.parent && node.parent && e.parent.label === node.parent.label && e.label === node.label;
+        });
+    }
+
+    public onChooseEntities(index: number): void {
         const url: string = this.cb.form.value.url;
         const service: string = this.cb.services[index].form.value.service;
         const servicePath: string = this.cb.services[index].form.value.servicePath;

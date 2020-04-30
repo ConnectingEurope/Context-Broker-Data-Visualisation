@@ -128,7 +128,7 @@ export class LayerService {
                 data: e.type,
                 label: e.type,
                 children: Object.keys(e.attrs).filter(a => a !== 'location').map((a: string) => ({
-                    data: a,
+                    data: { name: a, fav: false },
                     label: a,
                     parent: { data: e.type },
                 } as TreeNode)),
@@ -156,7 +156,7 @@ export class LayerService {
             e.attrs.forEach(a => {
                 if (a.name !== 'location') {
                     const treeNodeChild: TreeNode = {
-                        data: a.name,
+                        data: { name: a.name, fav: a.fav },
                         label: a.name,
                         parent: { data: e.name },
                         selectable: a.name !== 'location',
@@ -186,8 +186,9 @@ export class LayerService {
                 name: t.data,
                 selected: this.isTreeNodeSelected(t, selectedTreeNodes),
                 attrs: t.children.map(c => ({
-                    name: c.data,
+                    name: c.data.name,
                     selected: this.isTreeNodeSelected(c, selectedTreeNodes),
+                    fav: c.data.fav,
                 })),
             };
         });

@@ -21,4 +21,4 @@ RUN npm install -g @angular/cli@7.3.9
 COPY . /app
 
 # start app
-CMD ng serve --proxy-config proxy-docker.conf.json --host 0.0.0.0 --port 5200
+CMD ng serve --proxy-config proxy-docker.conf.json --host 0.0.0.0 --port 4200

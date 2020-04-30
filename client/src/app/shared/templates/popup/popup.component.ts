@@ -17,9 +17,9 @@ export class PopupComponent extends BaseComponent {
 
     @Input() public entity: any;
     @Input() public modelDto: ModelDto;
-    protected attrs: any;
+    public attrs: any;
     private maxNumberChars: number = 35;
-    @ViewChild('scrollPanel', { static: false }) private scrollPanel: ScrollPanel;
+    @ViewChild('scrollPanel') private scrollPanel: ScrollPanel;
 
     constructor(
         private router: Router,
@@ -40,13 +40,13 @@ export class PopupComponent extends BaseComponent {
         }
     }
 
-    protected onClickStats(): void {
+    public onClickStats(): void {
         this.entityMetadataService.setEntityMetadata(this.entity, this.modelDto).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.router.navigate(['/historical-data', this.modelDto.type, this.entity.id]);
         });
     }
 
-    protected onClickDebug(): void {
+    public onClickDebug(): void {
         // TODO
     }
 

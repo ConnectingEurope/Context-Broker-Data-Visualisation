@@ -23,7 +23,7 @@ import { AccordionTabHeaderComponent } from './templates/accordion-tab-header/ac
     ],
 })
 export class SharedModule {
-    public static forRoot(): ModuleWithProviders {
+    public static forRoot(): ModuleWithProviders<SharedModule> {
         return {
             ngModule: SharedModule,
 

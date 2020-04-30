@@ -12,7 +12,7 @@ import { AccordionTab, Accordion } from 'primeng/accordion/accordion';
 })
 export class HistoricalDataComponent extends BaseComponent implements OnInit {
 
-    protected entityMetadata: EntityMetadata;
+    public entityMetadata: EntityMetadata;
 
     constructor(
         private entityMetadataService: EntityMetadataService,

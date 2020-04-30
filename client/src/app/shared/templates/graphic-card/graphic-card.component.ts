@@ -12,7 +12,7 @@ export class GraphicCardComponent implements AfterViewInit {
 
     public chart: Chart;
 
-    @ViewChild('chart', { static: false }) private chartRef: any;
+    @ViewChild('chart') private chartRef: any;
 
     public ngAfterViewInit(): void {
         this.showChart();

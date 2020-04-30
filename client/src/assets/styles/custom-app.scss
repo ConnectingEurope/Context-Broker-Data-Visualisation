@@ -108,3 +108,66 @@ $width-for-scroll: 1000px;
         display: none !important;
     }
 }
+
+body .ui-tree.attrsTree {
+    width: 100%;
+}
+
+body .ui-tree.attrsTree .ui-treenode-label.ui-state-highlight {
+    background-color: transparent !important;
+    // color: #ffffff;
+}
+
+body .ui-tree.attrsTree .ui-treenode-label.ui-state-highlight p {
+    padding: 3px;
+    border: solid;
+    border-color: transparent;
+    border-radius: 3px;
+    background-color: $primaryColor;
+    color: $textColor;
+}
+
+body .ui-tree.attrsTree p {
+    padding: 3px;
+}
+
+.favButton .ui-button,
+.favButton .ui-button:active,
+.favButton .ui-button:hover,
+.favButton .ui-button:focus,
+.favButton .ui-button:enabled:hover,
+.favButton .ui-button:enabled:focus {
+    width: 29px !important;
+    height: 29px !important;
+    background-color: transparent;
+    border: none;
+    box-shadow: none !important;
+    color: $primaryColor;
+    font-size: 14px !important;
+}
+
+.favCheckDiv {
+    height: 39.72px;
+    color: $buttonTextColor;
+    background-color: $secondaryColor;
+    border-radius: 8px !important;
+    font-size: 16px !important;
+    box-shadow: 0 3px 7px rgba(50,50,93,.1), 0 1px 3px rgba(0,0,0,.08) !important;
+    pointer-events: auto !important;
+    cursor: default !important;
+}
+
+.favCheckDiv .ui-inputswitch {
+    display: block;
+}
+
+.favAttrsContainer {
+    background-color: $primaryLightColor;
+    color: $textColor;
+    border-radius: 8px;
+    opacity: 0.9;
+}
+
+.favAttrsContainer hr {
+    background-color: $textColor;
+}

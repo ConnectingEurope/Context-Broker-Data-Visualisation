@@ -21,6 +21,7 @@ import { HistoricalConfigurationComponent } from './components/historical-config
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { AttributeSelectorComponent } from 'src/app/shared/templates/attribute-selector/attribute-selector.component';
 
 @NgModule({
     imports: [
@@ -47,6 +48,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
         ServiceConfigurationComponent,
         HistoricalConfigurationComponent,
         InputWithValidationComponent,
+        AttributeSelectorComponent,
     ],
     providers: [],
 })

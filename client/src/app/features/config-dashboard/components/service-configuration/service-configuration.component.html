@@ -17,7 +17,8 @@
             <div class="col-12">
                 <p-accordion>
                     <ng-template ngFor let-service let-i="index" [ngForOf]="cb.services">
-                        <p-accordionTab #accordionTab [selected]="true" [transitionOptions]="'0ms'">
+                        <p-accordionTab #accordionTab [selected]="accordionTabsSelected && i == cb.services.length - 1"
+                            [transitionOptions]="'0ms'">
 
                             <!-- AccordionTab header -->
                             <p-header>
@@ -65,17 +66,10 @@
 
                                         <!-- Selected entities -->
                                         <div class="col-5">
-                                            <div *ngIf="service.entities.length > 0">
-                                                <p-scrollPanel #entitiesScroll
-                                                    [style]="{width: '100%', height: '300px'}">
-                                                    <p-tree [value]="service.entities" selectionMode="checkbox"
-                                                        [(selection)]="service.selectedEntities" emptyMessage=""
-                                                        (onNodeExpand)="refreshScroll()"
-                                                        (onNodeCollapse)="refreshScroll()"
-                                                        (onNodeSelect)="onNodeChange()"
-                                                        (onNodeUnselect)="onNodeChange()"></p-tree>
-                                                </p-scrollPanel>
-                                            </div>
+                                            <app-attribute-selector [entities]="service.entities"
+                                                [selectedEntities]="service.selectedEntities"
+                                                (selectedEntitiesChange)="onSelectedEntitiesChange()"
+                                                (favChange)="onFavChange()"></app-attribute-selector>
                                         </div>
 
                                     </div>

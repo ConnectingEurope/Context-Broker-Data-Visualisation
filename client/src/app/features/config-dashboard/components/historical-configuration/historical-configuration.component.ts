@@ -15,8 +15,8 @@ export class HistoricalConfigurationComponent extends BaseComponent {
 
     @Input() public cb: ContextBrokerForm;
 
-    @ViewChild('cygnusInput', { static: false }) private cygnusInput: InputWithValidationComponent;
-    @ViewChild('cometInput', { static: false }) private cometInput: InputWithValidationComponent;
+    @ViewChild('cygnusInput') private cygnusInput: InputWithValidationComponent;
+    @ViewChild('cometInput') private cometInput: InputWithValidationComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -25,7 +25,7 @@ export class HistoricalConfigurationComponent extends BaseComponent {
         super();
     }
 
-    protected onCheckCygnus(): void {
+    public onCheckCygnus(): void {
         const url: string = this.cb.historicalForm.value.cygnus;
 
         this.configDashboardService.checkCygnusHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
@@ -37,7 +37,7 @@ export class HistoricalConfigurationComponent extends BaseComponent {
             });
     }
 
-    protected onCheckComet(): void {
+    public onCheckComet(): void {
         const url: string = this.cb.historicalForm.value.comet;
 
         this.configDashboardService.checkCometHealth(url).pipe(takeUntil(this.destroy$)).subscribe(
