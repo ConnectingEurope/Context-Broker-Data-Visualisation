@@ -25,6 +25,8 @@ import { Router } from '@angular/router';
 import { CategoryEntityDto } from '../models/model-dto';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
+import { ClipboardService } from 'ngx-clipboard';
+import * as jsonFormat from 'json-format';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -44,6 +46,9 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     public showButtons: boolean = false;
     public favChecked: boolean = true;
     public favAttrs: { entity: string, favAttr: string }[] = [];
+    public displayDebug: boolean;
+    public displayDebugHeader: string;
+    public displayDebugContent: string;
 
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
@@ -76,6 +81,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         private confirmationService: ConfirmationService,
         private router: Router,
         private elem: ElementRef,
+        private clipboardService: ClipboardService,
     ) {
         super();
     }
@@ -150,6 +156,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     public onLayerClick(event: any): void {
         event.stopPropagation();
         this.layerPanel.toggle(event);
+    }
+
+    public onClickCopy(): void {
+        this.clipboardService.copyFromContent(this.displayDebugContent);
     }
 
     /**
@@ -363,6 +373,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         popup.setContent(div);
         marker.bindPopup(popup);
 
+        popupComponentRef.instance.clickDebug.pipe(takeUntil(this.destroy$)).subscribe(() => this.onClickDebug(model, entity, marker));
+
         marker.on('popupopen', () => {
             this.openPopup = popup;
             popupComponentRef.instance.refreshScroll();
@@ -405,6 +417,32 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
         const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
         if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
+    }
+
+    private onClickDebug(model: ModelDto, entity: any, marker: L.Marker): void {
+        this.mapDashBoardService.getEntity(model, entity).subscribe(
+            data => {
+                if (data.length > 0) {
+                    this.onClickDebugSuccess(data[0], marker);
+                } else {
+                    this.onClickDebugFail();
+                }
+            },
+            err => {
+                this.onClickDebugFail();
+            },
+        );
+    }
+
+    private onClickDebugSuccess(data: any, marker: L.Marker): void {
+        marker.closePopup();
+        this.displayDebugHeader = data.id;
+        this.displayDebugContent = jsonFormat(data);
+        this.displayDebug = true;
+    }
+
+    private onClickDebugFail(): void {
+        this.appMessageService.add({ severity: 'error', summary: 'Cannot load the data' });
     }
 
     private setTooltip(marker: L.Marker, entity: any, model: ModelDto): void {
