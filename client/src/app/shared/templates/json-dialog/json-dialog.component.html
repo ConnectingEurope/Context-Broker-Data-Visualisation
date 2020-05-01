@@ -1,5 +1,6 @@
-<p-dialog [showHeader]="true" [(visible)]="display" [modal]="true" [style]="{width: '30vw', height: '70vh'}"
-    [baseZIndex]="10000" [draggable]="false" [resizable]="false">
+<p-dialog styleClass="json-dialog" [showHeader]="true" [(visible)]="display" [modal]="true"
+    [style]="{width: '30vw', height: '70vh'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false"
+    (onHide)="onHide()">
     <p-header>
         <h6 class="d-inline mt-2" style="position: absolute; top: 15px;">{{header}}</h6>
         <span style="position: absolute; right: 45px;">

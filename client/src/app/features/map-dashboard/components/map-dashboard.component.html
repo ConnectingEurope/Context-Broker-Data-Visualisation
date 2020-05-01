@@ -1,4 +1,5 @@
-<app-json-dialog [display]="displayDebug" [header]="displayDebugHeader" [content]="displayDebugContent">
+<app-json-dialog [display]="displayDebug" [header]="displayDebugHeader" [content]="displayDebugContent"
+    (hide)="displayDebug=false">
 </app-json-dialog>
 
 <!-- Filters panel -->
@@ -61,7 +62,7 @@
     </div>
 
     <!-- Bottom left corner controls -->
-    <div *ngIf="favChecked" class="leaflet-bottom leaflet-left">
+    <div *ngIf="showButtons && favChecked" class="leaflet-bottom leaflet-left">
         <div class="favAttrsContainer mb-3 ml-3 p-3">
             <h6>Main attributes</h6>
             <hr />

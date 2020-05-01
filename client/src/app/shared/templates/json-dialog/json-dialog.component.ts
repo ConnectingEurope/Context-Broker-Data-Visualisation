@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { JsonPipe } from '@angular/common';
 
@@ -13,6 +13,7 @@ export class JsonDialogComponent {
     @Input() public display: boolean;
     @Input() public header: string;
     @Input() public content: any;
+    @Output() public hide: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(
         private clipboardService: ClipboardService,
@@ -22,6 +23,10 @@ export class JsonDialogComponent {
 
     public onClickCopy(): void {
         this.clipboardService.copyFromContent(this.jsonPipe.transform(this.content));
+    }
+
+    public onHide(): void {
+        this.hide.emit();
     }
 
 }

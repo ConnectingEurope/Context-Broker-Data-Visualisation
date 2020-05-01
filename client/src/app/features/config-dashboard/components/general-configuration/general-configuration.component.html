@@ -1,4 +1,5 @@
-<app-json-dialog [display]="displaySubs" [header]="displaySubsHeader" [content]="displaySubsContent">
+<app-json-dialog [display]="displaySubs" [header]="displaySubsHeader" [content]="displaySubsContent"
+    (hide)="displaySubs=false">
 </app-json-dialog>
 
 <form [formGroup]="cb.form">

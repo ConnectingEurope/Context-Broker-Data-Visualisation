@@ -7,7 +7,7 @@ const Datastore = require('nedb');
 router.get('/all', function (req, res, next) {
     const db = new Datastore({ filename: './configuration.json' });
     db.loadDatabase(function (err) {
-        if (err) routerRes.status(500).send();
+        if (err) res.status(500).send();
         else {
             db.find({}, function (err, docs) {
                 if (!err) {
