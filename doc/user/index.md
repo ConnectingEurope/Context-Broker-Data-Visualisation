@@ -2,11 +2,11 @@
 
 The aim of this document is to create a functional guide to ensure the understanding of the enabler, so the users are able to exploit it to its fullest.
 
-The Context Broker Data Visualisation enabler has been created to ease the understanding of data and use of the Context Broker and to fasten its learning curve for new stakeholders who would like to experiment. It consists in a visualisation layer over the Sandbox environment of the Context Broker used for playground purposes.
+The Context Broker Data Visualisation enabler has been created to ease the understanding of data and use of the Context Broker and to fasten its learning curve for new stakeholders who would like to experiment. It consists in a visualisation layer over the Context Broker, used for playground purposes.
 
-The enabler is available for use in local or remote environments. There is also available a [deployment manual](../tutorials/index.md) to ease its implementation and deployment.
+The enabler is available for use in local or remote environments (like the FIWARE lab). There is also available a [deployment manual](../tutorials/index.md) to ease its implementation and deployment.
 
-On the other hand, the enabler gives the opportunity to play with a sensor’s historical data, if configured. Having selected a range of time, it can be represented in a table or even downloaded in a CSV file to further exploit. Furthermore, one of the attributes at a time can be selected and represented in a graph.
+On the other hand, the enabler gives the opportunity to play with a sensor’s historical data, if configured. Having selected a range of time, it can be represented in a table or graph format, or even downloaded in a CSV file to further exploit.
 
 ## Contents
 
@@ -21,7 +21,7 @@ On the other hand, the enabler gives the opportunity to play with a sensor’s h
   - [Historical data tools](#historical-data-tools)
     - [Cygnus](#cygnus)
     - [STH-Comet](#sth-comet)
-    - [Tool configuration](#tool-configuration)
+    - [Tool configuration](#tools-configuration)
   - [Saving configuration](#saving-configuration)
 - [Dashboard](#dashboard)
   - [Map](#map)
@@ -49,9 +49,9 @@ This section describes how to start using the Context Broker Data Visualisation 
 
 ### How to access the Enabler
 
-Once the Enabler has been deployed either on local, remote server or Sandbox, the user is able to access via web browser, as this Enabler is a web application.
+Once the Enabler has been deployed either on local or remote server, the user is able to access via web browser, as this Enabler is a web application.
 
-In order to access the user should introduce in the web browser’s search bar the URL where the Enabler has been deployed, i.e. localhost:4200 is set by default.
+In order to access, the user should introduce in the web browser’s search bar the URL where the Enabler has been deployed, i.e. localhost:4200 is set by default.
 
 ![WebBrowserAccess](../img/WebBrowserAccess.png)
 >*Illustration 1. Web browser’s search bar.*
@@ -60,7 +60,7 @@ In order to access the user should introduce in the web browser’s search bar t
 
 ### Initial configuration assistant
 
-Once the user access for the first time to the Enabler, there is no information to be displayed. It is necessary to configure one instance of a Context Broker at least. Hence, a pop-up will appear giving the option to the user to be redirected to the Configuration page and start configuring a new instance.
+Once the user access for the first time to the Enabler, there is no information to be displayed. It is necessary to configure one instance of a Context Broker at least. Hence, a pop-up will appear giving the option to the user to be redirected to the **Configuration page** and start configuring a new instance.
 
 ![ConfigurationAssistant](../img/ConfigurationAssistant.png)
 > *Illustration 2. Initial configuration pop-up*
@@ -71,13 +71,13 @@ Once the user access for the first time to the Enabler, there is no information 
 
 With the purpose of facilitating the integration of one or various Context Brokers and historical data tools, the Enabler provides a configuration panel that is visual and intuitive. The user can use this panel to configure the information that is desired to be visualized.
 
-This configuration is divided into three sections: how to configure and edit a Context Broker, how to add services, if any, and how to configure the historical data tools if necessary.
+This Configuration page is divided into different sections, for the configuration of the Context Broker (including its services) or the historical data tools.
 
 [Top](#user-manual)
 
 ### Configuring Context Broker
 
-The “Add Context Broker” button at the top part of the illustration 3, should be clicked to a new configuration tab for a Context Broker. For the first access, the tab for the configuration of a new instance is automatically opened.
+The **Add Context Broker* button at the top part of the illustration 3, should be clicked to a new configuration tab for a Context Broker. For the first access, the tab for the configuration of a new instance is automatically opened.
 
 When an empty tab is open, the user should introduce the desired name for that particular Context Broker and the URL where the data is available. Note that there may be the need to indicate the Context Broker’s port if the instance is serving in a determined one. For example, if it is configured in local and the port number is 1026, the URL should be localhost:1026.
 
@@ -104,7 +104,7 @@ After the initial configuration of the Context Broker is cleared, the user shoul
 
 The entities and attributes can be selected and unselected by clicking on the checkbox or the name of the desired option. If no entities are selected in the Context Broker an error message will appear, as shown in illustration 15.
 
-If various Context Brokers are added, they will appear as a list where each one can be displayed for its edition. If the user desires to delete a Context Broker the icon at the right part of the name should be clicked. A message will appear asking to confirm the action, this should be done by clicking the delete option in illustration 8.
+If various Context Brokers are added, they will appear as a group of tabs where each one can be displayed for its edition. If the user desires to delete a Context Broker, the icon at the right part of the name should be clicked. A message will appear asking to confirm the action.
 
 ![ContextBrokerTabs](../img/ContextBrokerTabs.png)
 >*Illustration 8. Context Broker List.*
@@ -116,19 +116,21 @@ If various Context Brokers are added, they will appear as a list where each one 
 
 #### Services
 
-The information of a Context Broker can be organized and divided in what is called “Services”. With this, the information can be encapsulated in different groups and access to them has to be granted. The aim of this tool, that is optional, is to increase the security of the CB data, by dividing it in groups and only grant access to specific users. A user may have access to one service but not to the rest. Therefore, the user has the option of adding a service if necessary. If more information is needed, it can be found [here](https://fiware-orion.readthedocs.io/en/master/user/service_path/index.html).
+The information of a Context Broker can be organized and divided in what is called **Services**. Using them, the information can be encapsulated in different logical groups and access to them has to be granted. The aim of the services, that are optional, is to increase the security of the Context Broker's data. A user may have access to one service but not to the rest. Therefore, the user has the option of adding a service if necessary.
+
+If more information is needed, it can be found [here](https://fiware-orion.readthedocs.io/en/master/user/service_path/index.html).
 
 If the user has access to one or several services, they can be added, edited and eliminated. In order to add a new service to a Context Broker, the checkbox marked in the illustration 10 should be clicked. A new box with the Services configuration will be opened where the user can start configuring them.
 
 ![ContextBrokerAddingServices](../img/ContextBrokerAddingServices.png)
 >*Illustration 10. Configuring services.*
 
-The user should click the “Add Service” option, shown at the top of the illustration 11, so as to add as many Services as needed.
+The user should click the **Add Service** option, shown at the top of the illustration 11, so as to add as many Services as needed.
 
 ![ContextBrokerNewService](../img/ContextBrokerNewService.png)
 >*Illustration 11. Adding services.*
 
-The user will need to configure the name of the service and, if desired, the service path. To check its availability, the “choose entities and attributes” button should be clicked. If this configuration is incorrect a message indicating so will appear informing that there are no entities for it.
+The user will need to configure the name of the service and, if needed, the service path. To check its availability, the **Choose entities and attributes** button should be clicked. If this configuration is incorrect a message indicating so will appear informing that there are no entities for it.
 
 ![ContextBrokerServiceIncorrectURL](../img/ContextBrokerServiceIncorrectURL.png)
 >*Illustration 12. Incorrect service name.*
@@ -166,6 +168,8 @@ It is only allowed to select one main attribute per each category.
 
 >*Illustration 18. Configuring main attributes*
 
+This information will be explained in the [Main attributes section](#main-attributes) of this document.
+
 [Top](#user-manual)
 
 #### Subscriptions Overview
@@ -196,13 +200,13 @@ Additionally, a message is displayed under the button if there are not subscript
 
 In order to complement the real-time data, the Enabler offers the possibility to combine it with historical data. Hence, the user is able to optionally configure tools for its implementation in the Configuration page.
 
-The historical data in the Enabler supports two tools that must be configured for each of the Context Brokers as they work together, if any of the tools is not available, the visualisation of the historical data will not be possible. The supported tools for the historical data are Cygnus and STH-Comet.
+The historical data in the Enabler supports two tools that must be configured for each of the Context Brokers as they work together, if any of the tools is not available, the visualisation of the historical data will not be possible. The supported tools for the historical data are **Cygnus** and **STH-Comet**.
 
 [Top](#user-manual)
 
 #### Cygnus
 
-The first of this two tools is Cygnus. It acts as a connector between the Context Broker’s information that the sensors produce and the MongoDB database that will storage that information. Basically, Cygnus is subscribed to the information the CB produces and creates the historical data for the database. More information can be found at this [link](https://fiware-cygnus.readthedocs.io/en/latest/).
+The first of this two tools is Cygnus. It acts as a connector between the Context Broker’s information that the sensors produce and the MongoDB database that will storage that information. Basically, Cygnus is subscribed to the information the Context Broker produces and creates the historical data for the database. More information can be found at this [link](https://fiware-cygnus.readthedocs.io/en/latest/).
 
 [Top](#user-manual)
 
@@ -212,7 +216,7 @@ The second tool is STH-Comet. In essence, this tool retrieves the historical dat
 
 [Top](#user-manual)
 
-#### Tool configuration
+#### Tools configuration
 
 In conclusion, if the user wants to use the historical data, Cygnus and STH-Comet must be configured for each of the Context Brokers. The user should introduce the desired URL and the chosen port for each of the tools and check the availability for them. If any of the tools is not available, the configuration and exportation of the historical data will not be possible.
 
@@ -228,7 +232,7 @@ If the introduced URL is not correct, an error message informing of the unsucces
 
 ### Saving configuration
 
-Once the user has finished configuring the Context Broker, its services and tools, the “Apply Configuration” at the top part of the page should be clicked so as to save it. If not, the current configuration will be lost and the deleted options will continue to appear.
+Once the user has finished configuring the Context Broker, its services and tools, the **Apply Configuration** at the top part of the page should be clicked so as to save it. **If not, the current configuration will be lost** and the deleted options will continue to appear.
 
 ![MessageUnsavedChanges](../img/MessageUnsavedChanges.png)
 >*Illustration 24. Saving the configuration.*
@@ -239,11 +243,11 @@ Once the user has finished configuring the Context Broker, its services and tool
 
 ### Map
 
-The map that supports the Enabler is the open source World map [OpenStreetMaps](https://www.openstreetmap.org/).
+The map that supports the Enabler is the open source World map [OpenStreetMap](https://www.openstreetmap.org/).
 
-The Enabler supports the use of various CB, therefore, all of the information contained in the configured Context Brokers is shown in the map with the real-time information which they provide.
+The Enabler supports the use of various Context Brokers, therefore, all of the information contained in the configured Context Brokers is shown in the map with the real-time information which they provide.
 
-Regarding the representation of the sensors, all of them have coordinates for their geo-location and, taking profit of those coordinates, they can be displayed directly over the map.
+Regarding the representation of the sensors, all of them must have coordinates for their geo-location and, taking profit of those coordinates, they can be displayed directly over the map.
 
 When zooming out in the map, the icons will start to cluster together in a single notification, showing the number of sensors available in the area. As the user zooms in, the sensors will start to separate and appear in the exact spot, the cluster with the number will disappear.
 
@@ -313,7 +317,7 @@ The icons that appear in the map respond to a list of categories that classifies
 <img src="../img/IconGeneric.png" align="left" height="30" width="30" /></img>
 **Generic**: For other categories not included in the FIWARE data models.
 
-If more information about these categories is needed, the FIWARE data models can be consulted through this  [link](https://www.fiware.org/developers/data-models/).
+If more information about these categories is needed, the FIWARE data models can be consulted through this [link](https://www.fiware.org/developers/data-models/).
 
 Whenever the icon of a sensor is clicked, a pop-up with the sensor’s information will appear. It will also contain the attributes that were selected while configuring the Context Broker and the real time data they have available.
 
@@ -334,9 +338,9 @@ However, if the user unselects any of the attributes in the configuration of the
 ![SensorPopupCharacteristics](../img/SensorPopUpCharacteristics.png)
 >*Illustration 32. Sensor pop-up characteristics.*
 
-Apart from showing the real-time data of the sensor, the pop-up offers other functionalities. As seen in Illustration 29, there are two buttons that offer different actions. The right button will show the **Overview** option of the sensor. This consists in showing the sensor’s information in a technical way, is basically the response of the sensor after receiving a petition for information, without being processed. It will appear at the right part of the screen.
+Apart from showing the real-time data of the sensor, the pop-up offers other functionalities. As seen in Illustration 29, there are two buttons that offer different actions. The right button will show the [Overview](#sensor-overview) option of the sensor. This consists in showing the sensor’s information in a technical way, just as the Context Broker provides it, without being processed. It will appear at the right part of the screen.
 
-On the other hand, when clicking the left button of the pop-up, the user will be redirected to the historical data page with the available data for that sensor, if it was added in the Context Broker configuration.
+On the other hand, when clicking the left button of the pop-up, the user will be redirected to the [historical data page](#historical-data) with the available data for that sensor, if it was added in the Context Broker configuration.
 
 [Top](#user-manual)
 
@@ -367,7 +371,7 @@ A search bar is available to localize cities in a faster way. The user has to in
 
 The user will be able to add dynamic filters to hide or show certain sensors from the map in case they want to focus in a specific aspect of any of the attributes. For example, if there is a need to localize the higher priority risk alerts in order to take actions faster.
 
-There are available two types of filters at the top right part of the page: the first is the layers option, based in checking or unchecking attributes, and the second is the filters option, based in adding conditions to the attributes’ information.
+There are available **two types of filters** at the top right part of the page: the first is the **layers** option, based in checking or unchecking attributes, and the second is the **filters** option, based in adding conditions to the attributes’ information.
 
 ![MapButtons](../img/MapButtons.png)
 >*Illustration 35. Filtering Options.*
@@ -376,22 +380,26 @@ There are available two types of filters at the top right part of the page: the 
 
 #### Layers
 
-This option, is available by clicking the button “Layers”, shown in illustration 35. It is based on being able to hide attributes by unchecking any of the information that was previously added in the CB’s initial configuration. If the user wants to hide any of the entities or attributes that were included before, it will be possible to modify this configuration from this interface by clicking on the checkbox next to the desired variable.
+This option, is available by clicking the button **Layers**, shown in illustration 35. It function is to hide (or show) types of sensors by unchecking any of the information that was previously added in the context Brokers’s initial configuration. If the user wants to hide any of the types of sensors in the map, it will be possible to modify this configuration from this interface by clicking on the checkbox next to the desired variable.
 
 ![MapLayersPanel](../img/MapLayersPanel.png)
 >*Illustration 36. Selecting entities and attributes.*
 
+**This configuration is not stored**, so it will be discarded after closing the enabler.
+
 [Top](#user-manual)
 
 #### Filters
+
+In order to add a new condition to any of the attributes of the current sensors the user has to press the button **Filters** shown in the illustration 35. It appears at the top right part of the map.
+
+As an example os usage, the user would like to visualize only the parking sensors which free slots are greater than 50.
 
 ![MapFiltersPanel](../img/MapFiltersPanel.png)
 >*Illustration 37. Adding a condition.*
 
 ![MapFiltersAdded](../img/MapFiltersAdded.png)
 >*Illustration 38. After the Condition is Added.*
-
-In order to add a new condition to any of the attributes the user has to press the button “Filters” shown in the illustration 35. It appears at the top right part of the map.
 
 The user will have to select box by hierarchy, meaning first the category has to be selected, after that the entity and so on. After selecting the desired attribute, depending on the type of it, text or numerical, a different type of filter will appear and the user will be able to add the desired condition.
 
@@ -405,9 +413,9 @@ The user will have to select box by hierarchy, meaning first the category has to
   - Contains “Word”.
   - Has prefix or suffix.
 
-After choosing the desired condition, the user will have to write the desired value in the empty box and press the “Add” button shown in illustration 37.
+After choosing the desired condition, the user will have to write the desired value in the empty box and press the **Add** button shown in illustration 37.
 
-By clicking the button “Clear” the user will be able to delete the current filter that is being created. In order to delete an existing filter, the user should click the bin icon. Furthermore, to delete all the existing filters, the “Clear all” button in illustration 38 should be pressed.
+By clicking the button **Clear** the user will be able to delete the current filter that is being created. In order to delete an existing filter, the user should click the bin icon. Furthermore, to delete all the existing filters, the **Clear all** button in illustration 38 should be pressed.
 
 [Top](#user-manual)
 
@@ -418,16 +426,20 @@ When selecting a sensor there might be another button available at the left part
 ![ParkingPopup](../img/ParkingPopUp.png)
 >*Illustration 39. Historical data option.*
 
-With this option, the user will be redirected to the historical data consultation page for that specific sensor. In this page, this data will be read from the available historical data of the sensor and the user can choose the rage of time for it to be represented i.e. from one date to other. Note that the applied filters will be maintained when consulting the historical data.
+With this button, the user will be redirected to the historical data consultation page for that specific sensor. In this page, this data will be read from the available historical data of the sensor and the user can choose the rage of time for it to be represented i.e. from one date to other.
+
+Note that the applied filters will be maintained when consulting the historical data. For more information, consult the section [How the historical data page gets the subscribed attributes](../technical/index.md#how-the-historical-data-page-gets-the-subscribed-attributes) in the technical documentation.
 
 ![HistoricalDataPage](../img/HistoricalDataPage.png)
 >*Illustration 40. Historical data window.*
+
+This page is divided into two sections: **table representation** and **graph representation**.
 
 [Top](#user-manual)
 
 ### Tables
 
-After selecting the option of visualizing historical data from a sensor, a table with the sensor’s attributes’ information will appear.
+After selecting the option of visualizing historical data from a sensor, a table with the sensor’s attributes’ information (as columns) will appear.
 
 ![HistoricalDataTable](../img/HistoricalDataTable.png)
 >*Illustration 41. Attribute table.*
@@ -450,7 +462,9 @@ By clicking on the date and time options, the user can configure the filter. A c
 
 #### Information of the table
 
-This table maintains the filters that were configured before and displays the attributes in the table from the newest to the oldest. The number of results per page can be configured on the bottom left selector field, allowing to show 10, 25, 50, 75 or 100 results per page.
+The information of the table is based on **RAW data**, just as stored in the database.
+
+This table maintains the date filters that were configured before and displays the attributes in the table from the newest to the oldest. The **number of results per page can be configured** on the bottom left selector field, allowing to show 10, 25, 50, 75 or 100 results per page.
 
 The rest of the entries can be consulted through different ways:
 
@@ -472,10 +486,21 @@ To the right side of the page selection, the table informs of the entries that a
 
 ### Graphs
 
+The information of the graph is based on **aggregated data**, collecting the historical data of the database and transforming it.
+
 The purpose of is this functionality is to help the user to further study one of the attributes’ measures. With the aid of the graph representation of the attribute’s evolution, the user can study more specific aspects about it.
 
 ![HistoricalDataGraph](../img/HistoricalDataGraph.png)
 >*Illustration 46. Historical data graph.*
+
+Currently, the enabler provides **two types of graphs**:
+
+- **Line graphs** for numerical attributes.
+- **Bar graphs** for text (String) attributes.
+
+Depending on the type of the selected attribute, a type of graph will be displayed.
+
+It is also possible to develop new graphs for new purposes, following the [How to generate new graphs](../technical/index.md#how-to-generate-new-graphs) tutorial of the technical documentation.
 
 [Top](#user-manual)
 
@@ -508,15 +533,13 @@ The default graph will show the information connected with lines and will show t
 
 If any of these options is not desired, the user can hide it by clicking on the name at the legend that is placed above the graph.
 
-If the user desires to change the default graph, a tutorial is available in the technical documentation explaining step by step how to do so. It can be found here.
-
 [Top](#user-manual)
 
 ### CSV Data Export
 
 After the table has been configured, the user will have the opportunity to export the historical data visualized in it to a compatible format file such as CSV.
 
-The aim of this compatible data exportation is to allow the user to further study the data with other programs without the need to know how to order and extract the historical data from the Enabler, just as it is shown in the table.
+Taking profit of this functionallity, the user is able to export the same data of the table and use it for its own purposes, even to generate new graphs in other software.
 
 ![HistoricalDataExport](../img/HistoricalDataExport.png)
 >*Illustration 49. Historical data exportation.*
