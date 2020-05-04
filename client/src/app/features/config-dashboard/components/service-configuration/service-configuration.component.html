@@ -1,3 +1,7 @@
+<app-json-dialog [display]="displaySubs" [header]="displaySubsHeader" [content]="displaySubsContent"
+    (hide)="displaySubs=false">
+</app-json-dialog>
+
 <p-card header="Services">
     <div class="container-fluid mt-3">
         <i class="pi pi-info info-message"></i>
@@ -61,6 +65,18 @@
                                                     {{'Entities not found in this service'}}
                                                 </p>
                                             </div>
+
+                                            <!-- Subscription overview button -->
+                                            <div class="mt-4">
+                                                <p-button [disabled]="isDisabledSubsButton(i)"
+                                                    label="Subscriptions Overview" icon="fas fa-code"
+                                                    (onClick)="onClickSubscriptions(i)">
+                                                </p-button>
+                                            </div>
+                                            <p class="input-warning mt-2"
+                                                [style.visibility]="subsWarningVisible ? 'visible' : 'hidden'">
+                                                {{'No subscriptions found'}}
+                                            </p>
 
                                         </div>
 

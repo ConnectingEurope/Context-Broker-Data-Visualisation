@@ -36,7 +36,6 @@
         "classlist.js": "1.1.20150312",
         "file-saver": "^2.0.2",
         "jquery": "^3.4.1",
-        "json-format": "^1.0.1",
         "leaflet": "^1.6.0",
         "leaflet-geosearch": "^2.7.0",
         "leaflet.markercluster": "^1.4.1",

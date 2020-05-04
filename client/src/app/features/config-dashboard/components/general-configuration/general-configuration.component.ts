@@ -22,6 +22,10 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     @Output() public urlChange: EventEmitter<void> = new EventEmitter<void>();
 
     public chooseWarningVisible: boolean;
+    public subsWarningVisible: boolean;
+    public displaySubs: boolean;
+    public displaySubsHeader: string;
+    public displaySubsContent: any;
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChild('urlInput') private urlInput: InputWithValidationComponent;
@@ -41,6 +45,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     public onUrlChange(): void {
         this.chooseWarningVisible = false;
+        this.subsWarningVisible = false;
         this.urlChange.emit();
     }
 
@@ -66,6 +71,10 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     public isDisabledChooseButton(): boolean {
         return this.cb.form.get('url').invalid;
+    }
+
+    public isDisabledSubsButton(): boolean {
+        return this.isDisabledChooseButton();
     }
 
     public onChooseEntities(): void {
@@ -96,9 +105,35 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     }
 
     public onChooseEntitiesFail(): void {
+        this.chooseWarningVisible = true;
         this.cb.entities = [];
         this.cb.selectedEntities = [];
-        this.chooseWarningVisible = true;
+    }
+
+    public onClickSubscriptions(): void {
+        this.configDashboardService.getSubscriptions(this.cb.form.get('url').value).pipe(takeUntil(this.destroy$)).subscribe(
+            subs => {
+                if (subs.length > 0) {
+                    this.onClickSubscriptionsSuccess(subs);
+                } else {
+                    this.onClickSubscriptionsFail();
+                }
+            },
+            err => {
+                this.onClickSubscriptionsFail();
+            },
+        );
+    }
+
+    private onClickSubscriptionsSuccess(subs: any[]): void {
+        this.subsWarningVisible = false;
+        this.displaySubsHeader = 'Subscriptions';
+        this.displaySubsContent = subs;
+        this.displaySubs = true;
+    }
+
+    private onClickSubscriptionsFail(): void {
+        this.subsWarningVisible = true;
     }
 
 }

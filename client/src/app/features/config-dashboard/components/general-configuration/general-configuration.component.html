@@ -1,3 +1,7 @@
+<app-json-dialog [display]="displaySubs" [header]="displaySubsHeader" [content]="displaySubsContent"
+    (hide)="displaySubs=false">
+</app-json-dialog>
+
 <form [formGroup]="cb.form">
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -18,16 +22,6 @@
                     </app-input-with-validation>
                 </div>
 
-                <!-- Choose entities button -->
-                <div class="mt-4">
-                    <p-button [disabled]="isDisabledChooseButton()" label="Choose entities and attributes"
-                        icon="pi pi-list" (onClick)="onChooseEntities()">
-                    </p-button>
-                </div>
-                <p class="input-warning mt-2" [style.visibility]="chooseWarningVisible ? 'visible' : 'hidden'">
-                    {{'Entities not found (maybe you have entities in specific services)'}}
-                </p>
-
                 <!-- Services checkbox -->
                 <div class="mt-4">
                     <p-checkbox label="The Context Broker uses services" binary="true"
@@ -45,6 +39,26 @@
                     <i class="ml-2 pi pi-question-circle help-icon"
                         pTooltip="In order to have access to historical data, both Cygnus URL and STH-Comet URL should be provided."></i>
                 </div>
+
+                <!-- Choose entities button -->
+                <div class="mt-5">
+                    <p-button [disabled]="isDisabledChooseButton()" label="Choose entities and attributes"
+                        icon="pi pi-list" (onClick)="onChooseEntities()">
+                    </p-button>
+                </div>
+                <p class="input-warning mt-2" [style.visibility]="chooseWarningVisible ? 'visible' : 'hidden'">
+                    {{'Entities not found (maybe you have entities in specific services)'}}
+                </p>
+
+                <!-- Subscription overview button -->
+                <div class="mt-3">
+                    <p-button [disabled]="isDisabledSubsButton()" label="Subscriptions Overview" icon="fas fa-code"
+                        (onClick)="onClickSubscriptions()">
+                    </p-button>
+                </div>
+                <p class="input-warning mt-2" [style.visibility]="subsWarningVisible ? 'visible' : 'hidden'">
+                    {{'No subscriptions found'}}
+                </p>
 
             </div>
 

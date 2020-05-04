@@ -171,3 +171,17 @@ body .ui-tree.attrsTree p {
 .favAttrsContainer hr {
     background-color: $textColor;
 }
+
+.json-dialog .ui-dialog-content {
+    background-color: $primaryLightColor;
+    color: $textColor;
+}
+
+.json-dialog .ui-dialog-content,
+.json-dialog .ui-dialog-titlebar {
+    border: none !important;
+}
+
+.json-dialog .ui-dialog-titlebar {
+    height: 65px;
+}

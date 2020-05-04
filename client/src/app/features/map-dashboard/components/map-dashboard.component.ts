@@ -48,7 +48,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     public favAttrs: { entity: string, favAttr: string }[] = [];
     public displayDebug: boolean;
     public displayDebugHeader: string;
-    public displayDebugContent: string;
+    public displayDebugContent: any;
 
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
@@ -437,7 +437,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private onClickDebugSuccess(data: any, marker: L.Marker): void {
         marker.closePopup();
         this.displayDebugHeader = data.id;
-        this.displayDebugContent = jsonFormat(data);
+        this.displayDebugContent = data;
         this.displayDebug = true;
     }
 
