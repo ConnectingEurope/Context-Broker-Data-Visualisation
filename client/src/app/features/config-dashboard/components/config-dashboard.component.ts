@@ -18,16 +18,16 @@ import { AccordionTab } from 'primeng/accordion/accordion';
 })
 export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
-    protected configurationLoaded: boolean = false;
-    protected addedContextBrokerAtLeastOnce: boolean = false;
-    protected removedContextBrokerAtLeastOnce: boolean = false;
-    protected removedServiceAtLeastOnce: boolean = false;
-    protected selectedEntitiesChange: boolean = false;
-    protected accordionTabsSelected: boolean = false;
-    protected contextBrokers: ContextBrokerForm[] = [];
+    public configurationLoaded: boolean = false;
+    public addedContextBrokerAtLeastOnce: boolean = false;
+    public removedContextBrokerAtLeastOnce: boolean = false;
+    public removedServiceAtLeastOnce: boolean = false;
+    public selectedEntitiesChange: boolean = false;
+    public accordionTabsSelected: boolean = false;
+    public favAttrChange: boolean = false;
+    public contextBrokers: ContextBrokerForm[] = [];
 
-
-    @ViewChild('serviceConfiguration', { static: false }) private serviceConfiguration: ServiceConfigurationComponent;
+    @ViewChild('serviceConfiguration') private serviceConfiguration: ServiceConfigurationComponent;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
 
     constructor(
@@ -57,20 +57,20 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         );
     }
 
-    protected shouldApplyButtonBeDisplayed(): boolean {
+    public shouldApplyButtonBeDisplayed(): boolean {
         return this.configurationLoaded
             && (this.contextBrokers.length > 0 || this.addedContextBrokerAtLeastOnce || this.removedContextBrokerAtLeastOnce);
     }
 
-    protected shouldApplyButtonBeEnabled(): boolean {
+    public shouldApplyButtonBeEnabled(): boolean {
         return this.shouldApplyButtonBeDisplayed() && this.isDirtyConfiguration() && this.isValidConfiguration();
     }
 
-    protected shouldAdvertisementBeDisplayed(): boolean {
+    public shouldAdvertisementBeDisplayed(): boolean {
         return this.shouldApplyButtonBeEnabled();
     }
 
-    protected onAddContextBroker(): void {
+    public onAddContextBroker(): void {
         this.accordionTabsSelected = true;
         if (this.accordionTabs && this.accordionTabs.length > 0) {
             this.accordionTabs.forEach(a => a.selected = false);
@@ -86,15 +86,19 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         });
     }
 
-    protected onRemoveService(): void {
+    public onRemoveService(): void {
         this.removedServiceAtLeastOnce = true;
     }
 
-    protected onSelectedEntitiesChange(): void {
+    public onSelectedEntitiesChange(): void {
         this.selectedEntitiesChange = true;
     }
 
-    protected onRemoveContextBroker(index: number): void {
+    public onFavChange(): void {
+        this.favAttrChange = true;
+    }
+
+    public onRemoveContextBroker(index: number): void {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this Context Broker?',
@@ -108,13 +112,13 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         });
     }
 
-    protected onApplyConfiguration(): void {
+    public onApplyConfiguration(): void {
         if (this.checkEntities()) {
             this.applyConfiguration();
         }
     }
 
-    protected onUrlChange(): void {
+    public onUrlChange(): void {
         if (this.serviceConfiguration) {
             this.serviceConfiguration.onContextBrokerUrlChange();
         }
@@ -169,6 +173,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         this.removedContextBrokerAtLeastOnce = false;
         this.removedServiceAtLeastOnce = false;
         this.selectedEntitiesChange = false;
+        this.favAttrChange = false;
         this.contextBrokers.forEach(cb => {
             cb.form.markAsPristine();
             cb.historicalForm.markAsPristine();
@@ -181,7 +186,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
             return cb.form.dirty ||
                 (cb.form.get('needHistoricalData').value && cb.historicalForm.dirty) ||
                 (cb.form.get('needServices').value && cb.services.some(s => s.form.dirty));
-        }) || this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce || this.selectedEntitiesChange;
+        }) || this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce || this.selectedEntitiesChange || this.favAttrChange;
     }
 
     private isValidConfiguration(): boolean {

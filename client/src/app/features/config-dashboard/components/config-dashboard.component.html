@@ -48,9 +48,10 @@
                         <form [formGroup]="cb.form">
 
                             <!-- General configuration -->
-                            <div class="mt-4 mb-5">
+                            <div class="mt-4 mb-4">
                                 <app-general-configuration [cb]="cb"
-                                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (urlChange)="onUrlChange()">
+                                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (urlChange)="onUrlChange()"
+                                    (favChange)="onFavChange()">
                                 </app-general-configuration>
                             </div>
 
@@ -58,7 +59,7 @@
                             <div *ngIf="cb.form.get('needServices').value === true" class="my-4">
                                 <app-service-configuration #serviceConfiguration [cb]="cb"
                                     (removeServiceEvent)="onRemoveService()"
-                                    (selectedEntitiesChange)="onSelectedEntitiesChange()">
+                                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (favChange)="onFavChange()">
                                 </app-service-configuration>
                             </div>
 

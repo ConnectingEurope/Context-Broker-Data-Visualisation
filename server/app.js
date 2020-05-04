@@ -7,15 +7,13 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var checkHealthRouter = require('./routes/checkHealth');
 var entitiesRouter = require('./routes/entities');
+var entityRouter = require('./routes/entity');
+var subsRouter = require('./routes/subs');
 var allRouter = require('./routes/all');
 var configRouter = require('./routes/config');
 var historicalData = require('./routes/historicalData');
 
 var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -27,6 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/check', checkHealthRouter);
 app.use('/entities', entitiesRouter);
+app.use('/entity', entityRouter);
+app.use('/subs', subsRouter);
 app.use('/config', configRouter);
 app.use('/all', allRouter);
 app.use('/historical-data', historicalData);
@@ -42,9 +42,8 @@ app.use(function (err, req, res, next) {
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    // render the error page
     res.status(err.status || 500);
-    res.render('error');
+    res.send();
 });
 
 module.exports = app;

@@ -1,4 +1,4 @@
-# CB-Baseline
+# CB-Baseline Master: ![Master](https://github.com/calbapon/CB-Baseline/workflows/Docker%20Image%20CI/badge.svg) Develop: ![Develop](https://github.com/calbapon/CB-Baseline/workflows/Docker%20Image%20CI/badge.svg?branch=develop)
 
 To setup the context broker:
 
@@ -13,4 +13,4 @@ To execute both the client and the server:
 3. Execute npm install
 4. Execute npm start
 
-After this, you can look at "localhost:5200"
+After this, you can look at "localhost:4200"

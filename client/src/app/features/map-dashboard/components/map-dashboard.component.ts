@@ -1,7 +1,7 @@
 import { FwiUtils } from '../../../shared/misc/fwi-utils';
 import { CategoryDto } from './../models/model-dto';
 import { ConditionDto } from './../models/condition-dto';
-import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy, ComponentRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy, ComponentRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import * as L from 'leaflet';
@@ -24,6 +24,9 @@ import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { CategoryEntityDto } from '../models/model-dto';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
+import { OverlayPanel } from 'primeng/overlaypanel/public_api';
+import { ClipboardService } from 'ngx-clipboard';
+import * as jsonFormat from 'json-format';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -32,17 +35,23 @@ import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 })
 export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    protected categories: CategoryDto[];
-    protected entities: CategoryEntityDto[] = [];
-    protected controlName: string = 'data';
-    protected popupName: string = 'popupRef';
-    protected menuItems: MenuItem[];
-    protected layers: TreeNode[];
-    protected selectedLayers: TreeNode[];
-    protected showButtons: boolean = false;
+    public categories: CategoryDto[];
+    public entities: CategoryEntityDto[] = [];
+    public controlName: string = 'data';
+    public popupName: string = 'popupRef';
+    public tooltipName: string = 'tooltipComp';
+    public menuItems: MenuItem[];
+    public layers: TreeNode[];
+    public selectedLayers: TreeNode[];
+    public showButtons: boolean = false;
+    public favChecked: boolean = true;
+    public favAttrs: { entity: string, favAttr: string }[] = [];
+    public displayDebug: boolean;
+    public displayDebugHeader: string;
+    public displayDebugContent: any;
 
     private map: L.Map;
-    private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup();
+    private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
     private layerGroups: { [key: string]: L.LayerGroup } = {};
     private layersBeforeFilter: L.Layer[];
     private removedLayers: L.Layer[] = [];
@@ -61,14 +70,18 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private defaultZoom: number = 4;
     private firstLoad: boolean = true;
 
+    @ViewChild('layerConditionsPanel') private layerConditionsPanel: OverlayPanel;
+    @ViewChild('layerPanel') private layerPanel: OverlayPanel;
+
     constructor(
         private mapDashBoardService: MapDashboardService,
         private layerService: LayerService,
         private popupService: PopupService,
-        private elem: ElementRef,
         private appMessageService: AppMessageService,
         private confirmationService: ConfirmationService,
         private router: Router,
+        private elem: ElementRef,
+        private clipboardService: ClipboardService,
     ) {
         super();
     }
@@ -88,14 +101,14 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         clearInterval(this.interval);
     }
 
-    protected onNodeSelect(event: any): void {
+    public onNodeSelect(event: any): void {
         const i: number = this.unselectedLayers.indexOf(event.node.data);
         this.unselectedLayers.splice(i, 1);
         this.markerClusterGroup.addLayer(this.layerGroups[event.node.data]);
         this.setFilters(this.filters);
     }
 
-    protected onNodeUnselect(event: any): void {
+    public onNodeUnselect(event: any): void {
         this.unselectedLayers.push(event.node.data);
         this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
     }
@@ -104,7 +117,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
      * Apply selected conditions in the map.
      * @event
      */
-    protected setFilters(event: ConditionDto[]): void {
+    public setFilters(event: ConditionDto[]): void {
         this.filters = event;
         // The markerClusterGroup is always filled in.
         this.markerClusterGroup.addLayers(this.removedLayers);
@@ -127,6 +140,26 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             });
         });
         this.markerClusterGroup.removeLayers(layersToRemove);
+    }
+
+    public onFavChange(event: any): void {
+        this.markerClusterGroup.getLayers().forEach(l => {
+            event.checked && l.getTooltip() ? this.openTooltip(l as L.Marker) : l.closeTooltip();
+        });
+    }
+
+    public onLayerConditionClick(event: any): void {
+        event.stopPropagation();
+        this.layerConditionsPanel.toggle(event);
+    }
+
+    public onLayerClick(event: any): void {
+        event.stopPropagation();
+        this.layerPanel.toggle(event);
+    }
+
+    public onClickCopy(): void {
+        this.clipboardService.copyFromContent(this.displayDebugContent);
     }
 
     /**
@@ -153,11 +186,30 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             minZoom: 3,
             maxBounds: L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180)),
             maxBoundsViscosity: 0.5,
+            doubleClickZoom: false,
         });
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         }).addTo(this.map);
+
+        this.map.addLayer(this.markerClusterGroup);
+
+        this.map.on('zoomstart', (event) => {
+            this.markerClusterGroup.getLayers().forEach(l => {
+                if (l.getTooltip()) {
+                    const elements: NodeList = this.elem.nativeElement.querySelectorAll('.leaflet-tooltip-pane');
+                    elements.forEach((e: HTMLElement) => e.style.display = 'none');
+                }
+            });
+        });
+
+        this.markerClusterGroup.on('animationend', () => {
+            this.markerClusterGroup.getLayers().forEach(l => {
+                this.openTooltip(l as L.Marker);
+            });
+        });
+
     }
 
     private loadSearchBar(): void {
@@ -225,6 +277,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
         this.refreshing = true;
+        this.storeFavAttrs(models);
         models.forEach(model => {
             const parentKey: string = this.layerService.getParentKey(model.type);
             this.layerGroups[model.type] = this.layerGroups[model.type] || L.layerGroup();
@@ -243,6 +296,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             this.openPopup.openPopup();
         }
         this.refreshing = false;
+    }
+
+    private storeFavAttrs(models: ModelDto[]): void {
+        this.favAttrs = models.filter(m => m.favAttr).map(m => ({ entity: m.type, favAttr: m.favAttr }));
     }
 
     private adjustView(): void {
@@ -301,11 +358,13 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.maxLon = this.maxLon < lon ? lon : this.maxLon;
     }
 
-    private insertEntity(model: ModelDto, entity: Entity, parentKey: string): void {
+    private insertEntity(model: ModelDto, entity: any, parentKey: string): void {
         const marker: L.Marker = L.marker(
             entity.location.coordinates.reverse() as L.LatLngExpression,
             { icon: LeafletIcons.icons[parentKey] },
         );
+
+        this.setTooltip(marker, entity, model);
 
         const popup: L.Popup = L.popup();
         const popupComponentRef: ComponentRef<PopupComponent> = this.popupService.getPopupContent(entity, model);
@@ -313,6 +372,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         div.appendChild(popupComponentRef.location.nativeElement);
         popup.setContent(div);
         marker.bindPopup(popup);
+
+        popupComponentRef.instance.clickDebug.pipe(takeUntil(this.destroy$)).subscribe(() => this.onClickDebug(model, entity, marker));
 
         marker.on('popupopen', () => {
             this.openPopup = popup;
@@ -324,6 +385,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
         marker[this.controlName] = entity;
         marker[this.popupName] = popupComponentRef.instance;
+        marker[this.tooltipName] = marker.getTooltip();
         this.layerGroups[model.type].addLayer(marker);
 
         if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
@@ -350,9 +412,76 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         }
         existentMarker[this.popupName].updatePopup(entity, model);
         existentMarker[this.controlName] = entity;
+        existentMarker[this.tooltipName] = existentMarker.getTooltip();
+        this.setTooltip(existentMarker, entity, model);
 
         const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
         if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
+    }
+
+    private onClickDebug(model: ModelDto, entity: any, marker: L.Marker): void {
+        this.mapDashBoardService.getEntity(model, entity).subscribe(
+            data => {
+                if (data.length > 0) {
+                    this.onClickDebugSuccess(data[0], marker);
+                } else {
+                    this.onClickDebugFail();
+                }
+            },
+            err => {
+                this.onClickDebugFail();
+            },
+        );
+    }
+
+    private onClickDebugSuccess(data: any, marker: L.Marker): void {
+        marker.closePopup();
+        this.displayDebugHeader = data.id;
+        this.displayDebugContent = data;
+        this.displayDebug = true;
+    }
+
+    private onClickDebugFail(): void {
+        this.appMessageService.add({ severity: 'error', summary: 'Cannot load the data' });
+    }
+
+    private setTooltip(marker: L.Marker, entity: any, model: ModelDto): void {
+        const tooltipContent: string = this.getTooltipContent(entity, model);
+        if (tooltipContent) {
+            if (!marker.getTooltip()) {
+                marker.bindTooltip(tooltipContent, {
+                    offset: new L.Point(0, 5),
+                    direction: 'top',
+                    permanent: true,
+                    opacity: 0.9,
+                });
+
+                marker.on('popupclose', event => {
+                    this.openTooltip(marker);
+                });
+
+                marker.on('click', event => {
+                    marker.closeTooltip();
+                });
+
+            } else {
+                marker.setTooltipContent(tooltipContent);
+            }
+        }
+    }
+
+    private openTooltip(marker: L.Marker): void {
+        if (this.favChecked) {
+            if (marker.getTooltip()) {
+                const elements: NodeList = this.elem.nativeElement.querySelectorAll('.leaflet-tooltip-pane');
+                elements.forEach((e: HTMLElement) => e.style.display = 'block');
+                marker.openTooltip();
+            }
+        }
+    }
+
+    private getTooltipContent(entity: any, model: ModelDto): string {
+        return model.favAttr && entity[model.favAttr] ? ('<span>' + entity[model.favAttr] + '</span>') : undefined;
     }
 
     private hasLocationBeenUpdated(existentMarker: L.Marker, entity: Entity): boolean {
@@ -372,6 +501,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             this.markerClusterGroup.addLayer(lg);
         });
 
-        this.map.addLayer(this.markerClusterGroup);
+        // this.map.addLayer(this.markerClusterGroup);
     }
 }

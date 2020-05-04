@@ -6,13 +6,15 @@
             <div *ngIf="!filterList || filterList.length == 0; else showFilters" class="mt-3">
                 No filters selected yet
             </div>
-            <div #showFilters *ngFor="let filter of filterList; let index=index" class="m-1">
-                <button pButton type="button" icon="pi pi-trash" class="ui-button-rounded ui-button-secondary mr-1"
-                    (click)="clearFilter(index)"></button>
-                <p-checkbox name="filters"
-                    label="{{ filter.entity }} - {{ filter.attribute }} {{ filter.condition }} {{ filter.value }}"
-                    [(ngModel)]="filterList[index].selected" (click)="emitFilterList()" binary="true"></p-checkbox>
-            </div>
+            <ng-template #showFilters>
+                <div *ngFor="let filter of filterList; let index=index" class="m-1">
+                    <button pButton type="button" icon="pi pi-trash" class="ui-button-rounded ui-button-secondary mr-1"
+                        (click)="clearFilter(index)"></button>
+                    <p-checkbox name="filters"
+                        label="{{ filter.entity }} - {{ filter.attribute }} {{ filter.condition }} {{ filter.value }}"
+                        [(ngModel)]="filterList[index].selected" (click)="emitFilterList()" binary="true"></p-checkbox>
+                </div>
+            </ng-template>
         </div>
 
         <!-- inputs to select filters -->

@@ -19,6 +19,8 @@ RUN npm install
 # add app
 COPY . /app
 
+EXPOSE 3000
+
 # start app
 # RUN npm start
 CMD npm run start

@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import * as moment from 'moment';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { Router } from '@angular/router';
@@ -17,9 +17,11 @@ export class PopupComponent extends BaseComponent {
 
     @Input() public entity: any;
     @Input() public modelDto: ModelDto;
-    protected attrs: any;
+    @Output() public clickDebug: EventEmitter<void> = new EventEmitter<void>();
+
+    public attrs: any;
     private maxNumberChars: number = 35;
-    @ViewChild('scrollPanel', { static: false }) private scrollPanel: ScrollPanel;
+    @ViewChild('scrollPanel') private scrollPanel: ScrollPanel;
 
     constructor(
         private router: Router,
@@ -40,14 +42,14 @@ export class PopupComponent extends BaseComponent {
         }
     }
 
-    protected onClickStats(): void {
+    public onClickStats(): void {
         this.entityMetadataService.setEntityMetadata(this.entity, this.modelDto).pipe(takeUntil(this.destroy$)).subscribe(() => {
             this.router.navigate(['/historical-data', this.modelDto.type, this.entity.id]);
         });
     }
 
-    protected onClickDebug(): void {
-        // TODO
+    public onClickDebug(): void {
+        this.clickDebug.emit();
     }
 
     private updateAttrs(): void {

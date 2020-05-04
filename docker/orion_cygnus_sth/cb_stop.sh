@@ -1,4 +1,3 @@
-docker stop fiware-tutorial
 docker stop fiware-sth-comet
 docker stop fiware-cygnus
 docker stop fiware-iot-agent
