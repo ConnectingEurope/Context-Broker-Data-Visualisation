@@ -2,13 +2,12 @@
 
 ![FIWARE Visualisation](https://nexus.lab.fiware.org/repository/raw/public/badges/chapters/visualization.svg)
 ![License](https://img.shields.io/github/license/ConnectingEurope/Context-Broker-Data-Visualisation)
-![Docker version](https://img.shields.io/docker/v/cbenablereveris/cb-data-visualisation-enabler)
+![Docker pulls](https://img.shields.io/docker/pulls/cbenablereveris/cb-data-visualisation-enabler)
 ![StackOverflow](https://nexus.lab.fiware.org/repository/raw/public/badges/stackoverflow/orion.svg)
-![GitHub contributors](https://img.shields.io/github/contributors/ConnectingEurope/Context-Broker-Data-Visualisation)
-![GitHub stars](https://img.shields.io/github/stars/ConnectingEurope/Context-Broker-Data-Visualisation?style=social)
+![NGSI v2](https://nexus.lab.fiware.org/repository/raw/public/badges/specifications/ngsiv2.svg)
 
 **Master:** ![Master](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation/workflows/Docker%20Image%20CI/badge.svg) **Develop:** ![Develop](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation/workflows/Docker%20Image%20CI/badge.svg?branch=develop)
-![Docker pulls](https://img.shields.io/docker/pulls/cbenablereveris/cb-data-visualisation-enabler)
+
 
 The **Context Broker Data Visualisation** is an **enabler** which consists on a **visualisation layer** over the Context Broker, and also for historical data tools. It provides the following features:
 
