@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "099a64bf-a4ed-481e-a9ad-f4909c8b079e",
+		"name": "CB - Demo of Sprint 1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Subscription for Parkings",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "fiware-service",
+						"value": "parking",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"description\": \"Notify STH-Comet the availability of the parkings\",\r\n  \"subject\": {\r\n    \"entities\": [\r\n      {\r\n      \t\"type\": \"OffStreetParking\",\r\n        \"id\": \"Salitre\"\r\n      }\r\n    ],\r\n    \"condition\": {\r\n      \"attrs\": [\r\n        \"availableSpotNumber\"\r\n      ]\r\n    }\r\n  },\r\n  \"notification\": {\r\n    \"http\": {\r\n      \"url\": \"http://cygnus:5051/notify\"\r\n    },\r\n    \"attrs\": [\r\n      \"availableSpotNumber\"\r\n    ]\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:1026/v2/subscriptions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"subscriptions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List subscriptions",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "fiware-service",
+						"value": "parking",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:1026/v2/subscriptions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"subscriptions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "STH-Comet consult Parking data",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "fiware-service",
+						"value": "parking",
+						"type": "text"
+					},
+					{
+						"key": "fiware-servicepath",
+						"value": "/",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8666/STH/v1/contextEntities/type/OffStreetParking/id/Salitre/attributes/availableSpotNumber?lastN=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8666",
+					"path": [
+						"STH",
+						"v1",
+						"contextEntities",
+						"type",
+						"OffStreetParking",
+						"id",
+						"Salitre",
+						"attributes",
+						"availableSpotNumber"
+					],
+					"query": [
+						{
+							"key": "lastN",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete subscription",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "fiware-service",
+						"value": "parking",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:1026/v2/subscriptions/5e9569d13bebde4bb9334108",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"subscriptions",
+						"5e9569d13bebde4bb9334108"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete multiple entities",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "fiware-service",
+						"value": "parking",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"actionType\": \"delete\",\n\t\"entities\": [\n\t\t{\"id\": \"Salitre\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"Av._de_Andalucia\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"Camas\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"Cruz_De_Humilladero\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"Alcazaba\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"San_Juan_De_La_Cruz\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"Pz._de_la_Marina\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"Tejon_y_Rodriguez\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"El_Carmen\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"Marmoles\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"El_Limonar\", \"type\": \"OffStreetParking\"},\n\t\t{\"id\": \"Bailen\", \"type\": \"OffStreetParking\"}\n\t]\n}"
+				},
+				"url": {
+					"raw": "localhost:1026/v2/op/update",
+					"host": [
+						"localhost"
+					],
+					"port": "1026",
+					"path": [
+						"v2",
+						"op",
+						"update"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
