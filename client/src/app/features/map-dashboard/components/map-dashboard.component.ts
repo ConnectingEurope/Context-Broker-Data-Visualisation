@@ -26,7 +26,6 @@ import { CategoryEntityDto } from '../models/model-dto';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
 import { ClipboardService } from 'ngx-clipboard';
-import * as jsonFormat from 'json-format';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -48,7 +47,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     public favAttrs: { entity: string, favAttr: string }[] = [];
     public displayDebug: boolean;
     public displayDebugHeader: string;
-    public displayDebugContent: string;
+    public displayDebugContent: any;
 
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
@@ -437,7 +436,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private onClickDebugSuccess(data: any, marker: L.Marker): void {
         marker.closePopup();
         this.displayDebugHeader = data.id;
-        this.displayDebugContent = jsonFormat(data);
+        this.displayDebugContent = data;
         this.displayDebug = true;
     }
 

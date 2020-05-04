@@ -1,16 +1,6 @@
-<p-dialog [showHeader]="true" [(visible)]="displayDebug" [modal]="true" [style]="{width: '30vw', height: '70vh'}"
-    [baseZIndex]="10000" [draggable]="false" [resizable]="false">
-    <p-header>
-        <h6 class="d-inline mt-2" style="position: absolute; top: 15px;">{{displayDebugHeader}}</h6>
-        <span style="position: absolute; right: 45px;">
-            <p-button ngxClipboard label="Copy" icon="far fa-clipboard" iconPos="left" (onClick)="onClickCopy()">
-            </p-button>
-        </span>
-    </p-header>
-    <div style="white-space: pre-wrap;">
-        {{displayDebugContent}}
-    </div>
-</p-dialog>
+<app-json-dialog [display]="displayDebug" [header]="displayDebugHeader" [content]="displayDebugContent"
+    (hide)="displayDebug=false">
+</app-json-dialog>
 
 <!-- Filters panel -->
 <p-overlayPanel #layerConditionsPanel styleClass="w-800">
@@ -72,7 +62,7 @@
     </div>
 
     <!-- Bottom left corner controls -->
-    <div *ngIf="favChecked && favAttrs.length > 0" class="leaflet-bottom leaflet-left">
+    <div *ngIf="showButtons && favChecked && favAttrs.length > 0" class="leaflet-bottom leaflet-left">
         <div class="favAttrsContainer mb-3 ml-3 p-3">
             <h6>Main attributes</h6>
             <hr />

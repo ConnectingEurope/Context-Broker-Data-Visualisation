@@ -10,7 +10,7 @@ export class MapDashboardService {
 
     constructor(private http: HttpClient) { }
 
-    public getEntity(model: ModelDto, entity: any): Observable<ModelDto[]> {
+    public getEntity(model: ModelDto, entity: any): Observable<any> {
         const body: any = {
             url: model.contextUrl,
             service: model.service,
@@ -19,7 +19,7 @@ export class MapDashboardService {
             id: entity.id,
         };
 
-        return this.http.post<ModelDto[]>('/server/entity', body);
+        return this.http.post<any>('/server/entity', body);
     }
 
     public getAllEntities(avoidHttpInterceptor?: boolean): Observable<ModelDto[]> {
