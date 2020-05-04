@@ -1,0 +1,30 @@
+version: "3.5"
+
+services:
+  cbenabler-server:
+    image: afmartin3z/cb-baseline-server:dev
+    container_name: cbenabler-server
+    ports:
+      - 3006:3006
+    expose:
+      - 3006
+    networks:
+      - default
+
+  cbenabler:
+    image: afmartin3z/cb-baseline:dev
+    hostname: localhost
+    container_name: cbenabler
+    depends_on:
+      - cbenabler-server
+    ports:
+      - 80:5200
+    expose:
+      - 80
+    links:
+      - cbenabler-server
+    networks:
+      - default
+
+networks:
+  default: ~

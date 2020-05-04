@@ -1,5 +1,1 @@
-rd /S /Q ..\..\..\orion
-
-docker-compose --log-level ERROR -f docker-compose.yml -p fiware up -d --remove-orphans
-
-pause
+docker-compose --log-level ERROR -f docker-compose.yml -p enabler_orion_cygnus_sth up -d --remove-orphans

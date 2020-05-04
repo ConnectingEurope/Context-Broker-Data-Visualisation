@@ -1,6 +1,6 @@
 version: "3.5"
 services:
-  # Orion is the context broker
+
   orion:
     image: fiware/orion:${ORION_VERSION}
     hostname: orion
@@ -12,14 +12,11 @@ services:
     expose:
       - "${ORION_PORT}"
     ports:
-      - "${ORION_PORT}:${ORION_PORT}" # localhost:1026
+      - "${ORION_PORT}:${ORION_PORT}"
     command: -dbhost mongo-db -logLevel DEBUG
-    volumes:
-      - "../../../orion:/tmp"
     healthcheck:
       test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
 
-  # Cygnus is configured to persist to STH-Comet
   cygnus:
     image: fiware/cygnus-ngsi:${CYGNUS_VERSION}
     hostname: cygnus
@@ -32,18 +29,17 @@ services:
       - "${CYGNUS_API_PORT}"
       - "${CYGNUS_MONGO_SERVICE_PORT}"
     ports:
-      - "${CYGNUS_MONGO_SERVICE_PORT}:${CYGNUS_MONGO_SERVICE_PORT}" # localhost:5051
-      - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}" # localhost:5080
+      - "${CYGNUS_MONGO_SERVICE_PORT}:${CYGNUS_MONGO_SERVICE_PORT}"
+      - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}"
     environment:
-      - "CYGNUS_MONGO_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}" # Port that Cygnus listens on for operational reasons
-      - "CYGNUS_MONGO_HOSTS=mongo-db:${MONGO_DB_PORT}" # Comma separated list of Mongo-DB servers which Cygnus will contact to persist historical context data
+      - "CYGNUS_MONGO_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"
+      - "CYGNUS_MONGO_HOSTS=mongo-db:${MONGO_DB_PORT}"
       - "CYGNUS_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"
-      - "CYGNUS_API_PORT=${CYGNUS_API_PORT}" # Port that Cygnus listens on for operational reasons
-      - "CYGNUS_LOG_LEVEL=DEBUG" # The logging level for Cygnus
+      - "CYGNUS_API_PORT=${CYGNUS_API_PORT}"
+      - "CYGNUS_LOG_LEVEL=DEBUG"
     healthcheck:
       test: curl --fail -s http://cygnus:${CYGNUS_API_PORT}/v1/version || exit 1
 
-  # STH-Comet is persisting Short Term History to Mongo-DB
   sth-comet:
     image: fiware/sth-comet:${STH_COMET_VERSION}
     hostname: sth-comet
@@ -54,7 +50,7 @@ services:
     networks:
       - default
     ports:
-      - "${STH_COMET_PORT}:${STH_COMET_PORT}" # localhost:8666
+      - "${STH_COMET_PORT}:${STH_COMET_PORT}"
     environment:
       - STH_HOST=0.0.0.0
       - STH_PORT=${STH_COMET_PORT}
@@ -64,36 +60,6 @@ services:
     healthcheck:
       test: curl --fail -s http://sth-comet:${STH_COMET_PORT}/version || exit 1
 
-  # IoT-Agent is configured for the UltraLight Protocol
-  iot-agent:
-    image: fiware/iotagent-ul:${ULTRALIGHT_VERSION}
-    hostname: iot-agent
-    container_name: fiware-iot-agent
-    depends_on:
-      - mongo-db
-    networks:
-      - default
-    ports:
-      - "${IOTA_NORTH_PORT}:${IOTA_NORTH_PORT}" # localhost:4041
-      - "${IOTA_SOUTH_PORT}:${IOTA_SOUTH_PORT}" # localhost:7896
-    environment:
-      - IOTA_CB_HOST=orion # name of the context broker to update context
-      - IOTA_CB_PORT=${ORION_PORT} # port the context broker listens on to update context
-      - IOTA_NORTH_PORT=${IOTA_NORTH_PORT}
-      - IOTA_REGISTRY_TYPE=mongodb #Whether to hold IoT device info in memory or in a database
-      - IOTA_LOG_LEVEL=DEBUG # The log level of the IoT Agent
-      - IOTA_TIMESTAMP=true # Supply timestamp information with each measurement
-      - IOTA_CB_NGSI_VERSION=v2 # use NGSIv2 when sending updates for active attributes
-      - IOTA_AUTOCAST=true # Ensure Ultralight number values are read as numbers not strings
-      - IOTA_MONGO_HOST=mongo-db # The host name of MongoDB
-      - IOTA_MONGO_PORT=${MONGO_DB_PORT} # The port mongoDB is listening on
-      - IOTA_MONGO_DB=iotagentul # The name of the database used in mongoDB
-      - IOTA_HTTP_PORT=${IOTA_SOUTH_PORT} # The port used for device traffic over HTTP
-      - IOTA_PROVIDER_URL=http://iot-agent:${IOTA_NORTH_PORT}
-    healthcheck:
-      test: curl --fail -s http://iot-agent:${IOTA_NORTH_PORT}/iot/about || exit 1
-
-  # Database
   mongo-db:
     image: mongo:${MONGO_DB_VERSION}
     hostname: mongo-db
@@ -101,12 +67,35 @@ services:
     expose:
       - "${MONGO_DB_PORT}"
     ports:
-      - "${MONGO_DB_PORT}:${MONGO_DB_PORT}" # localhost:27017
+      - "${MONGO_DB_PORT}:${MONGO_DB_PORT}"
     networks:
       - default
     command: --bind_ip_all --smallfiles
     volumes:
       - mongo-db:/data
+
+  cbenabler-server:
+    image: cbenablereveris/cb-data-visualisation-enabler-server:${ENABLER_SERVER_VERSION}
+    container_name: cbenabler-server
+    networks:
+        - default
+    expose:
+        - ${ENABLER_SERVER_PORT}
+    ports:
+        - ${ENABLER_SERVER_PORT}:${ENABLER_SERVER_PORT}
+
+  cbenabler:
+    image: cbenablereveris/cb-data-visualisation-enabler:${ENABLER_VERSION}
+    hostname: localhost
+    container_name: cbenabler
+    depends_on:
+        - cbenabler-server
+    networks:
+        - default
+    expose:
+        - ${ENABLER_PORT}
+    ports:
+        - ${ENABLER_PORT}:${ENABLER_PORT}
 
 networks:
   default:
