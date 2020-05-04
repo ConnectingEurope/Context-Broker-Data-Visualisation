@@ -95,7 +95,7 @@ services:
     expose:
         - ${ENABLER_PORT}
     ports:
-        - ${ENABLER_PORT}:${ENABLER_PORT}
+        - ${ENABLER_PORT_EXPOSE}:${ENABLER_PORT}
 
 networks:
   default:
