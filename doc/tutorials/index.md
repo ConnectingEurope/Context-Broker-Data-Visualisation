@@ -25,7 +25,7 @@ As a pre-requisite, **it is needed to have installed [Docker](https://www.docker
 
 [Top](#tutorials-for-deployment)
 
-<a name="firstTutorial" />
+<a name="firstTutorial"></a>
 
 ### Tutorial 1: Enabler
 
@@ -74,7 +74,7 @@ The steps for the deployment are the following:
 
 [Top](#tutorials-for-deployment)
 
-<a name="secondTutorial" />
+<a name="secondTutorial"></a>
 
 ### Tutorial 2: Enabler + Context Broker
 
@@ -125,7 +125,7 @@ The steps for the deployment are the following:
 
 [Top](#tutorials-for-deployment)
 
-<a name="thirdTutorial" />
+<a name="thirdTutorial"></a>
 
 ### Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet
 
@@ -194,7 +194,7 @@ After the registration, the deployment can be carried out following the [Tutoria
 
 [Top](#tutorials-for-deployment)
 
-<a name="fourthTutorial" />
+<a name="fourthTutorial"></a>
 
 ### Tutorial 4: FIWARE lab
 

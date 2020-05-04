@@ -4,7 +4,6 @@
 ![License](https://img.shields.io/github/license/ConnectingEurope/Context-Broker-Data-Visualisation)
 ![Docker version](https://img.shields.io/docker/v/cbenablereveris/cb-data-visualisation-enabler)
 ![StackOverflow](https://nexus.lab.fiware.org/repository/raw/public/badges/stackoverflow/orion.svg)
-![Travis](https://img.shields.io/travis/user/TODO)
 ![GitHub contributors](https://img.shields.io/github/contributors/ConnectingEurope/Context-Broker-Data-Visualisation)
 ![GitHub stars](https://img.shields.io/github/stars/ConnectingEurope/Context-Broker-Data-Visualisation?style=social)
 
@@ -20,6 +19,10 @@ The **Context Broker Data Visualisation** is an **enabler** which consists on a 
 - Easy **Configuration page** for the integration with the Context Broker and the historical data tools.
 
 - Integration with **more than one Context Broker at the same time**.
+
+- Deployment in **local environments** or **FIWARE lab** (Sandbox).
+
+For more information, read the [Objective](#objective) section.
 
 The Context Broker Data Visualisation is a FIWARE Generic Enabler. Therefore, it can be integrated as part of any platform “Powered by FIWARE”. FIWARE is a curated framework of open source platform components which can be assembled together with other third-party platform components to accelerate the development of Smart Solutions.
 

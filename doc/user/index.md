@@ -17,6 +17,7 @@ On the other hand, the enabler gives the opportunity to play with a sensor’s h
   - [Configuring Context Broker](#configuring-context-broker)
     - [Services](#services)
     - [Configuring main attributes](#configuring-main-attributes)
+    - [Subscriptions Overview](#subscriptions-overview)
   - [Historical data tools](#historical-data-tools)
     - [Cygnus](#cygnus)
     - [STH-Comet](#sth-comet)
@@ -26,6 +27,7 @@ On the other hand, the enabler gives the opportunity to play with a sensor’s h
   - [Map](#map)
     - [Main attributes](#main-attributes)
   - [Sensors](#sensors)
+    - [Sensor Overview](#sensor-overview)
   - [Search Bar](#search-bar)
   - [Managing the sensors](#managing-the-sensors)
     - [Layers](#layers)
@@ -166,6 +168,30 @@ It is only allowed to select one main attribute per each category.
 
 [Top](#user-manual)
 
+#### Subscriptions Overview
+
+In order to check if the attributes of the entitites of a Context Broker (or its services) are subscribed to changes (this means, they are generating historical data), there is a button called **Subscriptions Overview**.
+
+This button shows if there are **active subscriptions for the current configuration**, and also indicates if there are not.
+
+![SubscriptionsOverviewButton](../img/ConfigurationServicesSubsOverviewButton.PNG)
+
+>*Illustration 19. Subscriptions Overview button in the Configuration page*
+
+If there are subscriptions for the current configuration, a new window is displayed in read-only mode.
+
+![SubscriptionsOverview](../img/ConfigurationServicesSubsOverview.PNG)
+
+>*Illustration 20. Subscriptions Overview*
+
+Additionally, a message is displayed under the button if there are not subscriptions.
+
+![SubscriptionsOverviewNoSubsFound](../img/ConfigurationNoSubscriptionsFound.PNG)
+
+>*Illustration 21. No subscriptions found*
+
+[Top](#user-manual)
+
 ### Historical data tools
 
 In order to complement the real-time data, the Enabler offers the possibility to combine it with historical data. Hence, the user is able to optionally configure tools for its implementation in the Configuration page.
@@ -193,10 +219,10 @@ In conclusion, if the user wants to use the historical data, Cygnus and STH-Come
 If the introduced URL is not correct, an error message informing of the unsuccessful connection will appear.
 
 ![HistoricalDataConfigPanel](../img/HistoricalDataConfigPanel.png)
->*Illustration 18. Cygnus and STH-Comet tools.*
+>*Illustration 22. Cygnus and STH-Comet tools.*
 
 ![CygnusIncorrectURL](../img/CygnusIncorrectURL.png)
->*Illustration 19. Incorrect Cygnus or STH-Comet URL.*
+>*Illustration 23. Incorrect Cygnus or STH-Comet URL.*
 
 [Top](#user-manual)
 
@@ -205,7 +231,7 @@ If the introduced URL is not correct, an error message informing of the unsucces
 Once the user has finished configuring the Context Broker, its services and tools, the “Apply Configuration” at the top part of the page should be clicked so as to save it. If not, the current configuration will be lost and the deleted options will continue to appear.
 
 ![MessageUnsavedChanges](../img/MessageUnsavedChanges.png)
->*Illustration 20. Saving the configuration.*
+>*Illustration 24. Saving the configuration.*
 
 [Top](#user-manual)
 
@@ -222,7 +248,7 @@ Regarding the representation of the sensors, all of them have coordinates for th
 When zooming out in the map, the icons will start to cluster together in a single notification, showing the number of sensors available in the area. As the user zooms in, the sensors will start to separate and appear in the exact spot, the cluster with the number will disappear.
 
 ![MapSensors](../img/MapSensors.png)
->*Illustration 21. The Enabler Map.*
+>*Illustration 25. The Enabler Map.*
 
 [Top](#user-manual)
 
@@ -232,7 +258,7 @@ If at least one important attribute for the different types of sensors has been 
 
 ![MapWithMainAttributes](../img/MapSensorsWithMainAttributes.PNG)
 
->*Illustration 22. Main attributes over the sensors*
+>*Illustration 26. Main attributes over the sensors*
 
 There is also a **caption** on the bottom left of the map, which indicates the attributes that are displayed for each type of sensor.
 
@@ -240,7 +266,7 @@ The switch option on the top right of the map, allow the user to show or hide th
 
 ![MapWithoutMainAttributes](../img/MapSensorsWithoutMainAttributes.PNG)
 
->*Illustration 23. Main attributes disabled*
+>*Illustration 27. Main attributes disabled*
 
 [Top](#user-manual)
 
@@ -292,32 +318,46 @@ If more information about these categories is needed, the FIWARE data models can
 Whenever the icon of a sensor is clicked, a pop-up with the sensor’s information will appear. It will also contain the attributes that were selected while configuring the Context Broker and the real time data they have available.
 
 ![PopupAttributes](../img/PopupAttributes.png)
->*Illustration 24. Example of pop-up attributes.*
+>*Illustration 28. Example of pop-up attributes.*
 
 ![SensorPopup](../img/SensorPopUp.png)
->*Illustration 25. Sensor pop-up.*
+>*Illustration 29. Sensor pop-up.*
 
 However, if the user unselects any of the attributes in the configuration of the desired Context Broker, they will disappear in the pop-up as seen in the next illustration.
 
 ![ContextBrokerServiceAttributesFiltered](../img/ContextBrokerServiceAttributesFiltered.png)
->*Illustration 26.Example of unselecting pop-up attributes.*
+>*Illustration 30.Example of unselecting pop-up attributes.*
 
 ![MapPopUpAfterFilterAttrs](../img/MapPopUpAfterFilterAttrs.png)
->*Illustration 27. Same pop-up without the attributes.*
+>*Illustration 31. Same pop-up without the attributes.*
 
 ![SensorPopupCharacteristics](../img/SensorPopUpCharacteristics.png)
->*Illustration 28. Sensor pop-up characteristics.*
+>*Illustration 32. Sensor pop-up characteristics.*
 
-Apart from showing the real-time data of the sensor, the pop-up offers other functionalities. As seen in illustration 26, there are two buttons that offer different actions. The right button will show the debug option of the sensor. This consists in showing the sensor’s information in a technical way, is basically the response of the sensor after receiving a petition for information, without being processed. It will appear at the right part of the screen.
+Apart from showing the real-time data of the sensor, the pop-up offers other functionalities. As seen in Illustration 29, there are two buttons that offer different actions. The right button will show the **Overview** option of the sensor. This consists in showing the sensor’s information in a technical way, is basically the response of the sensor after receiving a petition for information, without being processed. It will appear at the right part of the screen.
 
 On the other hand, when clicking the left button of the pop-up, the user will be redirected to the historical data page with the available data for that sensor, if it was added in the Context Broker configuration.
+
+[Top](#user-manual)
+
+#### Sensor Overview
+
+It is possible to consult the technical information of the sensor as a JSON (as it is received from the Context Broker), by clicking in the right button of the pop-up of the sensor (Illustration 29).
+
+![SensorOverview](../img/MapSensorOverview.PNG)
+
+>*Illustration 33. Sensor's Overview*
+
+The information of the main pop-up of the sensor is formed based on this JSON.
+
+It is also possible to copy the complete JSON, clicking on the Copy button (located at the top right of the screen).
 
 [Top](#user-manual)
 
 ### Search Bar
 
 ![MapSearchBar](../img/MapSearchBar.png)
->*Illustration 29. Using the search bar.*
+>*Illustration 34. Using the search bar.*
 
 A search bar is available to localize cities in a faster way. The user has to introduce the name of the city they wish to see and, after selecting one of the results, the map will automatically change its focus to the city.
 
@@ -330,28 +370,28 @@ The user will be able to add dynamic filters to hide or show certain sensors fro
 There are available two types of filters at the top right part of the page: the first is the layers option, based in checking or unchecking attributes, and the second is the filters option, based in adding conditions to the attributes’ information.
 
 ![MapButtons](../img/MapButtons.png)
->*Illustration 30. Filtering Options.*
+>*Illustration 35. Filtering Options.*
 
 [Top](#user-manual)
 
 #### Layers
 
-This option, is available by clicking the button “Layers”, shown in illustration 28. It is based on being able to hide attributes by unchecking any of the information that was previously added in the CB’s initial configuration. If the user wants to hide any of the entities or attributes that were included before, it will be possible to modify this configuration from this interface by clicking on the checkbox next to the desired variable.
+This option, is available by clicking the button “Layers”, shown in illustration 35. It is based on being able to hide attributes by unchecking any of the information that was previously added in the CB’s initial configuration. If the user wants to hide any of the entities or attributes that were included before, it will be possible to modify this configuration from this interface by clicking on the checkbox next to the desired variable.
 
 ![MapLayersPanel](../img/MapLayersPanel.png)
->*Illustration 31. Selecting entities and attributes.*
+>*Illustration 36. Selecting entities and attributes.*
 
 [Top](#user-manual)
 
 #### Filters
 
 ![MapFiltersPanel](../img/MapFiltersPanel.png)
->*Illustration 32. Adding a condition.*
+>*Illustration 37. Adding a condition.*
 
 ![MapFiltersAdded](../img/MapFiltersAdded.png)
->*Illustration 33. After the Condition is Added.*
+>*Illustration 38. After the Condition is Added.*
 
-In order to add a new condition to any of the attributes the user has to press the button “Filters” shown in the illustration 28. It appears at the top right part of the map.
+In order to add a new condition to any of the attributes the user has to press the button “Filters” shown in the illustration 35. It appears at the top right part of the map.
 
 The user will have to select box by hierarchy, meaning first the category has to be selected, after that the entity and so on. After selecting the desired attribute, depending on the type of it, text or numerical, a different type of filter will appear and the user will be able to add the desired condition.
 
@@ -365,9 +405,9 @@ The user will have to select box by hierarchy, meaning first the category has to
   - Contains “Word”.
   - Has prefix or suffix.
 
-After choosing the desired condition, the user will have to write the desired value in the empty box and press the “Add” button shown in illustration 30.
+After choosing the desired condition, the user will have to write the desired value in the empty box and press the “Add” button shown in illustration 37.
 
-By clicking the button “Clear” the user will be able to delete the current filter that is being created. In order to delete an existing filter, the user should click the bin icon. Furthermore, to delete all the existing filters, the “Clear all” button in illustration 31 should be pressed.
+By clicking the button “Clear” the user will be able to delete the current filter that is being created. In order to delete an existing filter, the user should click the bin icon. Furthermore, to delete all the existing filters, the “Clear all” button in illustration 38 should be pressed.
 
 [Top](#user-manual)
 
@@ -376,12 +416,12 @@ By clicking the button “Clear” the user will be able to delete the current f
 When selecting a sensor there might be another button available at the left part of the pop-up, as shown in illustration 32. In order for this option to appear, the Context Broker that provides information for that selected sensor has to have the historical data tools correctly configured.
 
 ![ParkingPopup](../img/ParkingPopUp.png)
->*Illustration 34. Historical data option.*
+>*Illustration 39. Historical data option.*
 
 With this option, the user will be redirected to the historical data consultation page for that specific sensor. In this page, this data will be read from the available historical data of the sensor and the user can choose the rage of time for it to be represented i.e. from one date to other. Note that the applied filters will be maintained when consulting the historical data.
 
 ![HistoricalDataPage](../img/HistoricalDataPage.png)
->*Illustration 35. Historical data window.*
+>*Illustration 40. Historical data window.*
 
 [Top](#user-manual)
 
@@ -390,7 +430,7 @@ With this option, the user will be redirected to the historical data consultatio
 After selecting the option of visualizing historical data from a sensor, a table with the sensor’s attributes’ information will appear.
 
 ![HistoricalDataTable](../img/HistoricalDataTable.png)
->*Illustration 36. Attribute table.*
+>*Illustration 41. Attribute table.*
 
 [Top](#user-manual)
 
@@ -399,12 +439,12 @@ After selecting the option of visualizing historical data from a sensor, a table
 The user is able to filter the data in the table by date and time. The filter appears at the top of the table and gives the opportunity to select between two dates or just to put a limit for the data. For example, there is only the need to check the data from a certain date, only a beginning filter can be configured.
 
 ![HistoricalDataTimeFilter](../img/HistoricalDataTimeFilter.png)
->*Illustration 37. Date and time filters*
+>*Illustration 42. Date and time filters*
 
 By clicking on the date and time options, the user can configure the filter. A calendar will appear allowing to select the desired day and time. If the filter is no longer needed it can be deleted by clicking on the clear button right next to the filters.
 
 ![HistoricalDataTableFilters](../img/HistoricalDataTableFilters.png)
->*Illustration 38. Filter calendar.*
+>*Illustration 43. Filter calendar.*
 
 [Top](#user-manual)
 
@@ -416,15 +456,15 @@ The rest of the entries can be consulted through different ways:
 
 - By clicking the number of the desired page.
 
-- By clicking the red highlighted buttons (illustration 35), which shows the previous or the subsequent page.
+- By clicking the red highlighted buttons (illustration 44), which shows the previous or the subsequent page.
 
-- By clicking the green highlighted buttons (illustration 35), which will show the first or the last page of the table.
+- By clicking the green highlighted buttons (illustration 44), which will show the first or the last page of the table.
 
 ![HistoricalDataTableMovingPage](../img/HistoricalDataTableMovingPage.png)
->*Illustration 39. Moving between pages*
+>*Illustration 44. Moving between pages*
 
 ![HistoricalDataTableTotalEntries](../img/HistoricalDataTableTotalEntries.png)
->*Illustration 40. Total entries.*
+>*Illustration 45. Total entries.*
 
 To the right side of the page selection, the table informs of the entries that are being shown at the moment and the total of entries that are available to consult.
 
@@ -435,7 +475,7 @@ To the right side of the page selection, the table informs of the entries that a
 The purpose of is this functionality is to help the user to further study one of the attributes’ measures. With the aid of the graph representation of the attribute’s evolution, the user can study more specific aspects about it.
 
 ![HistoricalDataGraph](../img/HistoricalDataGraph.png)
->*Illustration 41. Historical data graph.*
+>*Illustration 46. Historical data graph.*
 
 [Top](#user-manual)
 
@@ -453,7 +493,7 @@ The user will also be able to customize the beginning of the time period dependi
 The table or graph will show up to the next time level. For instance, if the user selects hours, information up to a day will appear. Note that the range selection is independent for tables and graphs.
 
 ![HistoricalDataGraphRange](../img/HistoricalDataGraphRange.png)
->*Illustration 42. Range Selection.*
+>*Illustration 47. Range Selection.*
 
 [Top](#user-manual)
 
@@ -462,7 +502,7 @@ The table or graph will show up to the next time level. For instance, if the use
 The user should choose one of the attributes from the sensor and the range of time desired to be visualized in the graph, as mentioned before, up to a greater unit will be represented. After selecting all the options, a linear graph will appear automatically with the configuration that the user chose. If the range of time selected is greater than the data available no graph will appear for the lacking data.
 
 ![HistoricalDataGraphSelect](../img/HistoricalDataGraphSelect.png)
->*Illustration 43. Graph of one Attribute.*
+>*Illustration 48. Graph of one Attribute.*
 
 The default graph will show the information connected with lines and will show the evolution of the maximum and minimum values for that specific attribute. Also it will show the evolution of the average values for that range of time. For example, if a month is being represented it will show the minimum, maximum and average of each day.
 
@@ -479,6 +519,6 @@ After the table has been configured, the user will have the opportunity to expor
 The aim of this compatible data exportation is to allow the user to further study the data with other programs without the need to know how to order and extract the historical data from the Enabler, just as it is shown in the table.
 
 ![HistoricalDataExport](../img/HistoricalDataExport.png)
->*Illustration 44. Historical data exportation.*
+>*Illustration 49. Historical data exportation.*
 
 [Top](#user-manual)

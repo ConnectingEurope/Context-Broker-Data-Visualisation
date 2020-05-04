@@ -12,6 +12,9 @@ This part of the documentation pretends to focus in the technical part of the Co
   - [Enabler Back-end](#enabler-back-end)
   - [Enabler Front-end](#enabler-front-end)
 - [Used technologies](#used-technologies)
+- [Images in DockerHub](#images-in-dockerhub)
+  - [Master branch](#master-branch)
+  - [Develop branch](#develop-branch)
 - [Understanding the code](#understanding-the-code)
   - [How to generate new graphs](#how-to-generate-new-graphs)
   - [How to change the refresh time of the information](#how-to-change-the-refresh-time-of-the-information)
@@ -111,6 +114,45 @@ The following technologies has been used for the development and the deployment 
 - [STH-Comet](https://github.com/telefonicaid/fiware-sth-comet)
 - [FIWARE lab](https://www.fiware.org/developers/fiware-lab/)
 - [Markdown](https://www.markdownguide.org/)
+
+[Top](#technical-documentation)
+
+### Images in DockerHub
+
+As detailed in the [deployment manuals](../tutorials/index.md), the **public images** for the deployment of the enabler are available in [DockerHub](https://hub.docker.com/u/cbenablereveris).
+
+As the project is divided in two parts (fornt-end and back-end), there are **two Docker images** for its deployment. They are:
+
+- cb-visualisation-data-enabler (front-end)
+- cb-visualisation-data-enabler-server (back-end)
+
+Additionally, there are images for two branches of the [GitHub repository](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation), so each branch has its own images in DockerHub.
+
+[Top](#technical-documentation)
+
+#### Master branch
+
+The tag for the two Docker images of the **master** branch is called **latest**.
+
+The commands for the download the **master branch images** are:
+
+```bash
+docker pull cbenablereveris/cb-visualisation-data-enabler:latest
+docker pull cbenablereveris/cb-visualisation-data-enabler-server:latest
+```
+
+[Top](#technical-documentation)
+
+#### Develop branch
+
+The tag for the two Docker images of the **develop** branch is called **dev**. Those images are used for **testing purposes** (deployments, etc).
+
+The commands for the download the **develop branch images** are:
+
+```bash
+docker pull cbenablereveris/cb-visualisation-data-enabler:dev
+docker pull cbenablereveris/cb-visualisation-data-enabler-server:dev
+```
 
 [Top](#technical-documentation)
 
