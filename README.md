@@ -8,16 +8,15 @@
 
 **Master:** ![Master](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation/workflows/Docker%20Image%20CI/badge.svg) **Develop:** ![Develop](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation/workflows/Docker%20Image%20CI/badge.svg?branch=develop)
 
+The **Context Broker Data Visualisation** is an **enabler** which consists on a **visualisation layer** over the Context Broker. It provides the following features:
 
-The **Context Broker Data Visualisation** is an **enabler** which consists on a **visualisation layer** over the Context Broker, and also for historical data tools. It provides the following features:
+- **Real-time data** visualisation through geo-localized sensors on a map, based on the information from the **Orion Context Broker**.
 
-- **Real-time data** visualisation through geo-localized sensors in a map, based on the information from the **Orion Context Broker**.
-
-- **Historical data** visualisation for the sensors in table and graph format, taking profit of historical data tools as **Cygnus** and **STH-Comet**.
+- **Historical data** visualisation for the sensors in table and graph formats, taking advantage of historical data tools like **Cygnus** and **STH-Comet**.
 
 - Easy **Configuration page** for the integration with the Context Broker and the historical data tools.
 
-- Integration with **more than one Context Broker at the same time**.
+- Integration with **more than one Context Broker instance at the same time**.
 
 - Deployment in **local environments** or **FIWARE lab** (Sandbox).
 
@@ -42,11 +41,19 @@ The complete list of FIWARE GEs and Incubated FIWARE GEs can be found at the [FI
 
 ## Objective
 
-The Context Broker Data Visualisation enabler was created with the aim of facilitate the **understanding of the data** the Context Broker can provide, and also to **ease the learning** about how to use it.
+The Context Broker Data Visualisation enabler was created with the aim of:
+
+- Facilitating the **experimentation and learning** for new stakeholders in the Sandbox with the Context Broker, using a visualization layer.
+
+- Facilitating the **adoption** of the Context Broker for new solutions.
+
+- **Increasing the developer's community** around the Context Broker.
+
+- Creating an enabler that could be **reused in smart city verticals**.
 
 It is a **learning tool** for data visualisation, not a product.
 
-It could also be adapted to the necessities of every user by developing its own features, taking profit of the base of the enabler. More information can be found in the [documentation](#documentation) section.
+It could also be adapted to the needs of different users by developing its own features, taking advantage of the base of the enabler. More information can be found in the [documentation](#documentation) section.
 
 [Top](#context-broker-data-visualisation)
 
@@ -60,13 +67,13 @@ The documentation of the Context Broker Data Visualisation enabler is available 
 
 There are four different tutorials for the deployment of the enabler, in a local environment or in [FIWARE lab](https://www.fiware.org/developers/fiware-lab/).
 
-They can be found on the following [link](doc/tutorials/index.md).
+They can be found in the following [link](doc/tutorials/index.md).
 
 [Top](#context-broker-data-visualisation)
 
 ## Reference documentation
 
-The following documentation is recommended to be read just before starting to use the Context Broker Data Visualisation enabler:
+The following documentation is recommended to be read before starting to use the Context Broker Data Visualisation enabler:
 
 - [Orion Context Broker](https://fiware-orion.readthedocs.io/en/2.4.0/)
 - [FIWARE data models](https://www.fiware.org/developers/data-models/)
@@ -81,7 +88,7 @@ The following documentation is recommended to be read just before starting to us
 
 ## Testing
 
-The Context Broker Data Visualisation enabler has been tested with the following version of the tools which it is integrated:
+The Context Broker Data Visualisation enabler has been tested with the following tools:
 
 - [Orion Context Broker v2.4.0](https://github.com/telefonicaid/fiware-orion/tree/2.4.0)
 - [Cygnus v1.18.3](https://github.com/telefonicaid/fiware-cygnus/tree/1.18.3)
@@ -101,7 +108,7 @@ Context Broker Data Visualisation is licensed under [European Union Public Licen
 The Context Broker Data Visualisation enabler has been carried out by:
 
 - [CEF Digital](https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/CEF+Digital+Home)
-- [everis Valencia & Brussels](https://www.everis.com/)
+- [everis](https://www.everis.com/)
 - [FIWARE](https://www.fiware.org/)
 
 [Top](#context-broker-data-visualisation)

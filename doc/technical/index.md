@@ -1,6 +1,6 @@
 # Technical documentation
 
-This part of the documentation pretends to focus in the technical part of the Context Broker Data Visualization enabler, as well as explain how to develop new features or how certain parts of the enabler work.
+The technical documentation focuses in the technical aspects of the Context Broker Data Visualization enabler, as well as it explains how to develop new features or how specific parts of the enabler work.
 
 ## Content
 
@@ -26,23 +26,25 @@ This part of the documentation pretends to focus in the technical part of the Co
 
 ### Architecture
 
-The following picture represents the architecture of the Context Broker Data Visualization enabler and its integration with the rest of the tools:
+The following image represents the architecture of the Context Broker Data Visualization enabler and its integration with the rest of the tools:
 
 ![Architecture](../img/Architecture.png)
 
 > *Illustration 1. Architecture of the Context Broker Visualization enabler*
 
-It is recommended to read the links of the [Reference documentation](../../README.md#reference-documentation) section before continue reading the rest of the content.
+It is recommended to read the links of the [Reference documentation](../../README.md#reference-documentation) section before continuing reading the rest of this documentation.
 
 Hereunder, the set of tools of the architecture are going to be detailed:
 
 #### Context Broker
 
-The Context Broker is in charge of providing real-time data to the Back-end of the enabler. The most recent information is stored in the MongoDB.
+The Context Broker is responsible of providing real-time data to the Back-end of the enabler. The most recent information is stored in the MongoDB.
 
 It is also integrated with Cygnus and, optionally, it notifies the changes of the data to Cygnus, by the subscriptions.
 
 By default, it serves on the port 1026.
+
+More information of the Context Broker can be found [here](https://fiware-orion.readthedocs.io/en/2.4.0/).
 
 [Top](#technical-documentation)
 
@@ -54,6 +56,8 @@ Because of that, Cygnus generates historical data, storing all the data that is 
 
 By default, it serves on the port 5050.
 
+More information of Cygnus can be found [here](https://fiware-cygnus.readthedocs.io/en/1.18.3/).
+
 [Top](#technical-documentation)
 
 #### STH-Comet
@@ -64,23 +68,27 @@ It provides the historical data information to the Enabler Back-end.
 
 By default, it serves on the port 8666.
 
+More information of STH-Comet can be found [here](https://fiware-sth-comet.readthedocs.io/en/latest/).
+
 [Top](#technical-documentation)
 
 #### MongoDB
 
-The database which stores both real-time data (from the Context Broker) and historical data (from Cygnus).
+MongoDB is the database which stores both real-time data (from the Context Broker) and historical data (from Cygnus).
 
 It also provides the information to the rest of the tools, when they need to read the data.
 
 By default, it serves on the port 27017.
 
+More information of MongoDB can be found [here](https://www.mongodb.com/).
+
 [Top](#technical-documentation)
 
 #### Enabler Back-end
 
-The Back-end of the enabler is a NodeJS module and acts as the server of the Front-end of the enabler.
+The Back-end of the enabler is a NodeJS module that acts as the server of the Front-end of the enabler.
 
-It is in charge of send all the requests to the Context Broker and STH-Comet, managing all the data of the enabler.
+It is responsible of sending all the requests to the Context Broker and STH-Comet, managing all the data of the enabler.
 
 It also stores the configuration of the Configuration page in an internal JSON file called configuration.
 
@@ -98,7 +106,7 @@ By default, it serves on the port 4200.
 
 ### Used technologies
 
-The following technologies has been used for the development and the deployment of the Context Broker Data Visualization enabler:
+The following technologies have been used for the development and the deployment of the Context Broker Data Visualization enabler:
 
 - [Angular](https://angular.io/)
 - [OpenStreetMap](https://www.openstreetmap.org/)
@@ -121,10 +129,10 @@ The following technologies has been used for the development and the deployment 
 
 As detailed in the [deployment manuals](../tutorials/index.md), the **public images** for the deployment of the enabler are available in [DockerHub](https://hub.docker.com/u/cbenablereveris).
 
-As the project is divided in two parts (fornt-end and back-end), there are **two Docker images** for its deployment. They are:
+As the project is divided in two parts (Front-end and Back-end), there are **two Docker images** for its deployment:
 
-- cb-visualisation-data-enabler (front-end)
-- cb-visualisation-data-enabler-server (back-end)
+- cb-visualisation-data-enabler (Front-end)
+- cb-visualisation-data-enabler-server (Back-end)
 
 Additionally, there are images for two branches of the [GitHub repository](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation), so each branch has its own images in DockerHub.
 
@@ -134,7 +142,7 @@ Additionally, there are images for two branches of the [GitHub repository](https
 
 The tag for the two Docker images of the **master** branch is called **latest**.
 
-The commands for the download the **master branch images** are:
+The commands to download the **master branch images** are:
 
 ```bash
 docker pull cbenablereveris/cb-visualisation-data-enabler:latest
@@ -147,7 +155,7 @@ docker pull cbenablereveris/cb-visualisation-data-enabler-server:latest
 
 The tag for the two Docker images of the **develop** branch is called **dev**. Those images are used for **testing purposes** (deployments, etc).
 
-The commands for the download the **develop branch images** are:
+The commands to download the **develop branch images** are:
 
 ```bash
 docker pull cbenablereveris/cb-visualisation-data-enabler:dev
@@ -158,7 +166,7 @@ docker pull cbenablereveris/cb-visualisation-data-enabler-server:dev
 
 ### Understanding the code
 
-The objective of this section is to explain different technical points of the enabler, including new developments, modify parts of the enabler, etc.
+The objective of this section is to explain different technical aspects of the enabler, including new developments, modifying parts of the enabler, etc.
 
 [Top](#technical-documentation)
 
@@ -263,7 +271,7 @@ In this case, the last value of the function (60000) can be replaced by the desi
 
 #### Supported types of subscriptions
 
-With the objective of generate historical data, Cygnus is subscribed to the Context Broker. Then, when the Context Broker receives new data and, if this data matches with the configuration of the subscription, it is sent to Cygnus (and stored in MongoDB).
+With the objective of generating historical data, Cygnus is subscribed to the Context Broker. Then, when the Context Broker receives new data and, if this data matches with the configuration of the subscription, it is sent to Cygnus (and stored in MongoDB).
 
 There are some examples for subscriptions in this [link](https://documenter.getpostman.com/view/513743/RWEgqe8Q?version=latest#5ae8856f-954c-4e6b-a577-e03644bebb70).
 
@@ -273,7 +281,7 @@ For the Context Broker Data Visualization enabler, the **supported subscriptions
 
 ##### Subscriptions for a specific ID with multiple attributes
 
-This type of subscription is focused to the entity which ID is the same than the one indicated in the request. Concretely, in the **id** key.
+This type of subscription is focused on the entity whose ID is the same as the one indicated in the request. Concretely, in the **id** key.
 
 All the desired attributes to be subscribed for the specific entity, need to be included in the **notification -> attrs list**.
 
@@ -312,7 +320,7 @@ This is the structure of the request for this kind of subscription:
 
 ##### Subscriptions for a group of entities of the same type with multiple attributes
 
-This type of subscription is focused to a **group of entities of the same type**.
+This type of subscription is focused on a **group of entities of the same type**.
 
 All the desired attributes to be subscribed for the specific entity, need to be included in the **notification -> attrs list**.
 
@@ -351,7 +359,7 @@ This is the structure of the request for this kind of subscription:
 
 ##### Subscriptions for a group of entities with an idPattern with multiple attributes
 
-This type of subscription is focused to a **group of entities of the same type**, whose **id** matches the regex of the **idPattern** key.
+This type of subscription is focused on a **group of entities of the same type**, whose **id** matches the regex of the **idPattern** key.
 
 All the desired attributes to be subscribed for the specific entity, need to be included in the **notification -> attrs list**.
 
@@ -392,11 +400,11 @@ This is the structure of the request for this kind of subscription:
 
 First of all and **before loading** the historical data page, a **calculation** is made in order to collect the attributes which have subscriptions for changes.
 
-For that, the Enabler gets the **subscribed attributes from the subscription list of the Context Broker** (it is external to the enabler, configuration of the Context Broker) and **compares** it with the **configured attributes on the Configuration page** for the type of the selected sensor (which are the ones displayed in the pop-up).
+For that, the Enabler gets the **subscribed attributes from the subscription list of the Context Broker** (it is external to the enabler, configuration of the Context Broker) and **compares** it with the **configured attributes on the Configuration page** for the type of the selected sensor (which are the ones displayed on the information panel).
 
 Then, using that information, the enabler **connects with STH-Comet** in order to receive the information of the page.
 
-As a resume, **the information is previously collected, combined and structured** before been displayed in the historical data page of the enabler.
+As a resume, **the information is previously collected, combined and structured** before being displayed in the historical data page of the enabler.
 
 This is an example of a calculation:
 
