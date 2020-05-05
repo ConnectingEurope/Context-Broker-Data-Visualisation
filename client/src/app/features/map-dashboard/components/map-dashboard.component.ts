@@ -26,7 +26,6 @@ import { CategoryEntityDto } from '../models/model-dto';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
 import { ClipboardService } from 'ngx-clipboard';
-import * as jsonFormat from 'json-format';
 
 @Component({
     selector: 'app-map-dashboard',
