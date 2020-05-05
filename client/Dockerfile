@@ -1,19 +1,13 @@
-# base image
-FROM node:12.16.1
-
-# set working directory
+# Stage 1: Build
+FROM node:12.16.1 AS build
 WORKDIR /app
-
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-
-# add app
-COPY . /app
-
-# install dependencies
+COPY package.json package-lock.json ./
 RUN npm install
-RUN npm install -g @angular/cli@7.3.9
+COPY . .
+RUN npm run build-prod
+# COPY Staticfile /app/dist/cbenabler
 
-# start app
-ENTRYPOINT ["ng", "serve", "--proxy-config", "proxy-docker.conf.json", "--port", "4200"]
-CMD ["--host", "0.0.0.0"]
+# Stage 2: Run
+FROM nginx:1.17.1-alpine
+COPY default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist/cbenabler /usr/share/nginx/html
