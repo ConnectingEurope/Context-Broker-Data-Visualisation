@@ -237,6 +237,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
                 }
             },
             err => {
+                console.log(err);
                 this.onLoadEntitiesFail();
             });
     }
@@ -248,6 +249,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
                 this.loadLayerMenu();
             },
             err => {
+                console.log(err);
                 this.onLoadEntitiesFail();
             });
     }

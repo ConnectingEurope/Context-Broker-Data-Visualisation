@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 const request = require('request');
 const utils = require('./utils');
-const Datastore = require('nedb');
+const db = require('./db.js');
 
 router.get('/all', function (req, res, next) {
-    const db = new Datastore({ filename: './configuration.json' });
+
     db.loadDatabase(function (err) {
-        if (err) res.status(500).send();
+        if (err) res.status(500).send(err);
         else {
             db.find({}, function (err, docs) {
                 if (!err) {
