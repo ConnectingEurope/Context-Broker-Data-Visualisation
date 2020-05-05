@@ -1,8 +1,8 @@
 name: Docker Image CI
 
-on: 
+on:
   push:
-    branches: 
+    branches:
       - master
 
 jobs:
@@ -13,11 +13,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          
+
       - name: Build the Docker image
       # run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-        run: cd client && docker build -t ${{ secrets.DOCKER_USERNAME }}/cb-data-visualization-enabler:latest . && docker push ${{ secrets.DOCKER_USERNAME }}/cb-data-visualization-enabler:latest
+        run: cd client && docker build -t ${{ secrets.DOCKER_USERNAME }}/cb-data-visualisation-enabler:latest . && docker push ${{ secrets.DOCKER_USERNAME }}/cb-data-visualisation-enabler:latest
 
       - name: Build the server Docker image
-        run: cd server && docker build -t ${{ secrets.DOCKER_USERNAME }}/cb-data-visualization-enabler-server:latest . && docker push ${{ secrets.DOCKER_USERNAME }}/cb-data-visualization-enabler-server:latest
-        
+        run: cd server && docker build -t ${{ secrets.DOCKER_USERNAME }}/cb-data-visualisation-enabler-server:latest . && docker push ${{ secrets.DOCKER_USERNAME }}/cb-data-visualisation-enabler-server:latest
+
