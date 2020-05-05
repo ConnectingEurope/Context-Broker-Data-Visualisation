@@ -58,7 +58,7 @@ function getPayload(c, t) {
 function generateRandomLatLon() {
     const lat = randomNumberFromInterval(37.890676, 42.897983);
     const lon = randomNumberFromInterval(-8.246180, -1.150096);
-    return [lat, lon];
+    return [lon, lat];
 }
 
 function randomNumberFromInterval(min, max) {

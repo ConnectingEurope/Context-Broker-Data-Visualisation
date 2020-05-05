@@ -1,0 +1,25 @@
+version: "3.5"
+services:
+
+  cbenabler-server:
+    image: cbenablereveris/cb-data-visualisation-enabler-server:${ENABLER_SERVER_VERSION}
+    hostname: cbenabler-server
+    container_name: cbenabler-server
+    expose:
+      - "${ENABLER_SERVER_PORT}"
+    ports:
+      - ${ENABLER_SERVER_PORT}:${ENABLER_SERVER_PORT}
+    healthcheck:
+      test: curl --fail -s http://cbenabler-server:${ENABLER_SERVER_PORT} || exit 1
+
+  cbenabler:
+    image: cbenablereveris/cb-data-visualisation-enabler:${ENABLER_VERSION}
+    hostname: cbenabler
+    container_name: cbenabler
+    depends_on:
+      - cbenabler-server
+    ports:
+      - ${ENABLER_PORT_EXPOSE}:${ENABLER_PORT}
+    command: --host cbenabler
+    healthcheck:
+      test: curl --fail -s http://cbenabler:${ENABLER_PORT} || exit 1
