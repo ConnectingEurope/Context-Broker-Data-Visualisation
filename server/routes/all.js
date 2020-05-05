@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const Datastore = require('nedb');
 const utils = require('./utils');
+const db = require('./db.js');
 
 router.get('/', function (routerReq, routerRes, routerNext) {
     readConfig(routerRes);
@@ -10,9 +10,8 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 
 function readConfig(routerRes) {
 
-    const db = new Datastore({ filename: './configuration.json' });
     db.loadDatabase(function (err) {
-        if (err) routerRes.status(500).send();
+        if (err) routerRes.status(500).send(err);
         else {
             db.find({}, function (err, docs) {
                 if (!err && docs.length > 0) {

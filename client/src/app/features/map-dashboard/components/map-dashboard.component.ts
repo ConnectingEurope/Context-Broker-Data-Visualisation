@@ -93,6 +93,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.loadAllEntitiesForLayers();
         this.loadMap();
         this.loadSearchBar();
+        this.visualizeEntities();
     }
 
     public ngOnDestroy(): void {
@@ -236,6 +237,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
                 }
             },
             err => {
+                console.log(err);
                 this.onLoadEntitiesFail();
             });
     }
@@ -243,11 +245,11 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private loadAllEntitiesForLayers(): void {
         this.mapDashBoardService.getAllEntitiesForLayers().pipe(takeUntil(this.destroy$)).subscribe(
             (res: CategoryEntityDto[]) => {
-                this.visualizeEntities();
                 this.entities = this.mapCategories(res);
                 this.loadLayerMenu();
             },
             err => {
+                console.log(err);
                 this.onLoadEntitiesFail();
             });
     }
