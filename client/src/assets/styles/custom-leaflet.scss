@@ -21,17 +21,17 @@
 .marker-cluster-small,
 .marker-cluster-medium,
 .marker-cluster-large {
-  background-color: $primaryColorWithTransparency;
+    background-color: $primaryColorWithTransparency;
 }
 
 .marker-cluster-small div,
 .marker-cluster-medium div,
 .marker-cluster-large div {
-  background-color: white;
+    background-color: white;
 }
 
 .marker-cluster span {
-  color: $primaryColor;
+    color: $primaryColor;
 }
 
 /*****************************************************************************
@@ -39,7 +39,7 @@
 *****************************************************************************/
 
 div.geosearch a.reset {
-  display: none;
+    display: none;
 }
 
 /*****************************************************************************

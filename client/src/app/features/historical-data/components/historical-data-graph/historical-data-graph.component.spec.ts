@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HistoricalDataGraphComponent } from './historical-data-graph.component';
+import { HistoricalDataTableComponent } from '../historical-data-table/historical-data-table.component';
 
 describe('HistoricalDataTableComponent', () => {
     let component: HistoricalDataTableComponent;

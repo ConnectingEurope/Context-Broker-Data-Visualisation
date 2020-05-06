@@ -2,51 +2,17 @@
 
 @import './variables';
 
-i.help-icon {
-  color: $primaryDarkColor;
-}
-
-input.largeInput {
-  width: 280px;
-}
+/*****************************************************************************
+ Button - secondary button
+*****************************************************************************/
 
 button.secondary-button {
-  background-color: white !important;
+    background-color: white !important;
 }
 
-i.accordion-chevron-icon {
-  color: white;
-  display:inline-block;
-  vertical-align: middle;
-}
-
-p.advertisement {
-  color: $primaryColor;
-}
-
-p.advertisement.wrong {
-  color: $wrongColor;
-}
-
-.w-800 {
-    width: 800px;
-}
-
-p.input-info {
-    color: $infoColor;
-}
-
-p.input-warning {
-    color: $warningColor;
-}
-
-p.input-error {
-    color: $wrongColor;
-}
-
-.info-message {
-    color: $primaryColor;
-}
+/*****************************************************************************
+ Button - popup button
+*****************************************************************************/
 
 button.popupButton {
     width: 30px !important;
@@ -61,17 +27,9 @@ button.popupButton .ui-button-text {
     display: hidden;
 }
 
-// App GraphicCard
-
-app-graphic-card .graphicDiv,
-.graphicDivdiv.row {
-  height: 500px;
-  width: 1100px;
-}
-
-app-graphic-card .graphicDiv div.col-auto > div {
-  width: 1000px;
-}
+/*****************************************************************************
+ Button - input height
+*****************************************************************************/
 
 .ui-button.input-height {
     height: 33px;
@@ -81,7 +39,73 @@ app-graphic-card .graphicDiv div.col-auto > div {
     padding: .25em 1em .25em 2.1em !important;
 }
 
-// TABLE
+/*****************************************************************************
+ Input - large input
+*****************************************************************************/
+
+input.largeInput {
+    width: 280px;
+}
+
+/*****************************************************************************
+ Accordion icon
+*****************************************************************************/
+
+i.accordion-chevron-icon {
+    color: white;
+    display:inline-block;
+    vertical-align: middle;
+}
+
+/*****************************************************************************
+ Text and icon colors
+*****************************************************************************/
+
+p.advertisement {
+    color: $primaryColor;
+}
+
+p.advertisement.wrong {
+    color: $wrongColor;
+}
+
+p.input-info {
+    color: $successColor;
+}
+
+p.input-warning {
+    color: $warningColor;
+}
+
+p.input-error {
+    color: $wrongColor;
+}
+
+.info-message {
+    color: $primaryColor;
+}
+
+i.help-icon {
+    color: $primaryDarkColor;
+}
+
+/*****************************************************************************
+ Graphic card
+*****************************************************************************/
+
+app-graphic-card .graphicDiv,
+.graphicDivdiv.row {
+    height: 500px;
+    width: 1100px;
+}
+
+app-graphic-card .graphicDiv div.col-auto > div {
+    width: 1000px;
+}
+
+/*****************************************************************************
+ Table
+*****************************************************************************/
 
 $width-for-scroll: 1000px;
 
@@ -98,7 +122,9 @@ $width-for-scroll: 1000px;
     }
 }
 
-// PAGINATOR
+/*****************************************************************************
+ Table paginator
+*****************************************************************************/
 
 .ui-paginator-page {
     width: 40px !important;
@@ -109,13 +135,16 @@ $width-for-scroll: 1000px;
     }
 }
 
+/*****************************************************************************
+ Attributes tree
+*****************************************************************************/
+
 body .ui-tree.attrsTree {
     width: 100%;
 }
 
 body .ui-tree.attrsTree .ui-treenode-label.ui-state-highlight {
     background-color: transparent !important;
-    // color: #ffffff;
 }
 
 body .ui-tree.attrsTree .ui-treenode-label.ui-state-highlight p {
@@ -130,6 +159,10 @@ body .ui-tree.attrsTree .ui-treenode-label.ui-state-highlight p {
 body .ui-tree.attrsTree p {
     padding: 3px;
 }
+
+/*****************************************************************************
+ Attributes tree - main/favourite attributes
+*****************************************************************************/
 
 .favButton .ui-button,
 .favButton .ui-button:active,
@@ -172,6 +205,10 @@ body .ui-tree.attrsTree p {
     background-color: $textColor;
 }
 
+/*****************************************************************************
+ Json dialog
+*****************************************************************************/
+
 .json-dialog .ui-dialog-content {
     background-color: $primaryLightColor;
     color: $textColor;
@@ -184,4 +221,12 @@ body .ui-tree.attrsTree p {
 
 .json-dialog .ui-dialog-titlebar {
     height: 65px;
+}
+
+/*****************************************************************************
+ Layer conditions panel
+*****************************************************************************/
+
+.layerConditionsPanel {
+    width: 800px;
 }

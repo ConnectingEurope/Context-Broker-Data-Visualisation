@@ -3,7 +3,7 @@
 </app-json-dialog>
 
 <!-- Filters panel -->
-<p-overlayPanel #layerConditionsPanel styleClass="w-800">
+<p-overlayPanel #layerConditionsPanel styleClass="layerConditionsPanel">
     <app-layer-conditions [categories]="categories" [entities]="entities" (eventFilters)="setFilters($event)">
     </app-layer-conditions>
 </p-overlayPanel>

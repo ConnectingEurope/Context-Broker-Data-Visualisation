@@ -10,8 +10,6 @@
         "test": "ng test",
         "test:ci": "ng test --watch=false",
         "lint": "ng lint",
-        "stylelint": "stylelint \"src/**/*.scss\"",
-        "markdownlint": "markdownlint ../**/*.md --ignore ../**/node_modules/**/*.md --ignore ../**/external/**/*.md",
         "e2e": "ng e2e"
     },
     "private": true,

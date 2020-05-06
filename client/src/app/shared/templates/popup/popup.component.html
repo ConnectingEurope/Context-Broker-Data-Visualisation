@@ -6,7 +6,7 @@
 </ng-template>
 
 <!-- Few attributes -->
-<div *ngIf="attrs.length <= 10 else showScroll">
+<div *ngIf="attrs.length <= maxNumberAttrsUntilScroll else showScroll">
     <ng-container *ngTemplateOutlet="content"></ng-container>
 </div>
 
@@ -20,12 +20,17 @@
 <!-- Buttons -->
 <div class="fluid-container mt-3">
     <div class="row justify-content-around">
+
+        <!-- Stats button -->
         <div *ngIf="modelDto && modelDto.cometUrl" class="col-auto p-0">
             <p-button styleClass="popupButton chart" icon="fas fa-chart-area" (onClick)="onClickStats()">
             </p-button>
         </div>
+
+        <!-- Debug button -->
         <div class="col-auto p-0">
             <p-button styleClass="popupButton code" icon="fas fa-code" (onClick)="onClickDebug()"></p-button>
         </div>
+
     </div>
 </div>

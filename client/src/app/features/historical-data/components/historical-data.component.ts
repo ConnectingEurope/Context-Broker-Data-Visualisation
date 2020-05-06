@@ -21,7 +21,7 @@ export class HistoricalDataComponent extends BaseComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.entityMetadata = JSON.parse(localStorage.getItem('entityMetadata'));
+        this.entityMetadata = JSON.parse(sessionStorage.getItem('entityMetadata'));
     }
 
 }

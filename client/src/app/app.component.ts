@@ -10,9 +10,6 @@ export class AppComponent implements OnInit {
 
     public menuItems: MenuItem[];
 
-    constructor(
-    ) { }
-
     public ngOnInit(): void {
         this.loadMenu();
     }

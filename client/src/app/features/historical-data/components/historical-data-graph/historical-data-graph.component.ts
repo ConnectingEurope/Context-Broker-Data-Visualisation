@@ -1,14 +1,12 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { SelectItem } from 'primeng/api/selectitem';
-import { HistoricalDataService } from '../../../services/historical-data.service';
+import { HistoricalDataService } from '../../services/historical-data.service';
 import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
-import * as moment from 'moment';
 import { GraphicCardComponent } from 'src/app/shared/templates/graphic-card/graphic-card.component';
 import { AggregatePeriod, AggregateMethod } from 'src/app/features/historical-data/models/historical-data-objects';
 import { Observable } from 'rxjs';
 import { combineLatest } from 'rxjs';
-import { Moment } from 'moment';
-import { DateUtilsService } from '../../../services/date-utils.service';
+import { DateUtilsService } from '../../services/date-utils.service';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { takeUntil } from 'rxjs/operators';
 
@@ -39,10 +37,6 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
     public dayDate: Date;
     public monthDate: Date;
     public yearDate: number;
-
-    // public graphicHasDataForNumber: boolean = false;
-    // public graphicHasDataForString: boolean = false;
-    // public complexAttrSelected: boolean = false;
 
     public attrType: AttrType;
 
@@ -103,21 +97,6 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         }
     }
 
-    private getHistoricalDataForNumber(): void {
-        combineLatest([
-            this.getAggregatedData(AggregateMethod.SUM),
-            this.getAggregatedData(AggregateMethod.MIN),
-            this.getAggregatedData(AggregateMethod.MAX),
-        ]).pipe(takeUntil(this.destroy$)).subscribe(
-            ([sumValues, minValues, maxValues]) => {
-                this.showDataForNumber(sumValues, minValues, maxValues);
-                this.attrType = AttrType.NUMBER;
-            },
-            err => {
-                this.attrType = AttrType.UNDEFINED;
-            });
-    }
-
     private getAggregatedData(aMethod: AggregateMethod): Observable<any> {
         return this.historicalDataService.getAggregate(this.entityMetadata, this.currentAttr, {
             aggrMethod: aMethod,
@@ -127,11 +106,19 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         });
     }
 
-    private getHistoricalDataForString(): void {
-        this.getAggregatedData(AggregateMethod.OCCUR).pipe(takeUntil(this.destroy$)).subscribe(
-            occurValues => {
-                this.showDataForString(occurValues);
-                this.attrType = AttrType.STRING;
+    /*****************************************************************************
+     Historical data for numbers
+    *****************************************************************************/
+
+    private getHistoricalDataForNumber(): void {
+        combineLatest([
+            this.getAggregatedData(AggregateMethod.SUM),
+            this.getAggregatedData(AggregateMethod.MIN),
+            this.getAggregatedData(AggregateMethod.MAX),
+        ]).pipe(takeUntil(this.destroy$)).subscribe(
+            ([sumValues, minValues, maxValues]) => {
+                this.showDataForNumber(sumValues, minValues, maxValues);
+                this.attrType = AttrType.NUMBER;
             },
             err => {
                 this.attrType = AttrType.UNDEFINED;
@@ -151,7 +138,6 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
                     backgroundColor: 'lightgreen',
                     borderColor: 'lightgreen',
                     fill: false,
-                    // lineTension: 0,
                 },
 
                 {
@@ -160,7 +146,6 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
                     backgroundColor: 'lightblue',
                     borderColor: 'lightblue',
                     fill: false,
-                    // lineTension: 0,
                 },
 
                 {
@@ -169,7 +154,6 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
                     backgroundColor: 'purple',
                     borderColor: 'purple',
                     fill: false,
-                    // lineTension: 0,
                 },
             ],
         };
@@ -182,6 +166,21 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
 
     private hasNumberDecimals(value: any): boolean {
         return value.toString().indexOf('.') !== -1 || value.toString().indexOf(',') !== -1 || value.toString().indexOf('\'') !== -1;
+    }
+
+    /*****************************************************************************
+     Historical data for strings
+    *****************************************************************************/
+
+    private getHistoricalDataForString(): void {
+        this.getAggregatedData(AggregateMethod.OCCUR).pipe(takeUntil(this.destroy$)).subscribe(
+            occurValues => {
+                this.showDataForString(occurValues);
+                this.attrType = AttrType.STRING;
+            },
+            err => {
+                this.attrType = AttrType.UNDEFINED;
+            });
     }
 
     private showDataForString(occurValues: any[]): void {

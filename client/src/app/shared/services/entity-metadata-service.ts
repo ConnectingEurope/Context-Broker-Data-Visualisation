@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EntityMetadata } from '../models/entity-metadata';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ModelDto } from '../models/model-dto';
 import { map } from 'rxjs/operators';
@@ -19,7 +19,9 @@ export class EntityMetadataService {
 
     private entityMetadata: EntityMetadata;
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+    ) {
     }
 
     public getEntityMetadata(): EntityMetadata {
@@ -38,7 +40,7 @@ export class EntityMetadataService {
         };
         return this.getHistoricalAttrs().pipe(map(attrs => {
             this.entityMetadata.attrs = attrs.filter(a => Object.keys(entity).indexOf(a) >= 0);
-            localStorage.setItem('entityMetadata', JSON.stringify(this.entityMetadata));
+            sessionStorage.setItem('entityMetadata', JSON.stringify(this.entityMetadata));
             return;
         }));
     }

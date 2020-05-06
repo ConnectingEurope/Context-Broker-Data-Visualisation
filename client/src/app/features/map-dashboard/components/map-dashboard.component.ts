@@ -1,4 +1,3 @@
-import { FwiUtils } from '../../../shared/misc/fwi-utils';
 import { CategoryDto } from './../models/model-dto';
 import { ConditionDto } from './../models/condition-dto';
 import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy, ComponentRef, ViewChild } from '@angular/core';
@@ -9,7 +8,7 @@ import 'leaflet.markercluster';
 import 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
-import { LeafletIcons } from '../../../shared/misc/leaflet-icons';
+import { IconUtils } from '../../../shared/misc/icon-utils';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 import { MapDashboardService } from '../services/map-dashboard-service/map-dashboard.service';
 import { LayerService } from '../services/layer-service/layer-service';
@@ -18,7 +17,7 @@ import { Entity } from 'src/app/shared/models/entity';
 import { ModelDto } from 'src/app/shared/models/model-dto';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { Utilities } from '../../../shared/utils/utilities';
+import { Utils } from '../../../shared/misc/utils';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -170,7 +169,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         let shouldBeRemoved: boolean = false;
         // Check if the value is a number.
         if (filter.condition !== 'contains') {
-            shouldBeRemoved = !Utilities.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
+            shouldBeRemoved = !Utils.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
         } else {
             shouldBeRemoved = !layer[controlName][filter.attribute].toString().includes(filter.value);
         }
@@ -262,12 +261,12 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
                 return category.name === parentKey;
             });
 
-            entity.label = FwiUtils.entityName[entity.name] || entity.name;
+            entity.label = entity.name;
 
             if (!categoryExist) {
                 this.categories.push({
-                    name: parentKey, label: FwiUtils.categoryName[parentKey],
-                    icon: FwiUtils.icons[parentKey], entities: [entity],
+                    name: parentKey, label: IconUtils.categoryName[parentKey],
+                    icon: IconUtils.icons[parentKey], entities: [entity],
                 });
             } else {
                 categoryExist.entities.push(entity);
@@ -362,7 +361,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private insertEntity(model: ModelDto, entity: any, parentKey: string): void {
         const marker: L.Marker = L.marker(
             entity.location.coordinates.reverse() as L.LatLngExpression,
-            { icon: LeafletIcons.icons[parentKey] },
+            { icon: IconUtils.leafletIcons[parentKey] },
         );
 
         this.setTooltip(marker, entity, model);

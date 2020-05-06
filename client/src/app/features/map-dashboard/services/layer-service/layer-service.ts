@@ -1,5 +1,4 @@
 import { TreeNode } from 'primeng/api/treenode';
-import { LeafletIcons } from '../../../../shared/misc/leaflet-icons';
 import { Injectable } from '@angular/core';
 import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
 import { EntityConfiguration } from 'src/app/features/config-dashboard/models/context-broker-configuration';
@@ -9,23 +8,6 @@ import { CategoryDto } from '../../models/model-dto';
     providedIn: 'root',
 })
 export class LayerService {
-
-    private layers: any = {
-        environment: {
-            label: 'Environment',
-            AirQualityObserved: {
-                label: 'Air Quality Observed',
-                icon: LeafletIcons.icons.airQualityObserved,
-            },
-        },
-        transport: {
-            label: 'Transport',
-            OffStreetParking: {
-                label: 'Off Street Parking',
-                icon: LeafletIcons.icons.offStreetParking,
-            },
-        },
-    };
 
     public getParentKey(type: string): string {
         switch (type) {
@@ -100,8 +82,8 @@ export class LayerService {
     }
 
     public getMainLayers(categories: CategoryDto[]): TreeNode[] {
-        this.layers = this.createTreeNode(categories);
-        return Object.entries(this.layers).map(e => this.getTreeNodeLayer(e[0], e[1]));
+        const layers: any = this.createTreeNode(categories);
+        return Object.entries(layers).map(e => this.getTreeNodeLayer(e[0], e[1]));
     }
 
     public createTreeNode(categories: CategoryDto[]): any {

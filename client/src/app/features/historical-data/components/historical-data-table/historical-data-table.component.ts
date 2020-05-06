@@ -1,8 +1,8 @@
-import { HistoricalDataService } from './../../../services/historical-data.service';
+import { HistoricalDataService } from '../../services/historical-data.service';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
-import { RawParameters } from '../../../models/historical-data-objects';
+import { RawParameters } from '../../models/historical-data-objects';
 import { LazyLoadEvent } from 'primeng/api/public_api';
 import { Observable, combineLatest } from 'rxjs';
 import { Table } from 'primeng/table';

@@ -4,7 +4,6 @@ import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { Router } from '@angular/router';
 import { ModelDto } from '../../models/model-dto';
 import { EntityMetadataService } from '../../services/entity-metadata-service';
-import { EntityMetadata } from '../../models/entity-metadata';
 import { BaseComponent } from '../../misc/base.component';
 import { takeUntil } from 'rxjs/operators';
 
@@ -19,8 +18,11 @@ export class PopupComponent extends BaseComponent {
     @Input() public modelDto: ModelDto;
     @Output() public clickDebug: EventEmitter<void> = new EventEmitter<void>();
 
+    public maxNumberAttrsUntilScroll: number = 10;
     public attrs: any;
+
     private maxNumberChars: number = 35;
+
     @ViewChild('scrollPanel') private scrollPanel: ScrollPanel;
 
     constructor(
