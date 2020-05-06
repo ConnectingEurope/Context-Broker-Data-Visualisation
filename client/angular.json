@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "CB-Baseline": {
+        "cb-baseline": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/CB-Baseline",
+                        "outputPath": "dist/cbenabler",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -86,18 +86,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "CB-Baseline:build"
+                        "browserTarget": "cbenabler:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "CB-Baseline:build:production"
+                            "browserTarget": "cbenabler:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "CB-Baseline:build"
+                        "browserTarget": "cbenabler:build"
                     }
                 },
                 "test": {
@@ -148,16 +148,16 @@
                     "builder": "@angular-devkit/build-angular:protractor",
                     "options": {
                         "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "CB-Baseline:serve"
+                        "devServerTarget": "cbenabler:serve"
                     },
                     "configurations": {
                         "production": {
-                            "devServerTarget": "CB-Baseline:serve:production"
+                            "devServerTarget": "cbenabler:serve:production"
                         }
                     }
                 }
             }
         }
     },
-    "defaultProject": "CB-Baseline"
+    "defaultProject": "cbenabler"
 }
