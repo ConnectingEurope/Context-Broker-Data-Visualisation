@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
+import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ContextBrokerForm } from '../../models/context-broker-form';

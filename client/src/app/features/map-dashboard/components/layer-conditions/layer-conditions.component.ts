@@ -1,4 +1,4 @@
-import { CategoryEntityDto, CategoryDto, ActionDto, AttributeDto } from './../../models/model-dto';
+import { CategoryEntityDto, CategoryDto, ActionDto, AttributeDto } from '../../models/category-dto';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ConditionDto } from '../../models/condition-dto';
 

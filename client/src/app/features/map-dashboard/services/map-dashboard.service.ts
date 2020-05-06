@@ -8,7 +8,9 @@ import { ModelDto } from 'src/app/shared/models/model-dto';
 })
 export class MapDashboardService {
 
-    constructor(private http: HttpClient) { }
+    constructor(
+        private http: HttpClient,
+    ) { }
 
     public getEntity(model: ModelDto, entity: any): Observable<any> {
         const body: any = {

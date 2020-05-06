@@ -20,4 +20,3 @@ export interface AttributeDto {
 export interface ActionDto {
     label: string;
 }
-

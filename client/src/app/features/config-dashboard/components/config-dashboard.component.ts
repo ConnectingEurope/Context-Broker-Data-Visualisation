@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { ConfigDashboardService } from '../services/config-dashboard-service/config-dashboard.service';
+import { ConfigDashboardService } from '../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { ContextBrokerForm, ServiceForm } from '../models/context-broker-form';
 import { ContextBrokerConfiguration, ServiceConfiguration } from '../models/context-broker-configuration';
-import { LayerService } from '../../map-dashboard/services/layer-service/layer-service';
+import { LayerService } from '../../map-dashboard/services/layer-service';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
@@ -231,7 +231,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
     private loadConfiguration(contextBrokers: ContextBrokerConfiguration[]): void {
         contextBrokers.forEach(cb => {
-            const { treeNodes, selectedTreeNodes }: any = this.layerService.entitiesConfigurationToTreeNodes(cb.entities);
+            const { treeNodes, selectedTreeNodes }: any = this.layerService.convertEntitiesConfToNodes(cb.entities);
             this.contextBrokers.unshift({
                 header: cb.name,
                 form: this.configDashboardService.createContextBrokerFormFromConfig(cb),
@@ -250,7 +250,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
     private loadServiceConfiguration(cb: ContextBrokerConfiguration): ServiceForm[] {
         return cb.services.map(s => {
-            const { treeNodes, selectedTreeNodes }: any = this.layerService.entitiesConfigurationToTreeNodes(s.entities);
+            const { treeNodes, selectedTreeNodes }: any = this.layerService.convertEntitiesConfToNodes(s.entities);
             return {
                 header: s.service + s.servicePath,
                 form: this.configDashboardService.createServiceFormFromConfig(s),

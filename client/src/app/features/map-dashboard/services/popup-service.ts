@@ -1,6 +1,5 @@
 import { Injectable, ComponentFactoryResolver, ComponentFactory, Injector, ComponentRef } from '@angular/core';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
-import * as L from 'leaflet';
 import { ModelDto } from 'src/app/shared/models/model-dto';
 
 @Injectable({

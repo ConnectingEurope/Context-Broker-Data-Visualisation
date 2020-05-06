@@ -1,8 +1,8 @@
 import { Component, Input, ViewChild, Output, EventEmitter, ViewChildren, QueryList, OnInit, AfterViewInit } from '@angular/core';
-import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
+import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
+import { LayerService } from 'src/app/features/map-dashboard/services/layer-service';
 import { ContextBrokerForm, ServiceForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';

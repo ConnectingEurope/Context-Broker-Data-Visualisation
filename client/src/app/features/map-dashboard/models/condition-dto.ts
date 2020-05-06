@@ -1,6 +1,3 @@
-/**
- * ConditionDTO.
- */
 export interface IConditionDto {
     category: string;
     entity: string;

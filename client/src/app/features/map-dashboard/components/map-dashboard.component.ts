@@ -1,6 +1,6 @@
-import { CategoryDto } from './../models/model-dto';
+import { CategoryDto } from '../models/category-dto';
 import { ConditionDto } from './../models/condition-dto';
-import { Component, OnInit, AfterViewInit, ElementRef, OnDestroy, ComponentRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, OnDestroy, ComponentRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
 import * as L from 'leaflet';
@@ -10,9 +10,8 @@ import 'leaflet/dist/images/marker-icon.png';
 import 'leaflet/dist/images/marker-icon-2x.png';
 import { IconUtils } from '../../../shared/misc/icon-utils';
 import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
-import { MapDashboardService } from '../services/map-dashboard-service/map-dashboard.service';
-import { LayerService } from '../services/layer-service/layer-service';
-import { PopupService } from '../services/popup-service/popup-service';
+import { MapDashboardService } from '../services/map-dashboard.service';
+import { PopupService } from '../services/popup-service';
 import { Entity } from 'src/app/shared/models/entity';
 import { ModelDto } from 'src/app/shared/models/model-dto';
 import { takeUntil } from 'rxjs/operators';
@@ -21,17 +20,20 @@ import { Utils } from '../../../shared/misc/utils';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { CategoryEntityDto } from '../models/model-dto';
+import { CategoryEntityDto } from '../models/category-dto';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
 import { ClipboardService } from 'ngx-clipboard';
+import { LayerTreeNodeService } from '../services/layer-tree-node.service';
+import { CategoryService } from '../services/category-service';
+import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
 
 @Component({
     selector: 'app-map-dashboard',
     templateUrl: './map-dashboard.component.html',
     styleUrls: ['./map-dashboard.component.scss'],
 })
-export class MapDashboardComponent extends BaseComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapDashboardComponent extends BaseComponent implements AfterViewInit, OnDestroy {
 
     public categories: CategoryDto[];
     public entities: CategoryEntityDto[] = [];
@@ -73,7 +75,9 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
 
     constructor(
         private mapDashBoardService: MapDashboardService,
-        private layerService: LayerService,
+        private categoryService: CategoryService,
+        private layerTreeNodeService: LayerTreeNodeService,
+        private treeNodeService: TreeNodeService,
         private popupService: PopupService,
         private appMessageService: AppMessageService,
         private confirmationService: ConfirmationService,
@@ -84,9 +88,9 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         super();
     }
 
-    public ngOnInit(): void {
-
-    }
+    /*****************************************************************************
+     Lifecycle and events functions
+    *****************************************************************************/
 
     public ngAfterViewInit(): void {
         this.loadAllEntitiesForLayers();
@@ -111,33 +115,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
     }
 
-    /**
-     * Apply selected conditions in the map.
-     * @event
-     */
-    public setFilters(event: ConditionDto[]): void {
-        this.filters = event;
-        // The markerClusterGroup is always filled in.
-        this.markerClusterGroup.addLayers(this.removedLayers);
-        this.removedLayers = [];
-        if (!this.layersBeforeFilter) {
-            this.layersBeforeFilter = this.markerClusterGroup.getLayers();
-        }
-
-        // Remove layers
-        const layersToRemove: L.Layer[] = [];
-        this.markerClusterGroup.getLayers().forEach((layer) => {
-            this.filters.forEach(filter => {
-                if (filter.selected && layer[this.controlName][filter.attribute]
-                    && layer[this.controlName].type === filter.entity) {
-                    if (this.applyFilter(layer, filter, this.controlName)) {
-                        layersToRemove.push(layer);
-                        this.removedLayers.push(layer);
-                    }
-                }
-            });
-        });
-        this.markerClusterGroup.removeLayers(layersToRemove);
+    public onEventFilters(event: ConditionDto[]): void {
+        this.setFilters(event);
     }
 
     public onFavChange(event: any): void {
@@ -160,21 +139,9 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.clipboardService.copyFromContent(this.displayDebugContent);
     }
 
-    /**
-     * This method transforms the filter and checks whether it should be applied.
-     * @layer
-     * @filter
-     */
-    private applyFilter(layer: L.Layer, filter: ConditionDto, controlName: string): boolean {
-        let shouldBeRemoved: boolean = false;
-        // Check if the value is a number.
-        if (filter.condition !== 'contains') {
-            shouldBeRemoved = !Utils.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
-        } else {
-            shouldBeRemoved = !layer[controlName][filter.attribute].toString().includes(filter.value);
-        }
-        return shouldBeRemoved;
-    }
+    /*****************************************************************************
+     Map loading functions
+    *****************************************************************************/
 
     private loadMap(): void {
 
@@ -219,9 +186,113 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.map.addControl(searchControl);
     }
 
+    private adjustView(): void {
+        this.firstLoad = false;
+        this.map.setView([
+            (this.minLat + this.maxLat) / 2,
+            (this.minLon + this.maxLon) / 2,
+        ], this.defaultZoom);
+    }
+
+    private loadMarkerCluster(): void {
+        Object.values(this.layerGroups).forEach(lg => {
+            this.markerClusterGroup.addLayer(lg);
+        });
+    }
+
+    /*****************************************************************************
+     Conditions functions
+    *****************************************************************************/
+
+    private setFilters(event: ConditionDto[]): void {
+        this.filters = event;
+        // The markerClusterGroup is always filled in.
+        this.markerClusterGroup.addLayers(this.removedLayers);
+        this.removedLayers = [];
+        if (!this.layersBeforeFilter) {
+            this.layersBeforeFilter = this.markerClusterGroup.getLayers();
+        }
+
+        // Remove layers
+        const layersToRemove: L.Layer[] = [];
+        this.markerClusterGroup.getLayers().forEach((layer) => {
+            this.filters.forEach(filter => {
+                if (filter.selected && layer[this.controlName][filter.attribute]
+                    && layer[this.controlName].type === filter.entity) {
+                    if (this.applyFilter(layer, filter, this.controlName)) {
+                        layersToRemove.push(layer);
+                        this.removedLayers.push(layer);
+                    }
+                }
+            });
+        });
+        this.markerClusterGroup.removeLayers(layersToRemove);
+    }
+
+    private applyFilter(layer: L.Layer, filter: ConditionDto, controlName: string): boolean {
+        let shouldBeRemoved: boolean = false;
+        // Check if the value is a number.
+        if (filter.condition !== 'contains') {
+            shouldBeRemoved = !Utils.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
+        } else {
+            shouldBeRemoved = !layer[controlName][filter.attribute].toString().includes(filter.value);
+        }
+        return shouldBeRemoved;
+    }
+
+    /*****************************************************************************
+     Layers functions
+    *****************************************************************************/
+
     private loadLayerMenu(): void {
-        this.layers = this.layerService.getMainLayers(this.categories);
-        this.selectedLayers = this.layerService.getAllSelected(this.layers);
+        this.layers = this.layerTreeNodeService.getMainLayers(this.categories);
+        this.selectedLayers = this.treeNodeService.getAllSelected(this.layers);
+    }
+
+    private loadAllEntitiesForLayers(): void {
+        this.mapDashBoardService.getAllEntitiesForLayers().pipe(takeUntil(this.destroy$)).subscribe(
+            (res: CategoryEntityDto[]) => {
+                this.entities = this.mapCategories(res);
+                this.loadLayerMenu();
+            },
+            err => {
+                console.log(err);
+                this.onLoadEntitiesFail();
+            });
+    }
+
+    private mapCategories(entities: CategoryEntityDto[]): CategoryEntityDto[] {
+        this.categories = [];
+        entities.forEach((entity) => {
+            const categoryKey: string = this.categoryService.getCategoryKey(entity.name);
+            const categoryExist: CategoryDto = this.categories.find((category) => {
+                return category.name === categoryKey;
+            });
+
+            entity.label = entity.name;
+
+            if (!categoryExist) {
+                this.categories.push({
+                    name: categoryKey, label: IconUtils.categoryName[categoryKey],
+                    icon: IconUtils.icons[categoryKey], entities: [entity],
+                });
+            } else {
+                categoryExist.entities.push(entity);
+            }
+        });
+        return entities;
+    }
+
+    /*****************************************************************************
+     Data loading functions
+    *****************************************************************************/
+
+    private visualizeEntities(): void {
+        this.loadEntities();
+        this.interval = setInterval(() => {
+            this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
+            this.loadEntities();
+        }, 60000);
     }
 
     private loadEntities(): void {
@@ -241,49 +312,15 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             });
     }
 
-    private loadAllEntitiesForLayers(): void {
-        this.mapDashBoardService.getAllEntitiesForLayers().pipe(takeUntil(this.destroy$)).subscribe(
-            (res: CategoryEntityDto[]) => {
-                this.entities = this.mapCategories(res);
-                this.loadLayerMenu();
-            },
-            err => {
-                console.log(err);
-                this.onLoadEntitiesFail();
-            });
-    }
-
-    private mapCategories(entities: CategoryEntityDto[]): CategoryEntityDto[] {
-        this.categories = [];
-        entities.forEach((entity) => {
-            const parentKey: string = this.layerService.getParentKey(entity.name);
-            const categoryExist: CategoryDto = this.categories.find((category) => {
-                return category.name === parentKey;
-            });
-
-            entity.label = entity.name;
-
-            if (!categoryExist) {
-                this.categories.push({
-                    name: parentKey, label: IconUtils.categoryName[parentKey],
-                    icon: IconUtils.icons[parentKey], entities: [entity],
-                });
-            } else {
-                categoryExist.entities.push(entity);
-            }
-        });
-        return entities;
-    }
-
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
         this.refreshing = true;
         this.storeFavAttrs(models);
         models.forEach(model => {
-            const parentKey: string = this.layerService.getParentKey(model.type);
+            const categoryKey: string = this.categoryService.getCategoryKey(model.type);
             this.layerGroups[model.type] = this.layerGroups[model.type] || L.layerGroup();
-            this.layerGroups[parentKey] = this.layerGroups[parentKey] || L.layerGroup();
-            model.data.forEach(entity => this.addEntity(model, entity, parentKey));
-            this.layerGroups[parentKey].addLayer(this.layerGroups[model.type]);
+            this.layerGroups[categoryKey] = this.layerGroups[categoryKey] || L.layerGroup();
+            model.data.forEach(entity => this.addEntity(model, entity, categoryKey));
+            this.layerGroups[categoryKey].addLayer(this.layerGroups[model.type]);
         });
         if (this.firstLoad) { this.adjustView(); }
         this.deleteOldSensors();
@@ -296,26 +333,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             this.openPopup.openPopup();
         }
         this.refreshing = false;
-    }
-
-    private storeFavAttrs(models: ModelDto[]): void {
-        this.favAttrs = models.filter(m => m.favAttr).map(m => ({ entity: m.type, favAttr: m.favAttr }));
-    }
-
-    private adjustView(): void {
-        this.firstLoad = false;
-        this.map.setView([
-            (this.minLat + this.maxLat) / 2,
-            (this.minLon + this.maxLon) / 2,
-        ], this.defaultZoom);
-    }
-
-    private visualizeEntities(): void {
-        this.loadEntities();
-        this.interval = setInterval(() => {
-            this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
-            this.loadEntities();
-        }, 60000);
     }
 
     private onLoadEntitiesEmpty(): void {
@@ -338,7 +355,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.appMessageService.add({ severity: 'error', summary: 'Something went wrong trying to load the configuration' });
     }
 
-    private addEntity(model: ModelDto, entity: Entity, parentKey: string): void {
+    private addEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
         if (entity.location && entity.location.coordinates && entity.location.coordinates[0] && entity.location.coordinates[1]) {
             this.storeMinMaxLocation(entity.location.coordinates[1], entity.location.coordinates[0]);
             const markers: any = this.layerGroups[model.type].getLayers();
@@ -346,7 +363,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
             if (existentMarker) {
                 this.updateEntity(existentMarker, model, entity);
             } else {
-                this.insertEntity(model, entity, parentKey);
+                this.insertEntity(model, entity, categoryKey);
             }
         }
     }
@@ -358,10 +375,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         this.maxLon = this.maxLon < lon ? lon : this.maxLon;
     }
 
-    private insertEntity(model: ModelDto, entity: any, parentKey: string): void {
+    private insertEntity(model: ModelDto, entity: any, categoryKey: string): void {
         const marker: L.Marker = L.marker(
             entity.location.coordinates.reverse() as L.LatLngExpression,
-            { icon: IconUtils.leafletIcons[parentKey] },
+            { icon: IconUtils.leafletIcons[categoryKey] },
         );
 
         this.setTooltip(marker, entity, model);
@@ -419,32 +436,6 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
     }
 
-    private onClickDebug(model: ModelDto, entity: any, marker: L.Marker): void {
-        this.mapDashBoardService.getEntity(model, entity).subscribe(
-            data => {
-                if (data.length > 0) {
-                    this.onClickDebugSuccess(data[0], marker);
-                } else {
-                    this.onClickDebugFail();
-                }
-            },
-            err => {
-                this.onClickDebugFail();
-            },
-        );
-    }
-
-    private onClickDebugSuccess(data: any, marker: L.Marker): void {
-        marker.closePopup();
-        this.displayDebugHeader = data.id;
-        this.displayDebugContent = data;
-        this.displayDebug = true;
-    }
-
-    private onClickDebugFail(): void {
-        this.appMessageService.add({ severity: 'error', summary: 'Cannot load the data' });
-    }
-
     private setTooltip(marker: L.Marker, entity: any, model: ModelDto): void {
         const tooltipContent: string = this.getTooltipContent(entity, model);
         if (tooltipContent) {
@@ -496,11 +487,42 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         return currentLat !== newLat || currentLng !== newLng;
     }
 
-    private loadMarkerCluster(): void {
-        Object.values(this.layerGroups).forEach(lg => {
-            this.markerClusterGroup.addLayer(lg);
-        });
+    /*****************************************************************************
+     Main/favourite attributes functions
+    *****************************************************************************/
 
-        // this.map.addLayer(this.markerClusterGroup);
+    private storeFavAttrs(models: ModelDto[]): void {
+        this.favAttrs = models.filter(m => m.favAttr).map(m => ({ entity: m.type, favAttr: m.favAttr }));
     }
+
+    /*****************************************************************************
+     Debug entity functions
+    *****************************************************************************/
+
+    private onClickDebug(model: ModelDto, entity: any, marker: L.Marker): void {
+        this.mapDashBoardService.getEntity(model, entity).subscribe(
+            data => {
+                if (data.length > 0) {
+                    this.onClickDebugSuccess(data[0], marker);
+                } else {
+                    this.onClickDebugFail();
+                }
+            },
+            err => {
+                this.onClickDebugFail();
+            },
+        );
+    }
+
+    private onClickDebugSuccess(data: any, marker: L.Marker): void {
+        marker.closePopup();
+        this.displayDebugHeader = data.id;
+        this.displayDebugContent = data;
+        this.displayDebug = true;
+    }
+
+    private onClickDebugFail(): void {
+        this.appMessageService.add({ severity: 'error', summary: 'Cannot load the data' });
+    }
+
 }
