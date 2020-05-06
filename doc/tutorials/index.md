@@ -69,7 +69,7 @@ The steps for the deployment are the following:
 7. Go to the web browser and try to access to the enabler in the following URL:
 
     ```url
-    localhost:4200
+    localhost/map-dashboard
     ```
 
 [Top](#tutorials-for-deployment)
@@ -120,7 +120,7 @@ The steps for the deployment are the following:
 7. Go to the web browser and try to access to the enabler in the following URL:
 
     ```url
-    localhost:4200
+    localhost/map-dashboard
     ```
 
 [Top](#tutorials-for-deployment)
@@ -179,7 +179,7 @@ The steps for the deployment are the following:
 7. Go to the web browser and try to access to the enabler in the following URL:
 
     ```url
-    localhost:4200
+    localhost/map-dashboard
     ```
 
 [Top](#tutorials-for-deployment)

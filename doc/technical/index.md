@@ -100,7 +100,7 @@ By default, it serves on the port 3000.
 
 The Front-end of the enabler consists on the visualization layer. It contains all the views of the enabler (map, configuration, historical data, etc.) and requests all the information to be displayed directly to the Back-end.
 
-By default, it serves on the port 4200.
+By default, it serves on the port 80.
 
 [Top](#technical-documentation)
 

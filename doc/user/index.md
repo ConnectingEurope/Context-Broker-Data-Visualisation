@@ -51,10 +51,10 @@ This section describes how to start using the Context Broker Data Visualisation 
 
 Once the Enabler has been deployed either on a local or remote server, the user will be able to access it via a web browser, as this Enabler is a web application.
 
-In order to access it, the user should introduce in the web browser’s search bar the URL where the Enabler has been deployed, i.e. *localhost:4200* is set by default.
+In order to access it, the user should introduce in the web browser’s search bar the URL where the Enabler has been deployed, i.e. *localhost:80* is set by default.
 
-![WebBrowserAccess](../img/WebBrowserAccess.png)
->*Illustration 1. Web browser’s search bar.*
+![WebBrowserAccess](../img/EnablerURL.PNG)
+>*Illustration 1. Enabler's URL.*
 
 [Top](#user-manual)
 
