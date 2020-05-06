@@ -1,5 +1,5 @@
 {
-    "name": "cb-baseline-server",
+    "name": "cbenabler-server",
     "version": "0.3.1",
     "private": true,
     "scripts": {
