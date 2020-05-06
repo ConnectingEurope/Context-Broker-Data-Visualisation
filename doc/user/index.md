@@ -51,7 +51,7 @@ This section describes how to start using the Context Broker Data Visualisation 
 
 Once the Enabler has been deployed either on a local or remote server, the user will be able to access it via a web browser, as this Enabler is a web application.
 
-In order to access it, the user should introduce in the web browser’s search bar the URL where the Enabler has been deployed, i.e. *localhost:80* is set by default.
+In order to access it, the user should introduce in the web browser’s search bar the URL where the Enabler has been deployed, i.e. *localhost* is set by default.
 
 ![WebBrowserAccess](../img/EnablerURL.PNG)
 >*Illustration 1. Enabler's URL.*
@@ -72,6 +72,8 @@ When the user accesses the Enabler for the first time, the first step is to conf
 With the purpose of facilitating the integration of one or multiple Context Broker instances and historical data tools, the Enabler provides a visual and intuitive configuration panel. The user will be able to use this panel to configure the information that is desired to be visualized.
 
 This Configuration page is divided into different sections, for the configuration of the Context Broker (including its services) or the historical data tools.
+
+If the tools to be used have been configured following the [tutorials for deployment](../tutorials/index.md#tutorials-for-deployment) of the enabler, the URLs to be configured are defined [here](../tutorials/index.md#connection-between-enabler-and-fiware-tools).
 
 [Top](#user-manual)
 

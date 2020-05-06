@@ -10,7 +10,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
   - [Tutorial 1: Enabler](#firstTutorial)
   - [Tutorial 2: Enabler + Context Broker](#secondtutorial)
   - [Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet](#thirdTutorial)
-  - [Connection between Enabler and FIWARE tools](#connectionNote)
+  - [Connection between Enabler and FIWARE tools](#connection-between-enabler-and-fiware-tools)
 - [FIWARE lab](#fiware-lab)
   - [Tutorial 4: FIWARE lab](#fourthTutorial)
 
@@ -185,17 +185,15 @@ The steps for the deployment are the following:
 
 [Top](#tutorials-for-deployment)
 
-<a name="connectionNote"></a>
-
 ### Connection between Enabler and FIWARE tools
 
-In tutorials 2 and 3, when configuring FIWARE tools in the configuration page of the Enabler, you must use the following URLs:
+Tutorials 2 (Enabler + Context Broker) and 3 (complete architecture) generate new Docker's images in a local environment. The **access URLs for the tools** are:
 
 - fiware-orion:1026
 - fiware-cygnus:5080
 - fiware-sth-comet:8666
 
-However, if you want to access to one of these tools from your host, use these URLs instead:
+However, if the tools have been deployed separately (by other FIWARE tutorials), use these URLs instead:
 
 - localhost:1026
 - localhost:5080
