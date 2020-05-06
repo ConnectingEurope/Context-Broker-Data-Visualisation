@@ -10,6 +10,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
   - [Tutorial 1: Enabler](#firstTutorial)
   - [Tutorial 2: Enabler + Context Broker](#secondtutorial)
   - [Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet](#thirdTutorial)
+  - [Connection between Enabler and FIWARE tools](#connectionNote)
 - [FIWARE lab](#fiware-lab)
   - [Tutorial 4: FIWARE lab](#fourthTutorial)
 
@@ -35,10 +36,10 @@ The steps for the deployment are the following:
 
 1. Check Docker is running on the computer.
 
-2. Open a terminal and go to the folder: **workspace/docker/enabler**
+2. Open a terminal and go to the folder: **workspace/tutorials/enabler**
 
     ```bash
-    cd workspace/docker/enabler
+    cd workspace/tutorials/enabler
     ```
 
 3. In case of having **Windows** run the script called **deploy_windows.bat**:
@@ -53,7 +54,7 @@ The steps for the deployment are the following:
     sh deploy_linux.sh
     ```
 
-4. Now, the needed images are being downloaded from DockerHub and they will be started after the download. If everything was fine, go to step 5.
+4. Now, the needed images are being downloaded from DockerHub and they will be started after the download.
 
 5. Ejecute the following command in the terminal:
 
@@ -61,15 +62,15 @@ The steps for the deployment are the following:
     docker ps
     ```
 
-6. There should be **two new images in Docker**:
+6. There should be **two new containers in Docker**:
 
-    - cb-data-visualisation-enabler
-    - cb-data-visualisation-enabler-server
+    - cbenabler
+    - cbenabler-server
 
 7. Go to the web browser and try to access to the enabler in the following URL:
 
     ```url
-    localhost/map-dashboard
+    localhost
     ```
 
 [Top](#tutorials-for-deployment)
@@ -84,10 +85,10 @@ The steps for the deployment are the following:
 
 1. Check Docker is running on the computer.
 
-2. Open a terminal and go to the folder: **workspace/docker/enabler_orion**
+2. Open a terminal and go to the folder: **workspace/tutorials/enabler_orion**
 
     ```bash
-    cd workspace/docker/enabler_orion
+    cd workspace/tutorials/enabler_orion
     ```
 
 3. In case of having **Windows** run the script called **deploy_windows.bat**:
@@ -102,7 +103,7 @@ The steps for the deployment are the following:
     sh deploy_linux.sh
     ```
 
-4. Now, the needed images are being downloaded from DockerHub and they will be started after the download. If everything was fine, go to step 5.
+4. Now, the needed images are being downloaded from DockerHub and they will be started after the download.
 
 5. Ejecute the following command in the terminal:
 
@@ -110,17 +111,17 @@ The steps for the deployment are the following:
     docker ps
     ```
 
-6. There should be **four new images in Docker**:
+6. There should be **four new containers in Docker**:
 
-    - cb-data-visualisation-enabler
-    - cb-data-visualisation-enabler-server
+    - cbenabler
+    - cbenabler-server
     - fiware-orion
     - db-mongo
 
 7. Go to the web browser and try to access to the enabler in the following URL:
 
     ```url
-    localhost/map-dashboard
+    localhost
     ```
 
 [Top](#tutorials-for-deployment)
@@ -141,10 +142,10 @@ The steps for the deployment are the following:
 
 1. Check Docker is running on the computer.
 
-2. Open a terminal and go to the folder: **workspace/docker/enabler_orion_cygnus_sth**
+2. Open a terminal and go to the folder: **workspace/tutorials/enabler_orion_cygnus_sth**
 
     ```bash
-    cd workspace/docker/enabler_orion_cygnus_sth
+    cd workspace/tutorials/enabler_orion_cygnus_sth
     ```
 
 3. In case of having **Windows** run the script called **deploy_windows.bat**:
@@ -159,7 +160,7 @@ The steps for the deployment are the following:
     sh deploy_linux.sh
     ```
 
-4. Now, the needed images are being downloaded from DockerHub and they will be started after the download. If everything was fine, go to step 5.
+4. Now, the needed images are being downloaded from DockerHub and they will be started after the download.
 
 5. Ejecute the following command in the terminal:
 
@@ -167,10 +168,10 @@ The steps for the deployment are the following:
     docker ps
     ```
 
-6. There should be **six new images in Docker**:
+6. There should be **six new containers in Docker**:
 
-    - cb-data-visualisation-enabler
-    - cb-data-visualisation-enabler-server
+    - cbenabler
+    - cbenabler-server
     - fiware-orion
     - fiware-cygnus
     - fiware-sth-comet
@@ -179,8 +180,26 @@ The steps for the deployment are the following:
 7. Go to the web browser and try to access to the enabler in the following URL:
 
     ```url
-    localhost/map-dashboard
+    localhost
     ```
+
+[Top](#tutorials-for-deployment)
+
+<a name="connectionNote"></a>
+
+### Connection between Enabler and FIWARE tools
+
+In tutorials 2 and 3, when configuring FIWARE tools in the configuration page of the Enabler, you must use the following URLs:
+
+- fiware-orion:1026
+- fiware-cygnus:5080
+- fiware-sth-comet:8666
+
+However, if you want to access to one of these tools from your host, use these URLs instead:
+
+- localhost:1026
+- localhost:5080
+- localhost:8666
 
 [Top](#tutorials-for-deployment)
 
