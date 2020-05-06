@@ -1,1 +1,1 @@
-docker-compose --log-level ERROR -f docker-compose.yml -p enabler_orion_cygnus_sth up -d --remove-orphans
+docker-compose up -d --remove-orphans

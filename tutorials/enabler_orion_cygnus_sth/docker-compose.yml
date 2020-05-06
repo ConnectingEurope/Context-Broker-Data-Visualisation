@@ -84,10 +84,9 @@ services:
     depends_on:
       - cbenabler-server
     ports:
-      - ${ENABLER_PORT_EXPOSE}:${ENABLER_PORT}
-    command: --host cbenabler
+      - ${ENABLER_PORT}:${ENABLER_PORT}
     healthcheck:
-      test: curl --fail -s http://cbenabler:${ENABLER_PORT} || exit 1
+      test: ps waux | grep nginx || exit 1
 
 volumes:
   mongo-db: ~
