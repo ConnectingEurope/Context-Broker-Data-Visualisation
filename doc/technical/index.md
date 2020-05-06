@@ -220,15 +220,13 @@ The following steps explain how to develop a new graph:
         @ViewChild('newGraphicCard', { static: false }) private newGraphicCard: GraphicCardComponent;
     ```
 
-4. There is a function called **getHistoricalData()** which is in charge of obtaining the historical data for each type of graph. Inside of that functions, there are other functions, and all of them end up coming to the **getAggregatedData()** function.
+4. There is a function called **getHistoricalData()** which is in charge of obtaining the historical data for each type of graph. Inside of that functions, there are other functions, and all of them end up coming to the **getAggregatedData()** function. This function is inside the service **HistoricalDataService**, which has the needed functions in order to retrieve the data (raw or aggregated) from the STH-Comet.
 
 5. The available **aggregated methods of STH-Comet** are already defined in the **AggregateMethod** enum.
 
 6. At this point, new functions may be needed to manage the desired data, based on the new graph purposes.
 
-7. Returning to the **getAggregatedData()** function, it uses inside the **historicalDataService**. This is a class called **HistoricalDataService** which is in charge of **sending the requests** to the Back-end of the enabler (and it will send them to STH-Comet). There are **4 ready-to-use functions** (depending on the type of data to be retrieved, i.e. raw data or aggregated data).
-
-8. Go to the **historical-data-graph.component.html** file and look at the two existent graphs:
+7. Go to the **historical-data-graph.component.html** file and look at the two existent graphs:
 
     ```html
         <!-- Graphic for numbers -->
@@ -245,7 +243,7 @@ The following steps explain how to develop a new graph:
         <app-graphic-card [style.display]="attrType === attrTypeEnum.NUMBER ? 'block' : 'none'" #newGraphicCard [chartConfig]="newChartConfig"></app-graphic-card>
     ```
 
-9. If all the previous steps are completed and the new needed functions have been correctly added, the development of the new graph should be ready.
+8. If all the previous steps are completed and the new needed functions have been correctly added, the development of the new graph should be ready.
 
 [Top](#technical-documentation)
 
