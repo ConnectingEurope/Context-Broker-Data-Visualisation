@@ -168,19 +168,6 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' });
     }
 
-    private markFormsAsPristine(): void {
-        this.addedContextBrokerAtLeastOnce = false;
-        this.removedContextBrokerAtLeastOnce = false;
-        this.removedServiceAtLeastOnce = false;
-        this.selectedEntitiesChange = false;
-        this.favAttrChange = false;
-        this.contextBrokers.forEach(cb => {
-            cb.form.markAsPristine();
-            cb.historicalForm.markAsPristine();
-            cb.services.forEach(s => s.form.markAsPristine());
-        });
-    }
-
     private isDirtyConfiguration(): boolean {
         return this.contextBrokers.some(cb => {
             return cb.form.dirty ||
@@ -257,6 +244,20 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
                 entities: treeNodes,
                 selectedEntities: selectedTreeNodes,
             };
+        });
+    }
+
+    // Method not used by now, but that could be useful to mark all the configuration page as pristine
+    private markFormsAsPristine(): void {
+        this.addedContextBrokerAtLeastOnce = false;
+        this.removedContextBrokerAtLeastOnce = false;
+        this.removedServiceAtLeastOnce = false;
+        this.selectedEntitiesChange = false;
+        this.favAttrChange = false;
+        this.contextBrokers.forEach(cb => {
+            cb.form.markAsPristine();
+            cb.historicalForm.markAsPristine();
+            cb.services.forEach(s => s.form.markAsPristine());
         });
     }
 

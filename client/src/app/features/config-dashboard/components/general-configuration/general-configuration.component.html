@@ -65,7 +65,7 @@
             <!-- Selected entities -->
             <div class="col-5">
                 <app-attribute-selector [entities]="cb.entities" [selectedEntities]="cb.selectedEntities"
-                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (favChange)="onFavChange()">
+                    (selectedEntitiesChange)="onSelectedEntitiesChange($event)" (favChange)="onFavChange()">
                 </app-attribute-selector>
             </div>
 

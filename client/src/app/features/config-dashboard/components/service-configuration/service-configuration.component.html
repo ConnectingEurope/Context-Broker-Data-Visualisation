@@ -84,7 +84,7 @@
                                         <div class="col-5">
                                             <app-attribute-selector [entities]="service.entities"
                                                 [selectedEntities]="service.selectedEntities"
-                                                (selectedEntitiesChange)="onSelectedEntitiesChange()"
+                                                (selectedEntitiesChange)="onSelectedEntitiesChange($event, i)"
                                                 (favChange)="onFavChange()"></app-attribute-selector>
                                         </div>
 

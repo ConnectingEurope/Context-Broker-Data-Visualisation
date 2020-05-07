@@ -96,7 +96,8 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             this.configDashboardService.serviceHeaderWhenEmpty;
     }
 
-    public onSelectedEntitiesChange(): void {
+    public onSelectedEntitiesChange(selectedEntities: TreeNode[], index: number): void {
+        this.cb.services[index].selectedEntities = selectedEntities;
         this.selectedEntitiesChange.emit();
     }
 
