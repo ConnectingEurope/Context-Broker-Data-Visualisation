@@ -1,0 +1,92 @@
+version: "3.5"
+services:
+
+  orion:
+    image: fiware/orion:${ORION_VERSION}
+    hostname: orion
+    container_name: fiware-orion
+    depends_on:
+      - mongo-db
+    expose:
+      - "${ORION_PORT}"
+    ports:
+      - "${ORION_PORT}:${ORION_PORT}"
+    command: -dbhost mongo-db -logLevel DEBUG
+    healthcheck:
+      test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
+
+  cygnus:
+    image: fiware/cygnus-ngsi:${CYGNUS_VERSION}
+    hostname: cygnus
+    container_name: fiware-cygnus
+    depends_on:
+      - mongo-db
+    expose:
+      - "${CYGNUS_API_PORT}"
+      - "${CYGNUS_MONGO_SERVICE_PORT}"
+    ports:
+      - "${CYGNUS_MONGO_SERVICE_PORT}:${CYGNUS_MONGO_SERVICE_PORT}"
+      - "${CYGNUS_API_PORT}:${CYGNUS_API_PORT}"
+    environment:
+      - "CYGNUS_MONGO_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"
+      - "CYGNUS_MONGO_HOSTS=mongo-db:${MONGO_DB_PORT}"
+      - "CYGNUS_SERVICE_PORT=${CYGNUS_MONGO_SERVICE_PORT}"
+      - "CYGNUS_API_PORT=${CYGNUS_API_PORT}"
+      - "CYGNUS_LOG_LEVEL=DEBUG"
+    healthcheck:
+      test: curl --fail -s http://cygnus:${CYGNUS_API_PORT}/v1/version || exit 1
+
+  sth-comet:
+    image: fiware/sth-comet:${STH_COMET_VERSION}
+    hostname: sth-comet
+    container_name: fiware-sth-comet
+    depends_on:
+      - cygnus
+      - mongo-db
+    ports:
+      - "${STH_COMET_PORT}:${STH_COMET_PORT}"
+    environment:
+      - STH_HOST=0.0.0.0
+      - STH_PORT=${STH_COMET_PORT}
+      - DB_PREFIX=sth_
+      - DB_URI=mongo-db:${MONGO_DB_PORT}
+      - LOGOPS_LEVEL=DEBUG
+    healthcheck:
+      test: curl --fail -s http://sth-comet:${STH_COMET_PORT}/version || exit 1
+
+  mongo-db:
+    image: mongo:${MONGO_DB_VERSION}
+    hostname: mongo-db
+    container_name: mongo-db
+    expose:
+      - "${MONGO_DB_PORT}"
+    ports:
+      - "${MONGO_DB_PORT}:${MONGO_DB_PORT}"
+    command: --bind_ip_all --smallfiles
+    volumes:
+      - mongo-db:/data
+
+  cbenabler-server:
+    image: cbenablereveris/cb-data-visualisation-enabler-server:${ENABLER_SERVER_VERSION}
+    hostname: cbenabler-server
+    container_name: cbenabler-server
+    expose:
+      - "${ENABLER_SERVER_PORT}"
+    ports:
+      - ${ENABLER_SERVER_PORT}:${ENABLER_SERVER_PORT}
+    healthcheck:
+      test: curl --fail -s http://cbenabler-server:${ENABLER_SERVER_PORT} || exit 1
+
+  cbenabler:
+    image: cbenablereveris/cb-data-visualisation-enabler:${ENABLER_VERSION}
+    hostname: cbenabler
+    container_name: cbenabler
+    depends_on:
+      - cbenabler-server
+    ports:
+      - ${ENABLER_PORT}:${ENABLER_PORT}
+    healthcheck:
+      test: ps waux | grep nginx || exit 1
+
+volumes:
+  mongo-db: ~

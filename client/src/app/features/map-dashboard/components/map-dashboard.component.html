@@ -1,8 +1,14 @@
-<!-- Layer panel -->
+<app-json-dialog [display]="displayDebug" [header]="displayDebugHeader" [content]="displayDebugContent"
+    (hide)="displayDebug=false">
+</app-json-dialog>
+
+<!-- Filters panel -->
 <p-overlayPanel #layerConditionsPanel styleClass="w-800">
     <app-layer-conditions [categories]="categories" [entities]="entities" (eventFilters)="setFilters($event)">
     </app-layer-conditions>
 </p-overlayPanel>
+
+<!-- Layers panel -->
 <p-overlayPanel #layerPanel>
     <p-tree [value]="layers" selectionMode="checkbox" [(selection)]="selectedLayers"
         (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)"></p-tree>
@@ -10,10 +16,59 @@
 
 <!-- Map -->
 <div id="map" class="w-100 h-100">
+
+    <!-- Top right corner controls -->
     <div *ngIf="showButtons" class="leaflet-top leaflet-right">
-        <p-button class="mt-3 mr-3" label="Filters" icon="pi pi-sliders-h" iconPos="left"
-            (onClick)="layerConditionsPanel.toggle($event)"></p-button>
-        <p-button class="mt-3 mr-3" label="Layers" icon="pi pi-list" iconPos="left"
-            (onClick)="layerPanel.toggle($event)"></p-button>
+        <div class="container-fluid mt-3">
+            <div class="row align-items-center">
+
+                <!-- Main attributes -->
+                <div *ngIf="favAttrs.length > 0" class="col-auto p-0 mr-3">
+                    <div class="favCheckDiv">
+                        <div class="container-fluid h-100">
+                            <div class="row align-items-center h-100">
+
+                                <!-- Input Switch -->
+                                <div class="col-auto p-0 ml-3">
+                                    <div>
+                                        <p-inputSwitch [(ngModel)]="favChecked" (onChange)="onFavChange($event)">
+                                        </p-inputSwitch>
+                                    </div>
+                                </div>
+
+                                <!-- Label -->
+                                <div class="col-auto p-0 ml-2 mr-3">
+                                    <span>Main attributes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="col-auto p-0 mr-3">
+                    <p-button label="Filters" icon="pi pi-sliders-h" iconPos="left"
+                        (onClick)="onLayerConditionClick($event)"></p-button>
+                </div>
+
+                <!-- Layers -->
+                <div class="col-auto p-0 mr-3">
+                    <p-button label="Layers" icon="pi pi-list" iconPos="left" (onClick)="onLayerClick($event)">
+                    </p-button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom left corner controls -->
+    <div *ngIf="showButtons && favChecked && favAttrs.length > 0" class="leaflet-bottom leaflet-left">
+        <div class="favAttrsContainer mb-3 ml-3 p-3">
+            <h6>Main attributes</h6>
+            <hr />
+            <ng-template ngFor let-f let-i="index" [ngForOf]="favAttrs">
+                <div *ngIf="f.favAttr"><b>{{f.entity + ': '}}</b>{{f.favAttr}}</div>
+            </ng-template>
+        </div>
     </div>
 </div>

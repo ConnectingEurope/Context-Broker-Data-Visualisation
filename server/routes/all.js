@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const Datastore = require('nedb');
 const utils = require('./utils');
+const db = require('./db.js');
 
 router.get('/', function (routerReq, routerRes, routerNext) {
     readConfig(routerRes);
@@ -10,17 +10,17 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 
 function readConfig(routerRes) {
 
-    const db = new Datastore({ filename: './configuration.json' });
     db.loadDatabase(function (err) {
-        if (err) console.log(err);
-    });
-
-    db.find({}, function (err, docs) {
-        if (!err && docs.length > 0) {
-            contextBrokers = docs[0].contextBrokers;
-            processContextBrokers(routerRes);
-        } else {
-            routerRes.send([]);
+        if (err) routerRes.status(500).send(err);
+        else {
+            db.find({}, function (err, docs) {
+                if (!err && docs.length > 0) {
+                    contextBrokers = docs[0].contextBrokers;
+                    processContextBrokers(routerRes);
+                } else {
+                    routerRes.send([]);
+                }
+            });
         }
     });
 }
@@ -75,7 +75,7 @@ function getAttrs(entity) {
 function getParams() {
     return {
         options: 'keyValues',
-        limit: '1000'
+        limit: '1000',
     };
 }
 
@@ -88,8 +88,10 @@ function getHeaders(service) {
 }
 
 function getModelDto(cb, s, entity, entityData) {
+    const favAttribute = entity.attrs.find(a => a.fav);
     return {
         type: entity.name,
+        favAttr: favAttribute ? favAttribute.name : undefined,
         contextUrl: cb.url,
         cometUrl: cb.comet,
         service: s ? s.service : '',

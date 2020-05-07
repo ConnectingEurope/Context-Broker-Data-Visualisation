@@ -40,29 +40,29 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
     public monthDate: Date;
     public yearDate: number;
 
-    // protected graphicHasDataForNumber: boolean = false;
-    // protected graphicHasDataForString: boolean = false;
-    // protected complexAttrSelected: boolean = false;
+    // public graphicHasDataForNumber: boolean = false;
+    // public graphicHasDataForString: boolean = false;
+    // public complexAttrSelected: boolean = false;
 
-    protected attrType: AttrType;
+    public attrType: AttrType;
 
-    protected aggrPeriodEnum: typeof AggregatePeriod = AggregatePeriod;
-    protected attrTypeEnum: typeof AttrType = AttrType;
+    public aggrPeriodEnum: typeof AggregatePeriod = AggregatePeriod;
+    public attrTypeEnum: typeof AttrType = AttrType;
 
-    protected attrs: SelectItem[];
-    protected ranges: SelectItem[] = [
+    public attrs: SelectItem[];
+    public ranges: SelectItem[] = [
         { label: 'Hour', value: AggregatePeriod.MINUTE },
         { label: 'Day', value: AggregatePeriod.HOUR },
         { label: 'Month', value: AggregatePeriod.DAY },
         { label: 'Year', value: AggregatePeriod.MONTH },
     ];
 
-    protected chartConfigForNumber: any = {
+    public chartConfigForNumber: any = {
         type: 'line',
         options: { scales: { yAxes: [{ ticks: { beginAtZero: false } }] } },
     };
 
-    protected chartConfigForString: any = {
+    public chartConfigForString: any = {
         type: 'bar',
         options: {
             scales: { yAxes: [{ ticks: { beginAtZero: true } }] },
@@ -70,8 +70,11 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         },
     };
 
-    @ViewChild('graphicCardForNumber', { static: false }) private graphicCardForNumber: GraphicCardComponent;
-    @ViewChild('graphicCardForString', { static: false }) private graphicCardForString: GraphicCardComponent;
+    private barColors: string[] = ['lightcoral', 'lightgreen', 'lightsteelblue', 'navajowhite',
+        'plum', 'turquoise', 'mediumpurple', 'mediumaquamarine'];
+
+    @ViewChild('graphicCardForNumber') private graphicCardForNumber: GraphicCardComponent;
+    @ViewChild('graphicCardForString') private graphicCardForString: GraphicCardComponent;
 
     constructor(
         private historicalDataService: HistoricalDataService,
@@ -87,11 +90,11 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         this.getHistoricalData();
     }
 
-    protected onChange(): void {
+    public onChange(): void {
         this.getHistoricalData();
     }
 
-    protected getHistoricalData(): void {
+    public getHistoricalData(): void {
         if (!isNaN(this.entityMetadata.data[this.currentAttr])) {
             this.getHistoricalDataForNumber();
         } else if (typeof this.entityMetadata.data[this.currentAttr] === 'string') {
@@ -192,11 +195,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
                 {
                     label: 'Occurrences of "' + this.currentAttr + '" values ' + this.dateUtilsService.getDatePeriod(this),
                     data: Object.values(frecuency),
-                    backgroundColor: Object.keys(frecuency).map(k => 'rgba(' +
-                        Math.floor(Math.random() * 255) + ',' +
-                        Math.floor(Math.random() * 255) + ',' +
-                        Math.floor(Math.random() * 255) + ', 0.5)',
-                    ),
+                    backgroundColor: Object.values(frecuency).map((e, i) => this.barColors[i % this.barColors.length]),
                 },
             ],
         };

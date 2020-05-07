@@ -1,3 +1,0 @@
-npm start
-
-PAUSE
