@@ -37,7 +37,10 @@ export class EntityTreeNodeService {
             });
             const treeNode: TreeNode = { data: e.name, label: e.name, children: treeNodeChildren };
             treeN.push(treeNode);
-            e.selected ? selectedTreeN.push(treeNode) : this.checkIfTreeNodeIsPartialSelected(treeNode, e);
+            if (e.selected) {
+                this.checkIfTreeNodeIsPartialSelected(treeNode, e);
+                selectedTreeN.push(treeNode);
+            }
         });
 
         return { treeNodes: treeN, selectedTreeNodes: selectedTreeN };
@@ -71,7 +74,7 @@ export class EntityTreeNodeService {
     }
 
     private checkIfTreeNodeIsPartialSelected(treeNode: TreeNode, e: EntityConfiguration): void {
-        if (e.attrs.some(a => a.selected)) {
+        if (e.attrs.some(a => !a.selected)) {
             treeNode.partialSelected = true;
         }
     }
