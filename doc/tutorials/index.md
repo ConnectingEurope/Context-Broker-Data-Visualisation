@@ -264,7 +264,7 @@ There is a public Sandbox image that contains everything needed to deploy the en
         - **Flavor:** At least one medium-type image will be required, but it is possible to assign large or short-large types.
         - **Instance Count:** Number of instances to be deployed, normally 1.
         - **Instance Boot Source:** Select the option "Boot from image".
-        - **Image Name:** Select the option "cb_data_visualisation_enabler_dev".
+        - **Image Name:** Select the option "cb_data_visualisation_enabler".
     - Access & Security:
         - Select the security group "cbenabler_security_group".
     - Networking:
@@ -282,6 +282,79 @@ In the "Instances" tab, open the drop-down to the right of the instance with run
 
 Associate the IP created in the [Configuring the enabler](#fourthTutorial-configuration) section.
 
+<a name="fourthTutorial-deploy"></a>
+#### Deploying the enabler-tools
+An image with the necessary set of tools has been created in case the user has not got a context broker to link the enabler. This image is available in the public "Images" section, its name is "cb_data_visualisation_enabler_tools".
+Contains:
+- Fiware Orion: exposed in port 1026
+- Fiware Cygnus: exposed in port 5080
+- Fiware STH Commet: exposed in port 8666
+- MongoDB
 
+For the image to be instantiated, a new security group must be configured in the "Access & Security" tab:
+- Click on "Create security Group" and define the name and description of the security group.
+    - **Name:** cbenabler_tools_security_group
+    - **Description:** Context Broker Data Visualisation Enabler Tools Security Group
+
+- Once the security group has been created, manage rules to enable the ports needed to establish communication:
+    - Add rule:
+        - **Rule:** Custom TCP Rule
+        - **Direction:** Ingress
+        - **Open Port:** Port
+        - **Port:** 1026
+        - **Remote:** CIDR
+        - **CIDR:** 0.0.0.0/0
+
+    - Add rule:
+        - **Rule:** Custom TCP Rule
+        - **Direction:** Ingress
+        - **Open Port:** Port
+        - **Port:** 5051
+        - **Remote:** CIDR
+        - **CIDR:** 0.0.0.0/0
+
+    - Add rule:
+        - **Rule:** Custom TCP Rule
+        - **Direction:** Ingress
+        - **Open Port:** Port
+        - **Port:** 5080
+        - **Remote:** CIDR
+        - **CIDR:** 0.0.0.0/0
+
+    - Add rule:
+        - **Rule:** Custom TCP Rule
+        - **Direction:** Ingress
+        - **Open Port:** Port
+        - **Port:** 8666
+        - **Remote:** CIDR
+        - **CIDR:** 0.0.0.0/0
+
+Now, the image must be launched from "Images" tab:
+1. Look for the image "cb_data_visualisation_enabler_tools" in the public section.
+
+2. Select the image an click on the "Launch Instance" button.
+
+3. Fill in the following information:
+    - Details:
+        - **Availability Zone:** assigns the zone to the instance.
+        - **Instance name:** assigns the name to the instance.
+        - **Flavor:** At least one medium-type image will be required, but it is possible to assign large or short-large types.
+        - **Instance Count:** Number of instances to be deployed, normally 1.
+        - **Instance Boot Source:** Select the option "Boot from image".
+        - **Image Name:** Select the option "cb_data_visualisation_enabler_tools".
+    - Access & Security:
+        - Select the security group "cbenabler_tools_security_group".
+    - Networking:
+        - The "node-int-net-01" network should be in the "selected networks" section.
+
+4. The instance launched will be visible with spawning status in the "Instances tab".
+5. Once the instance is running, it will take about 5 minutes to download the latest available version of the "Context Broker Data Visualisation Enabler" and deploy it.
+
+6. It will not be necessary to assign a Floating Ip, sice the instances have an internal IP that allows communicattion between them.
+Example:
+![Architecture](../img/FiwareLabEnablerAndTools.png)
+
+Communication between the enabler and the enabler_tools is now possible
+![Architecture](../img/FiwareLabEnablerAndToolsExample.png)
 
 [Top](#tutorials-for-deployment)
