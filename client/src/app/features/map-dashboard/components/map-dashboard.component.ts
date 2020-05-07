@@ -385,7 +385,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         });
 
         marker[this.controlName] = entity;
-        marker[this.popupName] = popupComponentRef.instance;
+        marker[this.popupName] = popupComponentRef;
         marker[this.tooltipName] = marker.getTooltip();
         this.layerGroups[model.type].addLayer(marker);
 
@@ -411,7 +411,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
             existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
         }
-        existentMarker[this.popupName].updatePopup(entity, model);
+        existentMarker[this.popupName].instance.updatePopup(entity, model);
+        existentMarker[this.popupName].changeDetectorRef.detectChanges();
         existentMarker[this.controlName] = entity;
         existentMarker[this.tooltipName] = existentMarker.getTooltip();
         this.setTooltip(existentMarker, entity, model);

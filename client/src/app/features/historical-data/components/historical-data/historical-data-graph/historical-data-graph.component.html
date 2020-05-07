@@ -32,7 +32,7 @@
                 <!-- Month calendar -->
                 <p-calendar *ngIf="currentPeriod === aggrPeriodEnum.DAY" [(ngModel)]="monthDate" view="month"
                     dateFormat="mm/yy" [yearNavigator]="true" yearRange="{{firstYear + ':' + currentYear}}"
-                    [readonlyInput]="true" placeholder="MM/YY" [readonlyInput]="true" dateFormat="dd/mm/yy"
+                    [readonlyInput]="true" placeholder="MM/YY" [readonlyInput]="true" dateFormat="mm/yy"
                     (onClose)="onChange()">
                 </p-calendar>
 
