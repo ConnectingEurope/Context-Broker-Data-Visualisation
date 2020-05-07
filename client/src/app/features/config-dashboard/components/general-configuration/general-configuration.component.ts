@@ -2,13 +2,13 @@ import { Component, Input, OnDestroy, ViewChild, ViewEncapsulation, Output, Even
 import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { LayerService } from 'src/app/features/map-dashboard/services/layer-service';
 import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel';
-import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { TreeNode } from 'primeng/api/treenode';
+import { EntityTreeNodeService } from '../../services/entity-tree-node.service';
+import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
 
 @Component({
     selector: 'app-general-configuration',
@@ -33,8 +33,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     constructor(
         private configDashboardService: ConfigDashboardService,
-        private appMessageService: AppMessageService,
-        private layerService: LayerService,
+        private treeNodeService: TreeNodeService,
+        private entityTreeNodeService: EntityTreeNodeService,
     ) {
         super();
     }
@@ -101,8 +101,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     public onChooseEntitiesSuccess(entities: EntityDto[]): void {
         this.chooseWarningVisible = false;
-        this.cb.entities = this.layerService.getEntities(entities);
-        this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
+        this.cb.entities = this.entityTreeNodeService.getEntities(entities);
+        this.cb.selectedEntities = this.treeNodeService.getAllSelected(this.cb.entities);
         this.selectedEntitiesChange.emit();
     }
 

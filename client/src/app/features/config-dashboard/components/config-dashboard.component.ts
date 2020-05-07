@@ -4,12 +4,12 @@ import { ConfigDashboardService } from '../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { ContextBrokerForm, ServiceForm } from '../models/context-broker-form';
 import { ContextBrokerConfiguration, ServiceConfiguration } from '../models/context-broker-configuration';
-import { LayerService } from '../../map-dashboard/services/layer-service';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
 import { ServiceConfigurationComponent } from './service-configuration/service-configuration.component';
 import { AccordionTab } from 'primeng/accordion/accordion';
+import { EntityTreeNodeService } from '../services/entity-tree-node.service';
 
 @Component({
     selector: 'app-config-dashboard',
@@ -33,7 +33,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     constructor(
         private configDashboardService: ConfigDashboardService,
         private appMessageService: AppMessageService,
-        private layerService: LayerService,
+        private entityTreeNodeService: EntityTreeNodeService,
         private confirmationService: ConfirmationService,
         private router: Router,
     ) {
@@ -200,7 +200,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
                 needHistoricalData: needHistoricalDataBool,
                 cygnus: needHistoricalDataBool ? cb.historicalForm.get('cygnus').value : '',
                 comet: needHistoricalDataBool ? cb.historicalForm.get('comet').value : '',
-                entities: this.layerService.treeNodesToEntitiesConfiguration(cb.entities, cb.selectedEntities),
+                entities: this.entityTreeNodeService.convertNodesToEntitiesConf(cb.entities, cb.selectedEntities),
                 services: needServicesBool ? this.getServices(cb) : [],
             };
         });
@@ -211,14 +211,14 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
             return {
                 service: s.form.get('service').value,
                 servicePath: s.form.get('servicePath').value,
-                entities: this.layerService.treeNodesToEntitiesConfiguration(s.entities, s.selectedEntities),
+                entities: this.entityTreeNodeService.convertNodesToEntitiesConf(s.entities, s.selectedEntities),
             };
         });
     }
 
     private loadConfiguration(contextBrokers: ContextBrokerConfiguration[]): void {
         contextBrokers.forEach(cb => {
-            const { treeNodes, selectedTreeNodes }: any = this.layerService.convertEntitiesConfToNodes(cb.entities);
+            const { treeNodes, selectedTreeNodes }: any = this.entityTreeNodeService.convertEntitiesConfToNodes(cb.entities);
             this.contextBrokers.unshift({
                 header: cb.name,
                 form: this.configDashboardService.createContextBrokerFormFromConfig(cb),
@@ -237,7 +237,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
     private loadServiceConfiguration(cb: ContextBrokerConfiguration): ServiceForm[] {
         return cb.services.map(s => {
-            const { treeNodes, selectedTreeNodes }: any = this.layerService.convertEntitiesConfToNodes(s.entities);
+            const { treeNodes, selectedTreeNodes }: any = this.entityTreeNodeService.convertEntitiesConfToNodes(s.entities);
             return {
                 header: s.service + s.servicePath,
                 form: this.configDashboardService.createServiceFormFromConfig(s),
