@@ -13,6 +13,11 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
   - [Connection between Enabler and FIWARE tools](#connection-between-enabler-and-fiware-tools)
 - [FIWARE lab](#fiware-lab)
   - [Tutorial 4: FIWARE lab](#fourthTutorial)
+    - [Configuring the enabler](#fourthTutorial-configuration)
+    - [Deploying the enabler](#fourthTutorial-deploy)
+    - [Associate Floating IP ](#fourthTutorial-ip)
+
+
 
 ## Local environment
 
@@ -215,6 +220,68 @@ After the registration, the deployment can be carried out following the [Tutoria
 
 ### Tutorial 4: FIWARE lab
 
-TO DO
+<a name="fourthTutorial-configuration"></a>
+#### Configuring the enabler
+
+Before deploying the enabler, it is necessary to configure fiware lab in the "Access & Security" tab to enable access to the generated instances.
+
+1. Define security groups
+    - Click on "Create security Group" and define the name and description of the security group.
+        - **Name:** cbenabler_security_group
+        - **Description:** Context Broker Data Visualisation Enabler Security Group
+
+    - Once the security group has been created, manage rules to enable the ports needed to establish communication:
+        - Add rule:
+            - **Rule:** Custom TCP Rule
+            - **Direction:** Ingress
+            - **Open Port:** Port
+            - **Port:** 80
+            - **Remote:** CIDR
+            - **CIDR:** 0.0.0.0/0
+
+            This should be the result
+            ![Architecture](../img/FiwareLabAddRule.png)
+
+2. Define Floating IPs
+    - Allocate IP To Project
+        - **Pool:** public-ext-net-01
+
+        Should look like in the following screenshot, once everything is configured the application will be accessible in the provided ip.
+        ![Architecture](../img/FiwareLabFloatingIPs.png)
+
+<a name="fourthTutorial-deploy"></a>
+#### Deploying the enabler
+There is a public Sandbox image that contains everything needed to deploy the enabler application, an instance of the image can be created from "Images" tab.
+
+1. Look for the image cb_data_visualisation_enabler in the public section.
+
+2. Select the image an click on the "Launch Instance" button.
+
+3. Fill in the following information:
+    - Details:
+        - **Availability Zone:** assigns the zone to the instance.
+        - **Instance name:** assigns the name to the instance.
+        - **Flavor:** At least one medium-type image will be required, but it is possible to assign large or short-large types.
+        - **Instance Count:** Number of instances to be deployed, normally 1.
+        - **Instance Boot Source:** Select the option "Boot from image".
+        - **Image Name:** Select the option "cb_data_visualisation_enabler_dev".
+    - Access & Security:
+        - Select the security group "cbenabler_security_group".
+    - Networking:
+        - The "node-int-net-01" network should be in the "selected networks" section.
+
+4. The instance launched will be visible with spawning status in the "Instances tab".
+5. Once the instance is running, it will take about 5 minutes to download the latest available version of the "Context Broker Data Visualisation Enabler" and deploy it.
+
+<a name="fourthTutorial-ip"></a>
+#### Associate Floating IP
+Now, the "Context Broker Data Visualisation Enabler" is deployed, but it is not accessible from the browser because it has not got an associated floating ip.
+
+In the "Instances" tab, open the drop-down to the right of the instance with running status and click on "Asssociate Floating IP".
+![Architecture](../img/FiwareLabAssociateIP.png)
+
+Associate the IP created in the [Configuring the enabler](#fourthTutorial-configuration) section.
+
+
 
 [Top](#tutorials-for-deployment)
