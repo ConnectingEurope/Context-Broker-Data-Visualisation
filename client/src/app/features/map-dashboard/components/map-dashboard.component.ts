@@ -148,11 +148,13 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     public onLayerConditionClick(event: any): void {
+        if (this.layerPanel.overlayVisible) { this.layerPanel.hide(); }
         event.stopPropagation();
         this.layerConditionsPanel.toggle(event);
     }
 
     public onLayerClick(event: any): void {
+        if (this.layerConditionsPanel.overlayVisible) { this.layerConditionsPanel.hide(); }
         event.stopPropagation();
         this.layerPanel.toggle(event);
     }
