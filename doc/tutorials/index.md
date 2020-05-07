@@ -16,7 +16,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
     - [Configuring the IP](#fourthTutorial-configuration)
     - [Deploying the enabler](#fourthTutorial-deploy)
     - [Associate Floating IP](#fourthTutorial-ip)
-    - [Deploying the enabler tools](fourthTutorial-tools)
+    - [Deploying the enabler tools](#fourthTutorial-tools)
 
 ## Local environment
 
@@ -259,6 +259,8 @@ The steps to complete this action, are:
         ![Architecture](../img/FiwareLabFloatingIPs.png)
         >*Illustration 3. Associating a new IP address*
 
+[Top](#tutorials-for-deployment)
+
 <a name="fourthTutorial-deploy"></a>
 
 #### Deploying the enabler
@@ -291,6 +293,8 @@ An instance of the needed image can be created from the **Images** menu:
 
 5. Once the instance is running (after waiting some minutes), it will take about 5 more minutes to automatically download the latest available version of the **Context Broker Data Visualisation Enabler** from DockerHub and deploy it.
 
+[Top](#tutorials-for-deployment)
+
 <a name="fourthTutorial-ip"></a>
 
 #### Associate Floating IP
@@ -307,6 +311,8 @@ At this point, the **Context Broker Data Visualisation Enabler** is deployed, bu
 3. Associate the IP created in the [Configuring the enabler](#fourthTutorial-configuration) section.
 
 4. After this configuration, the **enabler must be ready to use by accesing to the floating IP** in a web browser.
+
+[Top](#tutorials-for-deployment)
 
 <a name="fourthTutorial-tools"></a>
 
