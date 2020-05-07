@@ -41,25 +41,16 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.configDashboardService.getConfiguration().pipe(takeUntil(this.destroy$)).subscribe(
-            contextBrokers => {
-                if (contextBrokers.length === 0) {
-                    this.onAddContextBroker();
-                    this.configurationLoaded = true;
-                } else {
-                    this.loadConfiguration(contextBrokers);
-                    this.configurationLoaded = true;
-                }
-            },
-            err => {
-                this.appMessageService.add({ severity: 'error', summary: 'Cannot load the configuration' });
-            },
-        );
+        this.getConfiguration();
     }
 
+    /*****************************************************************************
+     Button visibility functions
+    *****************************************************************************/
+
     public shouldApplyButtonBeDisplayed(): boolean {
-        return this.configurationLoaded
-            && (this.contextBrokers.length > 0 || this.addedContextBrokerAtLeastOnce || this.removedContextBrokerAtLeastOnce);
+        return this.configurationLoaded &&
+            (this.contextBrokers.length > 0 || this.addedContextBrokerAtLeastOnce || this.removedContextBrokerAtLeastOnce);
     }
 
     public shouldApplyButtonBeEnabled(): boolean {
@@ -69,6 +60,10 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     public shouldAdvertisementBeDisplayed(): boolean {
         return this.shouldApplyButtonBeEnabled();
     }
+
+    /*****************************************************************************
+     Event functions
+    *****************************************************************************/
 
     public onAddContextBroker(): void {
         this.accordionTabsSelected = true;
@@ -107,7 +102,8 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
             accept: (): void => {
-                this.removeContextBroker(index);
+                this.removedContextBrokerAtLeastOnce = true;
+                this.contextBrokers.splice(index, 1);
             },
         });
     }
@@ -124,29 +120,64 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         }
     }
 
-    private checkEntities(): boolean {
-        let valid: boolean = true;
-        this.contextBrokers.forEach(cb => {
-            if (cb.services.length === 0) {
-                if (cb.selectedEntities.length === 0) {
-                    valid = false;
+    /*****************************************************************************
+     Getting configuration functions
+    *****************************************************************************/
+
+    private getConfiguration(): void {
+        this.configDashboardService.getConfiguration().pipe(takeUntil(this.destroy$)).subscribe(
+            contextBrokers => {
+                if (contextBrokers.length === 0) {
+                    this.onAddContextBroker();
+                } else {
+                    this.loadConfiguration(contextBrokers);
                 }
-            } else {
-                cb.services.forEach(s => {
-                    if (s.selectedEntities.length === 0) {
-                        valid = false;
-                    }
-                });
+                this.configurationLoaded = true;
+            },
+            err => {
+                this.appMessageService.add({ severity: 'error', summary: 'Cannot load the configuration' });
+            },
+        );
+    }
+
+    private loadConfiguration(contextBrokers: ContextBrokerConfiguration[]): void {
+        contextBrokers.forEach(cb => {
+            const { treeNodes, selectedTreeNodes }: any = this.entityTreeNodeService.convertEntitiesConfToNodes(cb.entities);
+            this.contextBrokers.unshift({
+                header: cb.name,
+                form: this.configDashboardService.createContextBrokerFormFromConfig(cb),
+                historicalForm: this.configDashboardService.createHistoricalFormFromConfig(cb),
+                services: this.loadServiceConfiguration(cb),
+                entities: treeNodes,
+                selectedEntities: selectedTreeNodes,
+            });
+        });
+        this.closeAccordionTabs();
+    }
+
+    private loadServiceConfiguration(cb: ContextBrokerConfiguration): ServiceForm[] {
+        return cb.services.map(s => {
+            const { treeNodes, selectedTreeNodes }: any = this.entityTreeNodeService.convertEntitiesConfToNodes(s.entities);
+            return {
+                header: s.service + s.servicePath,
+                form: this.configDashboardService.createServiceFormFromConfig(s),
+                entities: treeNodes,
+                selectedEntities: selectedTreeNodes,
+            };
+        });
+    }
+
+    private closeAccordionTabs(): void {
+        setTimeout(() => {
+            if (this.accordionTabs && this.accordionTabs.length > 0) {
+                this.accordionTabs.forEach(a => a.selected = false);
             }
         });
-        if (!valid) {
-            this.appMessageService.add({
-                severity: 'error', summary: 'Cannot apply the configuration',
-                detail: 'There is at least one context broker or one service with no selected entities',
-            });
-        }
-        return valid;
     }
+
+    /*****************************************************************************
+     Setting configuration functions
+    *****************************************************************************/
 
     private applyConfiguration(): void {
         const config: ContextBrokerConfiguration[] = this.getContextBrokers();
@@ -166,27 +197,6 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
     private onApplyConfigurationFail(): void {
         this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' });
-    }
-
-    private isDirtyConfiguration(): boolean {
-        return this.contextBrokers.some(cb => {
-            return cb.form.dirty ||
-                (cb.form.get('needHistoricalData').value && cb.historicalForm.dirty) ||
-                (cb.form.get('needServices').value && cb.services.some(s => s.form.dirty));
-        }) || this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce || this.selectedEntitiesChange || this.favAttrChange;
-    }
-
-    private isValidConfiguration(): boolean {
-        return this.contextBrokers.every(cb => {
-            return cb.form.valid &&
-                (!cb.form.get('needHistoricalData').value || cb.historicalForm.valid) &&
-                (!cb.form.get('needServices').value || (cb.services.length > 0 && cb.services.every(s => s.form.valid)));
-        });
-    }
-
-    private removeContextBroker(index: number): void {
-        this.removedContextBrokerAtLeastOnce = true;
-        this.contextBrokers.splice(index, 1);
     }
 
     private getContextBrokers(): ContextBrokerConfiguration[] {
@@ -216,34 +226,45 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         });
     }
 
-    private loadConfiguration(contextBrokers: ContextBrokerConfiguration[]): void {
-        contextBrokers.forEach(cb => {
-            const { treeNodes, selectedTreeNodes }: any = this.entityTreeNodeService.convertEntitiesConfToNodes(cb.entities);
-            this.contextBrokers.unshift({
-                header: cb.name,
-                form: this.configDashboardService.createContextBrokerFormFromConfig(cb),
-                historicalForm: this.configDashboardService.createHistoricalFormFromConfig(cb),
-                services: this.loadServiceConfiguration(cb),
-                entities: treeNodes,
-                selectedEntities: selectedTreeNodes,
-            });
-        });
-        setTimeout(() => {
-            if (this.accordionTabs && this.accordionTabs.length > 0) {
-                this.accordionTabs.forEach(a => a.selected = false);
+    /*****************************************************************************
+     Validation functions
+    *****************************************************************************/
+
+    private checkEntities(): boolean {
+        let valid: boolean = true;
+        this.contextBrokers.forEach(cb => {
+            if (cb.services.length === 0) {
+                if (cb.selectedEntities.length === 0) { valid = false; }
+            } else {
+                cb.services.forEach(s => {
+                    if (s.selectedEntities.length === 0) { valid = false; }
+                });
             }
+        });
+        if (!valid) { this.showNoSelectedEntitiesMessage(); }
+        return valid;
+    }
+
+    private showNoSelectedEntitiesMessage(): void {
+        this.appMessageService.add({
+            severity: 'error', summary: 'Cannot apply the configuration',
+            detail: 'There is at least one context broker or one service with no selected entities',
         });
     }
 
-    private loadServiceConfiguration(cb: ContextBrokerConfiguration): ServiceForm[] {
-        return cb.services.map(s => {
-            const { treeNodes, selectedTreeNodes }: any = this.entityTreeNodeService.convertEntitiesConfToNodes(s.entities);
-            return {
-                header: s.service + s.servicePath,
-                form: this.configDashboardService.createServiceFormFromConfig(s),
-                entities: treeNodes,
-                selectedEntities: selectedTreeNodes,
-            };
+    private isDirtyConfiguration(): boolean {
+        return this.contextBrokers.some(cb => {
+            return cb.form.dirty ||
+                (cb.form.get('needHistoricalData').value && cb.historicalForm.dirty) ||
+                (cb.form.get('needServices').value && cb.services.some(s => s.form.dirty));
+        }) || this.removedContextBrokerAtLeastOnce || this.removedServiceAtLeastOnce || this.selectedEntitiesChange || this.favAttrChange;
+    }
+
+    private isValidConfiguration(): boolean {
+        return this.contextBrokers.every(cb => {
+            return cb.form.valid &&
+                (!cb.form.get('needHistoricalData').value || cb.historicalForm.valid) &&
+                (!cb.form.get('needServices').value || (cb.services.length > 0 && cb.services.every(s => s.form.valid)));
         });
     }
 

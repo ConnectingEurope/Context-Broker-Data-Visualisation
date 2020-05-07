@@ -1,10 +1,9 @@
-import { Component, Input, ViewChild, Output, EventEmitter, ViewChildren, QueryList, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChildren, QueryList, OnInit } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ContextBrokerForm, ServiceForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
-import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { ConfirmationService, TreeNode } from 'primeng/api';
 import { AccordionTab } from 'primeng/accordion/accordion';
 import { EntityTreeNodeService } from '../../services/entity-tree-node.service';
@@ -26,10 +25,9 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
     public displaySubsHeader: string;
-    public displaySubsContent: any;
+    public displaySubsContent: any[];
     public accordionTabsSelected: boolean = false;
 
-    @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
 
     constructor(
@@ -42,23 +40,19 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     }
 
     public ngOnInit(): void {
-        if (this.cb.services.length === 0) {
-            this.onAddService();
-        } else {
-            setTimeout(() => {
-                if (this.accordionTabs && this.accordionTabs.length > 0) {
-                    this.accordionTabs.forEach(a => a.selected = false);
-                }
-            });
-        }
+        this.cb.services.length === 0 ? this.addService() : this.closeAccordionTabs();
     }
+
+    /*****************************************************************************
+     Event functions
+    *****************************************************************************/
 
     public onContextBrokerUrlChange(): void {
         this.chooseWarningVisible = false;
         this.subsWarningVisible = false;
     }
 
-    public onAddService(): void {
+    public addService(): void {
         this.accordionTabsSelected = true;
         if (this.accordionTabs && this.accordionTabs.length > 0) {
             this.accordionTabs.forEach(a => a.selected = false);
@@ -80,7 +74,8 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
             accept: (): void => {
-                this.removeService(index);
+                this.removeServiceEvent.emit(index);
+                this.cb.services.splice(index, 1);
             },
         });
     }
@@ -103,22 +98,6 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
 
     public onFavChange(): void {
         this.favChange.emit();
-    }
-
-    public isDisabledChooseButton(index: number): boolean {
-        return this.cb.form.get('url').invalid ||
-            this.cb.services[index].form.get('service').invalid ||
-            this.cb.services[index].form.get('servicePath').invalid;
-    }
-
-    public isDisabledSubsButton(index: number): boolean {
-        return this.isDisabledChooseButton(index);
-    }
-
-    public shouldButtonFavBeDisplayed(node: TreeNode, service: ServiceForm): boolean {
-        return node.data.fav !== undefined && service.selectedEntities.some(e => {
-            return e.parent && node.parent && e.parent.label === node.parent.label && e.label === node.label;
-        });
     }
 
     public onChooseEntities(index: number): void {
@@ -153,21 +132,23 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         );
     }
 
-    private onClickSubscriptionsSuccess(subs: any[]): void {
-        this.subsWarningVisible = false;
-        this.displaySubsHeader = 'Subscriptions';
-        this.displaySubsContent = subs;
-        this.displaySubs = true;
+    /*****************************************************************************
+     Button visibility functions
+    *****************************************************************************/
+
+    public shouldChooseButtonBeDisabled(index: number): boolean {
+        return this.cb.form.get('url').invalid ||
+            this.cb.services[index].form.get('service').invalid ||
+            this.cb.services[index].form.get('servicePath').invalid;
     }
 
-    private onClickSubscriptionsFail(): void {
-        this.subsWarningVisible = true;
+    public shouldSubsButtonBeDisabled(index: number): boolean {
+        return this.shouldChooseButtonBeDisabled(index);
     }
 
-    private removeService(index: number): void {
-        this.removeServiceEvent.emit(index);
-        this.cb.services.splice(index, 1);
-    }
+    /*****************************************************************************
+     Choose entities functions
+    *****************************************************************************/
 
     private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
         this.chooseWarningVisible = false;
@@ -180,6 +161,33 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         this.chooseWarningVisible = true;
         this.cb.services[index].entities = [];
         this.cb.services[index].selectedEntities = [];
+    }
+
+    /*****************************************************************************
+     Subscriptions functions
+    *****************************************************************************/
+
+    private onClickSubscriptionsSuccess(subs: any[]): void {
+        this.subsWarningVisible = false;
+        this.displaySubsHeader = 'Subscriptions';
+        this.displaySubsContent = subs;
+        this.displaySubs = true;
+    }
+
+    private onClickSubscriptionsFail(): void {
+        this.subsWarningVisible = true;
+    }
+
+    /*****************************************************************************
+     Accordion functions
+    *****************************************************************************/
+
+    private closeAccordionTabs(): void {
+        setTimeout(() => {
+            if (this.accordionTabs && this.accordionTabs.length > 0) {
+                this.accordionTabs.forEach(a => a.selected = false);
+            }
+        });
     }
 
 }

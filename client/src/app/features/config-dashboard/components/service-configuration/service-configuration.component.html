@@ -1,19 +1,23 @@
+<!-- Json dialog for subscriptions -->
 <app-json-dialog [display]="displaySubs" [header]="displaySubsHeader" [content]="displaySubsContent"
     (hide)="displaySubs=false">
 </app-json-dialog>
 
 <p-card header="Services">
     <div class="container-fluid mt-3">
+
+        <!-- Description -->
         <i class="pi pi-info info-message"></i>
         <p class="d-inline info-message">
             {{'The services of a Context Broker consist on a logical layer for the separation of the information
             the Context Broker contains into different paths. The services are usually used to provide an extra level
             of security to the information of the Context Broker.'}}
         </p>
+
         <!-- Add service button -->
         <div class="row justify-content-center mt-4 mb-3">
             <div class="col-auto">
-                <p-button icon="pi pi-plus" label="Add Service" (onClick)="onAddService()"></p-button>
+                <p-button icon="pi pi-plus" label="Add Service" (onClick)="addService()"></p-button>
             </div>
         </div>
 
@@ -56,7 +60,7 @@
 
                                             <!-- Choose entities button -->
                                             <div class="mt-4">
-                                                <p-button [disabled]="isDisabledChooseButton(i)"
+                                                <p-button [disabled]="shouldChooseButtonBeDisabled(i)"
                                                     label="Choose entities and attributes" icon="pi pi-list"
                                                     (onClick)="onChooseEntities(i)">
                                                 </p-button>
@@ -68,7 +72,7 @@
 
                                             <!-- Subscription overview button -->
                                             <div class="mt-4">
-                                                <p-button [disabled]="isDisabledSubsButton(i)"
+                                                <p-button [disabled]="shouldSubsButtonBeDisabled(i)"
                                                     label="Subscriptions Overview" icon="fas fa-code"
                                                     (onClick)="onClickSubscriptions(i)">
                                                 </p-button>

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ModelDto } from 'src/app/shared/models/model-dto';
+import { Entity } from 'src/app/shared/models/entity';
 
 @Injectable({
     providedIn: 'root',
@@ -12,7 +13,7 @@ export class MapDashboardService {
         private http: HttpClient,
     ) { }
 
-    public getEntity(model: ModelDto, entity: any): Observable<any> {
+    public getEntity(model: ModelDto, entity: Entity): Observable<Entity[]> {
         const body: any = {
             url: model.contextUrl,
             service: model.service,
@@ -21,7 +22,7 @@ export class MapDashboardService {
             id: entity.id,
         };
 
-        return this.http.post<any>('/server/entity', body);
+        return this.http.post<Entity[]>('/server/entity', body);
     }
 
     public getAllEntities(avoidHttpInterceptor?: boolean): Observable<ModelDto[]> {

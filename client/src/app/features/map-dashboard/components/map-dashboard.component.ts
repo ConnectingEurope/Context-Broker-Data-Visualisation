@@ -90,7 +90,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     }
 
     /*****************************************************************************
-     Lifecycle and events functions
+     Lifecycle and event functions
     *****************************************************************************/
 
     public ngAfterViewInit(): void {
@@ -375,13 +375,13 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private addEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
         if (entity.location && entity.location.coordinates && entity.location.coordinates[0] && entity.location.coordinates[1]) {
             this.storeMinMaxLocation(entity.location.coordinates[1], entity.location.coordinates[0]);
-            const markers: any = this.layerGroups[model.type].getLayers();
-            const existentMarker: L.Marker = markers.find(m => m[this.entityAttr].id === entity.id);
+            const markers: L.Layer[] = this.layerGroups[model.type].getLayers();
+            const existentMarker: L.Marker = markers.find(m => m[this.entityAttr].id === entity.id) as L.Marker;
             existentMarker ? this.updateEntity(existentMarker, model, entity) : this.insertEntity(model, entity, categoryKey);
         }
     }
 
-    private insertEntity(model: ModelDto, entity: any, categoryKey: string): void {
+    private insertEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
         const marker: L.Marker = L.marker(
             entity.location.coordinates.reverse() as L.LatLngExpression,
             { icon: IconUtils.leafletIcons[categoryKey] },
@@ -415,8 +415,8 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             ids.forEach(id => {
                 const i: number = this.loadedIds[entityType].indexOf(id);
                 if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
-                const markers: any = this.layerGroups[entityType].getLayers();
-                const oldSensor: L.Marker = markers.find(m => m[this.entityAttr].id === id);
+                const markers: L.Layer[] = this.layerGroups[entityType].getLayers();
+                const oldSensor: L.Marker = markers.find(m => m[this.entityAttr].id === id) as L.Marker;
                 oldSensor.remove();
             });
         });
@@ -465,7 +465,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
      Popup functions
     *****************************************************************************/
 
-    private setPopup(marker: L.Marker, entity: any, model: ModelDto): void {
+    private setPopup(marker: L.Marker, entity: Entity, model: ModelDto): void {
         let popup: L.Popup = marker.getPopup();
         let popupComponentRef: ComponentRef<PopupComponent>;
 
@@ -488,7 +488,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
      Tooltip functions
     *****************************************************************************/
 
-    private setTooltip(marker: L.Marker, entity: any, model: ModelDto): void {
+    private setTooltip(marker: L.Marker, entity: Entity, model: ModelDto): void {
         const tooltipContent: string = this.getTooltipContent(entity, model);
 
         if (tooltipContent) {
@@ -517,7 +517,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         }
     }
 
-    private getTooltipContent(entity: any, model: ModelDto): string {
+    private getTooltipContent(entity: Entity, model: ModelDto): string {
         return model.favAttr && entity[model.favAttr] ? ('<span>' + entity[model.favAttr] + '</span>') : undefined;
     }
 
@@ -533,7 +533,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
      Debug entity functions
     *****************************************************************************/
 
-    private onClickDebug(model: ModelDto, entity: any, marker: L.Marker): void {
+    private onClickDebug(model: ModelDto, entity: Entity, marker: L.Marker): void {
         this.mapDashBoardService.getEntity(model, entity).subscribe(
             data => {
                 if (data.length > 0) {

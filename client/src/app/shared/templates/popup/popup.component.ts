@@ -6,6 +6,7 @@ import { ModelDto } from '../../models/model-dto';
 import { EntityMetadataService } from '../../services/entity-metadata-service';
 import { BaseComponent } from '../../misc/base.component';
 import { takeUntil } from 'rxjs/operators';
+import { Entity } from '../../models/entity';
 
 @Component({
     selector: 'app-popup',
@@ -14,7 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class PopupComponent extends BaseComponent {
 
-    @Input() public entity: any;
+    @Input() public entity: Entity;
     @Input() public modelDto: ModelDto;
     @Output() public clickDebug: EventEmitter<void> = new EventEmitter<void>();
 
