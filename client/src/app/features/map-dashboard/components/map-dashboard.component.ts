@@ -314,8 +314,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private visualizeEntities(): void {
         this.loadEntities();
         this.interval = setInterval(() => {
-            this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
-            this.loadEntities();
+            if (!this.firstLoad) {
+                this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
+                this.loadEntities();
+            }
         }, 60000);
     }
 
