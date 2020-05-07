@@ -8,6 +8,7 @@ import { EntityDto } from '../../models/entity-dto';
 import { ScrollPanel } from 'primeng/scrollpanel';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
+import { TreeNode } from 'primeng/api/treenode';
 
 @Component({
     selector: 'app-general-configuration',
@@ -49,7 +50,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
         this.urlChange.emit();
     }
 
-    public onSelectedEntitiesChange(): void {
+    public onSelectedEntitiesChange(selectedEntities: TreeNode[]): void {
+        this.cb.selectedEntities = selectedEntities;
         this.selectedEntitiesChange.emit();
     }
 

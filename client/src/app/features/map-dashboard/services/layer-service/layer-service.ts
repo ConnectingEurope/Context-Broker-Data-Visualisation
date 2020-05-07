@@ -171,9 +171,8 @@ export class LayerService {
             treeN.push(treeNode);
 
             if (e.selected) {
-                selectedTreeN.push(treeNode);
-            } else {
                 this.checkIfTreeNodeIsPartialSelected(treeNode, e);
+                selectedTreeN.push(treeNode);
             }
         });
 
@@ -195,7 +194,7 @@ export class LayerService {
     }
 
     private checkIfTreeNodeIsPartialSelected(treeNode: TreeNode, e: EntityConfiguration): void {
-        if (e.attrs.some(a => a.selected)) {
+        if (e.attrs.some(a => !a.selected)) {
             treeNode.partialSelected = true;
         }
     }

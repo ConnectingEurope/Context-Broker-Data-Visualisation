@@ -18,7 +18,7 @@ export class AttributeSelectorComponent extends BaseComponent {
 
     @Input() public entities: TreeNode[];
     @Input() public selectedEntities: TreeNode[];
-    @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public selectedEntitiesChange: EventEmitter<TreeNode[]> = new EventEmitter<TreeNode[]>();
     @Output() public favChange: EventEmitter<void> = new EventEmitter<void>();
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
@@ -43,19 +43,17 @@ export class AttributeSelectorComponent extends BaseComponent {
     }
 
     public onNodeSelect(event: any): void {
-        this.selectedEntitiesChange.emit();
+        this.selectedEntitiesChange.emit(this.selectedEntities);
     }
 
     public onNodeUnselect(event: any): void {
-        if (event.node.data.fav) { event.node.data.fav = false; }
-        this.selectedEntitiesChange.emit();
+        event.node.parent ? event.node.data.fav = false : event.node.children.forEach(n => n.data.fav = false);
+        this.selectedEntitiesChange.emit(this.selectedEntities);
     }
 
     public onClickFav(event: any, node: TreeNode): void {
         event.stopPropagation();
-        node.parent.children.forEach(c => {
-            c.data.fav = false;
-        });
+        node.parent.children.forEach(c => c.data.fav = false);
         node.data.fav = true;
         this.favChange.emit();
     }
