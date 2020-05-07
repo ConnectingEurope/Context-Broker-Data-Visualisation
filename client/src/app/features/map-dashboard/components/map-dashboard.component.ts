@@ -37,9 +37,9 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     public categories: CategoryDto[];
     public entities: CategoryEntityDto[] = [];
-    public controlName: string = 'data';
-    public popupName: string = 'popupRef';
-    public tooltipName: string = 'tooltipComp';
+    public entityAttr: string = 'data';
+    public popupAttr: string = 'popupRef';
+    public tooltipAttr: string = 'tooltipComp';
     public menuItems: MenuItem[];
     public layers: TreeNode[];
     public selectedLayers: TreeNode[];
@@ -50,6 +50,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public displayDebugHeader: string;
     public displayDebugContent: any;
 
+    private intervalRefreshMilliseconds: number = 60000;
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
     private layerGroups: { [key: string]: L.LayerGroup } = {};
@@ -144,7 +145,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     *****************************************************************************/
 
     private loadMap(): void {
-
         this.map = L.map('map', {
             center: [50.85045, 4.34878],
             zoom: this.defaultZoom,
@@ -159,7 +159,11 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         }).addTo(this.map);
 
         this.map.addLayer(this.markerClusterGroup);
+        this.setZoomStartEvent();
+        this.setAnimationEndEvent();
+    }
 
+    private setZoomStartEvent(): void {
         this.map.on('zoomstart', (event) => {
             this.markerClusterGroup.getLayers().forEach(l => {
                 if (l.getTooltip()) {
@@ -168,13 +172,14 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
                 }
             });
         });
+    }
 
+    private setAnimationEndEvent(): void {
         this.markerClusterGroup.on('animationend', () => {
             this.markerClusterGroup.getLayers().forEach(l => {
                 this.openTooltip(l as L.Marker);
             });
         });
-
     }
 
     private loadSearchBar(): void {
@@ -201,25 +206,25 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     }
 
     /*****************************************************************************
-     Conditions functions
+     Filter functions
     *****************************************************************************/
 
     private setFilters(event: ConditionDto[]): void {
         this.filters = event;
-        // The markerClusterGroup is always filled in.
         this.markerClusterGroup.addLayers(this.removedLayers);
         this.removedLayers = [];
         if (!this.layersBeforeFilter) {
             this.layersBeforeFilter = this.markerClusterGroup.getLayers();
         }
+        this.removeLayersForFilters();
+    }
 
-        // Remove layers
+    private removeLayersForFilters(): void {
         const layersToRemove: L.Layer[] = [];
         this.markerClusterGroup.getLayers().forEach((layer) => {
             this.filters.forEach(filter => {
-                if (filter.selected && layer[this.controlName][filter.attribute]
-                    && layer[this.controlName].type === filter.entity) {
-                    if (this.applyFilter(layer, filter, this.controlName)) {
+                if (filter.selected && layer[this.entityAttr][filter.attribute] && layer[this.entityAttr].type === filter.entity) {
+                    if (this.applyFilter(layer, filter, this.entityAttr)) {
                         layersToRemove.push(layer);
                         this.removedLayers.push(layer);
                     }
@@ -231,13 +236,47 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private applyFilter(layer: L.Layer, filter: ConditionDto, controlName: string): boolean {
         let shouldBeRemoved: boolean = false;
-        // Check if the value is a number.
+
         if (filter.condition !== 'contains') {
-            shouldBeRemoved = !Utils.mathItUp[filter.condition](+layer[controlName][filter.attribute], +filter.value);
+            shouldBeRemoved = !Utils.mathItUp[filter.condition](Number(layer[controlName][filter.attribute]), Number(filter.value));
         } else {
             shouldBeRemoved = !layer[controlName][filter.attribute].toString().includes(filter.value);
         }
+
         return shouldBeRemoved;
+    }
+
+    private loadAllEntitiesForLayers(): void {
+        this.mapDashBoardService.getAllEntitiesForLayers().pipe(takeUntil(this.destroy$)).subscribe(
+            (res: CategoryEntityDto[]) => {
+                this.entities = this.mapCategories(res);
+                this.loadLayerMenu();
+            },
+            err => {
+                this.onLoadEntitiesFail();
+            });
+    }
+
+    private mapCategories(entities: CategoryEntityDto[]): CategoryEntityDto[] {
+        this.categories = [];
+
+        entities.forEach((entity) => {
+            const categoryKey: string = this.categoryService.getCategoryKey(entity.name);
+            const categoryExist: CategoryDto = this.categories.find((category) => category.name === categoryKey);
+            entity.label = entity.name;
+            !categoryExist ? this.addCategory(categoryKey, entity) : categoryExist.entities.push(entity);
+        });
+
+        return entities;
+    }
+
+    private addCategory(categoryKey: string, entity: CategoryEntityDto): void {
+        this.categories.push({
+            name: categoryKey,
+            label: IconUtils.categoryName[categoryKey],
+            icon: IconUtils.icons[categoryKey],
+            entities: [entity],
+        });
     }
 
     /*****************************************************************************
@@ -249,40 +288,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.selectedLayers = this.treeNodeService.getAllSelected(this.layers);
     }
 
-    private loadAllEntitiesForLayers(): void {
-        this.mapDashBoardService.getAllEntitiesForLayers().pipe(takeUntil(this.destroy$)).subscribe(
-            (res: CategoryEntityDto[]) => {
-                this.entities = this.mapCategories(res);
-                this.loadLayerMenu();
-            },
-            err => {
-                console.log(err);
-                this.onLoadEntitiesFail();
-            });
-    }
-
-    private mapCategories(entities: CategoryEntityDto[]): CategoryEntityDto[] {
-        this.categories = [];
-        entities.forEach((entity) => {
-            const categoryKey: string = this.categoryService.getCategoryKey(entity.name);
-            const categoryExist: CategoryDto = this.categories.find((category) => {
-                return category.name === categoryKey;
-            });
-
-            entity.label = entity.name;
-
-            if (!categoryExist) {
-                this.categories.push({
-                    name: categoryKey, label: IconUtils.categoryName[categoryKey],
-                    icon: IconUtils.icons[categoryKey], entities: [entity],
-                });
-            } else {
-                categoryExist.entities.push(entity);
-            }
-        });
-        return entities;
-    }
-
     /*****************************************************************************
      Data loading functions
     *****************************************************************************/
@@ -292,7 +297,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.interval = setInterval(() => {
             this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
             this.loadEntities();
-        }, 60000);
+        }, this.intervalRefreshMilliseconds);
     }
 
     private loadEntities(): void {
@@ -307,14 +312,26 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
                 }
             },
             err => {
-                console.log(err);
                 this.onLoadEntitiesFail();
             });
     }
 
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
         this.refreshing = true;
+
         this.storeFavAttrs(models);
+        this.processModels(models);
+        if (this.firstLoad) { this.adjustView(); }
+        this.deleteOldEntities();
+        this.loadMarkerCluster();
+        this.setFilters(this.filters);
+        this.unselectedLayers.forEach(l => this.markerClusterGroup.removeLayer(this.layerGroups[l]));
+        if (this.openPopup) { this.openPopup.openPopup(); }
+
+        this.refreshing = false;
+    }
+
+    private processModels(models: ModelDto[]): void {
         models.forEach(model => {
             const categoryKey: string = this.categoryService.getCategoryKey(model.type);
             this.layerGroups[model.type] = this.layerGroups[model.type] || L.layerGroup();
@@ -322,17 +339,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             model.data.forEach(entity => this.addEntity(model, entity, categoryKey));
             this.layerGroups[categoryKey].addLayer(this.layerGroups[model.type]);
         });
-        if (this.firstLoad) { this.adjustView(); }
-        this.deleteOldSensors();
-        this.loadMarkerCluster();
-        this.setFilters(this.filters);
-        this.unselectedLayers.forEach(l => {
-            this.markerClusterGroup.removeLayer(this.layerGroups[l]);
-        });
-        if (this.openPopup) {
-            this.openPopup.openPopup();
-        }
-        this.refreshing = false;
     }
 
     private onLoadEntitiesEmpty(): void {
@@ -355,24 +361,17 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.appMessageService.add({ severity: 'error', summary: 'Something went wrong trying to load the configuration' });
     }
 
+    /*****************************************************************************
+     Entity functions
+    *****************************************************************************/
+
     private addEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
         if (entity.location && entity.location.coordinates && entity.location.coordinates[0] && entity.location.coordinates[1]) {
             this.storeMinMaxLocation(entity.location.coordinates[1], entity.location.coordinates[0]);
             const markers: any = this.layerGroups[model.type].getLayers();
-            const existentMarker: L.Marker = markers.find(m => m[this.controlName].id === entity.id);
-            if (existentMarker) {
-                this.updateEntity(existentMarker, model, entity);
-            } else {
-                this.insertEntity(model, entity, categoryKey);
-            }
+            const existentMarker: L.Marker = markers.find(m => m[this.entityAttr].id === entity.id);
+            existentMarker ? this.updateEntity(existentMarker, model, entity) : this.insertEntity(model, entity, categoryKey);
         }
-    }
-
-    private storeMinMaxLocation(lat: number, lon: number): void {
-        this.minLat = this.minLat > lat ? lat : this.minLat;
-        this.minLon = this.minLon > lon ? lon : this.minLon;
-        this.maxLat = this.maxLat < lat ? lat : this.maxLat;
-        this.maxLon = this.maxLon < lon ? lon : this.maxLon;
     }
 
     private insertEntity(model: ModelDto, entity: any, categoryKey: string): void {
@@ -382,59 +381,97 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         );
 
         this.setTooltip(marker, entity, model);
-
-        const popup: L.Popup = L.popup();
-        const popupComponentRef: ComponentRef<PopupComponent> = this.popupService.getPopupContent(entity, model);
-        const div: HTMLDivElement = document.createElement('div');
-        div.appendChild(popupComponentRef.location.nativeElement);
-        popup.setContent(div);
-        marker.bindPopup(popup);
-
-        popupComponentRef.instance.clickDebug.pipe(takeUntil(this.destroy$)).subscribe(() => this.onClickDebug(model, entity, marker));
-
-        marker.on('popupopen', () => {
-            this.openPopup = popup;
-            popupComponentRef.instance.refreshScroll();
-        });
-        marker.on('popupclose', () => {
-            if (!this.refreshing) { this.openPopup = undefined; }
-        });
-
-        marker[this.controlName] = entity;
-        marker[this.popupName] = popupComponentRef.instance;
-        marker[this.tooltipName] = marker.getTooltip();
+        this.setPopup(marker, entity, model);
+        marker[this.entityAttr] = entity;
         this.layerGroups[model.type].addLayer(marker);
-
         if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
         this.loadedIds[model.type].push(entity.id);
-    }
-
-    private deleteOldSensors(): void {
-        Object.keys(this.loadedIdsCopy).forEach(entityType => {
-            const ids: string[] = this.loadedIdsCopy[entityType];
-            ids.forEach(id => {
-                const i: number = this.loadedIds[entityType].indexOf(id);
-                if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
-
-                const markers: any = this.layerGroups[entityType].getLayers();
-                const oldSensor: L.Marker = markers.find(m => m[this.controlName].id === id);
-                oldSensor.remove();
-            });
-        });
     }
 
     private updateEntity(existentMarker: L.Marker, model: ModelDto, entity: Entity): void {
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
             existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
         }
-        existentMarker[this.popupName].updatePopup(entity, model);
-        existentMarker[this.controlName] = entity;
-        existentMarker[this.tooltipName] = existentMarker.getTooltip();
+        existentMarker[this.popupAttr].updatePopup(entity, model);
+        existentMarker[this.entityAttr] = entity;
+        existentMarker[this.tooltipAttr] = existentMarker.getTooltip();
         this.setTooltip(existentMarker, entity, model);
 
         const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
         if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
     }
+
+    private deleteOldEntities(): void {
+        Object.keys(this.loadedIdsCopy).forEach(entityType => {
+            const ids: string[] = this.loadedIdsCopy[entityType];
+            ids.forEach(id => {
+                const i: number = this.loadedIds[entityType].indexOf(id);
+                if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
+                const markers: any = this.layerGroups[entityType].getLayers();
+                const oldSensor: L.Marker = markers.find(m => m[this.entityAttr].id === id);
+                oldSensor.remove();
+            });
+        });
+    }
+
+    private storeMinMaxLocation(lat: number, lon: number): void {
+        this.minLat = this.minLat > lat ? lat : this.minLat;
+        this.minLon = this.minLon > lon ? lon : this.minLon;
+        this.maxLat = this.maxLat < lat ? lat : this.maxLat;
+        this.maxLon = this.maxLon < lon ? lon : this.maxLon;
+    }
+
+    private hasLocationBeenUpdated(existentMarker: L.Marker, entity: Entity): boolean {
+        const currentLatLng: L.LatLng = existentMarker.getLatLng();
+        const currentLat: number = currentLatLng.lat;
+        const currentLng: number = currentLatLng.lng;
+
+        const newLatLng: number[] = entity.location.coordinates.reverse();
+        const newLat: number = newLatLng[0];
+        const newLng: number = newLatLng[1];
+
+        return currentLat !== newLat || currentLng !== newLng;
+    }
+
+    /*****************************************************************************
+     Marker event functions
+    *****************************************************************************/
+
+    private setMarkerEvents(marker: L.Marker, popup: L.Popup, popupComponentRef: ComponentRef<PopupComponent>): void {
+        marker.on('click', event => {
+            marker.closeTooltip();
+        });
+
+        marker.on('popupopen', () => {
+            this.openPopup = popup;
+            popupComponentRef.instance.refreshScroll();
+        });
+
+        marker.on('popupclose', () => {
+            if (!this.refreshing) { this.openPopup = undefined; }
+            this.openTooltip(marker);
+        });
+    }
+
+    /*****************************************************************************
+     Popup functions
+    *****************************************************************************/
+
+    private setPopup(marker: L.Marker, entity: any, model: ModelDto): void {
+        const popup: L.Popup = L.popup();
+        const popupComponentRef: ComponentRef<PopupComponent> = this.popupService.getPopupContent(entity, model);
+        const div: HTMLDivElement = document.createElement('div');
+        div.appendChild(popupComponentRef.location.nativeElement);
+        popup.setContent(div);
+        marker.bindPopup(popup);
+        popupComponentRef.instance.clickDebug.pipe(takeUntil(this.destroy$)).subscribe(() => this.onClickDebug(model, entity, marker));
+        this.setMarkerEvents(marker, popup, popupComponentRef);
+        marker[this.popupAttr] = popupComponentRef.instance;
+    }
+
+    /*****************************************************************************
+     Tooltip functions
+    *****************************************************************************/
 
     private setTooltip(marker: L.Marker, entity: any, model: ModelDto): void {
         const tooltipContent: string = this.getTooltipContent(entity, model);
@@ -446,19 +483,11 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
                     permanent: true,
                     opacity: 0.9,
                 });
-
-                marker.on('popupclose', event => {
-                    this.openTooltip(marker);
-                });
-
-                marker.on('click', event => {
-                    marker.closeTooltip();
-                });
-
             } else {
                 marker.setTooltipContent(tooltipContent);
             }
         }
+        marker[this.tooltipAttr] = marker.getTooltip();
     }
 
     private openTooltip(marker: L.Marker): void {
@@ -473,18 +502,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private getTooltipContent(entity: any, model: ModelDto): string {
         return model.favAttr && entity[model.favAttr] ? ('<span>' + entity[model.favAttr] + '</span>') : undefined;
-    }
-
-    private hasLocationBeenUpdated(existentMarker: L.Marker, entity: Entity): boolean {
-        const currentLatLng: L.LatLng = existentMarker.getLatLng();
-        const currentLat: number = currentLatLng.lat;
-        const currentLng: number = currentLatLng.lng;
-
-        const newLatLng: number[] = entity.location.coordinates.reverse();
-        const newLat: number = newLatLng[0];
-        const newLng: number = newLatLng[1];
-
-        return currentLat !== newLat || currentLng !== newLng;
     }
 
     /*****************************************************************************
