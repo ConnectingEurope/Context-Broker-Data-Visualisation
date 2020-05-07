@@ -70,6 +70,9 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         },
     };
 
+    private barColors: string[] = ['lightcoral', 'lightgreen', 'lightsteelblue', 'navajowhite',
+        'plum', 'turquoise', 'mediumpurple', 'mediumaquamarine'];
+
     @ViewChild('graphicCardForNumber') private graphicCardForNumber: GraphicCardComponent;
     @ViewChild('graphicCardForString') private graphicCardForString: GraphicCardComponent;
 
@@ -192,11 +195,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
                 {
                     label: 'Occurrences of "' + this.currentAttr + '" values ' + this.dateUtilsService.getDatePeriod(this),
                     data: Object.values(frecuency),
-                    backgroundColor: Object.keys(frecuency).map(k => 'rgba(' +
-                        Math.floor(Math.random() * 255) + ',' +
-                        Math.floor(Math.random() * 255) + ',' +
-                        Math.floor(Math.random() * 255) + ', 0.5)',
-                    ),
+                    backgroundColor: Object.values(frecuency).map((e, i) => this.barColors[i % this.barColors.length]),
                 },
             ],
         };

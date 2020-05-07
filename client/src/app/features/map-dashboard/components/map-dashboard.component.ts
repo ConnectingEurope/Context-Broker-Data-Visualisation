@@ -148,11 +148,13 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     }
 
     public onLayerConditionClick(event: any): void {
+        if (this.layerPanel.overlayVisible) { this.layerPanel.hide(); }
         event.stopPropagation();
         this.layerConditionsPanel.toggle(event);
     }
 
     public onLayerClick(event: any): void {
+        if (this.layerConditionsPanel.overlayVisible) { this.layerConditionsPanel.hide(); }
         event.stopPropagation();
         this.layerPanel.toggle(event);
     }
@@ -314,8 +316,10 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
     private visualizeEntities(): void {
         this.loadEntities();
         this.interval = setInterval(() => {
-            this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
-            this.loadEntities();
+            if (!this.firstLoad) {
+                this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
+                this.loadEntities();
+            }
         }, 60000);
     }
 
@@ -385,7 +389,7 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         });
 
         marker[this.controlName] = entity;
-        marker[this.popupName] = popupComponentRef.instance;
+        marker[this.popupName] = popupComponentRef;
         marker[this.tooltipName] = marker.getTooltip();
         this.layerGroups[model.type].addLayer(marker);
 
@@ -411,7 +415,8 @@ export class MapDashboardComponent extends BaseComponent implements OnInit, Afte
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
             existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
         }
-        existentMarker[this.popupName].updatePopup(entity, model);
+        existentMarker[this.popupName].instance.updatePopup(entity, model);
+        existentMarker[this.popupName].changeDetectorRef.detectChanges();
         existentMarker[this.controlName] = entity;
         existentMarker[this.tooltipName] = existentMarker.getTooltip();
         this.setTooltip(existentMarker, entity, model);
