@@ -16,8 +16,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
     - [Configuring the IP](#fourthTutorial-configuration)
     - [Deploying the enabler](#fourthTutorial-deploy)
     - [Associate Floating IP](#fourthTutorial-ip)
-
-
+    - [Deploying the enabler tools](fourthTutorial-tools)
 
 ## Local environment
 
@@ -282,6 +281,7 @@ An instance of the needed image can be created from the **Images** menu:
         - **Instance Count:** Number of instances to be deployed, normally 1.
         - **Instance Boot Source:** Select the option *Boot from image*.
         - **Image Name:** Select the option *cb_data_visualisation_enabler_dev*.
+
     - Access & Security:
         - Select the security group **cbenabler_security_group** (created in the previous section).
     - Networking:
@@ -307,5 +307,92 @@ At this point, the **Context Broker Data Visualisation Enabler** is deployed, bu
 3. Associate the IP created in the [Configuring the enabler](#fourthTutorial-configuration) section.
 
 4. After this configuration, the **enabler must be ready to use by accesing to the floating IP** in a web browser.
+
+<a name="fourthTutorial-tools"></a>
+
+#### Deploying the enabler-tools
+
+After completing the previous sections for the deployment of the enabler in the FIWARE lab, it will be already available to start using it. However, the enabler needs to be integrated with different tools for consuming their data. For that, and **as an optional configuration**, there is available a **second public image in the FIWARE lab, which contains the enabler set of tools**.
+
+This image is available in the **Images** menu, and its name is **cb_data_visualisation_enabler_tools**. Concretely, it contains:
+
+- Orion Context Broker: exposed in port 1026
+- Cygnus: exposed in port 5080
+- STH Commet: exposed in port 8666
+- MongoDB
+
+In order to instantiate the image, a **new security group** must be configured in the **Access & Security** menu:
+
+1. Click on "Create security Group" and define the name and description of the security group:
+
+    - **Name:** cbenabler_tools_security_group
+    - **Description:** Context Broker Data Visualisation Enabler Tools Security Group
+
+    - Once the security group has been created, click on the button **Manage rules** in order to enable the needed ports to establish communication. Add the following rules:
+        - Add rule:
+            - **Rule:** Custom TCP Rule
+            - **Direction:** Ingress
+            - **Open Port:** Port
+            - **Port:** 1026
+            - **Remote:** CIDR
+            - **CIDR:** 0.0.0.0/0
+
+        - Add rule:
+            - **Rule:** Custom TCP Rule
+            - **Direction:** Ingress
+            - **Open Port:** Port
+            - **Port:** 5051
+            - **Remote:** CIDR
+            - **CIDR:** 0.0.0.0/0
+
+        - Add rule:
+            - **Rule:** Custom TCP Rule
+            - **Direction:** Ingress
+            - **Open Port:** Port
+            - **Port:** 5080
+            - **Remote:** CIDR
+            - **CIDR:** 0.0.0.0/0
+
+        - Add rule:
+            - **Rule:** Custom TCP Rule
+            - **Direction:** Ingress
+            - **Open Port:** Port
+            - **Port:** 8666
+            - **Remote:** CIDR
+            - **CIDR:** 0.0.0.0/0
+
+2. At this point, the image must be launched in the **Images** menu.
+
+3. Look for the image **cb_data_visualisation_enabler_tools** in the public section.
+
+4. Select the image an click on the **Launch Instance** button.
+
+5. Fill in the following information:
+    - Details:
+        - **Availability Zone:** assigns a zone to the instance.
+        - **Instance name:** assigns a name to the instance.
+        - **Flavor:** At least one medium-type image will be required, but it is possible to assign large or short-large types.
+        - **Instance Count:** Number of instances to be deployed, normally 1.
+        - **Instance Boot Source:** Select the option *Boot from image*.
+        - **Image Name:** Select the option *cb_data_visualisation_enabler_tools*.
+    - Access & Security:
+        - Select the security group *cbenabler_tools_security_group*.
+    - Networking:
+        - The *node-int-net-01* network should be in the **Selected networks** section.
+
+6. The launched instance will be visible with *spawning* status in the **Instances** menu.
+
+7. Once the instance is running (after waiting some minutes), it will take about 5 more minutes to download the latest available version of the tools from DockerHub and deploy them.
+
+8. It will not be necessary to assign a Floating Ip, since the instances have an internal IP that allows communication between them.
+
+    Example:
+    ![Architecture](../img/FiwareLabEnablerAndTools.png)
+    >*Illustration 5. Enabler tools' internal IP*
+
+9. After completing the previous steps, the communication between the enabler and the tools is achieved:
+
+    ![Architecture](../img/FiwareLabEnablerAndToolsExample.png)
+    >*Illustration 6. Communication between the enabler and the tools*
 
 [Top](#tutorials-for-deployment)
