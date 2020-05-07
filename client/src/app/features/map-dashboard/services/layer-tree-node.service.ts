@@ -1,18 +1,18 @@
 import { TreeNode } from 'primeng/api/treenode';
 import { Injectable } from '@angular/core';
-import { CategoryDto } from '../models/category-dto';
+import { CategoryFilter } from '../models/category-filter';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LayerTreeNodeService {
 
-    public getMainLayers(categories: CategoryDto[]): TreeNode[] {
+    public getMainLayers(categories: CategoryFilter[]): TreeNode[] {
         const layers: any = this.createTreeNode(categories);
         return Object.entries(layers).map(e => this.getTreeNodeLayer(e[0], e[1]));
     }
 
-    public createTreeNode(categories: CategoryDto[]): any {
+    public createTreeNode(categories: CategoryFilter[]): any {
         const layers: any = {};
 
         categories.forEach((category) => {

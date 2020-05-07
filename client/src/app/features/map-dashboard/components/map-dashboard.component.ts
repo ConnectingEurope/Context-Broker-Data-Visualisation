@@ -1,5 +1,5 @@
-import { CategoryDto } from '../models/category-dto';
-import { ConditionDto } from './../models/condition-dto';
+import { CategoryFilter } from '../models/category-filter';
+import { ConditionFilter } from '../models/condition-filter';
 import { Component, AfterViewInit, ElementRef, OnDestroy, ComponentRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api/menuitem';
 import { TreeNode } from 'primeng/api/treenode';
@@ -20,7 +20,7 @@ import { Utils } from '../../../shared/misc/utils';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
 import { Router } from '@angular/router';
-import { CategoryEntityDto } from '../models/category-dto';
+import { EntityFilter } from '../models/category-filter';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
 import { ClipboardService } from 'ngx-clipboard';
@@ -35,8 +35,8 @@ import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
 })
 export class MapDashboardComponent extends BaseComponent implements AfterViewInit, OnDestroy {
 
-    public categories: CategoryDto[];
-    public entities: CategoryEntityDto[] = [];
+    public categories: CategoryFilter[];
+    public entities: EntityFilter[] = [];
     public entityAttr: string = 'data';
     public popupAttr: string = 'popupRef';
     public tooltipAttr: string = 'tooltipComp';
@@ -56,7 +56,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private layerGroups: { [key: string]: L.LayerGroup } = {};
     private layersBeforeFilter: L.Layer[];
     private removedLayers: L.Layer[] = [];
-    private filters: ConditionDto[] = [];
+    private filters: ConditionFilter[] = [];
     private unselectedLayers: any[] = [];
     private loadedIds: { [key: string]: string[] } = {};
     private loadedIdsCopy: { [key: string]: string[] } = {};
@@ -116,7 +116,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.markerClusterGroup.removeLayer(this.layerGroups[event.node.data]);
     }
 
-    public onEventFilters(event: ConditionDto[]): void {
+    public onEventFilters(event: ConditionFilter[]): void {
         this.setFilters(event);
     }
 
@@ -154,13 +154,16 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             doubleClickZoom: false,
         });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        }).addTo(this.map);
-
+        this.setTileLayer();
         this.map.addLayer(this.markerClusterGroup);
         this.setZoomStartEvent();
         this.setAnimationEndEvent();
+    }
+
+    private setTileLayer(): void {
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        }).addTo(this.map);
     }
 
     private setZoomStartEvent(): void {
@@ -209,7 +212,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
      Filter functions
     *****************************************************************************/
 
-    private setFilters(event: ConditionDto[]): void {
+    private setFilters(event: ConditionFilter[]): void {
         this.filters = event;
         this.markerClusterGroup.addLayers(this.removedLayers);
         this.removedLayers = [];
@@ -234,7 +237,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.markerClusterGroup.removeLayers(layersToRemove);
     }
 
-    private applyFilter(layer: L.Layer, filter: ConditionDto, controlName: string): boolean {
+    private applyFilter(layer: L.Layer, filter: ConditionFilter, controlName: string): boolean {
         let shouldBeRemoved: boolean = false;
 
         if (filter.condition !== 'contains') {
@@ -248,7 +251,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private loadAllEntitiesForLayers(): void {
         this.mapDashBoardService.getAllEntitiesForLayers().pipe(takeUntil(this.destroy$)).subscribe(
-            (res: CategoryEntityDto[]) => {
+            (res: EntityFilter[]) => {
                 this.entities = this.mapCategories(res);
                 this.loadLayerMenu();
             },
@@ -257,12 +260,12 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             });
     }
 
-    private mapCategories(entities: CategoryEntityDto[]): CategoryEntityDto[] {
+    private mapCategories(entities: EntityFilter[]): EntityFilter[] {
         this.categories = [];
 
         entities.forEach((entity) => {
             const categoryKey: string = this.categoryService.getCategoryKey(entity.name);
-            const categoryExist: CategoryDto = this.categories.find((category) => category.name === categoryKey);
+            const categoryExist: CategoryFilter = this.categories.find((category) => category.name === categoryKey);
             entity.label = entity.name;
             !categoryExist ? this.addCategory(categoryKey, entity) : categoryExist.entities.push(entity);
         });
@@ -270,7 +273,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         return entities;
     }
 
-    private addCategory(categoryKey: string, entity: CategoryEntityDto): void {
+    private addCategory(categoryKey: string, entity: EntityFilter): void {
         this.categories.push({
             name: categoryKey,
             label: IconUtils.categoryName[categoryKey],
@@ -358,7 +361,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     }
 
     private onLoadEntitiesFail(): void {
-        this.appMessageService.add({ severity: 'error', summary: 'Something went wrong trying to load the configuration' });
+        this.appMessageService.add({ severity: 'error', summary: 'Cannot load the configuration' });
     }
 
     /*****************************************************************************
@@ -383,7 +386,9 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.setTooltip(marker, entity, model);
         this.setPopup(marker, entity, model);
         marker[this.entityAttr] = entity;
+
         this.layerGroups[model.type].addLayer(marker);
+
         if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
         this.loadedIds[model.type].push(entity.id);
     }
@@ -392,10 +397,9 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
             existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
         }
-        existentMarker[this.popupAttr].updatePopup(entity, model);
-        existentMarker[this.entityAttr] = entity;
-        existentMarker[this.tooltipAttr] = existentMarker.getTooltip();
         this.setTooltip(existentMarker, entity, model);
+        this.setPopup(existentMarker, entity, model);
+        existentMarker[this.entityAttr] = entity;
 
         const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
         if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
@@ -458,15 +462,21 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     *****************************************************************************/
 
     private setPopup(marker: L.Marker, entity: any, model: ModelDto): void {
-        const popup: L.Popup = L.popup();
-        const popupComponentRef: ComponentRef<PopupComponent> = this.popupService.getPopupContent(entity, model);
-        const div: HTMLDivElement = document.createElement('div');
-        div.appendChild(popupComponentRef.location.nativeElement);
-        popup.setContent(div);
-        marker.bindPopup(popup);
-        popupComponentRef.instance.clickDebug.pipe(takeUntil(this.destroy$)).subscribe(() => this.onClickDebug(model, entity, marker));
-        this.setMarkerEvents(marker, popup, popupComponentRef);
-        marker[this.popupAttr] = popupComponentRef.instance;
+        let popup: L.Popup = marker.getPopup();
+        let popupComponentRef: ComponentRef<PopupComponent>;
+
+        if (!popup) {
+            popup = L.popup();
+            popupComponentRef = this.popupService.createPopupComponent(entity, model);
+            popupComponentRef.instance.clickDebug.pipe(takeUntil(this.destroy$)).subscribe(() => this.onClickDebug(model, entity, marker));
+            popup.setContent(popupComponentRef.location.nativeElement);
+            marker.bindPopup(popup);
+            marker[this.popupAttr] = popupComponentRef.instance;
+            this.setMarkerEvents(marker, popup, popupComponentRef);
+        } else {
+            popupComponentRef = marker[this.popupAttr];
+            popupComponentRef.instance.updatePopup(entity, model);
+        }
     }
 
     /*****************************************************************************
@@ -475,6 +485,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private setTooltip(marker: L.Marker, entity: any, model: ModelDto): void {
         const tooltipContent: string = this.getTooltipContent(entity, model);
+
         if (tooltipContent) {
             if (!marker.getTooltip()) {
                 marker.bindTooltip(tooltipContent, {
@@ -487,6 +498,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
                 marker.setTooltipContent(tooltipContent);
             }
         }
+
         marker[this.tooltipAttr] = marker.getTooltip();
     }
 

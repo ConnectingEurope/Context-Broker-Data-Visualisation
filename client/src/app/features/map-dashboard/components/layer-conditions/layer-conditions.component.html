@@ -3,62 +3,89 @@
 
         <!-- Selected filters -->
         <div class="col-sm-8">
+
+            <!-- Empty filters -->
             <div *ngIf="!filterList || filterList.length == 0; else showFilters" class="mt-3">
                 No filters selected yet
             </div>
+
+            <!-- Filters -->
             <ng-template #showFilters>
                 <div *ngFor="let filter of filterList; let index=index" class="m-1">
+
+                    <!-- Clear filter button -->
                     <button pButton type="button" icon="pi pi-trash" class="ui-button-rounded ui-button-secondary mr-1"
                         (click)="clearFilter(index)"></button>
+
+                    <!-- Checkbox filter -->
                     <p-checkbox name="filters"
                         label="{{ filter.entity }} - {{ filter.attribute }} {{ filter.condition }} {{ filter.value }}"
                         [(ngModel)]="filterList[index].selected" (click)="emitFilterList()" binary="true"></p-checkbox>
+
                 </div>
             </ng-template>
         </div>
 
-        <!-- inputs to select filters -->
+        <!-- Inputs to select filters -->
         <div class="col-sm-4">
+
+            <!-- Category -->
             <div class="m-2 w-100">
                 <p-dropdown [options]="categories" [(ngModel)]="categorySelected" placeholder="Select a Category"
                     optionLabel="label" [showClear]="true" styleClass="w-100"></p-dropdown>
             </div>
+
+            <!-- Entity -->
             <div class="m-2 w-100">
                 <p-dropdown *ngIf="categorySelected?.entities" [options]="categorySelected.entities"
                     [(ngModel)]="entitySelected" placeholder="Select an Entity" optionLabel="label" [showClear]="true"
                     styleClass="w-100">
                 </p-dropdown>
             </div>
+
+            <!-- Attribute -->
             <div class="m-2 w-100">
                 <p-dropdown *ngIf="entitySelected?.name" [options]="entitySelected.attrs" [(ngModel)]="attrSelected"
                     placeholder="Select an Attribute" optionLabel="name" [showClear]="true" styleClass="w-100">
                 </p-dropdown>
             </div>
+
+            <!-- Action -->
             <div class="m-2 w-100">
                 <p-dropdown *ngIf="attrSelected?.name" [options]="actions" [(ngModel)]="actionSelected"
                     optionLabel="label" placeholder="Select an Action" [showClear]="true" styleClass="w-100">
                 </p-dropdown>
             </div>
+
+            <!-- Input -->
             <div class="m-2 w-100 ui-inputgroup">
+
+                <!-- Text input -->
                 <input *ngIf="actionSelected?.label === 'contains'; else inputNumber" type="text" #text name="text"
                     [(ngModel)]="textSelected" class="w-100">
+
+                <!-- Number input -->
                 <ng-template #inputNumber>
                     <input *ngIf="actionSelected?.label" type="number" #text inputNumber="number"
                         [(ngModel)]="textSelected" class="w-100">
                 </ng-template>
+
             </div>
         </div>
 
-        <!-- Buttons -->
+        <!-- Clear all button -->
         <div class="col-sm-6">
             <p-button styleClass="secondary-button" icon="pi pi-times" label="Clear All" (click)="clearAll()">
             </p-button>
         </div>
+
+        <!-- Add filter button -->
         <div class="col-sm-6">
             <div class="float-right">
                 <p-button class="mr-2" icon="pi pi-plus" label="Add" (click)="add()"></p-button>
                 <p-button styleClass="secondary-button" icon="pi pi-times" label="Clear" (click)="clear()"></p-button>
             </div>
         </div>
+
     </div>
 </div>

@@ -12,7 +12,7 @@ export class PopupService {
         private injector: Injector,
     ) { }
 
-    public getPopupContent(e: any, modelDto: ModelDto): ComponentRef<PopupComponent> {
+    public createPopupComponent(e: any, modelDto: ModelDto): ComponentRef<PopupComponent> {
         const compFactory: ComponentFactory<PopupComponent> = this.resolver.resolveComponentFactory(PopupComponent);
         const popupComponentRef: ComponentRef<PopupComponent> = compFactory.create(this.injector);
         popupComponentRef.instance.updatePopup(e, modelDto);
