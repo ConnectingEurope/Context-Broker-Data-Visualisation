@@ -28,23 +28,23 @@ router.post('/', function (routerReq, routerRes, routerNext) {
             db.find({}, function (err, docs) {
                 if (!err) {
                     let config = { contextBrokers: routerReq.body };
-                    if (docs.length === 0) { insert(db, config) }
-                    else { update(db, config) }
+                    if (docs.length === 0) { insert(db, config, routerRes) }
+                    else { update(db, config, routerRes) }
                 }
             });
         }
     });
-
-    routerRes.send();
 });
 
-function insert(db, config) {
+function insert(db, config, routerRes) {
     db.insert(config, function (err, newDoc) {
+        routerRes.send();
     });
 }
 
-function update(db, config) {
+function update(db, config, routerRes) {
     db.update({}, config, {}, function (err, numReplaced) {
+        routerRes.send();
     });
 }
 
