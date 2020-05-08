@@ -287,9 +287,9 @@ An instance of the needed image can be created from the **Images** menu:
     - Access & Security:
         - Select the security group **cbenabler_security_group** (created in the previous section).
     - Networking:
-        - The **node-int-net-01** network should be in the "selected networks" section.
+        - The **node-int-net-01** network should be in the **selected networks** section.
 
-4. Lanunch the instance, and it must be visible with *spawning* status in the **Instances** menu.
+4. Launch the instance, it must be visible with *spawning* status in the **Instances** menu.
 
 5. Once the instance is running (after waiting some minutes), it will take about 5 more minutes to automatically download the latest available version of the **Context Broker Data Visualisation Enabler** from DockerHub and deploy it.
 
@@ -322,14 +322,14 @@ After completing the previous sections for the deployment of the enabler in the 
 
 This image is available in the **Images** menu, and its name is **cb_data_visualisation_enabler_tools**. Concretely, it contains:
 
-- Orion Context Broker: exposed in port 1026
-- Cygnus: exposed in port 5080
-- STH Commet: exposed in port 8666
-- MongoDB
+- **Orion Context Broker:** exposed in port 1026
+- **Cygnus:** exposed in port 5080
+- **STH Commet:** exposed in port 8666
+- **MongoDB*:* it is not exposed in any port, Internally uses port 27017.
 
 In order to instantiate the image, a **new security group** must be configured in the **Access & Security** menu:
 
-1. Click on "Create security Group" and define the name and description of the security group:
+1. Click on **Create security Group** and define the name and description of the security group:
 
     - **Name:** cbenabler_tools_security_group
     - **Description:** Context Broker Data Visualisation Enabler Tools Security Group
