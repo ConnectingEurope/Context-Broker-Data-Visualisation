@@ -1,4 +1,3 @@
-
 export interface HistoricalQuery {
     cometUrl?: string;
     service?: string;
