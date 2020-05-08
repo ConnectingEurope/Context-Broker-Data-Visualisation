@@ -182,9 +182,9 @@ This button shows if there are **active subscriptions for the current configurat
 ![SubscriptionsOverviewButton](../img/ConfigurationServicesSubsOverviewButton.PNG)
 >*Illustration 19. Subscriptions Overview button in the Configuration page*
 
-If there are subscriptions for the current configuration, a new window is displayed in read-only mode.
+If there are subscriptions for the current configuration, a new window is displayed in read-only mode. It is also possible to copy the technical information (in JSON format) by pressing the button **Copy subscriptions JSON**.
 
-![SubscriptionsOverview](../img/ConfigurationServicesSubsOverview.PNG)
+![SubscriptionsOverview](../img/SubscriptionsOverview.PNG)
 >*Illustration 20. Subscriptions Overview*
 
 Additionally, a message is displayed under the button if there are not subscriptions.
