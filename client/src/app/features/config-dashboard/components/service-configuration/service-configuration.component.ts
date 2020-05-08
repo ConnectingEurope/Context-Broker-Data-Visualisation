@@ -153,7 +153,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
 
     private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
         this.chooseWarningVisible = false;
-        this.cb.services[index].entities = this.entityTreeNodeService.getEntities(entities);
+        this.cb.services[index].entities = this.entityTreeNodeService.convertEntitiesToNodes(entities);
         this.cb.services[index].selectedEntities = this.treeNodeService.getAllSelected(this.cb.services[index].entities);
         this.selectedEntitiesChange.emit();
     }

@@ -131,7 +131,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
 
     private onChooseEntitiesSuccess(entities: EntityDto[]): void {
         this.chooseWarningVisible = false;
-        this.cb.entities = this.entityTreeNodeService.getEntities(entities);
+        this.cb.entities = this.entityTreeNodeService.convertEntitiesToNodes(entities);
         this.cb.selectedEntities = this.treeNodeService.getAllSelected(this.cb.entities);
         this.selectedEntitiesChange.emit();
     }

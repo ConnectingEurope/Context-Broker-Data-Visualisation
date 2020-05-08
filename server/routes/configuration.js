@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const db = require('./db.js');
+const db = require('../db.js');
+const utils = require('../utils');
 
 router.get('/', function (routerReq, routerRes, routerNext) {
 
     db.loadDatabase(function (err) {
-        if (err) routerRes.status(500).send();
+        if (err) utils.sendDbError(routerRes, err);
         else {
             db.find({}, function (err, docs) {
-                if (!err) {
-                    if (docs.length === 0) { routerRes.send([]); }
-                    else {
-                        routerRes.send(docs[0].contextBrokers);
-                    }
+                if (err || docs.length === 0) { routerRes.send([]); }
+                else {
+                    routerRes.send(docs[0].contextBrokers);
                 }
             });
         }
@@ -23,7 +22,7 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 router.post('/', function (routerReq, routerRes, routerNext) {
 
     db.loadDatabase(function (err) {
-        if (err) routerRes.status(500).send();
+        if (err) utils.sendDbError(routerRes);
         else {
             db.find({}, function (err, docs) {
                 if (!err) {
@@ -37,15 +36,16 @@ router.post('/', function (routerReq, routerRes, routerNext) {
 });
 
 function insert(db, config, routerRes) {
-    db.insert(config, function (err, newDoc) {
-        routerRes.send();
-    });
+    db.insert(config, function (err, newDoc) { sendResponse(err, routerRes); });
 }
 
 function update(db, config, routerRes) {
-    db.update({}, config, {}, function (err, numReplaced) {
-        routerRes.send();
-    });
+    db.update({}, config, {}, function (err, numReplaced) { sendResponse(err, routerRes); });
+}
+
+function sendResponse(err, routerRes) {
+    if (err) utils.sendDbError(routerRes, err);
+    else { routerRes.send(); }
 }
 
 module.exports = router;

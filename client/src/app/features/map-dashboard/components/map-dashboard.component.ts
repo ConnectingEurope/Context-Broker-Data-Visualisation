@@ -308,7 +308,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     }
 
     private loadEntities(): void {
-        this.mapDashBoardService.getAllEntities(!this.firstLoad).pipe(takeUntil(this.destroy$)).subscribe(
+        this.mapDashBoardService.getEntitiesData(!this.firstLoad).pipe(takeUntil(this.destroy$)).subscribe(
             (models: ModelDto[]) => {
                 if (models.length > 0) {
                     this.showButtons = true;

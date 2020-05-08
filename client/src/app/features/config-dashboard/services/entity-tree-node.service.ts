@@ -8,7 +8,7 @@ import { EntityConfiguration, AttrConfiguration } from 'src/app/features/config-
 })
 export class EntityTreeNodeService {
 
-    public getEntities(entities: EntityDto[]): TreeNode[] {
+    public convertEntitiesToNodes(entities: EntityDto[]): TreeNode[] {
         const entitiesTree: TreeNode[] = [];
 
         entities.forEach(e => {
@@ -66,7 +66,6 @@ export class EntityTreeNodeService {
                 data: { name: a.name, fav: a.fav },
                 label: a.name,
                 parent: { data: e.name },
-                selectable: a.name !== 'location',
             };
             children.push(treeNodeChild);
             if (a.selected) { selectedN.push(treeNodeChild); }

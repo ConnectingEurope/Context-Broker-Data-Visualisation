@@ -80,25 +80,21 @@ export class ConfigDashboardService {
     }
 
     public getEntitiesFromService(url: string, service?: string, servicePath?: string): Observable<EntityDto[]> {
-        let parameters: HttpParams = new HttpParams();
-        parameters = parameters.append('url', url);
-        if (service) { parameters = parameters.append('service', service); }
-        if (servicePath) { parameters = parameters.append('servicePath', servicePath); }
-
-        return this.http.get<EntityDto[]>('/server/entities', { params: parameters });
+        const body: any = { url, service, servicePath };
+        return this.http.post<EntityDto[]>('/entities/schema', body);
     }
 
     public getConfiguration(): Observable<ContextBrokerConfiguration[]> {
-        return this.http.get<ContextBrokerConfiguration[]>('/server/config');
+        return this.http.get<ContextBrokerConfiguration[]>('/server/configuration');
     }
 
     public postConfiguration(config: ContextBrokerConfiguration[]): Observable<void> {
-        return this.http.post<void>('/server/config', config);
+        return this.http.post<void>('/server/configuration', config);
     }
 
     public getSubscriptions(url: string, service?: string, servicePath?: string): Observable<ContextSubscription[]> {
         const body: any = { url, service, servicePath };
-        return this.http.post<any[]>('/server/subs', body);
+        return this.http.post<any[]>('/server/subscriptions', body);
     }
 
     private checkHealth(url: string, api: string): Observable<boolean> {

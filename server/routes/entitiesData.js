@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const utils = require('./utils');
-const db = require('./db.js');
+const db = require('../db.js');
+const utils = require('../utils');
 
 router.get('/', function (routerReq, routerRes, routerNext) {
     readConfig(routerRes);
@@ -11,7 +11,7 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 function readConfig(routerRes) {
 
     db.loadDatabase(function (err) {
-        if (err) routerRes.status(500).send(err);
+        if (err) utils.sendDbError(routerRes);
         else {
             db.find({}, function (err, docs) {
                 if (!err && docs.length > 0) {
@@ -33,9 +33,7 @@ async function processContextBrokers(routerRes) {
             await processEntities(routerRes, modelDtos, cb, s);
         }
     }
-    if (!routerRes.headersSent) {
-        routerRes.send(modelDtos);
-    }
+    if (!routerRes.headersSent) { routerRes.send(modelDtos); }
 }
 
 async function processEntities(routerRes, modelDtos, cb, s) {
@@ -45,8 +43,8 @@ async function processEntities(routerRes, modelDtos, cb, s) {
             let entityData = null;
             try {
                 entityData = await get(cb, s, e);
-            } catch (error) {
-                routerRes.status(500).send(error);
+            } catch (exception) {
+                utils.sendFiwareError(routerRes, exception.res, exception.err);
             }
             const modelDto = getModelDto(cb, s, e, entityData);
             modelDtos.push(modelDto);
@@ -54,36 +52,29 @@ async function processEntities(routerRes, modelDtos, cb, s) {
     }
 }
 
-function get(cb, service, entity) {
+function get(cb, s, e) {
     return new Promise((resolve, reject) => {
-        request({ url: getUrl(cb, entity), qs: getParams(), headers: getHeaders(service), json: true }, (err, res, body) => {
-            if (err) { reject(err); }
+        request({ url: getUrl(cb), qs: getParams(e), headers: utils.getHeaders(s), json: true }, (err, res, body) => {
+            if (err) { reject({ res, err }); }
             resolve(body);
         });
     });
 }
 
-function getUrl(cb, entity) {
-    const url = utils.parseUrl(cb.url) + "/v2/entities?type=" + entity.name + "&options=keyValues&attrs=" + getAttrs(entity);
-    return utils.parseUrl(cb.url) + "/v2/entities?type=" + entity.name + "&options=keyValues&attrs=" + getAttrs(entity);
+function getUrl(cb) {
+    return utils.parseUrl(cb.url) + '/v2/entities';
 }
 
 function getAttrs(entity) {
     return entity.attrs.filter(a => a.selected).map(a => a.name).concat(['location']).join();
 }
 
-function getParams() {
+function getParams(e) {
     return {
+        type: e.name,
         options: 'keyValues',
         limit: '1000',
-    };
-}
-
-function getHeaders(service) {
-    if (!service) return {};
-    return {
-        'fiware-service': service.service,
-        'fiware-servicepath': service.servicepath,
+        attrs: getAttrs(e),
     };
 }
 

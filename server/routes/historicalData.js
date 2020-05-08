@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const request = require('request');
-const utils = require('./utils');
+const utils = require('../utils');
 const _ = require('lodash');
 
 router.post('/raw', function (req, res, next) {

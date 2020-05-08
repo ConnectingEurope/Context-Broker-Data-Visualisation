@@ -25,12 +25,10 @@ export class MapDashboardService {
         return this.http.post<Entity[]>('/server/entity', body);
     }
 
-    public getAllEntities(avoidHttpInterceptor?: boolean): Observable<ModelDto[]> {
+    public getEntitiesData(avoidHttpInterceptor?: boolean): Observable<ModelDto[]> {
         let headers: HttpHeaders = new HttpHeaders();
-        if (avoidHttpInterceptor) {
-            headers = headers.set('Avoid-Http-Interceptor', 'true');
-        }
-        return this.http.get<ModelDto[]>('/server/all', { headers });
+        if (avoidHttpInterceptor) { headers = headers.set('Avoid-Http-Interceptor', 'true'); }
+        return this.http.get<ModelDto[]>('/server/entitiesData', { headers });
     }
 
     public getAllEntitiesForLayers(): Observable<any[]> {
