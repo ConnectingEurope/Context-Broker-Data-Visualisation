@@ -6,6 +6,7 @@ import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { TreeNode } from 'primeng/api/treenode';
+import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
 import { EntityTreeNodeService } from '../../services/entity-tree-node.service';
 import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
 
@@ -24,10 +25,10 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     public chooseWarningVisible: boolean;
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
-    public displaySubsHeader: string;
     public displaySubsContent: any[];
 
     @ViewChild('urlInput') private urlInput: InputWithValidationComponent;
+    @ViewChild('subscriptionDialog') private subscriptionDialog: SubscriptionsDialogComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -145,10 +146,9 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
      Subscriptions functions
     *****************************************************************************/
 
-    private onClickSubscriptionsSuccess(subs: any[]): void {
+    private onClickSubscriptionsSuccess(subs: ContextSubscription[]): void {
         this.subsWarningVisible = false;
-        this.displaySubsHeader = 'Subscriptions';
-        this.displaySubsContent = subs;
+        this.subscriptionDialog.updateContent(subs);
         this.displaySubs = true;
     }
 

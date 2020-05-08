@@ -20,6 +20,7 @@ import { HistoricalConfigurationComponent } from './components/historical-config
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AttributeSelectorComponent } from 'src/app/shared/templates/attribute-selector/attribute-selector.component';
+import { SubscriptionsDialogComponent } from './components/subscriptions-dialog/subscriptions-dialog.component';
 
 @NgModule({
     imports: [
@@ -45,6 +46,7 @@ import { AttributeSelectorComponent } from 'src/app/shared/templates/attribute-s
         GeneralConfigurationComponent,
         ServiceConfigurationComponent,
         HistoricalConfigurationComponent,
+        SubscriptionsDialogComponent,
         InputWithValidationComponent,
         AttributeSelectorComponent,
     ],

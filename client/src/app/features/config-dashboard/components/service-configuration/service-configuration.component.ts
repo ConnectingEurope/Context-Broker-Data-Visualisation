@@ -6,6 +6,7 @@ import { ContextBrokerForm, ServiceForm } from '../../models/context-broker-form
 import { EntityDto } from '../../models/entity-dto';
 import { ConfirmationService, TreeNode } from 'primeng/api';
 import { AccordionTab } from 'primeng/accordion/accordion';
+import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
 import { EntityTreeNodeService } from '../../services/entity-tree-node.service';
 import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
 
@@ -24,11 +25,11 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     public chooseWarningVisible: boolean;
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
-    public displaySubsHeader: string;
     public displaySubsContent: any[];
     public accordionTabsSelected: boolean = false;
 
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
+    @ViewChild('subscriptionDialog') private subscriptionDialog: SubscriptionsDialogComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -169,8 +170,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
 
     private onClickSubscriptionsSuccess(subs: any[]): void {
         this.subsWarningVisible = false;
-        this.displaySubsHeader = 'Subscriptions';
-        this.displaySubsContent = subs;
+        this.subscriptionDialog.updateContent(subs);
         this.displaySubs = true;
     }
 

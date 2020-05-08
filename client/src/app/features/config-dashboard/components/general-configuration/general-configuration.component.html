@@ -1,7 +1,6 @@
-<!-- Json dialog for subscriptions -->
-<app-json-dialog [display]="displaySubs" [header]="displaySubsHeader" [content]="displaySubsContent"
-    (hide)="displaySubs=false">
-</app-json-dialog>
+<!-- Dialog for subscriptions -->
+<app-subscriptions-dialog #subscriptionDialog [display]="displaySubs" (hide)="displaySubs=false">
+</app-subscriptions-dialog>
 
 <form [formGroup]="cb.form">
     <div class="container-fluid">
