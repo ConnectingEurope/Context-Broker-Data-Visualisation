@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const request = require('request');
-const db = require('../db.js');
-const utils = require('../utils');
+const db = require('../../db.js');
+const utils = require('../../utils');
 
 router.get('/', function (routerReq, routerRes, routerNext) {
     readConfig(routerRes);
@@ -54,7 +54,7 @@ async function processEntities(routerRes, modelDtos, cb, s) {
 
 function get(cb, s, e) {
     return new Promise((resolve, reject) => {
-        request({ url: getUrl(cb), qs: getParams(e), headers: utils.getHeaders(s), json: true }, (err, res, body) => {
+        request({ url: getUrl(cb), qs: getParams(e), headers: utils.getBrokerHeaders(s), json: true }, (err, res, body) => {
             if (err) { reject({ res, err }); }
             resolve(body);
         });

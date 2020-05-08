@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db.js');
-const utils = require('../utils');
+const db = require('../../db.js');
+const utils = require('../../utils');
 
 router.get('/', function (routerReq, routerRes, routerNext) {
 

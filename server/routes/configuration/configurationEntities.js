@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const db = require('./db.js');
-const utils = require('../utils');
+const db = require('../../db.js');
+const utils = require('../../utils');
 
 router.get('/configuration/entities', function (routerReq, routerRes, routerNext) {
 

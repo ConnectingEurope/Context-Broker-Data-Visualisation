@@ -4,21 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-app.use('/', indexRouter);
-
-app.use('/check-health', checkHealthRouter);
-
-app.use('/entities/schema', entitiesSchemaRouter);
-app.use('/entities/data', entitiesDataRouter);
-app.use('/entities/one', entitiesOneRouter);
-
-app.use('/configuration', configurationRouter);
-app.use('/configuration/entities', configurationEntitiesRouter);
-
-app.use('/subscriptions', subscriptionsRouter);
-
-app.use('/historical-data', historicalDataRouter);
-
 var app = express();
 
 app.use(logger('dev'));
@@ -47,23 +32,27 @@ app.use(function (err, req, res, next) {
 *****************************************************************************/
 
 var indexRouter = require('./routes/index');
-var checkHealthRouter = require('./routes/checkHealth');
-var entitiesSchemaRouter = require('./routes/entitiesSchema');
-var entitiesDataRouter = require('./routes/entitiesData');
-var entitiesOneRouter = require('./routes/entitiesOne');
-var configurationRouter = require('./routes/configuration');
-var configurationEntitiesRouter = require('./routes/configurationEntities');
-var subscriptionsRouter = require('./routes/subscriptions');
-var historicalDataRouter = require('./routes/historicalData');
+var checkHealthRouter = require('./routes/general/checkHealth');
+var subscriptionsRouter = require('./routes/general/subscriptions');
+var subscriptionsAttributesRouter = require('./routes/general/subscribedAttributes');
+var configurationRouter = require('./routes/configuration/configuration');
+var configurationEntitiesRouter = require('./routes/configuration/configurationEntities');
+var entitiesSchemaRouter = require('./routes/entities/entitiesSchema');
+var entitiesDataRouter = require('./routes/entities/entitiesData');
+var entitiesOneRouter = require('./routes/entities/entitiesOne');
+var rawDataRouter = require('./routes/historic/rawData');
+var aggregatedDataRouter = require('./routes/historic/aggregatedData');
 
 app.use('/', indexRouter);
 app.use('/check-health', checkHealthRouter);
+app.use('/subscriptions', subscriptionsRouter);
+app.use('/subscriptions/attrs', subscriptionsAttributesRouter);
 app.use('/entities/schema', entitiesSchemaRouter);
 app.use('/entities/data', entitiesDataRouter);
 app.use('/entities/one', entitiesOneRouter);
 app.use('/configuration', configurationRouter);
 app.use('/configuration/entities', configurationEntitiesRouter);
-app.use('/subscriptions', subscriptionsRouter);
-app.use('/historical-data', historicalDataRouter);
+app.use('/historic/raw', rawDataRouter);
+app.use('/historic/aggr', aggregatedDataRouter);
 
 module.exports = app;
