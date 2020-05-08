@@ -9,6 +9,7 @@ import { ScrollPanel } from 'primeng/scrollpanel';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { TreeNode } from 'primeng/api/treenode';
+import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
 
 @Component({
     selector: 'app-general-configuration',
@@ -25,11 +26,11 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     public chooseWarningVisible: boolean;
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
-    public displaySubsHeader: string;
     public displaySubsContent: any;
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChild('urlInput') private urlInput: InputWithValidationComponent;
+    @ViewChild('subscriptionDialog') private subscriptionDialog: SubscriptionsDialogComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -127,10 +128,9 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
         );
     }
 
-    private onClickSubscriptionsSuccess(subs: any[]): void {
+    private onClickSubscriptionsSuccess(subs: ContextSubscription[]): void {
         this.subsWarningVisible = false;
-        this.displaySubsHeader = 'Subscriptions';
-        this.displaySubsContent = subs;
+        this.subscriptionDialog.updateContent(subs);
         this.displaySubs = true;
     }
 

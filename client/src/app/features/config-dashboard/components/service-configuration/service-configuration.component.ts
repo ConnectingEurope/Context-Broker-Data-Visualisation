@@ -10,6 +10,7 @@ import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService, TreeNode } from 'primeng/api';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { AccordionTab } from 'primeng/accordion/accordion';
+import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
 
 @Component({
     selector: 'app-service-configuration',
@@ -26,12 +27,12 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     public chooseWarningVisible: boolean;
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
-    public displaySubsHeader: string;
     public displaySubsContent: any;
     public accordionTabsSelected: boolean = false;
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
+    @ViewChild('subscriptionDialog') private subscriptionDialog: SubscriptionsDialogComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
@@ -153,10 +154,9 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         );
     }
 
-    private onClickSubscriptionsSuccess(subs: any[]): void {
+    private onClickSubscriptionsSuccess(subs: ContextSubscription[]): void {
         this.subsWarningVisible = false;
-        this.displaySubsHeader = 'Subscriptions';
-        this.displaySubsContent = subs;
+        this.subscriptionDialog.updateContent(subs);
         this.displaySubs = true;
     }
 

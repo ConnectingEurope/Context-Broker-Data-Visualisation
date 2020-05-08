@@ -22,6 +22,7 @@ import { InputWithValidationComponent } from 'src/app/shared/templates/input-wit
 import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AttributeSelectorComponent } from 'src/app/shared/templates/attribute-selector/attribute-selector.component';
+import { SubscriptionsDialogComponent } from './components/subscriptions-dialog/subscriptions-dialog.component';
 
 @NgModule({
     imports: [
@@ -47,6 +48,7 @@ import { AttributeSelectorComponent } from 'src/app/shared/templates/attribute-s
         GeneralConfigurationComponent,
         ServiceConfigurationComponent,
         HistoricalConfigurationComponent,
+        SubscriptionsDialogComponent,
         InputWithValidationComponent,
         AttributeSelectorComponent,
     ],

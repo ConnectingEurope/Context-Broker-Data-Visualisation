@@ -20,7 +20,7 @@ export class PopupComponent extends BaseComponent {
     @Output() public clickDebug: EventEmitter<void> = new EventEmitter<void>();
 
     public attrs: any;
-    private maxNumberChars: number = 35;
+    private maxNumberChars: number = 30;
     @ViewChild('scrollPanel') private scrollPanel: ScrollPanel;
 
     constructor(
@@ -61,7 +61,7 @@ export class PopupComponent extends BaseComponent {
         if (dateExp.test(value)) {
             return moment(value).format('DD/MM/YYYY HH:mm:ss');
         }
-        if (typeof value === 'string' && key.length + value.length > this.maxNumberChars) {
+        if (typeof value === 'string' && (key.length + value.length) > this.maxNumberChars) {
             return value.substring(0, this.maxNumberChars - key.length) + '...';
         }
         return value;

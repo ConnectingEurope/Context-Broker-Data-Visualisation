@@ -5,6 +5,7 @@ import { ContextBrokerConfiguration, ServiceConfiguration } from '../../models/c
 import { EntityDto } from '../../models/entity-dto';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ValidatorService } from 'src/app/shared/services/validator-service';
+import { ContextSubscription } from '../../components/subscriptions-dialog/subscriptions-dialog.component';
 
 @Injectable({
     providedIn: 'root',
@@ -96,7 +97,7 @@ export class ConfigDashboardService {
         return this.http.post<void>('/server/config', config);
     }
 
-    public getSubscriptions(url: string, service?: string, servicePath?: string): Observable<any[]> {
+    public getSubscriptions(url: string, service?: string, servicePath?: string): Observable<ContextSubscription[]> {
         const body: any = { url, service, servicePath };
         return this.http.post<any[]>('/server/subs', body);
     }
