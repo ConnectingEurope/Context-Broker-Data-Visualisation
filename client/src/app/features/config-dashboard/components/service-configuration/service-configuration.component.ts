@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChildren, QueryList, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChildren, QueryList, OnInit, ViewChild } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
@@ -41,7 +41,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     }
 
     public ngOnInit(): void {
-        this.cb.services.length === 0 ? this.addService() : this.closeAccordionTabs();
+        this.cb.services.length === 0 ? this.onAddService() : this.closeAccordionTabs();
     }
 
     /*****************************************************************************
@@ -53,7 +53,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         this.subsWarningVisible = false;
     }
 
-    public addService(): void {
+    public onAddService(): void {
         this.accordionTabsSelected = true;
         if (this.accordionTabs && this.accordionTabs.length > 0) {
             this.accordionTabs.forEach(a => a.selected = false);

@@ -88,6 +88,10 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         this.getHistoricalData();
     }
 
+    /*****************************************************************************
+     Historical data functions
+    *****************************************************************************/
+
     public getHistoricalData(): void {
         if (!isNaN(this.entityMetadata.data[this.currentAttr])) {
             this.getHistoricalDataForNumber();
@@ -110,7 +114,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
     }
 
     /*****************************************************************************
-     Historical data for numbers
+     Historical data for numbers functions
     *****************************************************************************/
 
     private getHistoricalDataForNumber(): void {
@@ -172,7 +176,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
     }
 
     /*****************************************************************************
-     Historical data for strings
+     Historical data for strings functions
     *****************************************************************************/
 
     private getHistoricalDataForString(): void {

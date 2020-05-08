@@ -5,7 +5,7 @@ import { ContextBrokerConfiguration, ServiceConfiguration } from '../models/cont
 import { EntityDto } from '../models/entity-dto';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Utils } from 'src/app/shared/misc/utils';
-import { ContextSubscription } from '../../components/subscriptions-dialog/subscriptions-dialog.component';
+import { ContextSubscription } from '../components/subscriptions-dialog/subscriptions-dialog.component';
 
 @Injectable({
     providedIn: 'root',

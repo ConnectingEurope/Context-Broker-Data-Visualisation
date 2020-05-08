@@ -20,25 +20,30 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     public displayModal: boolean;
     public progressBarValue: number = 0;
+    public dateFrom: Date;
+    public dateTo: Date;
+    public first: number = 0;
+    public last: number = 0;
+    public pageReport: string = '';
+    public loading: boolean = true;
+    public hLimit: number = 10;
+    public time: string = 'time';
+
+    public titles: string[] = [];
+    public data: any[] = [];
+    public content: any = {};
+    public totalRecords: number;
+
     public titlesCsv: string[] = [];
     public dataCsv: any[] = [];
     public contentCsv: any = {};
-    public totalCsv: number = 0;
-    public dateFrom: Date;
-    public dateTo: Date;
-    public titles: string[] = [];
-    public totalRecords: number;
-    public first: number = 0;
-    public last: number = 0;
-    public content: any = {};
-    public data: any[] = [];
-    public pageReport: string = '';
-    public loading: boolean = true;
-    public performSearch: boolean;
-    public hLimit: number = 10;
-    public time: string = 'time';
+    public totalRecordsCsv: number = 0;
+
+    private performSearch: boolean;
     private rawParameters: RawParameters;
-    private totalCount: string = 'fiware-total-count';
+    private totalCountHeader: string = 'fiware-total-count';
+    private defaultMaxPage: number = 100;
+
     @ViewChild('table', { static: true }) private table: Table;
 
     constructor(
@@ -55,40 +60,58 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         };
     }
 
+    /*****************************************************************************
+     Event functions
+    *****************************************************************************/
+
     public onLazyLoad(event: LazyLoadEvent): void {
         this.hLimit = event.rows;
         this.prepareParameters(event.first, event.rows);
     }
 
-    public prepareParameters(first: number, rows: number): void {
-        const total: number = first + rows;
-        this.first = first;
-        this.last = total > this.totalRecords ? this.totalRecords : total;
-        this.data = [];
-        this.changeRawParameter();
+    public onCalendarChange(): void {
+        this.performSearch = true;
+    }
+
+    public onCalendarClose(): void {
+        if (this.performSearch) {
+            this.resetCalendars();
+            this.resetTable();
+            this.prepareParameters(0, this.hLimit);
+        }
+        this.performSearch = false;
+    }
+
+    public onClearDates(): void {
+        this.dateFrom = undefined;
+        this.dateTo = undefined;
+        this.onCalendarChange();
+        this.onCalendarClose();
+    }
+
+    public onExportToCsv(): void {
+        this.displayModal = true;
+        this.totalRecordsCsv = 0;
+        this.progressBarValue = 0;
+        this.exportToCsv(0);
+    }
+
+    /*****************************************************************************
+     Getting data functions
+    *****************************************************************************/
+
+    private prepareParameters(first: number, rows: number): void {
         if (this.entityMetadata && this.entityMetadata.attrs) {
-            this.getAllContent(total);
+            const total: number = first + rows;
+            this.first = first;
+            this.last = total > this.totalRecords ? this.totalRecords : total;
+            this.data = [];
+            this.changeRawParameter();
+            this.getRawData(total);
         }
     }
 
-    public getAllContent(total?: number): void {
-        this.titles = [];
-        this.loading = true;
-        const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
-            return this.historicalDataService.getRaw(this.entityMetadata, column, this.rawParameters);
-        });
-        combineLatest(combinedCalls).pipe(takeUntil(this.destroy$)).subscribe({
-            next: (combinedResults): void => {
-                combinedResults.forEach((res, i) => this.processContent(res, this.entityMetadata.attrs[i]));
-            },
-            complete: (): void => {
-                this.last = total > this.totalRecords ? this.totalRecords : total;
-                this.loading = false;
-            },
-        });
-    }
-
-    public changeRawParameter(): void {
+    private changeRawParameter(): void {
         this.rawParameters = {
             hLimit: this.hLimit,
             hOffset: this.first,
@@ -98,118 +121,151 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
         };
     }
 
-    public setPerformSearch(): void {
-        this.performSearch = true;
+    private getRawData(total?: number): void {
+        this.loading = true;
+        this.titles = [];
+        const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
+            return this.historicalDataService.getRaw(this.entityMetadata, column, this.rawParameters);
+        });
+        this.launchRequests(combinedCalls, total);
     }
 
-    public onDateChange(): void {
-        if (this.performSearch) {
-            if (this.dateFrom) {
-                this.dateFrom.setSeconds(0);
-                this.dateFrom.setMilliseconds(0);
-            }
-            if (this.dateTo) {
-                this.dateTo.setSeconds(0);
-                this.dateTo.setMilliseconds(0);
-            }
-            this.resetTable();
-            this.prepareParameters(0, this.hLimit);
+    private launchRequests(combinedCalls: Observable<any>[], total: number): void {
+        combineLatest(combinedCalls).pipe(takeUntil(this.destroy$)).subscribe({
+            next: (combinedResults): void => {
+                combinedResults.forEach((data, i) => this.processData(data, this.entityMetadata.attrs[i]));
+            },
+            complete: (): void => {
+                this.last = total > this.totalRecords ? this.totalRecords : total;
+                this.loading = false;
+            },
+        });
+    }
+
+    private processData(data: any, column: string): void {
+        if (data && data.headers[this.totalCountHeader] > 0) {
+            this.totalRecords = data.headers[this.totalCountHeader];
+            if (this.totalRecords < this.hLimit) { this.last = this.totalRecords; }
+            if (!this.titles.includes(column)) { this.titles.push(column); }
+            this.content[column] = data.body.contextResponses[0].contextElement.attributes[0];
+            this.processValues(column);
         }
-        this.performSearch = false;
     }
 
-    public clearDates(): void {
-        this.dateFrom = undefined;
-        this.dateTo = undefined;
-        this.setPerformSearch();
-        this.onDateChange();
+    private processValues(column: string): void {
+        this.content[column].values.forEach((element, index) => {
+            if (!this.data[index]) {
+                this.data[index] = {};
+                this.data[index][this.time] = element.recvTime;
+            }
+            this.data[index][column] = element;
+        });
     }
 
-    public onExportToCsv(): void {
-        this.displayModal = true;
-        this.totalCsv = 0;
-        this.progressBarValue = 0;
-        this.exportToCsv(0);
-    }
+    /*****************************************************************************
+     Getting CSV data functions
+    *****************************************************************************/
 
-    private exportToCsv(offset: number): void {
-
-        const rawParameters: RawParameters = {
-            hLimit: 100,
+    private getRawCsvParameters(offset: number): RawParameters {
+        return {
+            hLimit: this.defaultMaxPage,
             hOffset: offset,
             dateFrom: this.dateFrom !== null ? this.dateFrom : undefined,
             dateTo: this.dateTo !== null ? this.dateTo : undefined,
             count: true,
         };
+    }
+
+    private exportToCsv(offset: number): void {
+        const rawParameters: RawParameters = this.getRawCsvParameters(offset);
         const combinedCalls: Observable<any>[] = this.entityMetadata.attrs.map((column) => {
             return this.historicalDataService.getRawCsv(this.entityMetadata, column, rawParameters);
         });
+        this.launchCsvRequests(combinedCalls, offset);
+    }
+
+    private launchCsvRequests(combinedCalls: Observable<any>[], offset: number): void {
         combineLatest(combinedCalls).pipe(takeUntil(this.destroy$)).subscribe({
             next: (combinedResults): void => {
                 combinedResults.forEach((res, i) => this.processContentCsv(res, this.entityMetadata.attrs[i], offset));
-                if (this.totalCsv === 0) {
-                    if (combinedResults.length > 0 && combinedResults[0].headers[this.totalCount]) {
-                        this.totalCsv = combinedResults[0].headers[this.totalCount];
-                    }
-                }
-                if (this.totalCsv > offset + 100) {
-                    this.progressBarValue = Math.round((offset / this.totalCsv) * 100);
-                    this.exportToCsv(offset + 100);
+                if (this.totalRecordsCsv === 0) { this.storeTotalRecordsCsv(combinedResults); }
+                if (this.totalRecordsCsv > offset + this.defaultMaxPage) {
+                    this.requestFollowingResults(offset);
                 } else {
-                    this.titlesCsv.unshift('Timestamp');
-                    let csv: string = this.titlesCsv.join(',') + '\n';
-                    this.dataCsv.forEach(r => {
-                        csv += Object.values(r).map((v: any, i: number) => {
-                            return i === 0 ? v : (v.attrValue ? v.attrValue : '-');
-                        }).join(',') + '\n';
-                    });
-                    const blob: Blob = new Blob([csv], { type: 'text/plain;charset=utf-8' });
-                    saveAs(blob, 'historical_data_' + this.entityMetadata.id + '.csv');
-                    this.displayModal = false;
+                    this.exportResults();
                 }
             },
         });
     }
 
     private processContentCsv(res: any, column: string, offset: number): void {
-        if (res && res.headers[this.totalCount] > 0) {
+        if (res && res.headers[this.totalCountHeader] > 0) {
             if (!this.titlesCsv.includes(column)) { this.titlesCsv.push(column); }
             this.contentCsv[column] = res.body.contextResponses[0].contextElement.attributes[0];
-            this.contentCsv[column].values.forEach((element, i) => {
-                const index: number = i + offset;
-                if (!this.dataCsv[index]) {
-                    this.dataCsv[index] = {};
-                    // RESET DATE
-                    this.dataCsv[index][this.time] = element.recvTime;
-                }
-                this.dataCsv[index][column] = element;
-            });
+            this.processCsvValues(column, offset);
+        }
+    }
+
+    private processCsvValues(column: string, offset: number): void {
+        this.contentCsv[column].values.forEach((element, i) => {
+            const index: number = i + offset;
+            if (!this.dataCsv[index]) {
+                this.dataCsv[index] = {};
+                this.dataCsv[index][this.time] = element.recvTime;
+            }
+            this.dataCsv[index][column] = element;
+        });
+    }
+
+    private storeTotalRecordsCsv(combinedResults: any[]): void {
+        if (combinedResults.length > 0 && combinedResults[0].headers[this.totalCountHeader]) {
+            this.totalRecordsCsv = combinedResults[0].headers[this.totalCountHeader];
+        }
+    }
+
+    private requestFollowingResults(offset: number): void {
+        this.progressBarValue = Math.round((offset / this.totalRecordsCsv) * this.defaultMaxPage);
+        this.exportToCsv(offset + this.defaultMaxPage);
+    }
+
+    private exportResults(): void {
+        this.titlesCsv.unshift('Timestamp');
+        const csv: string = this.createCsv();
+        const blob: Blob = new Blob([csv], { type: 'text/plain;charset=utf-8' });
+        saveAs(blob, 'historical_data_' + this.entityMetadata.id + '.csv');
+        this.displayModal = false;
+    }
+
+    private createCsv(): string {
+        let csv: string = this.titlesCsv.join(',') + '\n';
+
+        this.dataCsv.forEach(r => {
+            csv += Object.values(r).map((v: any, i: number) => {
+                return i === 0 ? v : (v.attrValue ? v.attrValue : '-');
+            }).join(',') + '\n';
+        });
+
+        return csv;
+    }
+
+    /*****************************************************************************
+     Celendar and table functions
+    *****************************************************************************/
+
+    private resetCalendars(): void {
+        if (this.dateFrom) {
+            this.dateFrom.setSeconds(0);
+            this.dateFrom.setMilliseconds(0);
+        }
+        if (this.dateTo) {
+            this.dateTo.setSeconds(0);
+            this.dateTo.setMilliseconds(0);
         }
     }
 
     private resetTable(): void {
         this.totalRecords = undefined;
         this.table.reset();
-    }
-
-    private processContent(res: any, column: string): void {
-        if (res && res.headers[this.totalCount] > 0) {
-            this.totalRecords = res.headers[this.totalCount];
-            // Manage last element of the table
-            if (this.totalRecords < this.hLimit) {
-                this.last = this.totalRecords;
-            }
-            if (!this.titles.includes(column)) { this.titles.push(column); }
-            this.content[column] = res.body.contextResponses[0].contextElement.attributes[0];
-            this.content[column].values.forEach((element, index) => {
-                if (!this.data[index]) {
-                    this.data[index] = {};
-                    // RESET DATE
-                    this.data[index][this.time] = element.recvTime;
-                }
-                this.data[index][column] = element;
-            });
-        }
     }
 
 }

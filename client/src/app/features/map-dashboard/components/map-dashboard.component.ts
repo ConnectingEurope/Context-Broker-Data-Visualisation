@@ -89,10 +89,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         super();
     }
 
-    /*****************************************************************************
-     Lifecycle and event functions
-    *****************************************************************************/
-
     public ngAfterViewInit(): void {
         this.loadAllEntitiesForLayers();
         this.loadMap();
@@ -103,6 +99,10 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public ngOnDestroy(): void {
         clearInterval(this.interval);
     }
+
+    /*****************************************************************************
+     Event functions
+    *****************************************************************************/
 
     public onNodeSelect(event: any): void {
         const i: number = this.unselectedLayers.indexOf(event.node.data);
