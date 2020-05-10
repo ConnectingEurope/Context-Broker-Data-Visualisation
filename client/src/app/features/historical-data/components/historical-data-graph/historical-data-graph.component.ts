@@ -10,6 +10,7 @@ import { DateUtilsService } from '../../services/date-utils.service';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { takeUntil } from 'rxjs/operators';
 import { ChartConfiguration } from 'chart.js';
+import { AppMessageService } from 'src/app/shared/services/app-message-service';
 
 enum AttrType {
     NUMBER,
@@ -74,6 +75,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
     constructor(
         private historicalDataService: HistoricalDataService,
         private dateUtilsService: DateUtilsService,
+        private appMessageService: AppMessageService,
     ) {
         super();
         dateUtilsService.setupDates(this);
@@ -114,6 +116,10 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         });
     }
 
+    private onGetHistoricalDataFail(): void {
+        this.appMessageService.add({ severity: 'error', summary: 'Something went wrong getting aggregated data' });
+    }
+
     /*****************************************************************************
      Historical data for numbers functions
     *****************************************************************************/
@@ -134,6 +140,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
             },
             err => {
                 this.attrType = AttrType.UNDEFINED;
+                this.onGetHistoricalDataFail();
             });
     }
 
@@ -196,6 +203,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
             },
             err => {
                 this.attrType = AttrType.UNDEFINED;
+                this.onGetHistoricalDataFail();
             });
     }
 

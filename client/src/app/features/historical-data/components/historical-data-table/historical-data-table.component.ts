@@ -201,7 +201,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
                 }
             },
             error: (err): void => {
-                this.appMessageService.add({ severity: 'error', summary: 'Something went wrong getting aggregated data' });
+                this.appMessageService.add({ severity: 'error', summary: 'Something went wrong getting CSV data' });
             },
         });
     }
