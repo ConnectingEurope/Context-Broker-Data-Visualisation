@@ -4,7 +4,7 @@ const request = require('request');
 const lodash = require('lodash');
 const utils = require('../../utils');
 
-router.post('/raw', function (routerReq, routerRes, routerNext) {
+router.post('/', function (routerReq, routerRes, routerNext) {
     const b = routerReq.body;
     getRawData(routerRes, b);
 });
@@ -16,13 +16,14 @@ async function getRawData(routerRes, b) {
         const data = await getHistoricalData(b);
         routerRes.send(data);
     } catch (exception) {
+        if (!exception.res && !exception.err) console.log(exception);
         utils.sendFiwareError(routerRes, exception.res, exception.err);
     }
 }
 
 function getHistoricalCount(b) {
     return new Promise((resolve, reject) => {
-        request({ url: getCometUrl(b), qs: getHistoricalCountParams(b), headers: getHeaders(b), json: true }, (err, res, body) => {
+        request({ url: utils.getCometUrl(b), qs: getHistoricalCountParams(b), headers: utils.getCometHeaders(b), json: true }, (err, res, body) => {
             if (err) { reject({ res, err }); }
             resolve(res.headers['fiware-total-count']);
         });
@@ -48,7 +49,7 @@ function transformParametersForDescendentOrder(b, historicalCount) {
 
 function getHistoricalData(b) {
     return new Promise((resolve, reject) => {
-        request({ url: getCometUrl(b), qs: getCometParams(b), headers: getHeaders(b), json: true }, (err, res, body) => {
+        request({ url: utils.getCometUrl(b), qs: utils.getCometParams(b), headers: utils.getCometHeaders(b), json: true }, (err, res, body) => {
             if (err) { reject({ res, err }); }
             else {
                 if (lodash.get(body, 'contextResponses[0].contextElement.attributes[0].values')) {

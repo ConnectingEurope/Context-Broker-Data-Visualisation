@@ -43,11 +43,15 @@ async function processEntities(routerRes, modelDtos, cb, s) {
             let entityData = null;
             try {
                 entityData = await get(cb, s, e);
+                const modelDto = getModelDto(cb, s, e, entityData);
+                modelDtos.push(modelDto);
             } catch (exception) {
-                utils.sendFiwareError(routerRes, exception.res, exception.err);
+                if (!exception.res && !exception.err) console.log(exception);
+                else if (!routerRes.headersSent) {
+                    utils.sendFiwareError(routerRes, exception.res, exception.err);
+                }
             }
-            const modelDto = getModelDto(cb, s, e, entityData);
-            modelDtos.push(modelDto);
+
         }
     }
 }

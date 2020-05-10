@@ -1,11 +1,11 @@
-<p-dialog styleClass="json-dialog" [showHeader]="true" [(visible)]="display" [modal]="true"
+<p-dialog styleClass="clipboard-dialog" [showHeader]="true" [(visible)]="display" [modal]="true"
     [style]="{width: '30vw', height: '70vh'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false"
     (onHide)="onHide()">
 
     <!-- Header -->
-    <p-header styleClass="jsonDialogHeader">
+    <p-header>
         <h6 class="d-inline mt-2">{{header}}</h6>
-        <span>
+        <span class="clipboard-button">
             <p-button ngxClipboard label="Copy" icon="far fa-clipboard" iconPos="left" (onClick)="onClickCopy()">
             </p-button>
         </span>

@@ -3,7 +3,7 @@ var router = express.Router();
 const db = require('../../db.js');
 const utils = require('../../utils');
 
-router.get('/configuration/entities', function (routerReq, routerRes, routerNext) {
+router.get('/', function (routerReq, routerRes, routerNext) {
 
     db.loadDatabase(function (err) {
         if (err) utils.sendDbError(routerRes);

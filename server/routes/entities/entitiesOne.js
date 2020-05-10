@@ -3,7 +3,7 @@ var router = express.Router();
 const request = require('request');
 const utils = require('../../utils');
 
-router.post('/', function (routerReq, routerReq, routerNext) {
+router.post('/', function (routerReq, routerRes, routerNext) {
 
     const b = routerReq.body;
 

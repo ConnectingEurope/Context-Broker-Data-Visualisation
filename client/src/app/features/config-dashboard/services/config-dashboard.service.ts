@@ -68,20 +68,20 @@ export class ConfigDashboardService {
     }
 
     public checkBrokerHealth(url: string): Observable<boolean> {
-        return this.checkHealth(url, '/server/check/broker');
+        return this.checkHealth(url, '/server/check-health/broker');
     }
 
     public checkCygnusHealth(url: string): Observable<boolean> {
-        return this.checkHealth(url, '/server/check/cygnus');
+        return this.checkHealth(url, '/server/check-health/cygnus');
     }
 
     public checkCometHealth(url: string): Observable<boolean> {
-        return this.checkHealth(url, '/server/check/comet');
+        return this.checkHealth(url, '/server/check-health/comet');
     }
 
     public getEntitiesFromService(url: string, service?: string, servicePath?: string): Observable<EntityDto[]> {
         const body: any = { url, service, servicePath };
-        return this.http.post<EntityDto[]>('/entities/schema', body);
+        return this.http.post<EntityDto[]>('/server/entities/schema', body);
     }
 
     public getConfiguration(): Observable<ContextBrokerConfiguration[]> {

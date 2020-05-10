@@ -475,7 +475,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             popupComponentRef.instance.clickDebug.pipe(takeUntil(this.destroy$)).subscribe(() => this.onClickDebug(model, entity, marker));
             popup.setContent(popupComponentRef.location.nativeElement);
             marker.bindPopup(popup);
-            marker[this.popupAttr] = popupComponentRef.instance;
+            marker[this.popupAttr] = popupComponentRef;
             this.setMarkerEvents(marker, popup, popupComponentRef);
         } else {
             popupComponentRef = marker[this.popupAttr];

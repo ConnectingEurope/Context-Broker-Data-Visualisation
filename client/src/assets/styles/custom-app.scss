@@ -206,21 +206,31 @@ body .ui-tree.attrsTree p {
 }
 
 /*****************************************************************************
- Json dialog
+ Clipboard dialog
 *****************************************************************************/
 
-.json-dialog .ui-dialog-content {
+.clipboard-dialog .ui-dialog-content {
     background-color: $primaryLightColor;
     color: $textColor;
 }
 
-.json-dialog .ui-dialog-content,
-.json-dialog .ui-dialog-titlebar {
+.clipboard-dialog .ui-dialog-content,
+.clipboard-dialog .ui-dialog-titlebar {
     border: none !important;
 }
 
-.json-dialog .ui-dialog-titlebar {
+.clipboard-dialog .ui-dialog-titlebar {
     height: 65px;
+}
+
+.clipboard-dialog h6 {
+    position: absolute !important;
+    top: 15px !important;
+}
+
+.clipboard-dialog .clipboard-button {
+    position: absolute !important;
+    right: 45px !important;
 }
 
 /*****************************************************************************
@@ -232,12 +242,3 @@ body .ui-tree.attrsTree p {
 }
 
 
-.jsonDialogHeader h6 {
-    position: absolute;
-    top: 15px;
-}
-
-.jsonDialogHeader span {
-    position: absolute;
-    right: 45px;
-}

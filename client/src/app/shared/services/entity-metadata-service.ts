@@ -52,7 +52,7 @@ export class EntityMetadataService {
             servicePath: this.entityMetadata.servicePath,
             entityId: this.entityMetadata.id,
         };
-        return this.http.post<string[]>('/server/historical-data/attrs', body);
+        return this.http.post<string[]>('/server/subscriptions/attrs', body);
     }
 
 }

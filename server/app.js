@@ -4,33 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var app = express();
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    next(createError(404));
-});
-
-// error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    res.status(err.status || 500);
-    res.send();
-});
-
-/*****************************************************************************
- API
-*****************************************************************************/
-
 var indexRouter = require('./routes/index');
 var checkHealthRouter = require('./routes/general/checkHealth');
 var subscriptionsRouter = require('./routes/general/subscriptions');
@@ -43,6 +16,18 @@ var entitiesOneRouter = require('./routes/entities/entitiesOne');
 var rawDataRouter = require('./routes/historic/rawData');
 var aggregatedDataRouter = require('./routes/historic/aggregatedData');
 
+var app = express();
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+/*****************************************************************************
+ API
+*****************************************************************************/
+
 app.use('/', indexRouter);
 app.use('/check-health', checkHealthRouter);
 app.use('/subscriptions', subscriptionsRouter);
@@ -54,5 +39,22 @@ app.use('/configuration', configurationRouter);
 app.use('/configuration/entities', configurationEntitiesRouter);
 app.use('/historic/raw', rawDataRouter);
 app.use('/historic/aggr', aggregatedDataRouter);
+
+/*****************************************************************************
+ Error handler
+*****************************************************************************/
+
+app.use(function (req, res, next) {
+    console.log('api not found');
+    next(createError(404));
+});
+
+app.use(function (err, req, res, next) {
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+    res.status(err.status || 500);
+    res.send();
+});
 
 module.exports = app;

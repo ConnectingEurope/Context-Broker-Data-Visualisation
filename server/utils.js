@@ -1,9 +1,11 @@
+function parseUrl(url) {
+    if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'http://' + url;
+    return url;
+}
+
 module.exports = {
 
-    parseUrl: function (url) {
-        if (!url.startsWith('http://') && !url.startsWith('https://')) url = 'http://' + url;
-        return url;
-    },
+    parseUrl: parseUrl,
 
     getBrokerHeaders: function (obj) {
         const headers = {};
@@ -15,7 +17,7 @@ module.exports = {
     },
 
     getCometUrl: function (obj) {
-        return utils.parseUrl(obj.cometUrl) + "/STH/v1/contextEntities/type/" + obj.type + "/id/" + obj.id + "/attributes/" + obj.attr;
+        return parseUrl(obj.cometUrl) + "/STH/v1/contextEntities/type/" + obj.type + "/id/" + obj.id + "/attributes/" + obj.attr;
     },
 
     getCometParams: function (obj) {
@@ -30,8 +32,14 @@ module.exports = {
         return headers;
     },
 
-    sendDbError: function (routerRes, err) { routerRes.status(500).send(err) },
+    sendDbError: function (routerRes, err) {
+        routerRes.status(500).send(err)
+    },
 
-    sendFiwareError: function (routerRes, res, err) { routerRes.status(res.statusCode).send(err); },
+    sendFiwareError: function (routerRes, res, err) {
+        console.log(err);
+        console.log(res);
+        routerRes.status(res && res.statusCode ? res.statusCode : 404).send(err);
+    },
 
 };
