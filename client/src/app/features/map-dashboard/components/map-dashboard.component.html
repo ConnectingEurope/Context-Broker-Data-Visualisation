@@ -9,7 +9,7 @@
 </p-overlayPanel>
 
 <!-- Layers panel -->
-<p-overlayPanel #layerPanel>
+<p-overlayPanel #layerPanel styleClass="overlay-layers">
     <p-tree [value]="layers" selectionMode="checkbox" [(selection)]="selectedLayers"
         (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)"></p-tree>
 </p-overlayPanel>
