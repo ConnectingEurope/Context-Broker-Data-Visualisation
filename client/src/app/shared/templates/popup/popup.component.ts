@@ -20,7 +20,7 @@ export class PopupComponent extends BaseComponent {
     @Output() public clickDebug: EventEmitter<void> = new EventEmitter<void>();
 
     public maxNumberAttrsUntilScroll: number = 10;
-    public attrs: any;
+    public attrs: any[];
 
     private maxNumberChars: number = 30;
 

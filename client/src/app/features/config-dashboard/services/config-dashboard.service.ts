@@ -94,7 +94,7 @@ export class ConfigDashboardService {
 
     public getSubscriptions(url: string, service?: string, servicePath?: string): Observable<ContextSubscription[]> {
         const body: any = { url, service, servicePath };
-        return this.http.post<any[]>('/server/subscriptions', body);
+        return this.http.post<ContextSubscription[]>('/server/subscriptions', body);
     }
 
     private checkHealth(url: string, api: string): Observable<boolean> {

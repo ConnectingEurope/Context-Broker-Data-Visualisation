@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChildren, QueryList, OnInit
 import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { ContextBrokerForm, ServiceForm } from '../../models/context-broker-form';
+import { ContextBrokerForm } from '../../models/context-broker-form';
 import { EntityDto } from '../../models/entity-dto';
 import { ConfirmationService, TreeNode } from 'primeng/api';
 import { AccordionTab } from 'primeng/accordion/accordion';
@@ -25,7 +25,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
     public chooseWarningVisible: boolean;
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
-    public displaySubsContent: any[];
+    public displaySubsContent: ContextSubscription[];
     public accordionTabsSelected: boolean = false;
 
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
@@ -168,7 +168,7 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
      Subscriptions functions
     *****************************************************************************/
 
-    private onClickSubscriptionsSuccess(subs: any[]): void {
+    private onClickSubscriptionsSuccess(subs: ContextSubscription[]): void {
         this.subsWarningVisible = false;
         this.subscriptionDialog.updateContent(subs);
         this.displaySubs = true;

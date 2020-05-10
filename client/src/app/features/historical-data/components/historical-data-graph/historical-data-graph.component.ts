@@ -9,6 +9,7 @@ import { combineLatest } from 'rxjs';
 import { DateUtilsService } from '../../services/date-utils.service';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { takeUntil } from 'rxjs/operators';
+import { ChartConfiguration } from 'chart.js';
 
 enum AttrType {
     NUMBER,
@@ -51,12 +52,12 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
         { label: 'Year', value: AggregatePeriod.MONTH },
     ];
 
-    public chartConfigForNumber: any = {
+    public chartConfigForNumber: ChartConfiguration = {
         type: 'line',
         options: { scales: { yAxes: [{ ticks: { beginAtZero: false } }] } },
     };
 
-    public chartConfigForString: any = {
+    public chartConfigForString: ChartConfiguration = {
         type: 'bar',
         options: {
             scales: { yAxes: [{ ticks: { beginAtZero: true } }] },
@@ -197,7 +198,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
             datasets: [
                 {
                     label: 'Occurrences of "' + this.currentAttr + '" values ' + this.dateUtilsService.getDatePeriod(this),
-                    data: Object.values(frecuency),
+                    data: Object.values(frecuency) as number[],
                     backgroundColor: Object.values(frecuency).map((e, i) => this.barColors[i % this.barColors.length]),
                 },
             ],

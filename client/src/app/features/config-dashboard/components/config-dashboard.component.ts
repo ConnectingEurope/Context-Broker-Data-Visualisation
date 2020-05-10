@@ -135,7 +135,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
                 this.configurationLoaded = true;
             },
             err => {
-                this.appMessageService.add({ severity: 'error', summary: 'Cannot load the configuration' });
+                this.appMessageService.add({ severity: 'error', summary: 'Something went wrong loading the configuration' });
             },
         );
     }
@@ -196,7 +196,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     private onApplyConfigurationFail(): void {
-        this.appMessageService.add({ severity: 'error', summary: 'Cannot apply the configuration' });
+        this.appMessageService.add({ severity: 'error', summary: 'Something went wrong applying the configuration' });
     }
 
     private getContextBrokers(): ContextBrokerConfiguration[] {

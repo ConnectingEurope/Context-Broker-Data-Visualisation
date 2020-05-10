@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
@@ -25,7 +25,7 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     public chooseWarningVisible: boolean;
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
-    public displaySubsContent: any[];
+    public displaySubsContent: ContextSubscription[];
 
     @ViewChild('urlInput') private urlInput: InputWithValidationComponent;
     @ViewChild('subscriptionDialog') private subscriptionDialog: SubscriptionsDialogComponent;

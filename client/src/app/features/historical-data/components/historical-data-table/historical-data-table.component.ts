@@ -8,6 +8,7 @@ import { Observable, combineLatest } from 'rxjs';
 import { Table } from 'primeng/table';
 import { saveAs } from 'file-saver';
 import { takeUntil } from 'rxjs/operators';
+import { AppMessageService } from 'src/app/shared/services/app-message-service';
 
 @Component({
     selector: 'app-historical-data-table',
@@ -48,6 +49,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     constructor(
         private historicalDataService: HistoricalDataService,
+        private appMessageService: AppMessageService,
     ) {
         super();
     }
@@ -135,6 +137,9 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
             next: (combinedResults): void => {
                 combinedResults.forEach((data, i) => this.processData(data, this.entityMetadata.attrs[i]));
             },
+            error: (err): void => {
+                this.appMessageService.add({ severity: 'error', summary: 'Something went wrong getting raw data' });
+            },
             complete: (): void => {
                 this.last = total > this.totalRecords ? this.totalRecords : total;
                 this.loading = false;
@@ -194,6 +199,9 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
                 } else {
                     this.exportResults();
                 }
+            },
+            error: (err): void => {
+                this.appMessageService.add({ severity: 'error', summary: 'Something went wrong getting aggregated data' });
             },
         });
     }

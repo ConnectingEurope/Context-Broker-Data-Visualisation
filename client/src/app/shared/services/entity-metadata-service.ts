@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ModelDto } from '../models/model-dto';
 import { map } from 'rxjs/operators';
+import { Entity } from '../models/entity';
 
 export interface HistoricalAttrsQuery {
     contextUrl: string;
@@ -28,7 +29,7 @@ export class EntityMetadataService {
         return this.entityMetadata;
     }
 
-    public setEntityMetadata(entity: any, modelDto: ModelDto): Observable<void> {
+    public setEntityMetadata(entity: Entity, modelDto: ModelDto): Observable<void> {
         this.entityMetadata = {
             id: entity.id,
             type: modelDto.type,

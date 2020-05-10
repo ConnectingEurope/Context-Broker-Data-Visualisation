@@ -48,7 +48,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public favAttrs: { entity: string, favAttr: string }[] = [];
     public displayDebug: boolean;
     public displayDebugHeader: string;
-    public displayDebugContent: any;
+    public displayDebugContent: Entity;
 
     private intervalRefreshMilliseconds: number = 60000;
     private map: L.Map;
@@ -63,7 +63,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private openPopup: L.Popup;
     private refreshing: boolean;
     private firstFetch: boolean = true;
-    private interval: any;
+    private interval: NodeJS.Timeout;
     private minLat: number = Number.MAX_VALUE;
     private minLon: number = Number.MAX_VALUE;
     private maxLat: number = Number.MIN_VALUE;
@@ -136,10 +136,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         if (this.layerConditionsPanel.overlayVisible) { this.layerConditionsPanel.hide(); }
         event.stopPropagation();
         this.layerPanel.toggle(event);
-    }
-
-    public onClickCopy(): void {
-        this.clipboardService.copyFromContent(this.displayDebugContent);
     }
 
     /*****************************************************************************
@@ -258,7 +254,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
                 this.loadLayerMenu();
             },
             err => {
-                this.onLoadEntitiesFail();
+                this.onLoadDataFail();
             });
     }
 
@@ -319,7 +315,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
                 }
             },
             err => {
-                this.onLoadEntitiesFail();
+                this.onLoadDataFail();
             });
     }
 
@@ -364,8 +360,8 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         }
     }
 
-    private onLoadEntitiesFail(): void {
-        this.appMessageService.add({ severity: 'error', summary: 'Cannot load the configuration' });
+    private onLoadDataFail(): void {
+        this.appMessageService.add({ severity: 'error', summary: 'Something went wrong getting data' });
     }
 
     /*****************************************************************************
@@ -534,29 +530,25 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     *****************************************************************************/
 
     private onClickDebug(model: ModelDto, entity: Entity, marker: L.Marker): void {
-        this.mapDashBoardService.getEntity(model, entity).subscribe(
+        this.mapDashBoardService.getEntity(model, entity).pipe(takeUntil(this.destroy$)).subscribe(
             data => {
                 if (data.length > 0) {
                     this.onClickDebugSuccess(data[0], marker);
                 } else {
-                    this.onClickDebugFail();
+                    this.onLoadDataFail();
                 }
             },
             err => {
-                this.onClickDebugFail();
+                this.onLoadDataFail();
             },
         );
     }
 
-    private onClickDebugSuccess(data: any, marker: L.Marker): void {
+    private onClickDebugSuccess(data: Entity, marker: L.Marker): void {
         marker.closePopup();
         this.displayDebugHeader = data.id;
         this.displayDebugContent = data;
         this.displayDebug = true;
-    }
-
-    private onClickDebugFail(): void {
-        this.appMessageService.add({ severity: 'error', summary: 'Cannot load the data' });
     }
 
 }
