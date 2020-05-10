@@ -10,8 +10,8 @@ router.post('/', function (routerReq, routerRes, routerNext) {
 
     request({ url: utils.getCometUrl(b), qs: utils.getCometParams(b), headers: utils.getCometHeaders(b), json: true }, (err, res, body) => {
         if (err) utils.sendFiwareError(routerRes, res, err);
-        else if (lodash.get(b, 'contextResponses[0].contextElement.attributes[0].values[0].points'))
-            routerRes.send(b.contextResponses[0].contextElement.attributes[0].values[0].points);
+        else if (lodash.get(body, 'contextResponses[0].contextElement.attributes[0].values[0].points'))
+            routerRes.send(body.contextResponses[0].contextElement.attributes[0].values[0].points);
         else routerRes.send([]);
     });
 });

@@ -125,8 +125,12 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
             this.getAggregatedData(AggregateMethod.MAX),
         ]).pipe(takeUntil(this.destroy$)).subscribe(
             ([sumValues, minValues, maxValues]) => {
-                this.showDataForNumber(sumValues, minValues, maxValues);
-                this.attrType = AttrType.NUMBER;
+                if (sumValues.length > 0) {
+                    this.showDataForNumber(sumValues, minValues, maxValues);
+                    this.attrType = AttrType.NUMBER;
+                } else {
+                    this.attrType = AttrType.UNDEFINED;
+                }
             },
             err => {
                 this.attrType = AttrType.UNDEFINED;
@@ -183,8 +187,12 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
     private getHistoricalDataForString(): void {
         this.getAggregatedData(AggregateMethod.OCCUR).pipe(takeUntil(this.destroy$)).subscribe(
             occurValues => {
-                this.showDataForString(occurValues);
-                this.attrType = AttrType.STRING;
+                if (occurValues.length > 0) {
+                    this.showDataForString(occurValues);
+                    this.attrType = AttrType.STRING;
+                } else {
+                    this.attrType = AttrType.UNDEFINED;
+                }
             },
             err => {
                 this.attrType = AttrType.UNDEFINED;

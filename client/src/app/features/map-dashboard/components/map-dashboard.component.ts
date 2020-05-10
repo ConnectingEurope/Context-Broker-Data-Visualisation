@@ -63,7 +63,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private openPopup: L.Popup;
     private refreshing: boolean;
     private firstFetch: boolean = true;
-    private interval: NodeJS.Timeout;
+    private interval: any;
     private minLat: number = Number.MAX_VALUE;
     private minLon: number = Number.MAX_VALUE;
     private maxLat: number = Number.MIN_VALUE;
