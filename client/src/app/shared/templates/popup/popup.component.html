@@ -24,13 +24,16 @@
 
             <!-- Stats button -->
             <div *ngIf="modelDto && modelDto.cometUrl" class="col-auto p-0">
-                <p-button styleClass="popupButton chart" icon="fas fa-chart-area" (onClick)="onClickStats()">
+                <p-button title="Historical Data Overview" styleClass="popupButton chart" icon="fas fa-chart-area"
+                    (onClick)="onClickStats()">
                 </p-button>
             </div>
 
             <!-- Debug button -->
             <div class="col-auto p-0">
-                <p-button styleClass="popupButton code" icon="fas fa-code" (onClick)="onClickDebug()"></p-button>
+                <p-button title="Raw Data Overview" styleClass="popupButton code" icon="fas fa-code"
+                    (onClick)="onClickDebug()">
+                </p-button>
             </div>
 
         </div>

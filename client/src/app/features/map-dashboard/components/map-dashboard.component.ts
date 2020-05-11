@@ -64,10 +64,10 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private refreshing: boolean;
     private firstFetch: boolean = true;
     private interval: any;
-    private minLat: number = Number.MAX_VALUE;
-    private minLon: number = Number.MAX_VALUE;
-    private maxLat: number = Number.MIN_VALUE;
-    private maxLon: number = Number.MIN_VALUE;
+    private minLat: number = Number.POSITIVE_INFINITY;
+    private minLon: number = Number.POSITIVE_INFINITY;
+    private maxLat: number = Number.NEGATIVE_INFINITY;
+    private maxLon: number = Number.NEGATIVE_INFINITY;
     private defaultZoom: number = 4;
     private firstLoad: boolean = true;
 
@@ -193,8 +193,8 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private adjustView(): void {
         this.firstLoad = false;
-        if (this.minLat !== Number.MAX_VALUE && this.minLon !== Number.MAX_VALUE &&
-            this.maxLat !== Number.MIN_VALUE && this.maxLon !== Number.MIN_VALUE) {
+        if (this.minLat !== Number.POSITIVE_INFINITY && this.minLon !== Number.POSITIVE_INFINITY &&
+            this.maxLat !== Number.NEGATIVE_INFINITY && this.maxLon !== Number.NEGATIVE_INFINITY) {
             const lat: number = (this.minLat + this.maxLat) / 2;
             const lon: number = (this.minLon + this.maxLon) / 2;
             if (!isNaN(lat) && !isNaN(lon)) {
@@ -445,11 +445,9 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     *****************************************************************************/
 
     private setMarkerEvents(marker: L.Marker, popup: L.Popup, popupComponentRef: ComponentRef<PopupComponent>): void {
-        marker.on('click', event => {
-            marker.closeTooltip();
-        });
 
         marker.on('popupopen', () => {
+            marker.closeTooltip();
             this.openPopup = popup;
             popupComponentRef.instance.refreshScroll();
         });
@@ -458,6 +456,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             if (!this.refreshing) { this.openPopup = undefined; }
             this.openTooltip(marker);
         });
+
     }
 
     /*****************************************************************************
