@@ -208,13 +208,13 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
     }
 
     private showDataForString(occurValues: any[]): void {
-        const frecuency: any = this.getStringFrecuency(occurValues);
+        const frecuency: any[] = this.getStringFrecuency(occurValues);
         this.graphicCardForString.chart.data = {
-            labels: Object.keys(frecuency),
+            labels: frecuency.map(x => x.label),
             datasets: [
                 {
                     label: 'Occurrences of "' + this.currentAttr + '" values ' + this.dateUtilsService.getDatePeriod(this),
-                    data: Object.values(frecuency) as number[],
+                    data: frecuency.map(x => x.data),
                     backgroundColor: Object.values(frecuency).map((e, i) => this.barColors[i % this.barColors.length]),
                 },
             ],
@@ -223,13 +223,14 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
     }
 
     private getStringFrecuency(occurValues: any[]): any {
-        const frecuency: any = {};
+        let frecuency: any = {};
         occurValues.forEach(v => {
             Object.keys(v.occur).forEach(k => {
                 if (frecuency[k] === undefined) { frecuency[k] = 0; }
                 frecuency[k] += v.occur[k];
             });
         });
+        frecuency = Object.entries(frecuency).map(e => ({ label: e[0], data: e[1] })).sort((x1, x2) => x1.label.localeCompare(x2.label));
         return frecuency;
     }
 
