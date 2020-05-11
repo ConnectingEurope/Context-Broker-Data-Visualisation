@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from '../../shared.module';
 import { AttributeSelectorComponent } from './attribute-selector.component';
 
-describe('MapDashboardComponent', () => {
+describe('AttributeSelectorComponent', () => {
 
     let fixture: ComponentFixture<AttributeSelectorComponent>;
     let component: AttributeSelectorComponent;
@@ -19,7 +19,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(AttributeSelectorComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {

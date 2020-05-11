@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from '../../shared.module';
 import { InputWithValidationComponent } from './input-with-validation.component';
 
-describe('MapDashboardComponent', () => {
+describe('InputWithValidationComponent', () => {
 
     let fixture: ComponentFixture<InputWithValidationComponent>;
     let component: InputWithValidationComponent;
@@ -19,7 +19,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(InputWithValidationComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {

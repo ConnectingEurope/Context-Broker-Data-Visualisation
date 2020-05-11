@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ConfigDashboardModule } from '../../config-dashboard.module';
 import { SubscriptionsDialogComponent } from './subscriptions-dialog.component';
 
-describe('MapDashboardComponent', () => {
+describe('SubscriptionsDialogComponent', () => {
 
     let fixture: ComponentFixture<SubscriptionsDialogComponent>;
     let component: SubscriptionsDialogComponent;
@@ -19,7 +19,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(SubscriptionsDialogComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {

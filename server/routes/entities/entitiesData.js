@@ -11,7 +11,7 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 function readConfig(routerRes) {
 
     db.loadDatabase(function (err) {
-        if (err) utils.sendDbError(routerRes);
+        if (err) utils.sendDbError(routerRes, err);
         else {
             db.find({}, function (err, docs) {
                 if (!err && docs.length > 0) {

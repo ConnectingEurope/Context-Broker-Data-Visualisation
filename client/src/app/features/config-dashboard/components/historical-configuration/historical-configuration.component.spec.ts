@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ConfigDashboardModule } from '../../config-dashboard.module';
 import { HistoricalConfigurationComponent } from './historical-configuration.component';
 
-describe('MapDashboardComponent', () => {
+describe('HistoricalConfigurationComponent', () => {
 
     let fixture: ComponentFixture<HistoricalConfigurationComponent>;
     let component: HistoricalConfigurationComponent;
@@ -19,7 +19,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(HistoricalConfigurationComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {

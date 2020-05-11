@@ -1,9 +1,10 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { PopupComponent } from './popup.component';
 import { SharedModule } from '../../shared.module';
 
-describe('MapDashboardComponent', () => {
+describe('PopupComponent', () => {
 
     let fixture: ComponentFixture<PopupComponent>;
     let component: PopupComponent;
@@ -14,12 +15,13 @@ describe('MapDashboardComponent', () => {
                 [
                     SharedModule,
                     HttpClientTestingModule,
+                    RouterTestingModule,
                 ],
         });
 
         fixture = TestBed.createComponent(PopupComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {

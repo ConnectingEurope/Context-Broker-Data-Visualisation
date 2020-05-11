@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from '../../shared.module';
 import { GraphicCardComponent } from './graphic-card.component';
 
-describe('MapDashboardComponent', () => {
+describe('GraphicCardComponent', () => {
 
     let fixture: ComponentFixture<GraphicCardComponent>;
     let component: GraphicCardComponent;
@@ -19,7 +19,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(GraphicCardComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {

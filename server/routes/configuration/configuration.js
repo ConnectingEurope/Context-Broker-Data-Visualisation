@@ -22,13 +22,16 @@ router.get('/', function (routerReq, routerRes, routerNext) {
 router.post('/', function (routerReq, routerRes, routerNext) {
 
     db.loadDatabase(function (err) {
-        if (err) utils.sendDbError(routerRes);
+        if (err) utils.sendDbError(routerRes, err);
         else {
             db.find({}, function (err, docs) {
                 if (!err) {
                     let config = { contextBrokers: routerReq.body };
                     if (docs.length === 0) { insert(db, config, routerRes) }
                     else { update(db, config, routerRes) }
+                }
+                else {
+                    utils.sendDbError(routerRes, err);
                 }
             });
         }

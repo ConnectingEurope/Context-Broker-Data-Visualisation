@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { AccordionTabHeaderComponent } from './accordion-tab-header.component';
 import { SharedModule } from '../../shared.module';
 
-describe('MapDashboardComponent', () => {
+describe('AccordionTabHeaderComponent', () => {
 
     let fixture: ComponentFixture<AccordionTabHeaderComponent>;
     let component: AccordionTabHeaderComponent;
@@ -19,7 +19,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(AccordionTabHeaderComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {

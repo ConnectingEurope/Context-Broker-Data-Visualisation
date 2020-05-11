@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LayerConditionsComponent } from './layer-conditions.component';
 import { MapDashboardModule } from '../../map-dashboard.module';
 
-describe('MapDashboardComponent', () => {
+describe('LayerConditionsComponent', () => {
 
     let fixture: ComponentFixture<LayerConditionsComponent>;
     let component: LayerConditionsComponent;
@@ -19,7 +19,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(LayerConditionsComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {

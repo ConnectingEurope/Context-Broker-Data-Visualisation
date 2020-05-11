@@ -3,7 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { SharedModule } from '../../shared.module';
 import { JsonDialogComponent } from './json-dialog.component';
 
-describe('MapDashboardComponent', () => {
+describe('JsonDialogComponent', () => {
 
     let fixture: ComponentFixture<JsonDialogComponent>;
     let component: JsonDialogComponent;
@@ -19,7 +19,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(JsonDialogComponent);
         component = fixture.debugElement.componentInstance;
-        //fixture.detectChanges();
+        // fixture.detectChanges();
     });
 
     it('setup', () => {
