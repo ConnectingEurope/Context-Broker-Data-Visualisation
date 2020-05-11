@@ -357,7 +357,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
                 acceptLabel: 'Configure',
                 rejectLabel: 'Cancel',
                 accept: (): void => {
-                    this.router.navigate(['/config-dashboard']);
+                    this.router.navigate(['/configuration']);
                 },
             });
         }

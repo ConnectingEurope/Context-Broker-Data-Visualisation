@@ -192,7 +192,7 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
 
     private onApplyConfigurationSuccess(): void {
         this.appMessageService.add({ severity: 'success', summary: 'Configuration applied' });
-        this.router.navigate(['/map-dashboard']);
+        this.router.navigate(['/map']);
     }
 
     private onApplyConfigurationFail(): void {

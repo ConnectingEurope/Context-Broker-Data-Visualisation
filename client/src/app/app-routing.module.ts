@@ -3,11 +3,11 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
     {
-        path: 'map-dashboard',
+        path: 'map',
         loadChildren: (): any => import('./features/map-dashboard/map-dashboard.module').then(m => m.MapDashboardModule),
     },
     {
-        path: 'config-dashboard',
+        path: 'configuration',
         loadChildren: (): any => import('./features/config-dashboard/config-dashboard.module').then(m => m.ConfigDashboardModule),
     },
     {
@@ -16,7 +16,7 @@ const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'map-dashboard',
+        redirectTo: 'map',
         pathMatch: 'full',
     },
 ];
