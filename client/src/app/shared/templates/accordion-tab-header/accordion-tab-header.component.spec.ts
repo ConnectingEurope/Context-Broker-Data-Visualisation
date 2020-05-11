@@ -1,23 +1,23 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HistoricalDataModule } from '../../historical-data.module';
-import { HistoricalDataGraphComponent } from './historical-data-graph.component';
+import { AccordionTabHeaderComponent } from './accordion-tab-header.component';
+import { SharedModule } from '../../shared.module';
 
 describe('MapDashboardComponent', () => {
 
-    let fixture: ComponentFixture<HistoricalDataGraphComponent>;
-    let component: HistoricalDataGraphComponent;
+    let fixture: ComponentFixture<AccordionTabHeaderComponent>;
+    let component: AccordionTabHeaderComponent;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports:
                 [
-                    HistoricalDataModule,
+                    SharedModule,
                     HttpClientTestingModule,
                 ],
         });
 
-        fixture = TestBed.createComponent(HistoricalDataGraphComponent);
+        fixture = TestBed.createComponent(AccordionTabHeaderComponent);
         component = fixture.debugElement.componentInstance;
         //fixture.detectChanges();
     });

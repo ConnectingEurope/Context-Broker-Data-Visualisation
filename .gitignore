@@ -27,6 +27,7 @@ speed-measure-plugin*.json
 .history/*
 
 # misc
+configuration.json
 server/configuration.json
 /.sass-cache
 /connect.lock

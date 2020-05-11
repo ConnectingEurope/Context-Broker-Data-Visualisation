@@ -1,25 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ServiceConfigurationComponent } from './service-configuration.component';
+import { ConfigDashboardModule } from '../../config-dashboard.module';
 
-describe('ServiceConfigurationComponent', () => {
-  let component: ServiceConfigurationComponent;
-  let fixture: ComponentFixture<ServiceConfigurationComponent>;
+describe('MapDashboardComponent', () => {
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ServiceConfigurationComponent],
-    })
-      .compileComponents();
-  }));
+    let fixture: ComponentFixture<ServiceConfigurationComponent>;
+    let component: ServiceConfigurationComponent;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ServiceConfigurationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports:
+                [
+                    ConfigDashboardModule,
+                    HttpClientTestingModule,
+                ],
+        });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+        fixture = TestBed.createComponent(ServiceConfigurationComponent);
+        component = fixture.debugElement.componentInstance;
+        //fixture.detectChanges();
+    });
+
+    it('setup', () => {
+        expect(component).toBeTruthy();
+    });
+
 });

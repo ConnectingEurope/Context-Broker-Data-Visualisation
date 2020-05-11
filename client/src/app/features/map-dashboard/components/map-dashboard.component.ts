@@ -84,7 +84,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         private confirmationService: ConfirmationService,
         private router: Router,
         private elem: ElementRef,
-        private clipboardService: ClipboardService,
     ) {
         super();
     }

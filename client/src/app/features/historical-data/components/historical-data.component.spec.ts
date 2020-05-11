@@ -1,25 +1,29 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HistoricalDataComponent } from './historical-data.component';
+import { HistoricalDataModule } from '../historical-data.module';
 
-describe('HistoricalDataComponent', () => {
-    let component: HistoricalDataComponent;
+describe('MapDashboardComponent', () => {
+
     let fixture: ComponentFixture<HistoricalDataComponent>;
-
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [HistoricalDataComponent],
-        })
-            .compileComponents();
-    }));
+    let component: HistoricalDataComponent;
 
     beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports:
+                [
+                    HistoricalDataModule,
+                    HttpClientTestingModule,
+                ],
+        });
+
         fixture = TestBed.createComponent(HistoricalDataComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+        component = fixture.debugElement.componentInstance;
+        //fixture.detectChanges();
     });
 
-    it('should create', () => {
+    it('setup', () => {
         expect(component).toBeTruthy();
     });
+
 });

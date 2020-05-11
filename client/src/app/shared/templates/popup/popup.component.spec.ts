@@ -1,23 +1,23 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ConfigDashboardComponent } from './config-dashboard.component';
-import { ConfigDashboardModule } from '../config-dashboard.module';
+import { PopupComponent } from './popup.component';
+import { SharedModule } from '../../shared.module';
 
 describe('MapDashboardComponent', () => {
 
-    let fixture: ComponentFixture<ConfigDashboardComponent>;
-    let component: ConfigDashboardComponent;
+    let fixture: ComponentFixture<PopupComponent>;
+    let component: PopupComponent;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports:
                 [
-                    ConfigDashboardModule,
+                    SharedModule,
                     HttpClientTestingModule,
                 ],
         });
 
-        fixture = TestBed.createComponent(ConfigDashboardComponent);
+        fixture = TestBed.createComponent(PopupComponent);
         component = fixture.debugElement.componentInstance;
         //fixture.detectChanges();
     });

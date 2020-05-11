@@ -1,23 +1,23 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { HistoricalDataModule } from '../../historical-data.module';
-import { HistoricalDataGraphComponent } from './historical-data-graph.component';
+import { SharedModule } from '../../shared.module';
+import { AttributeSelectorComponent } from './attribute-selector.component';
 
 describe('MapDashboardComponent', () => {
 
-    let fixture: ComponentFixture<HistoricalDataGraphComponent>;
-    let component: HistoricalDataGraphComponent;
+    let fixture: ComponentFixture<AttributeSelectorComponent>;
+    let component: AttributeSelectorComponent;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports:
                 [
-                    HistoricalDataModule,
+                    SharedModule,
                     HttpClientTestingModule,
                 ],
         });
 
-        fixture = TestBed.createComponent(HistoricalDataGraphComponent);
+        fixture = TestBed.createComponent(AttributeSelectorComponent);
         component = fixture.debugElement.componentInstance;
         //fixture.detectChanges();
     });

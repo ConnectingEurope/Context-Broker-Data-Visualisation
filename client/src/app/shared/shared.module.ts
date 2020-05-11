@@ -7,6 +7,8 @@ import { AccordionTabHeaderComponent } from './templates/accordion-tab-header/ac
 import { JsonDialogComponent } from './templates/json-dialog/json-dialog.component';
 import { DialogModule } from 'primeng/dialog';
 import { ClipboardModule } from 'ngx-clipboard';
+import { AppMessageService } from './services/app-message-service';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
     declarations: [
@@ -36,7 +38,10 @@ export class SharedModule {
     public static forRoot(): ModuleWithProviders<SharedModule> {
         return {
             ngModule: SharedModule,
-            providers: [],
+            providers: [
+                MessageService,
+                AppMessageService,
+            ],
         };
     }
 }

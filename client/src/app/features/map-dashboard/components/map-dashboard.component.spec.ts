@@ -1,7 +1,8 @@
 import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MapDashboardModule } from '../map-dashboard.module';
 import { MapDashboardComponent } from './map-dashboard.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MapDashboardComponent', () => {
 
@@ -14,12 +15,13 @@ describe('MapDashboardComponent', () => {
                 [
                     MapDashboardModule,
                     HttpClientTestingModule,
+                    RouterTestingModule,
                 ],
         });
 
         fixture = TestBed.createComponent(MapDashboardComponent);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
+        //fixture.detectChanges();
     });
 
     it('setup', () => {
