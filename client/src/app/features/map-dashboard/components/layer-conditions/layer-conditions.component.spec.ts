@@ -19,7 +19,6 @@ describe('LayerConditionsComponent', () => {
 
         fixture = TestBed.createComponent(LayerConditionsComponent);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
     });
 
     it('setup', () => {

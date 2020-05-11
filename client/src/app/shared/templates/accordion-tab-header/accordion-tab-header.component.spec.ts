@@ -19,7 +19,6 @@ describe('AccordionTabHeaderComponent', () => {
 
         fixture = TestBed.createComponent(AccordionTabHeaderComponent);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
     });
 
     it('setup', () => {

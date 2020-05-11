@@ -27,7 +27,6 @@ describe('HistoricalDataComponent', () => {
 
         fixture = TestBed.createComponent(HistoricalDataComponent);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
     });
 
     it('setup', () => {

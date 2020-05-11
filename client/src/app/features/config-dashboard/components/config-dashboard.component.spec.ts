@@ -30,7 +30,6 @@ describe('ConfigDashboardComponent', () => {
 
         fixture = TestBed.createComponent(ConfigDashboardComponent);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
     });
 
     it('setup', () => {

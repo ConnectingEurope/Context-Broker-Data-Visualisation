@@ -19,7 +19,6 @@ describe('GraphicCardComponent', () => {
 
         fixture = TestBed.createComponent(GraphicCardComponent);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
     });
 
     it('setup', () => {

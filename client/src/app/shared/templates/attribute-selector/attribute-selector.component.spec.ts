@@ -19,7 +19,6 @@ describe('AttributeSelectorComponent', () => {
 
         fixture = TestBed.createComponent(AttributeSelectorComponent);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
     });
 
     it('setup', () => {

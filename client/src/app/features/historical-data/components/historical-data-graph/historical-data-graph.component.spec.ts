@@ -25,7 +25,6 @@ describe('HistoricalDataGraphComponent', () => {
 
         fixture = TestBed.createComponent(HistoricalDataGraphComponent);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
     });
 
     it('setup', () => {
