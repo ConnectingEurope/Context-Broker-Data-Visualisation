@@ -21,7 +21,7 @@ describe('PopupComponent', () => {
 
         fixture = TestBed.createComponent(PopupComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

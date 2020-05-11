@@ -19,7 +19,7 @@ describe('HistoricalConfigurationComponent', () => {
 
         fixture = TestBed.createComponent(HistoricalConfigurationComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

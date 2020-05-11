@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HistoricalDataComponent } from './historical-data.component';
 import { HistoricalDataModule } from '../historical-data.module';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('HistoricalDataComponent', () => {
 
@@ -17,6 +18,7 @@ describe('HistoricalDataComponent', () => {
                 [
                     HistoricalDataModule,
                     HttpClientTestingModule,
+                    BrowserAnimationsModule,
                 ],
             providers: [
                 { provide: AppMessageService, useValue: appMessageServiceSpyObj },
@@ -25,7 +27,7 @@ describe('HistoricalDataComponent', () => {
 
         fixture = TestBed.createComponent(HistoricalDataComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

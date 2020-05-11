@@ -19,7 +19,7 @@ describe('InputWithValidationComponent', () => {
 
         fixture = TestBed.createComponent(InputWithValidationComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

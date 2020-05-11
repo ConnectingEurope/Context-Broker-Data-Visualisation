@@ -4,6 +4,8 @@ import { ServiceConfigurationComponent } from './service-configuration.component
 import { ConfigDashboardModule } from '../../config-dashboard.module';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService } from 'primeng/api';
+import { FormGroup, FormControl } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('ServiceConfigurationComponent', () => {
 
@@ -19,16 +21,29 @@ describe('ServiceConfigurationComponent', () => {
                 [
                     ConfigDashboardModule,
                     HttpClientTestingModule,
+                    BrowserAnimationsModule,
                 ],
             providers: [
                 { provide: AppMessageService, useValue: appMessageServiceSpyObj },
                 { provide: ConfirmationService, useValue: confirmationServiceSpyObj },
             ],
         });
+    });
 
+    beforeEach(() => {
         fixture = TestBed.createComponent(ServiceConfigurationComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+
+        component.cb = {
+            header: '',
+            form: new FormGroup({ url: new FormControl() }),
+            historicalForm: new FormGroup({}),
+            services: [],
+            entities: [],
+            selectedEntities: [],
+        };
+
+        fixture.detectChanges();
     });
 
     it('setup', () => {

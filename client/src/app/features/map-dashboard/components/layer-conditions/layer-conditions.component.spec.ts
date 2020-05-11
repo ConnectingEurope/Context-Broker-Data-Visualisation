@@ -19,7 +19,7 @@ describe('LayerConditionsComponent', () => {
 
         fixture = TestBed.createComponent(LayerConditionsComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

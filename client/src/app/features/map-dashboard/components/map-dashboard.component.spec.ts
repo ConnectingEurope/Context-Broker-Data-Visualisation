@@ -30,7 +30,7 @@ describe('MapDashboardComponent', () => {
 
         fixture = TestBed.createComponent(MapDashboardComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

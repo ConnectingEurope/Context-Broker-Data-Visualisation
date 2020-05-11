@@ -19,7 +19,7 @@ describe('GeneralConfigurationComponent', () => {
 
         fixture = TestBed.createComponent(GeneralConfigurationComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

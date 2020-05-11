@@ -19,7 +19,7 @@ describe('JsonDialogComponent', () => {
 
         fixture = TestBed.createComponent(JsonDialogComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

@@ -19,7 +19,7 @@ describe('SubscriptionsDialogComponent', () => {
 
         fixture = TestBed.createComponent(SubscriptionsDialogComponent);
         component = fixture.debugElement.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
 
     it('setup', () => {

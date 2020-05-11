@@ -7,7 +7,6 @@ import { AccordionTabHeaderComponent } from './templates/accordion-tab-header/ac
 import { JsonDialogComponent } from './templates/json-dialog/json-dialog.component';
 import { DialogModule } from 'primeng/dialog';
 import { ClipboardModule } from 'ngx-clipboard';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -21,7 +20,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         AccordionModule,
         DialogModule,
         ClipboardModule,
-        BrowserAnimationsModule,
     ],
     exports: [
         CommonModule,
@@ -30,7 +28,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         AccordionModule,
         DialogModule,
         ClipboardModule,
-        BrowserAnimationsModule,
         AccordionTabHeaderComponent,
         JsonDialogComponent,
     ],
