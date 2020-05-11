@@ -194,7 +194,7 @@ export class HistoricalDataGraphComponent extends BaseComponent implements OnIni
             datasets: [
                 {
                     label: 'Occurrences of "' + this.currentAttr + '" values ' + this.dateUtilsService.getDatePeriod(this),
-                    data: Object.values(frecuency),
+                    data: Object.values(frecuency) as number[],
                     backgroundColor: Object.values(frecuency).map((e, i) => this.barColors[i % this.barColors.length]),
                 },
             ],
