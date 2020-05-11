@@ -193,10 +193,14 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private adjustView(): void {
         this.firstLoad = false;
-        this.map.setView([
-            (this.minLat + this.maxLat) / 2,
-            (this.minLon + this.maxLon) / 2,
-        ], this.defaultZoom);
+        if (this.minLat !== Number.MAX_VALUE && this.minLon !== Number.MAX_VALUE &&
+            this.maxLat !== Number.MIN_VALUE && this.maxLon !== Number.MIN_VALUE) {
+            const lat: number = (this.minLat + this.maxLat) / 2;
+            const lon: number = (this.minLon + this.maxLon) / 2;
+            if (!isNaN(lat) && !isNaN(lon)) {
+                this.map.setView([lat, lon], this.defaultZoom);
+            }
+        }
     }
 
     private loadMarkerCluster(): void {
