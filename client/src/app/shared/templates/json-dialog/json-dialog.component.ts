@@ -14,6 +14,7 @@ export class JsonDialogComponent {
     @Input() public header: string;
     @Input() public content: any;
     @Output() public hide: EventEmitter<void> = new EventEmitter<void>();
+    public maxHeaderChar: number = 45;
 
     constructor(
         private clipboardService: ClipboardService,

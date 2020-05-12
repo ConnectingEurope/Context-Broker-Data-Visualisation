@@ -4,7 +4,9 @@
 
     <!-- Header -->
     <p-header>
-        <h6 class="d-inline mt-2">{{header}}</h6>
+        <h6 class="d-inline mt-2">
+            {{ (header && header.length > maxHeaderChar) ? (header | slice:0:maxHeaderChar) + '...' : (header) }}
+        </h6>
         <span class="clipboard-button">
             <p-button ngxClipboard label="Copy" icon="far fa-clipboard" iconPos="left" (onClick)="onClickCopy()">
             </p-button>

@@ -56,7 +56,7 @@ export class PopupComponent extends BaseComponent {
     }
 
     private updateAttrs(): void {
-        this.attrs = Object.entries(this.entity).map(a => [a[0], this.transformAttr(a[0], a[1])]);
+        this.attrs = Object.entries(this.entity).filter(a => a[0] !== 'location').map(a => [a[0], this.transformAttr(a[0], a[1])]);
     }
 
     private transformAttr(key: string, value: any): any {

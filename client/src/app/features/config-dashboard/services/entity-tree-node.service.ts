@@ -8,6 +8,11 @@ import { EntityConfiguration, AttrConfiguration } from 'src/app/features/config-
 })
 export class EntityTreeNodeService {
 
+    private defaultAttrsConf: AttrConfiguration[] = [
+        { name: 'id', selected: true, fav: false },
+        { name: 'type', selected: true, fav: false },
+    ];
+
     public convertEntitiesToNodes(entities: EntityDto[]): TreeNode[] {
         const entitiesTree: TreeNode[] = [];
 
@@ -51,17 +56,17 @@ export class EntityTreeNodeService {
             return {
                 name: t.data,
                 selected: this.isTreeNodeSelected(t, selectedTreeNodes),
-                attrs: t.children.map(c => ({
+                attrs: this.defaultAttrsConf.concat(t.children.map(c => ({
                     name: c.data.name,
                     selected: this.isTreeNodeSelected(c, selectedTreeNodes),
                     fav: c.data.fav,
-                })),
+                }))),
             };
         });
     }
 
     private convertAttrConfToNodes(a: AttrConfiguration, e: EntityConfiguration, children: TreeNode[], selectedN: TreeNode[]): void {
-        if (a.name !== 'location') {
+        if (a.name !== 'id' && a.name !== 'type' && a.name !== 'location') {
             const treeNodeChild: TreeNode = {
                 data: { name: a.name, fav: a.fav },
                 label: a.name,
