@@ -4,6 +4,8 @@ const request = require('request');
 const db = require('../../db.js');
 const utils = require('../../utils');
 
+const maxRequestSize = 1000;
+
 router.get('/', function (routerReq, routerRes, routerNext) {
     readConfig(routerRes);
 });
@@ -40,27 +42,37 @@ async function processEntities(routerRes, modelDtos, cb, s) {
     const entitiesContainer = s ? s : cb;
     for (const e of entitiesContainer.entities) {
         if (e.selected) {
-            let entityData = null;
             try {
-                entityData = await get(cb, s, e);
-                const modelDto = getModelDto(cb, s, e, entityData);
-                modelDtos.push(modelDto);
+                await processEntity(cb, s, e, modelDtos);
             } catch (exception) {
                 if (!exception.res && !exception.err) console.log(exception);
                 else if (!routerRes.headersSent) {
                     utils.sendFiwareError(routerRes, exception.res, exception.err);
                 }
             }
-
         }
     }
 }
 
-function get(cb, s, e) {
+async function processEntity(cb, s, e, modelDtos) {
+    let entityData = [];
+    let offset = 0;
+    let totalCount = 0;
+    do {
+        const data = await get(cb, s, e, offset);
+        totalCount = data.totalCount;
+        entityData = entityData.concat(data.entityDataBlock);
+        offset += maxRequestSize;
+    } while (totalCount > offset);
+    const modelDto = getModelDto(cb, s, e, entityData);
+    modelDtos.push(modelDto);
+}
+
+function get(cb, s, e, offset) {
     return new Promise((resolve, reject) => {
-        request({ url: getUrl(cb), qs: getParams(e), headers: utils.getBrokerHeaders(s), json: true }, (err, res, body) => {
+        request({ url: getUrl(cb), qs: getParams(e, offset), headers: utils.getBrokerHeaders(s), json: true }, (err, res, body) => {
             if (err) { reject({ res, err }); }
-            resolve(body);
+            resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
         });
     });
 }
@@ -73,11 +85,12 @@ function getAttrs(entity) {
     return entity.attrs.filter(a => a.selected).map(a => a.name).concat(['location']).join();
 }
 
-function getParams(e) {
+function getParams(e, offset) {
     return {
         type: e.name,
-        options: 'keyValues',
-        limit: '1000',
+        options: 'keyValues,count',
+        limit: maxRequestSize,
+        offset: offset,
         attrs: getAttrs(e),
     };
 }
