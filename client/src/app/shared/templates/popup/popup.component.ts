@@ -56,17 +56,19 @@ export class PopupComponent extends BaseComponent {
     }
 
     private updateAttrs(): void {
-        this.attrs = Object.entries(this.entity).filter(a => typeof a[1] !== 'object').map(a => [a[0], this.transformAttr(a[0], a[1])]);
+        this.attrs = Object.entries(this.entity).map(a => [a[0], this.transformAttr(a[0], a[1])]);
     }
 
     private transformAttr(key: string, value: any): any {
+        let v: any = value;
         const dateExp: RegExp = new RegExp(/.*-.*-.*:.*:.*\..*Z/);
-        if (dateExp.test(value)) {
-            return moment(value).format('DD/MM/YYYY HH:mm:ss');
+
+        if (dateExp.test(v)) { return moment(v).format('DD/MM/YYYY HH:mm:ss'); }
+        if (typeof v === 'object') { v = JSON.stringify(v); }
+        if (typeof v === 'string' && (key.length + v.length) > this.maxNumberChars) {
+            return v.substring(0, this.maxNumberChars - key.length) + '...';
         }
-        if (typeof value === 'string' && (key.length + value.length) > this.maxNumberChars) {
-            return value.substring(0, this.maxNumberChars - key.length) + '...';
-        }
+
         return value;
     }
 

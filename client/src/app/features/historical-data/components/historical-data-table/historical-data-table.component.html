@@ -36,7 +36,7 @@
         </div>
 
         <!-- Table -->
-        <div class="justify-content-center">
+        <div class="row justify-content-center">
             <p-table #table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false"
                 styleClass="ui-table-historical-data"
                 currentPageReportTemplate="{{ totalRecords ? ('Showing ' + (first + 1) + ' to ' + last + ' of ' + totalRecords): '' }}"
@@ -80,6 +80,14 @@
                 </ng-template>
 
             </p-table>
+        </div>
+
+        <div class="row justify-content-center mt-4">
+            <p *ngIf="complexAttrs.length > 0" class="input-warning">
+                The following attributes are complex objects and they are not being shown in the table:
+                <b>{{complexAttrs.join(', ')}}</b>
+                . You can visualise them exporting the data to CSV.
+            </p>
         </div>
 
         <!-- Export to CSV button -->

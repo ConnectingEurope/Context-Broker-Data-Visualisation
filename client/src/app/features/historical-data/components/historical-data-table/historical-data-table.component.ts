@@ -29,6 +29,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     public loading: boolean = true;
     public hLimit: number = 10;
     public time: string = 'time';
+    public complexAttrs: string[] = [];
 
     public titles: string[] = [];
     public data: any[] = [];
@@ -44,6 +45,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     private rawParameters: RawParameters;
     private totalCountHeader: string = 'fiware-total-count';
     private defaultMaxPage: number = 100;
+    private csvSep: string = ';';
 
     @ViewChild('table', { static: true }) private table: Table;
 
@@ -149,12 +151,22 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
 
     private processData(data: any, column: string): void {
         if (data && data.headers[this.totalCountHeader] > 0) {
-            this.totalRecords = data.headers[this.totalCountHeader];
-            if (this.totalRecords < this.hLimit) { this.last = this.totalRecords; }
-            if (!this.titles.includes(column)) { this.titles.push(column); }
-            this.content[column] = data.body.contextResponses[0].contextElement.attributes[0];
-            this.processValues(column);
+            if (!this.checkComplexObject(data)) {
+                this.totalRecords = data.headers[this.totalCountHeader];
+                if (this.totalRecords < this.hLimit) { this.last = this.totalRecords; }
+                if (!this.titles.includes(column)) { this.titles.push(column); }
+                this.content[column] = data.body.contextResponses[0].contextElement.attributes[0];
+                this.processValues(column);
+            } else {
+                this.complexAttrs.push(column);
+            }
         }
+    }
+
+    private checkComplexObject(data: any): boolean {
+        return data.body.contextResponses[0].contextElement.attributes[0].values.some(v => {
+            return v.attrValue.startsWith('[') || v.attrValue.startsWith('{');
+        });
     }
 
     private processValues(column: string): void {
@@ -245,12 +257,12 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
     }
 
     private createCsv(): string {
-        let csv: string = this.titlesCsv.join(',') + '\n';
+        let csv: string = this.titlesCsv.join(this.csvSep) + '\n';
 
         this.dataCsv.forEach(r => {
             csv += Object.values(r).map((v: any, i: number) => {
                 return i === 0 ? v : (v.attrValue ? v.attrValue : '-');
-            }).join(',') + '\n';
+            }).join(this.csvSep) + '\n';
         });
 
         return csv;

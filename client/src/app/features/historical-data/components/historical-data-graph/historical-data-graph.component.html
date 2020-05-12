@@ -58,8 +58,10 @@
             </p>
 
             <!-- Message when complex type -->
-            <p *ngIf="attrType === attrTypeEnum.OBJECT">
-                {{'Attribute "' + currentAttr + '" is an object. Select an attribute which is a number or a string.'}}
+            <p *ngIf="attrType === attrTypeEnum.OBJECT" class="input-warning">
+                <span>Attribute </span>
+                <b>{{currentAttr}}</b>
+                <span> is a complex object. Select an attribute which is a number or a string.</span>
             </p>
 
         </div>

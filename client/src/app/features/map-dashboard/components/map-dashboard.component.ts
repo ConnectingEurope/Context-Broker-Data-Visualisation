@@ -70,6 +70,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private maxLon: number = Number.NEGATIVE_INFINITY;
     private defaultZoom: number = 4;
     private firstLoad: boolean = true;
+    private tooltipMaxChars: number = 25;
 
     @ViewChild('layerConditionsPanel') private layerConditionsPanel: OverlayPanel;
     @ViewChild('layerPanel') private layerPanel: OverlayPanel;
@@ -516,7 +517,14 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     }
 
     private getTooltipContent(entity: Entity, model: ModelDto): string {
-        return model.favAttr && entity[model.favAttr] ? ('<span>' + entity[model.favAttr] + '</span>') : undefined;
+        return model.favAttr && entity[model.favAttr] ?
+            ('<span>' + this.truncateTooltipContent(entity[model.favAttr]) + '</span>') :
+            undefined;
+    }
+
+    private truncateTooltipContent(content: any): string {
+        const str: string = JSON.stringify(content);
+        return (str.length > this.tooltipMaxChars ? str.substring(0, this.tooltipMaxChars) + '...' : str);
     }
 
     /*****************************************************************************
