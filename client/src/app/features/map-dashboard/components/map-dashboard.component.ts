@@ -50,7 +50,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public displayDebugHeader: string;
     public displayDebugContent: Entity;
 
-    private intervalRefreshMilliseconds: number = 60000;
+    private intervalRefreshMilliseconds: number = 10000;
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
     private layerGroups: { [key: string]: L.LayerGroup } = {};
@@ -383,7 +383,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private insertEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
         const marker: L.Marker = L.marker(
-            entity.location.coordinates.reverse() as L.LatLngExpression,
+            entity.location.coordinates.slice().reverse() as L.LatLngExpression,
             { icon: IconUtils.leafletIcons[categoryKey] },
         );
 
@@ -399,7 +399,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private updateEntity(existentMarker: L.Marker, model: ModelDto, entity: Entity): void {
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
-            existentMarker.setLatLng(entity.location.coordinates.reverse() as L.LatLngExpression);
+            existentMarker.setLatLng(entity.location.coordinates.slice().reverse() as L.LatLngExpression);
         }
         this.setTooltip(existentMarker, entity, model);
         this.setPopup(existentMarker, entity, model);
@@ -434,7 +434,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         const currentLat: number = currentLatLng.lat;
         const currentLng: number = currentLatLng.lng;
 
-        const newLatLng: number[] = entity.location.coordinates.reverse();
+        const newLatLng: number[] = entity.location.coordinates.slice().reverse();
         const newLat: number = newLatLng[0];
         const newLng: number = newLatLng[1];
 

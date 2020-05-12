@@ -45,7 +45,7 @@ app.use('/historic/aggr', aggregatedDataRouter);
 *****************************************************************************/
 
 app.use(function (req, res, next) {
-    console.log('api not found');
+    console.log('API not found');
     next(createError(404));
 });
 

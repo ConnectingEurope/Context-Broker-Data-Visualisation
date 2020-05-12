@@ -37,8 +37,6 @@ module.exports = {
     },
 
     sendFiwareError: function (routerRes, res, err) {
-        console.log(err);
-        console.log(res);
         routerRes.status(res && res.statusCode ? res.statusCode : 404).send(err);
     },
 
