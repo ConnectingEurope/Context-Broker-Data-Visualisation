@@ -251,19 +251,13 @@ The following steps explain how to develop a new graph:
 
 By default, the refresh time of the real-time data in the map is 1 minute. In milliseconds, it is 60000.
 
-This refresh time can be changed, modifying a value in the map-dashboard.component.ts. It is located inside the visualizeEntities function:
+This refresh time can be changed, modifying a the value of a variable in the map-dashboard.component.ts.
 
 ```typescript
-private visualizeEntities(): void {
-        this.loadEntities();
-        this.interval = setInterval(() => {
-            this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
-            this.loadEntities();
-        }, 60000);
-    }
+    private intervalRefreshMilliseconds: number = 60000;
 ```
 
-In this case, the last value of the function (60000) can be replaced by the desired refresh time (in milliseconds).
+In this case, the value of the *intervalRefreshMilliseconds* variable (60000) can be replaced by the desired refresh time (in milliseconds).
 
 [Top](#technical-documentation)
 
