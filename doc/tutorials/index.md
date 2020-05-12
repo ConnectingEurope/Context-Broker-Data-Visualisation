@@ -1,6 +1,6 @@
 # Tutorials for deployment
 
-Depending on the necessities for the deployment of the Context Broker Data Visualisation enabler, there are four different tutorials.
+Depending on the needs regarding the deployment of the Context Broker Data Visualisation enabler, there are four different tutorials.
 
 They are also divided between **local environment** and **FIWARE lab (or Sandbox)**.
 
@@ -10,7 +10,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
   - [Tutorial 1: Enabler](#firstTutorial)
   - [Tutorial 2: Enabler + Context Broker](#secondtutorial)
   - [Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet](#thirdTutorial)
-  - [Connection between Enabler and FIWARE tools](#connection-between-enabler-and-fiware-tools)
+  - [Connection between the Enabler and FIWARE tools](#connection-between-the-enabler-and-fiware-tools)
 - [FIWARE lab](#fiware-lab)
   - [Tutorial 4: FIWARE lab](#fourthTutorial)
     - [Configuring the IP](#fourthTutorial-configuration)
@@ -20,13 +20,13 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
 
 ## Local environment
 
-The first three tutorials are focused to a deployment in a local environment.
+The first three tutorials are focused on a deployment in a local environment.
 
-Depending on the **necessity of the tools** to be deployed, it should be better to select the most adequated tutorial.
+Depending on the **needs of the tools** to be deployed, it should be better to select the most adequate tutorial.
 
-They are ordered by the number of tools that are deployed, being the third one the most complete of them.
+They are ordered by the number of tools that are deployed, being the third tutorial the most complete.
 
-As a pre-requisite, **it is needed to have installed [Docker](https://www.docker.com/)** before starting with any of the **tutorials in a local environment**.
+As a pre-requisite, [Docker](https://www.docker.com/) **needs to have been installed** before starting with any of the **tutorials in a local environment**.
 
 [Top](#tutorials-for-deployment)
 
@@ -34,7 +34,7 @@ As a pre-requisite, **it is needed to have installed [Docker](https://www.docker
 
 ### Tutorial 1: Enabler
 
-This option is recommended for those who want to deploy the enabler in a local environment and **already have a Context Broker** or want to use an **external Context Broker (possibly, in a server)**. So they only need to deploy the enabler.
+This option is recommended for those users who want to deploy the enabler in a local environment and **already have a Context Broker instance** or want to use an **external Context Broker instance (possibly, already running in a server)**. In this case, the user would only need to deploy the enabler.
 
 The steps for the deployment are the following:
 
@@ -46,13 +46,13 @@ The steps for the deployment are the following:
     cd workspace/tutorials/enabler
     ```
 
-3. In case of having **Windows** run the script called **deploy_windows.bat**:
+3. In case of **Windows** run the script called **deploy_windows.bat**:
 
     ```bash
     deploy_windows.bat
     ```
 
-    In case of having **Linux** run the script called **deploy_linux.sh**
+    In case of **Linux** run the script called **deploy_linux.sh**
 
     ```bash
     sh deploy_linux.sh
@@ -60,7 +60,7 @@ The steps for the deployment are the following:
 
 4. Now, the needed images are being downloaded from DockerHub and they will be started after the download.
 
-5. Ejecute the following command in the terminal:
+5. Execute the following command in the terminal:
 
     ```bash
     docker ps
@@ -71,11 +71,16 @@ The steps for the deployment are the following:
     - cbenabler
     - cbenabler-server
 
-7. Go to the web browser and try to access to the enabler in the following URL:
+        ![Tutorial1DockerPs](../img/Tutorial1DockerPs.PNG)
+        >*Illustration 1. Docker images of Tutorial 1*
+
+7. Go to the web browser and try to access the enabler using the following URL:
 
     ```url
     localhost
     ```
+
+    If the deployment was done succesfully, you should see the enabler.
 
 [Top](#tutorials-for-deployment)
 
@@ -83,7 +88,7 @@ The steps for the deployment are the following:
 
 ### Tutorial 2: Enabler + Context Broker
 
-This second option is recommended for those who want to deploy the enabler in a local environment and they **don't have any Context Broker for testing**, so they are **interested in real-time data** and need one Context Broker. Additionally, they are **not interested in historical data**.
+This second option is recommended for those users who want to deploy the enabler in a local environment, but **do not have any Context Broker instance for testing**. they are **interested in real-time data** and need a Context Broker instance, but are **not interested in historical data**.
 
 The steps for the deployment are the following:
 
@@ -95,13 +100,13 @@ The steps for the deployment are the following:
     cd workspace/tutorials/enabler_orion
     ```
 
-3. In case of having **Windows** run the script called **deploy_windows.bat**:
+3. In case of **Windows** run the script called **deploy_windows.bat**:
 
     ```bash
     deploy_windows.bat
     ```
 
-    In case of having **Linux** run the script called **deploy_linux.sh**
+    In case of **Linux** run the script called **deploy_linux.sh**
 
     ```bash
     sh deploy_linux.sh
@@ -109,7 +114,7 @@ The steps for the deployment are the following:
 
 4. Now, the needed images are being downloaded from DockerHub and they will be started after the download.
 
-5. Ejecute the following command in the terminal:
+5. Execute the following command in the terminal:
 
     ```bash
     docker ps
@@ -122,11 +127,19 @@ The steps for the deployment are the following:
     - fiware-orion
     - db-mongo
 
+    ![Tutorial2DockerPs](../img/Tutorial2DockerPs.PNG)
+    >*Illustration 2. Docker images of Tutorial 2*
+
 7. Go to the web browser and try to access to the enabler in the following URL:
 
     ```url
     localhost
     ```
+
+8. If the deployment was done successfully, the Context Broker must be able to be connected in the Configuration page:
+
+    ![Tutorial2Configuration](../img/Tutorial2Configuration.PNG)
+    *Illustration 3. Configuration of the Tutorial 2*
 
 [Top](#tutorials-for-deployment)
 
@@ -134,12 +147,12 @@ The steps for the deployment are the following:
 
 ### Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet
 
-This third option is recommended for those who want to deploy the enabler in a local environment and they are **interested in both real-time data (Context Broker) and historical data (Cygnus and STH-Comet)**.
+This third option is recommended for those users who want to deploy the enabler in a local environment and are **interested in both real-time data (Context Broker) and historical data (Cygnus and STH-Comet)**.
 
-This one is the most complete tutorial for local environments. It will guide the user in how to **deploy the complete architecture of the enabler**:
+This options is the most complete tutorial for local environments. It will guide the user in how to **deploy the complete architecture of the enabler**:
 
 ![Architecture](../img/Architecture.png)
->*Illustration 1. Architecture of the enabler*
+>*Illustration 4. Architecture of the enabler*
 
 More information related with the architecture can be found [here](../technical/index.md/#architecture).
 
@@ -153,13 +166,13 @@ The steps for the deployment are the following:
     cd workspace/tutorials/enabler_orion_cygnus_sth
     ```
 
-3. In case of having **Windows** run the script called **deploy_windows.bat**:
+3. In case of **Windows** run the script called **deploy_windows.bat**:
 
     ```bash
     deploy_windows.bat
     ```
 
-    In case of having **Linux** run the script called **deploy_linux.sh**
+    In case of **Linux** run the script called **deploy_linux.sh**
 
     ```bash
     sh deploy_linux.sh
@@ -167,7 +180,7 @@ The steps for the deployment are the following:
 
 4. Now, the needed images are being downloaded from DockerHub and they will be started after the download.
 
-5. Ejecute the following command in the terminal:
+5. Execute the following command in the terminal:
 
     ```bash
     docker ps
@@ -182,23 +195,31 @@ The steps for the deployment are the following:
     - fiware-sth-comet
     - db-mongo
 
+    ![Tutorial3DockerPs](../img/Tutorial3DockerPs.PNG)
+    >*Illustration 5. Docker images of Tutorial 3*
+
 7. Go to the web browser and try to access to the enabler in the following URL:
 
     ```url
     localhost
     ```
 
+8. If the deployment was done successfully, the Context Broker, Cygnus and STH-Comet must be able to be connected in the Configuration page:
+
+    ![Tutorial3Configuration](../img/Tutorial3Configuration.PNG)
+    *Illustration 6. Configuration of the Tutorial 3*
+
 [Top](#tutorials-for-deployment)
 
-### Connection between Enabler and FIWARE tools
+### Connection between the Enabler and FIWARE tools
 
-Tutorials 2 (Enabler + Context Broker) and 3 (complete architecture) generate new Docker's images in a local environment. The **access URLs for the tools** are:
+Tutorials 2 (Enabler + Context Broker) and 3 (complete architecture) generate new Docker images in a local environment. The **access URLs for the tools** are:
 
 - fiware-orion:1026
 - fiware-cygnus:5080
 - fiware-sth-comet:8666
 
-However, if the tools have been deployed separately (by other FIWARE tutorials), use these URLs instead:
+However, if the tools have been deployed separately (using other FIWARE tutorials), the following URLs should be used instead:
 
 - localhost:1026
 - localhost:5080
@@ -208,11 +229,11 @@ However, if the tools have been deployed separately (by other FIWARE tutorials),
 
 ## FIWARE lab
 
-The last tutorial is focused on the deployment of the enabler in the **FIWARE lab** (or Sandbox).
+This tutorial is focused on the deployment of the enabler in the **FIWARE lab** (or Sandbox).
 
-As pre-requisite, a FIWARE lab account is needed in order to access. For that, access to [this link](https://cloud.lab.fiware.org/auth/login/) and click on the **Request Community Account** button.
+As a pre-requisite, a FIWARE lab account is needed in order to follow this tutorial. In order to register, access to [this link](https://cloud.lab.fiware.org/auth/login/) and click on the **Request Community Account** button.
 
-After the registration, the deployment can be carried out following the [Tutorial 4](#tutorial-4:-fiware-lab).
+After the registration, the deployment can be carried out following [Tutorial 4](#tutorial-4:-fiware-lab).
 
 [Top](#tutorials-for-deployment)
 
@@ -228,7 +249,7 @@ The deployment of the enabler in the FIWARE lab (or Sandbox) needs to set-up dif
 
 First of all, it is necessary to configure the **Access & Security** tab to enable access to the desired instances.
 
-The steps to complete this action, are:
+The steps to complete this are:
 
 1. Go to the first tab of the Access & Security menu called **Security groups** and define a new security groups:
     - Click on **Create security Group** and define the name and description of the security group.
@@ -244,7 +265,7 @@ The steps to complete this action, are:
             - **Remote:** CIDR
             - **CIDR:** 0.0.0.0/0
 
-            This should be the result:
+            The result should be the following:
 
             ![Architecture](../img/FiwareLabAddRule.png)
             >*Illustration 2. Rules of the security group*
@@ -265,9 +286,9 @@ The steps to complete this action, are:
 
 #### Deploying the enabler
 
-Once the configuration of the previous section has been completed and there is available a new IP, the following step is to **deploy the enabler**.
+Once the configuration of the previous section has been completed and the new IP is available, the following step is to **deploy the enabler**.
 
-For that, there is a **public Sandbox image** that contains everything needed to deploy the enabler application.
+For this purpose, there is a **public Sandbox image** that contains everything needed to deploy the enabler application.
 
 An instance of the needed image can be created from the **Images** menu:
 
@@ -289,7 +310,7 @@ An instance of the needed image can be created from the **Images** menu:
     - Networking:
         - The **node-int-net-01** network should be in the **selected networks** section.
 
-4. Launch the instance, it must be visible with *spawning* status in the **Instances** menu.
+4. Launch the instance. It must be visible with *spawning* status in the **Instances** menu.
 
 5. Once the instance is running (after waiting some minutes), it will take about 5 more minutes to automatically download the latest available version of the **Context Broker Data Visualisation Enabler** from DockerHub and deploy it.
 
@@ -297,9 +318,9 @@ An instance of the needed image can be created from the **Images** menu:
 
 <a name="fourthTutorial-ip"></a>
 
-#### Associate Floating IP
+#### Associate a Floating IP
 
-At this point, the **Context Broker Data Visualisation Enabler** is deployed, but it is not accessible from the browser because it hasn't got an associated Floating IP (public IP) yet.
+At this point, the **Context Broker Data Visualisation Enabler** is deployed, but it is not accessible from the browser because it doesn't have an associated Floating IP (public IP) yet.
 
 1. Go to the **Instances** menu and move the drop-down (bottom scroll bar) to the right.
 
@@ -310,7 +331,7 @@ At this point, the **Context Broker Data Visualisation Enabler** is deployed, bu
 
 3. Associate the IP created in the [Configuring the enabler](#fourthTutorial-configuration) section.
 
-4. After this configuration, the **enabler must be ready to use by accesing to the floating IP** in a web browser.
+4. After this configuration, the **enabler is ready to be used by accessing the floating IP** in a web browser.
 
 [Top](#tutorials-for-deployment)
 
@@ -318,7 +339,7 @@ At this point, the **Context Broker Data Visualisation Enabler** is deployed, bu
 
 #### Deploying the enabler-tools
 
-After completing the previous sections for the deployment of the enabler in the FIWARE lab, it will be already available to start using it. However, the enabler needs to be integrated with different tools for consuming their data. For that, and **as an optional configuration**, there is available a **second public image in the FIWARE lab, which contains the enabler set of tools**.
+After completing the previous sections for the deployment of the enabler in the FIWARE lab, the tool will be available for use. However, the Enabler needs to be integrated with different tools to consume data. **As an optional configuration**, there is available a **second public image in the FIWARE lab, which contains the Enabler's optional set of tools**.
 
 This image is available in the **Images** menu, and its name is **cb_data_visualisation_enabler_tools**. Concretely, it contains:
 
@@ -371,7 +392,7 @@ In order to instantiate the image, a **new security group** must be configured i
 
 3. Look for the image **cb_data_visualisation_enabler_tools** in the public section.
 
-4. Select the image an click on the **Launch Instance** button.
+4. Select the image and click on the **Launch Instance** button.
 
 5. Fill in the following information:
     - Details:
@@ -390,7 +411,7 @@ In order to instantiate the image, a **new security group** must be configured i
 
 7. Once the instance is running (after waiting some minutes), it will take about 5 more minutes to download the latest available version of the tools from DockerHub and deploy them.
 
-8. It will not be necessary to assign a Floating Ip, since the instances have an internal IP that allows communication between them.
+8. In this case, it will not be necessary to assign a Floating IP, since the instances have an internal IP that allows communication between them.
 
     Example:
     ![Architecture](../img/FiwareLabEnablerAndTools.png)

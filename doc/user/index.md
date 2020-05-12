@@ -415,6 +415,8 @@ The rest of the entries can be consulted by different means:
 
 Also, the table informs of the entries that are being shown at the moment and the total number of entries that are available to consult.
 
+Note the attributes of complex type (lists, JSONs, etc) won't be represented in the table, but they will be exported in the [CSV export](#csv-data-export).
+
 [Top](#user-manual)
 
 #### Graphs
