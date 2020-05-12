@@ -23,10 +23,10 @@ import { Router } from '@angular/router';
 import { EntityFilter } from '../models/category-filter';
 import { PopupComponent } from 'src/app/shared/templates/popup/popup.component';
 import { OverlayPanel } from 'primeng/overlaypanel/public_api';
-import { ClipboardService } from 'ngx-clipboard';
 import { LayerTreeNodeService } from '../services/layer-tree-node.service';
 import { CategoryService } from '../services/category-service';
 import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
+import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
 
 @Component({
     selector: 'app-map-dashboard',
@@ -38,6 +38,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public categories: CategoryFilter[];
     public entities: EntityFilter[] = [];
     public entityAttr: string = 'data';
+    public metadataAttr: string = 'metadata';
     public popupAttr: string = 'popupRef';
     public tooltipAttr: string = 'tooltipComp';
     public menuItems: MenuItem[];
@@ -58,11 +59,10 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private removedLayers: L.Layer[] = [];
     private filters: ConditionFilter[] = [];
     private unselectedLayers: any[] = [];
-    private loadedIds: { [key: string]: string[] } = {};
-    private loadedIdsCopy: { [key: string]: string[] } = {};
     private openPopup: L.Popup;
     private refreshing: boolean;
     private firstFetch: boolean = true;
+    private currentEntities: EntityMetadata[] = [];
     private interval: any;
     private minLat: number = Number.POSITIVE_INFINITY;
     private minLon: number = Number.POSITIVE_INFINITY;
@@ -301,7 +301,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.loadEntities();
         this.interval = setInterval(() => {
             if (!this.firstLoad) {
-                this.loadedIdsCopy = JSON.parse(JSON.stringify(this.loadedIds));
                 this.loadEntities();
             }
         }, this.intervalRefreshMilliseconds);
@@ -328,8 +327,8 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
         this.storeFavAttrs(models);
         this.processModels(models);
-        if (this.firstLoad) { this.adjustView(); }
         this.deleteOldEntities();
+        if (this.firstLoad) { this.adjustView(); }
         this.loadMarkerCluster();
         this.setFilters(this.filters);
         this.unselectedLayers.forEach(l => this.markerClusterGroup.removeLayer(this.layerGroups[l]));
@@ -375,10 +374,18 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private addEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
         if (entity.location && entity.location.coordinates && entity.location.coordinates[0] && entity.location.coordinates[1]) {
             this.storeMinMaxLocation(entity.location.coordinates[1], entity.location.coordinates[0]);
-            const markers: L.Layer[] = this.layerGroups[model.type].getLayers();
-            const existentMarker: L.Marker = markers.find(m => m[this.entityAttr].id === entity.id) as L.Marker;
+            const existentMarker: L.Marker = this.findMarker(model, entity);
             existentMarker ? this.updateEntity(existentMarker, model, entity) : this.insertEntity(model, entity, categoryKey);
         }
+    }
+
+    private findMarker(model: ModelDto, entity: Entity): L.Marker {
+        const markers: L.Layer[] = this.markerClusterGroup.getLayers();
+        const currentEntityMetadata: EntityMetadata = this.createEntityMetadata(entity, model);
+        return markers.find(m => {
+            const entityMetadata: EntityMetadata = m[this.metadataAttr];
+            return JSON.stringify(currentEntityMetadata) === JSON.stringify(entityMetadata);
+        }) as L.Marker;
     }
 
     private insertEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
@@ -386,40 +393,50 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             entity.location.coordinates.slice().reverse() as L.LatLngExpression,
             { icon: IconUtils.leafletIcons[categoryKey] },
         );
-
-        this.setTooltip(marker, entity, model);
-        this.setPopup(marker, entity, model);
-        marker[this.entityAttr] = entity;
-
+        this.setEntityParams(marker, entity, model);
         this.layerGroups[model.type].addLayer(marker);
-
-        if (!this.loadedIds[model.type]) { this.loadedIds[model.type] = []; }
-        this.loadedIds[model.type].push(entity.id);
     }
 
     private updateEntity(existentMarker: L.Marker, model: ModelDto, entity: Entity): void {
         if (this.hasLocationBeenUpdated(existentMarker, entity)) {
             existentMarker.setLatLng(entity.location.coordinates.slice().reverse() as L.LatLngExpression);
         }
-        this.setTooltip(existentMarker, entity, model);
-        this.setPopup(existentMarker, entity, model);
-        existentMarker[this.entityAttr] = entity;
+        this.setEntityParams(existentMarker, entity, model);
+    }
 
-        const i: number = this.loadedIdsCopy[model.type].indexOf(entity.id);
-        if (i !== -1) { this.loadedIdsCopy[model.type].splice(i, 1); }
+    private setEntityParams(marker: L.Marker, entity: Entity, model: ModelDto): void {
+        this.setTooltip(marker, entity, model);
+        this.setPopup(marker, entity, model);
+        this.registerEntity(marker, entity, model);
+        marker[this.entityAttr] = entity;
+    }
+
+    private registerEntity(marker: L.Marker, entity: Entity, model: ModelDto): void {
+        const entityMetadata: EntityMetadata = this.createEntityMetadata(entity, model);
+        this.currentEntities.push(entityMetadata);
+        marker[this.metadataAttr] = entityMetadata;
+    }
+
+    private createEntityMetadata(entity: Entity, model: ModelDto): EntityMetadata {
+        return {
+            id: entity.id,
+            type: entity.type,
+            cometUrl: model.contextUrl,
+            service: model.service,
+            servicePath: model.servicePath,
+        };
     }
 
     private deleteOldEntities(): void {
-        Object.keys(this.loadedIdsCopy).forEach(entityType => {
-            const ids: string[] = this.loadedIdsCopy[entityType];
-            ids.forEach(id => {
-                const i: number = this.loadedIds[entityType].indexOf(id);
-                if (i !== -1) { this.loadedIds[entityType].splice(i, 1); }
-                const markers: L.Layer[] = this.layerGroups[entityType].getLayers();
-                const oldSensor: L.Marker = markers.find(m => m[this.entityAttr].id === id) as L.Marker;
-                oldSensor.remove();
-            });
+        const markers: L.Layer[] = this.markerClusterGroup.getLayers();
+        markers.forEach(m => {
+            if (!this.currentEntities.find(e => e === m[this.metadataAttr])) {
+                const type: string = m[this.metadataAttr].type;
+                this.markerClusterGroup.removeLayer(m);
+                this.layerGroups[type].removeLayer(m);
+            }
         });
+        this.currentEntities = [];
     }
 
     private storeMinMaxLocation(lat: number, lon: number): void {
