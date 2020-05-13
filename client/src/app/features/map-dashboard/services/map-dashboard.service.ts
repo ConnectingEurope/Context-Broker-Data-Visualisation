@@ -39,21 +39,9 @@ export class MapDashboardService {
         return this.http.post<Entity[]>('/server/entities/one', body);
     }
 
-    // public getEntityForUpdating(entityMetadata: EntityMetadata): Observable<Entity[]> {
-    //     const body: any = {
-    //         url: entityMetadata.contextUrl,
-    //         service: entityMetadata.service,
-    //         servicePath: entityMetadata.servicePath,
-    //         type: entityMetadata.type,
-    //         id: entityMetadata.id,
-    //     };
-
-    //     return this.http.post<Entity[]>('/server/entities/one/simplified', body);
-    // }
-
-    public getEntitiesForUpdating(model: ModelDto, filteredAttrs: string[]): Observable<Entity[]> {
+    public getEntitiesForUpdating(model: ModelDto, filteredAttrs: string[], avoidHttpInterceptor?: boolean): Observable<Entity[]> {
         let headers: HttpHeaders = new HttpHeaders();
-        headers = headers.set('Avoid-Http-Interceptor', 'true');
+        if (avoidHttpInterceptor) { headers = headers.set('Avoid-Http-Interceptor', 'true'); }
         const body: any = {
             url: model.contextUrl,
             service: model.service,
@@ -67,9 +55,7 @@ export class MapDashboardService {
     }
 
     public getEntitiesData(avoidHttpInterceptor?: boolean): Observable<ModelDto[]> {
-        // let params: HttpParams = new HttpParams();
         let headers: HttpHeaders = new HttpHeaders();
-        // if (!firstLoad) { params = params.set('updating', 'true'); }
         if (avoidHttpInterceptor) { headers = headers.set('Avoid-Http-Interceptor', 'true'); }
         return this.http.get<ModelDto[]>('/server/entities/data', { headers });
     }

@@ -86,17 +86,24 @@ function getAttrs(entity) {
 }
 
 function getParams(e, offset) {
+    const attrs = ['location'];
+    const favAttribute = getFavAttr(e);
+    if (favAttribute) attrs.push(favAttribute.name);
     return {
         type: e.name,
         options: 'keyValues,count',
         limit: maxRequestSize,
         offset: offset,
-        attrs: getAttrs(e).join(),
+        attrs: attrs.join(','),
     };
 }
 
+function getFavAttr(entity) {
+    return entity.attrs.find(a => a.fav);
+}
+
 function getModelDto(cb, s, entity, entityData) {
-    const favAttribute = entity.attrs.find(a => a.fav);
+    const favAttribute = getFavAttr(entity);
     return {
         type: entity.name,
         favAttr: favAttribute ? favAttribute.name : undefined,

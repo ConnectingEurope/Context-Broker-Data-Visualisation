@@ -47,7 +47,6 @@ router.post('/', function (routerReq, routerRes, routerNext) {
         let attrs = ['location'];
         if (b.favAttr) attrs.push(b.favAttr);
         if (b.attrs) { attrs = attrs.concat(b.attrs) }
-        console.log(attrs);
         return {
             type: b.type,
             limit: 1000,
