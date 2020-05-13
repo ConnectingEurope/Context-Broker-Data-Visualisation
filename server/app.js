@@ -13,6 +13,7 @@ var configurationEntitiesRouter = require('./routes/configuration/configurationE
 var entitiesSchemaRouter = require('./routes/entities/entitiesSchema');
 var entitiesDataRouter = require('./routes/entities/entitiesData');
 var entitiesOneRouter = require('./routes/entities/entitiesOne');
+var entitiesOneSimplifiedRouter = require('./routes/entities/entitiesOneSimplified');
 var rawDataRouter = require('./routes/historic/rawData');
 var aggregatedDataRouter = require('./routes/historic/aggregatedData');
 
@@ -35,6 +36,7 @@ app.use('/subscriptions/attrs', subscriptionsAttributesRouter);
 app.use('/entities/schema', entitiesSchemaRouter);
 app.use('/entities/data', entitiesDataRouter);
 app.use('/entities/one', entitiesOneRouter);
+app.use('/entities/one/simplified', entitiesOneSimplifiedRouter);
 app.use('/configuration', configurationRouter);
 app.use('/configuration/entities', configurationEntitiesRouter);
 app.use('/historic/raw', rawDataRouter);

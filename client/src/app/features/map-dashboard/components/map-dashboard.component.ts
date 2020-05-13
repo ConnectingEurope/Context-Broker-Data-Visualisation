@@ -51,7 +51,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public displayDebugHeader: string;
     public displayDebugContent: Entity;
 
-    private intervalRefreshMilliseconds: number = 60000;
+    private intervalRefreshMilliseconds: number = 15000;
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
     private layerGroups: { [key: string]: L.LayerGroup } = {};
@@ -59,6 +59,8 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private removedLayers: L.Layer[] = [];
     private filters: ConditionFilter[] = [];
     private unselectedLayers: any[] = [];
+    private currentModels: ModelDto[] = [];
+    private markersByModelAndId: any = {};
     private openPopup: L.Popup;
     private refreshing: boolean;
     private firstFetch: boolean = true;
@@ -205,8 +207,12 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     }
 
     private loadMarkerCluster(): void {
-        Object.values(this.layerGroups).forEach(lg => {
-            this.markerClusterGroup.addLayer(lg);
+        Object.entries(this.layerGroups).forEach(lg => {
+            if (lg[0] === 'generic') {
+            }
+            // var a = lg[1].getLayers().find(l => !(l as L.Marker).getLatLng());
+            // console.log(a);
+            this.markerClusterGroup.addLayer(lg[1]);
         });
     }
 
@@ -299,11 +305,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private visualizeEntities(): void {
         this.loadEntities();
-        this.interval = setInterval(() => {
-            if (!this.firstLoad) {
-                this.loadEntities();
-            }
-        }, this.intervalRefreshMilliseconds);
+
     }
 
     private loadEntities(): void {
@@ -325,9 +327,10 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private onLoadEntitiesSuccess(models: ModelDto[]): void {
         this.refreshing = true;
 
+        this.currentModels = models;
         this.storeFavAttrs(models);
         this.processModels(models);
-        this.deleteOldEntities();
+        // this.deleteOldEntities();
         if (this.firstLoad) { this.adjustView(); }
         this.loadMarkerCluster();
         this.setFilters(this.filters);
@@ -335,14 +338,58 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         if (this.openPopup) { this.openPopup.openPopup(); }
 
         this.refreshing = false;
+        this.interval = setInterval(() => {
+            if (!this.firstLoad) {
+                this.updateEntities();
+                // this.loadEntities();
+            }
+        }, this.intervalRefreshMilliseconds);
+    }
+
+    private updateEntities(): void {
+        // const markers: L.Layer[] = this.markerClusterGroup.getLayers();
+        // markers.forEach(marker => {
+        //     const m: L.Marker = marker as L.Marker;
+        //     const entityMetadata: EntityMetadata = m[this.metadataAttr];
+        //     this.mapDashBoardService.getEntityForUpdating(entityMetadata).pipe(takeUntil(this.destroy$)).subscribe(
+        //         (entityValues: any[]) => {
+        //             const currentLocation: number[] = entityValues[0];
+        //             const favAttrValue: any = entityValues[1];
+        //             if (this.hasLocationBeenUpdated(m, currentLocation)) {
+        //                 m.setLatLng(currentLocation.slice().reverse() as L.LatLngExpression);
+        //                 m[this.entityAttr][entityMetadata.favAttr] = favAttrValue;
+        //             }
+        //         });
+        // });
+
+
+        this.currentModels.forEach((model, i) => {
+            this.mapDashBoardService.getEntitiesForUpdating(model).pipe(takeUntil(this.destroy$)).subscribe(
+                (entities: Entity[]) => {
+                    entities.forEach(e => {
+                        const marker: L.Marker = this.markersByModelAndId[i][e.id];
+                        if (marker && this.isValidCoordinates(e)) {
+                            console.log('updating', model.type);
+                            const currentLocation: number[] = e.location.coordinates;
+                            if (this.hasLocationBeenUpdated(marker, currentLocation)) {
+                                marker.setLatLng(currentLocation.slice().reverse() as L.LatLngExpression);
+                            }
+                            marker[this.entityAttr][model.favAttr] = e[model.favAttr];
+                            marker[this.entityAttr].location = e.location;
+                            this.setTooltip(marker, e, model);
+                        }
+                    });
+                });
+        });
     }
 
     private processModels(models: ModelDto[]): void {
-        models.forEach(model => {
+        models.forEach((model, i) => {
             const categoryKey: string = this.categoryService.getCategoryKey(model.type);
+            this.markersByModelAndId[i] = {};
             this.layerGroups[model.type] = this.layerGroups[model.type] || L.layerGroup();
             this.layerGroups[categoryKey] = this.layerGroups[categoryKey] || L.layerGroup();
-            model.data.forEach(entity => this.addEntity(model, entity, categoryKey));
+            model.data.forEach(entity => this.addEntity(model, entity, categoryKey, i));
             this.layerGroups[categoryKey].addLayer(this.layerGroups[model.type]);
         });
     }
@@ -371,12 +418,27 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
      Entity functions
     *****************************************************************************/
 
-    private addEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
-        if (entity.location && entity.location.coordinates && entity.location.coordinates[0] && entity.location.coordinates[1]) {
+    private addEntity(model: ModelDto, entity: Entity, categoryKey: string, i: number): void {
+        if (this.isValidCoordinates(entity)) {
+            console.log('inserting', model.type);
             this.storeMinMaxLocation(entity.location.coordinates[1], entity.location.coordinates[0]);
-            const existentMarker: L.Marker = this.findMarker(model, entity);
-            existentMarker ? this.updateEntity(existentMarker, model, entity) : this.insertEntity(model, entity, categoryKey);
+            // const existentMarker: L.Marker = this.findMarker(model, entity);
+            // existentMarker ? this.updateEntity(existentMarker, model, entity) : this.insertEntity(model, entity, categoryKey);
+            // if (this.firstLoad) {
+            this.insertEntity(model, entity, categoryKey, i);
+            // } else {
+            //     const existentMarker: L.Marker = this.findMarker(model, entity);
+            //     if (existentMarker) {
+            //         this.updateEntity(existentMarker, model, entity);
+            //     }
+            // }
         }
+    }
+
+    private isValidCoordinates(entity: Entity): boolean {
+        return entity.location && entity.location.coordinates &&
+            entity.location.coordinates[0] && entity.location.coordinates[1] &&
+            !isNaN(entity.location.coordinates[0]) && !isNaN(entity.location.coordinates[1]);
     }
 
     private findMarker(model: ModelDto, entity: Entity): L.Marker {
@@ -388,27 +450,28 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         }) as L.Marker;
     }
 
-    private insertEntity(model: ModelDto, entity: Entity, categoryKey: string): void {
+    private insertEntity(model: ModelDto, entity: Entity, categoryKey: string, i: number): void {
         const marker: L.Marker = L.marker(
             entity.location.coordinates.slice().reverse() as L.LatLngExpression,
             { icon: IconUtils.leafletIcons[categoryKey] },
         );
-        this.setEntityParams(marker, entity, model);
+        this.setEntityParams(marker, entity, model, i);
         this.layerGroups[model.type].addLayer(marker);
     }
 
-    private updateEntity(existentMarker: L.Marker, model: ModelDto, entity: Entity): void {
-        if (this.hasLocationBeenUpdated(existentMarker, entity)) {
-            existentMarker.setLatLng(entity.location.coordinates.slice().reverse() as L.LatLngExpression);
-        }
-        this.setEntityParams(existentMarker, entity, model);
-    }
+    // private updateEntity(existentMarker: L.Marker, model: ModelDto, entity: Entity): void {
+    //     if (this.hasLocationBeenUpdated(existentMarker, entity)) {
+    //         existentMarker.setLatLng(entity.location.coordinates.slice().reverse() as L.LatLngExpression);
+    //     }
+    //     this.setEntityParams(existentMarker, entity, model);
+    // }
 
-    private setEntityParams(marker: L.Marker, entity: Entity, model: ModelDto): void {
+    private setEntityParams(marker: L.Marker, entity: Entity, model: ModelDto, i: number): void {
         this.setTooltip(marker, entity, model);
         this.setPopup(marker, entity, model);
         this.registerEntity(marker, entity, model);
         marker[this.entityAttr] = entity;
+        this.markersByModelAndId[i][entity.id] = marker;
     }
 
     private registerEntity(marker: L.Marker, entity: Entity, model: ModelDto): void {
@@ -424,20 +487,21 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             cometUrl: model.contextUrl,
             service: model.service,
             servicePath: model.servicePath,
+            favAttr: model.favAttr,
         };
     }
 
-    private deleteOldEntities(): void {
-        const markers: L.Layer[] = this.markerClusterGroup.getLayers();
-        markers.forEach(m => {
-            if (!this.currentEntities.find(e => e === m[this.metadataAttr])) {
-                const type: string = m[this.metadataAttr].type;
-                this.markerClusterGroup.removeLayer(m);
-                this.layerGroups[type].removeLayer(m);
-            }
-        });
-        this.currentEntities = [];
-    }
+    // private deleteOldEntities(): void {
+    //     const markers: L.Layer[] = this.markerClusterGroup.getLayers();
+    //     markers.forEach(m => {
+    //         if (!this.currentEntities.find(e => e === m[this.metadataAttr])) {
+    //             const type: string = m[this.metadataAttr].type;
+    //             this.markerClusterGroup.removeLayer(m);
+    //             this.layerGroups[type].removeLayer(m);
+    //         }
+    //     });
+    //     this.currentEntities = [];
+    // }
 
     private storeMinMaxLocation(lat: number, lon: number): void {
         this.minLat = this.minLat > lat ? lat : this.minLat;
@@ -446,12 +510,12 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.maxLon = this.maxLon < lon ? lon : this.maxLon;
     }
 
-    private hasLocationBeenUpdated(existentMarker: L.Marker, entity: Entity): boolean {
-        const currentLatLng: L.LatLng = existentMarker.getLatLng();
+    private hasLocationBeenUpdated(marker: L.Marker, currentLocation: number[]): boolean {
+        const currentLatLng: L.LatLng = marker.getLatLng();
         const currentLat: number = currentLatLng.lat;
         const currentLng: number = currentLatLng.lng;
 
-        const newLatLng: number[] = entity.location.coordinates.slice().reverse();
+        const newLatLng: number[] = currentLocation.slice().reverse();
         const newLat: number = newLatLng[0];
         const newLng: number = newLatLng[1];
 

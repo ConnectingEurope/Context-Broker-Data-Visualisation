@@ -38,6 +38,7 @@ export class EntityMetadataService {
             cometUrl: modelDto.cometUrl,
             service: modelDto.service,
             servicePath: modelDto.servicePath,
+            favAttr: modelDto.favAttr,
         };
         return this.getHistoricalAttrs().pipe(map(attrs => {
             this.entityMetadata.attrs = attrs.filter(a => Object.keys(entity).indexOf(a) >= 0);

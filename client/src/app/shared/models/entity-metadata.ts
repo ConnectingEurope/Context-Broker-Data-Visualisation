@@ -9,4 +9,5 @@ export interface EntityMetadata {
     cometUrl?: string;
     service?: string;
     servicePath?: string;
+    favAttr?: string;
 }
