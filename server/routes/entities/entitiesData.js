@@ -82,7 +82,7 @@ function getUrl(cb) {
 }
 
 function getAttrs(entity) {
-    return entity.attrs.filter(a => a.selected).map(a => a.name).concat(['location']).join();
+    return entity.attrs.filter(a => a.selected).map(a => a.name).concat(['location']);
 }
 
 function getParams(e, offset) {
@@ -91,7 +91,7 @@ function getParams(e, offset) {
         options: 'keyValues,count',
         limit: maxRequestSize,
         offset: offset,
-        attrs: getAttrs(e),
+        attrs: getAttrs(e).join(),
     };
 }
 
@@ -105,6 +105,7 @@ function getModelDto(cb, s, entity, entityData) {
         service: s ? s.service : '',
         servicePath: s ? s.servicePath : '',
         data: entityData,
+        selectedAttrs: getAttrs(entity),
     }
 }
 

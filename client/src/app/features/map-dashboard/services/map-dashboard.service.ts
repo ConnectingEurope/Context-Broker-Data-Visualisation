@@ -26,6 +26,19 @@ export class MapDashboardService {
         return this.http.post<Entity[]>('/server/entities/one', body);
     }
 
+    public getEntityForPopup(model: ModelDto, entity: Entity): Observable<Entity[]> {
+        const body: any = {
+            url: model.contextUrl,
+            service: model.service,
+            servicePath: model.servicePath,
+            type: model.type,
+            id: entity.id,
+            attrs: model.selectedAttrs,
+        };
+
+        return this.http.post<Entity[]>('/server/entities/one', body);
+    }
+
     // public getEntityForUpdating(entityMetadata: EntityMetadata): Observable<Entity[]> {
     //     const body: any = {
     //         url: entityMetadata.contextUrl,

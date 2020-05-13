@@ -51,7 +51,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public displayDebugHeader: string;
     public displayDebugContent: Entity;
 
-    private intervalRefreshMilliseconds: number = 15000;
+    private intervalRefreshMilliseconds: number = 7000;
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
     private layerGroups: { [key: string]: L.LayerGroup } = {};
@@ -526,12 +526,20 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
      Marker event functions
     *****************************************************************************/
 
-    private setMarkerEvents(marker: L.Marker, popup: L.Popup, popupComponentRef: ComponentRef<PopupComponent>): void {
+    private setMarkerEvents(marker: L.Marker, p: L.Popup, pRef: ComponentRef<PopupComponent>, entity: Entity, model: ModelDto): void {
 
         marker.on('popupopen', () => {
             marker.closeTooltip();
-            this.openPopup = popup;
-            popupComponentRef.instance.refreshScroll();
+            this.mapDashBoardService.getEntityForPopup(model, entity).pipe(takeUntil(this.destroy$)).subscribe(
+                data => {
+                    const updatedEntity: Entity = data[0];
+                    pRef.instance.updatePopup(updatedEntity, model);
+                    pRef.changeDetectorRef.detectChanges();
+                    pRef.instance.refreshScroll();
+                    this.setTooltip(marker, updatedEntity, model);
+                    this.openPopup = p;
+                },
+            );
         });
 
         marker.on('popupclose', () => {
@@ -556,7 +564,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
             popup.setContent(popupComponentRef.location.nativeElement);
             marker.bindPopup(popup);
             marker[this.popupAttr] = popupComponentRef;
-            this.setMarkerEvents(marker, popup, popupComponentRef);
+            this.setMarkerEvents(marker, popup, popupComponentRef, entity, model);
         } else {
             popupComponentRef = marker[this.popupAttr];
             popupComponentRef.instance.updatePopup(entity, model);
@@ -624,7 +632,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.mapDashBoardService.getEntity(model, entity).pipe(takeUntil(this.destroy$)).subscribe(
             data => {
                 if (data.length > 0) {
-                    this.onClickDebugSuccess(data[0], marker);
+                    this.onClickDebugSuccess(data[0], marker, model);
                 } else {
                     this.onLoadDataFail();
                 }
@@ -635,11 +643,12 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         );
     }
 
-    private onClickDebugSuccess(data: Entity, marker: L.Marker): void {
+    private onClickDebugSuccess(data: Entity, marker: L.Marker, model: ModelDto): void {
         marker.closePopup();
         this.displayDebugHeader = data.id;
         this.displayDebugContent = data;
         this.displayDebug = true;
+        this.setTooltip(marker, data, model);
     }
 
 }

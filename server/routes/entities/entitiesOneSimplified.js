@@ -3,26 +3,51 @@ var router = express.Router();
 const request = require('request');
 const utils = require('../../utils');
 
+const maxRequestSize = 1000;
+
 router.post('/', function (routerReq, routerRes, routerNext) {
 
-    const b = routerReq.body;
-
-    request({ url: getUrl(b), qs: getParams(b), headers: utils.getBrokerHeaders(b), json: true }, (err, res, body) => {
-        if (err) utils.sendFiwareError(routerRes, res, err);
-        else {
-            routerRes.send(body);
+    try {
+        const b = routerReq.body;
+        processEntity(routerRes, b);
+    } catch (exception) {
+        if (!exception.res && !exception.err) console.log(exception);
+        else if (!routerRes.headersSent) {
+            utils.sendFiwareError(routerRes, exception.res, exception.err);
         }
-    });
+    }
+
+    async function processEntity(routerRes, b) {
+        let entityData = [];
+        let offset = 0;
+        let totalCount = 0;
+        do {
+            const data = await get(b, offset);
+            totalCount = data.totalCount;
+            entityData = entityData.concat(data.entityDataBlock);
+            offset += maxRequestSize;
+        } while (totalCount > offset);
+        if (!routerRes.headersSent) { routerRes.send(entityData); }
+    }
+
+    function get(b, offset) {
+        return new Promise((resolve, reject) => {
+            request({ url: getUrl(b), qs: getParams(b, offset), headers: utils.getBrokerHeaders(b), json: true }, (err, res, body) => {
+                if (err) { reject({ res, err }); }
+                resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
+            });
+        });
+    }
 
     function getUrl(b) {
         return utils.parseUrl(b.url) + '/v2/entities';
     }
 
-    function getParams(b) {
+    function getParams(b, offset) {
         return {
             type: b.type,
-            // id: b.id,
             limit: 1000,
+            offset: offset,
             options: 'keyValues',
             attrs: 'location,' + b.favAttr
         }
