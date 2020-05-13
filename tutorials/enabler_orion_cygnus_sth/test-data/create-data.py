@@ -4,9 +4,10 @@
 import json
 import requests
 import time
+import random
 
-parking_service = 'testParking'
-environment_service = 'testEnvironment'
+parking_service = 'testparking'
+environment_service = 'testenvironment'
 
 DATA_URL = 'https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/madrid-environment-data.json'
 SECONDS_TO_SLEEP = 3600
@@ -14,12 +15,12 @@ CONTEXT_BROKER_URL = 'http://localhost:1026/v2/entities'
 ENVIRONMENT_HEADERS = {'Content-Type': 'application/json', 'fiware-service': environment_service}
 SUBSCRIPTION_URL = 'http://localhost:1026/v2/subscriptions'
 CREATE_SUBSCRIPTIONS = True
-NOTIFY_SUBS_URL = 'http://localhost:5051/notify'
+NOTIFY_SUBS_URL = 'http://fiware-cygnus:5051/notify'
 HISTORICAL_ATTRS = ['NO', 'NO2', 'NOx', 'O3', 'BEN', 'CH4', 'EBE', 'NHMC', 'PM10', 'TCH', 'TOL', 'PM2.5', 'SO2', 'CO']
 
 PARKING_DATA_URL = 'https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/malaga-parking-data.json'
 parking_headers = {'Content-Type': 'application/json', 'fiware-service': parking_service}
-
+PROVIDERS = ['TEF', 'TYP', 'CPA', 'AJV']
 '''
     Initial import of the environment data, creating the entities in the local CB.
 '''
@@ -73,7 +74,6 @@ def import_environment_data():
 
 def update_environment_data():
     environment_data = requests.get(DATA_URL)
-
     if environment_data:
         for env in environment_data.json():
             # Copy the original result and deletes the key which may not be updated
@@ -81,13 +81,24 @@ def update_environment_data():
             del env_copy['id']
             del env_copy['type']
             env_id = env.get('id')
-            update_url = CONTEXT_BROKER_URL + '/' + env_id + '/attrs?options=keyValues'
+            for attr in HISTORICAL_ATTRS:
+                try:
+                    if env_copy[attr]:
+                        env_copy[attr] = {'type': 'Number', 'value': random.randint(0, 10), 'metadata': {}}
+                except:
+                    pass
+
+            update_url = CONTEXT_BROKER_URL + '/' + env_id + '/attrs'
             r = requests.put(
                 update_url,
                 data=json.dumps(env_copy),
                 headers=ENVIRONMENT_HEADERS
             )
             print(r)
+
+
+def get_random_provider():
+    return PROVIDERS[random.randint(0, len(PROVIDERS) - 1)]
 
 '''
     Initial import of the parkings data, creating the entities in the local CB.
@@ -146,13 +157,13 @@ def update_parkings_data():
         for parking in parkings_data.json():
             parking_id = parking.get('id')
             update_url = CONTEXT_BROKER_URL + '/' + parking_id + '/attrs/availableSpotNumber/value'
-            available_spots = parking.get('availableSpotNumber').get('value')
+            available_spots = random.randint(10, 99)
             r = requests.put(
                 update_url,
                 data=str(available_spots),
                 headers={'Content-Type': 'text/plain', 'fiware-service': parking_service}
             )
-            print (r)
+            print(r)
 
 
 if __name__ == '__main__':
