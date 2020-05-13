@@ -14,7 +14,7 @@ import { MapDashboardService } from '../services/map-dashboard.service';
 import { PopupService } from '../services/popup-service';
 import { Entity } from 'src/app/shared/models/entity';
 import { ModelDto } from 'src/app/shared/models/model-dto';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, filter } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { Utils } from '../../../shared/misc/utils';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
@@ -73,6 +73,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     private defaultZoom: number = 4;
     private firstLoad: boolean = true;
     private tooltipMaxChars: number = 25;
+    private filteredAttrs: any = {};
 
     @ViewChild('layerConditionsPanel') private layerConditionsPanel: OverlayPanel;
     @ViewChild('layerPanel') private layerPanel: OverlayPanel;
@@ -221,6 +222,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     *****************************************************************************/
 
     private setFilters(event: ConditionFilter[]): void {
+        this.storeFilterAttrs(event);
         this.filters = event;
         this.markerClusterGroup.addLayers(this.removedLayers);
         this.removedLayers = [];
@@ -230,12 +232,20 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.removeLayersForFilters();
     }
 
+    private storeFilterAttrs(filters: ConditionFilter[]): void {
+        this.filteredAttrs = {};
+        filters.forEach(f => {
+            if (!this.filteredAttrs[f.entity]) { this.filteredAttrs[f.entity] = []; }
+            this.filteredAttrs[f.entity].push(f.attribute);
+        });
+    }
+
     private removeLayersForFilters(): void {
         const layersToRemove: L.Layer[] = [];
         this.markerClusterGroup.getLayers().forEach((layer) => {
-            this.filters.forEach(filter => {
-                if (filter.selected && layer[this.entityAttr][filter.attribute] && layer[this.entityAttr].type === filter.entity) {
-                    if (this.applyFilter(layer, filter, this.entityAttr)) {
+            this.filters.forEach(f => {
+                if (f.selected && layer[this.entityAttr][f.attribute] && layer[this.entityAttr].type === f.entity) {
+                    if (this.applyFilter(layer, f, this.entityAttr)) {
                         layersToRemove.push(layer);
                         this.removedLayers.push(layer);
                     }
@@ -245,13 +255,13 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.markerClusterGroup.removeLayers(layersToRemove);
     }
 
-    private applyFilter(layer: L.Layer, filter: ConditionFilter, controlName: string): boolean {
+    private applyFilter(layer: L.Layer, f: ConditionFilter, controlName: string): boolean {
         let shouldBeRemoved: boolean = false;
 
-        if (filter.condition !== 'contains') {
-            shouldBeRemoved = !Utils.mathItUp[filter.condition](Number(layer[controlName][filter.attribute]), Number(filter.value));
+        if (f.condition !== 'contains') {
+            shouldBeRemoved = !Utils.mathItUp[f.condition](Number(layer[controlName][f.attribute]), Number(f.value));
         } else {
-            shouldBeRemoved = !layer[controlName][filter.attribute].toString().includes(filter.value);
+            shouldBeRemoved = !layer[controlName][f.attribute].toString().includes(f.value);
         }
 
         return shouldBeRemoved;
@@ -364,18 +374,16 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
 
         this.currentModels.forEach((model, i) => {
-            this.mapDashBoardService.getEntitiesForUpdating(model).pipe(takeUntil(this.destroy$)).subscribe(
+            this.mapDashBoardService.getEntitiesForUpdating(model, this.filteredAttrs[model.type]).pipe(takeUntil(this.destroy$)).subscribe(
                 (entities: Entity[]) => {
                     entities.forEach(e => {
                         const marker: L.Marker = this.markersByModelAndId[i][e.id];
                         if (marker && this.isValidCoordinates(e)) {
-                            console.log('updating', model.type);
                             const currentLocation: number[] = e.location.coordinates;
                             if (this.hasLocationBeenUpdated(marker, currentLocation)) {
                                 marker.setLatLng(currentLocation.slice().reverse() as L.LatLngExpression);
                             }
-                            marker[this.entityAttr][model.favAttr] = e[model.favAttr];
-                            marker[this.entityAttr].location = e.location;
+                            Object.entries(e).forEach(a => marker[this.entityAttr][a[0]] = a[1]);
                             this.setTooltip(marker, e, model);
                         }
                     });
@@ -420,7 +428,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private addEntity(model: ModelDto, entity: Entity, categoryKey: string, i: number): void {
         if (this.isValidCoordinates(entity)) {
-            console.log('inserting', model.type);
             this.storeMinMaxLocation(entity.location.coordinates[1], entity.location.coordinates[0]);
             // const existentMarker: L.Marker = this.findMarker(model, entity);
             // existentMarker ? this.updateEntity(existentMarker, model, entity) : this.insertEntity(model, entity, categoryKey);

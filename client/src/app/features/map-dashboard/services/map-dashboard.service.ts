@@ -51,7 +51,7 @@ export class MapDashboardService {
     //     return this.http.post<Entity[]>('/server/entities/one/simplified', body);
     // }
 
-    public getEntitiesForUpdating(model: ModelDto): Observable<Entity[]> {
+    public getEntitiesForUpdating(model: ModelDto, filteredAttrs: string[]): Observable<Entity[]> {
         let headers: HttpHeaders = new HttpHeaders();
         headers = headers.set('Avoid-Http-Interceptor', 'true');
         const body: any = {
@@ -60,6 +60,7 @@ export class MapDashboardService {
             servicePath: model.servicePath,
             type: model.type,
             favAttr: model.favAttr,
+            attrs: filteredAttrs,
         };
 
         return this.http.post<Entity[]>('/server/entities/one/simplified', body, { headers });
