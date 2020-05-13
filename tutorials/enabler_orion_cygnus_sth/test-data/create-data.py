@@ -5,18 +5,20 @@ import json
 import requests
 import time
 
-DATA_URL = 'https://streams.lab.fiware.org/v2/entities?type=AirQualityObserved'
-DATA_HEADERS = {'fiware-service': 'environment', 'fiware-servicepath': '/Madrid'}
+parking_service = 'testParking'
+environment_service = 'testEnvironment'
+
+DATA_URL = 'https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/feature/Sprint-2/script-sandbox/tutorials/enabler_orion_cygnus_sth/test-data/madrid-environment-data.json'
 SECONDS_TO_SLEEP = 3600
 CONTEXT_BROKER_URL = 'http://localhost:1026/v2/entities'
-ENVIRONMENT_HEADERS = {'Content-Type': 'application/json', 'fiware-service': 'test-environment'}
+ENVIRONMENT_HEADERS = {'Content-Type': 'application/json', 'fiware-service': environment_service}
 SUBSCRIPTION_URL = 'http://localhost:1026/v2/subscriptions'
 CREATE_SUBSCRIPTIONS = True
 NOTIFY_SUBS_URL = 'http://localhost:5051/notify'
 HISTORICAL_ATTRS = ['NO', 'NO2', 'NOx', 'O3', 'BEN', 'CH4', 'EBE', 'NHMC', 'PM10', 'TCH', 'TOL', 'PM2.5', 'SO2', 'CO']
 
-PARKING_DATA_URL = 'https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json'
-parking_headers = {'Content-Type': 'application/json', 'fiware-service': 'test-parking'}
+PARKING_DATA_URL = 'https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/feature/Sprint-2/script-sandbox/tutorials/enabler_orion_cygnus_sth/test-data/malaga-parking-data.json'
+parking_headers = {'Content-Type': 'application/json', 'fiware-service': parking_service}
 
 '''
     Initial import of the environment data, creating the entities in the local CB.
@@ -24,14 +26,15 @@ parking_headers = {'Content-Type': 'application/json', 'fiware-service': 'test-p
 
 
 def import_environment_data():
-    environment_data = requests.get(DATA_URL, headers=DATA_HEADERS)
+    environment_data = requests.get(DATA_URL)
+
     if environment_data:
         for env in environment_data.json():
             r = requests.post(
-                CONTEXT_BROKER_URL,
+                CONTEXT_BROKER_URL + '?options=keyValues',
                 data=json.dumps(env),
                 headers=ENVIRONMENT_HEADERS)
-            print('Creation of entity, response_code: ' + str(r.status_code))
+            print('Creation of entity, response_code: ' + str(r.status_code) + ' - ' + str(r))
 
         # Create the subscription for the current entity and its attributes
         if CREATE_SUBSCRIPTIONS:
@@ -69,7 +72,7 @@ def import_environment_data():
 
 
 def update_environment_data():
-    environment_data = requests.get(DATA_URL, headers=DATA_HEADERS)
+    environment_data = requests.get(DATA_URL)
 
     if environment_data:
         for env in environment_data.json():
@@ -78,7 +81,7 @@ def update_environment_data():
             del env_copy['id']
             del env_copy['type']
             env_id = env.get('id')
-            update_url = CONTEXT_BROKER_URL + '/' + env_id + '/attrs'
+            update_url = CONTEXT_BROKER_URL + '/' + env_id + '/attrs?options=keyValues'
             r = requests.put(
                 update_url,
                 data=json.dumps(env_copy),
@@ -147,7 +150,7 @@ def update_parkings_data():
             r = requests.put(
                 update_url,
                 data=str(available_spots),
-                headers={'Content-Type': 'text/plain', 'fiware-service': 'test-parking'}
+                headers={'Content-Type': 'text/plain', 'fiware-service': parking_service}
             )
             print (r)
 
@@ -157,8 +160,8 @@ if __name__ == '__main__':
     existent_parkings_data = 0
     while not existent_environment_data and not existent_parkings_data:
         try:
-            existent_environment_data = requests.get(CONTEXT_BROKER_URL, headers={'fiware-service': 'test-environment'})
-            existent_parkings_data = requests.get(CONTEXT_BROKER_URL, headers={'fiware-service': 'test-parking'})
+            existent_environment_data = requests.get(CONTEXT_BROKER_URL, headers={'fiware-service': environment_service})
+            existent_parkings_data = requests.get(CONTEXT_BROKER_URL, headers={'fiware-service': parking_service})
         except:
             print('sleeping')
             time.sleep(60)
