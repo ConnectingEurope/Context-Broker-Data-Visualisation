@@ -8,7 +8,7 @@ import time
 parking_service = 'testParking'
 environment_service = 'testEnvironment'
 
-DATA_URL = 'https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/feature/Sprint-2/script-sandbox/tutorials/enabler_orion_cygnus_sth/test-data/madrid-environment-data.json'
+DATA_URL = 'https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/madrid-environment-data.json'
 SECONDS_TO_SLEEP = 3600
 CONTEXT_BROKER_URL = 'http://localhost:1026/v2/entities'
 ENVIRONMENT_HEADERS = {'Content-Type': 'application/json', 'fiware-service': environment_service}
@@ -17,7 +17,7 @@ CREATE_SUBSCRIPTIONS = True
 NOTIFY_SUBS_URL = 'http://localhost:5051/notify'
 HISTORICAL_ATTRS = ['NO', 'NO2', 'NOx', 'O3', 'BEN', 'CH4', 'EBE', 'NHMC', 'PM10', 'TCH', 'TOL', 'PM2.5', 'SO2', 'CO']
 
-PARKING_DATA_URL = 'https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/feature/Sprint-2/script-sandbox/tutorials/enabler_orion_cygnus_sth/test-data/malaga-parking-data.json'
+PARKING_DATA_URL = 'https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/malaga-parking-data.json'
 parking_headers = {'Content-Type': 'application/json', 'fiware-service': parking_service}
 
 '''
