@@ -32,7 +32,7 @@ export class ConfigDashboardService {
 
     public createHistoricalForm(): FormGroup {
         return new FormGroup({
-            cygnus: new FormControl('', [Validators.required, Validators.pattern(Utils.whiteSpaceExp)]),
+            cygnus: new FormControl('', []),
             comet: new FormControl('', [Validators.required, Validators.pattern(Utils.whiteSpaceExp)]),
         });
     }
