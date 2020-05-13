@@ -198,9 +198,9 @@ Additionally, a message is displayed under the button if there are not subscript
 
 In order to complement the real-time data, the Enabler offers the possibility to combine it with historical data. Hence, the user is able to optionally configure tools for its implementation in the Configuration page.
 
-The historical data in the Enabler supports two tools that must be configured for each of the Context Broker instances as they work together: **Cygnus** and **STH-Comet**.
+The historical data in the Enabler supports two tools that should be configured for each of the Context Broker instances as they work together: **Cygnus** and **STH-Comet**.
 
-If any of the tools is not available, the visualisation of the historical data will not be possible.
+The [architecture of the enabler](../technical/index.md#architecture) has been designed to integrate both Cygnus and STH-Comet, as the documentation of the [formal mode](https://github.com/FIWARE/tutorials.Short-Term-History#formal-mode-cygnus--sth-comet) indicates. However, it is also possible to use the enabler with the [minimal mode architecture](https://github.com/FIWARE/tutorials.Short-Term-History#minimal-mode-sth-comet-only) (configuring only STH-Comet).
 
 [Top](#user-manual)
 
@@ -218,7 +218,7 @@ The second tool is STH-Comet. In essence, this tool retrieves the historical dat
 
 #### Configuring the tools
 
-If the user wants to use the historical data in the enabler, **Cygnus and STH-Comet must be configured for each of the Context Broker instances**.
+If the user wants to use the historical data in the enabler, **Cygnus and STH-Comet must be configured for each of the Context Broker instances** (unless the [minimal mode architecture](https://github.com/FIWARE/tutorials.Short-Term-History#minimal-mode-sth-comet-only) is being used).
 The user should introduce the desired URL and the chosen port for each of the tools.
 
 Before proceeding, it is recommended to check the status of the tools to ensure that the configuration provided is valid and ready to be used. This can be done by pressing the yellow checkbox next to the URL. If any of the tools is not available, the configuration and exportation of the historical data will not be possible. If the configuration is incorrect, the user will be informed with an unsuccessful connection message.

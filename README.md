@@ -36,6 +36,7 @@ The complete list of FIWARE GEs and Incubated FIWARE GEs can be found at the [FI
 - [Documentation](#documentation)
 - [Deployment](#deployment)
 - [Reference documentation](#reference-documentation)
+- [Context Broker instances with real data](#context-broker-instances-with-real-data)
 - [License](#license)
 - [Contributors](#contributors)
 
@@ -83,6 +84,19 @@ The following documentation is recommended to be read before starting to use the
 - [FIWARE tutorials: Short term history](https://github.com/FIWARE/tutorials.Short-Term-History)
 - [FIWARE lab](https://www.fiware.org/developers/fiware-lab/)
 - [NGSI v2 specifications](http://fiware.github.io/specifications/ngsiv2/stable/)
+
+[Top](#context-broker-data-visualisation)
+
+## Context Broker instances with real data
+
+The following links provide documentation of some **Context Broker instances with real data**. All of them are open data, so it can be used for testing purposes. Those Context Brokers could be integrated with the enabler:
+
+- [FIWARE Data Streams](https://documenter.getpostman.com/view/3940441/RznEMKdr?version=latest): Data of environment, point of interest and weather.
+- [Opplafy.eu](https://data.opplafy.eu/dataset): Data of parkings, traffic alers, buses, traffic cameras, etc.
+
+Note the previous links are external instances and are not maintenined by the developers of the enabler, so it would be possible some of them could fail.
+
+Additionally, it is also possible to generate test data to be used in the enabler. The procedure is detailed in the [tutorials of deployment documentation](doc/tutorials/index.md).
 
 [Top](#context-broker-data-visualisation)
 
