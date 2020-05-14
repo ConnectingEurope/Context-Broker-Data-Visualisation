@@ -17,6 +17,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
     - [Deploying the enabler](#fourthTutorial-deploy)
     - [Associate Floating IP](#fourthTutorial-ip)
     - [Deploying the enabler tools](#fourthTutorial-tools)
+    - [Generating test data](#fourthTutorial-generating-test-data)
 
 ## Local environment
 
@@ -346,7 +347,7 @@ This image is available in the **Images** menu, and its name is **cb_data_visual
 - **Orion Context Broker:** exposed in port 1026
 - **Cygnus:** exposed in port 5080
 - **STH Commet:** exposed in port 8666
-- **MongoDB*:* it is not exposed in any port, Internally uses port 27017.
+- **MongoDB:** it is not exposed in any port, Internally uses port 27017.
 
 In order to instantiate the image, a **new security group** must be configured in the **Access & Security** menu:
 
@@ -406,6 +407,8 @@ In order to instantiate the image, a **new security group** must be configured i
         - Select the security group *cbenabler_tools_security_group*.
     - Networking:
         - The *node-int-net-01* network should be in the **Selected networks** section.
+    - Post-creation:
+        - Normally, this section should be empty if the purpose is that there is no information in the context borker. But the development team has prepared a python script in case the user wants to fill the context broker with test data. The documentation can be found at the following link: [generating test data](#fourthTutorial-generating-test-data)
 
 6. The launched instance will be visible with *spawning* status in the **Instances** menu.
 
@@ -423,3 +426,25 @@ In order to instantiate the image, a **new security group** must be configured i
     >*Illustration 6. Communication between the enabler and the tools*
 
 [Top](#tutorials-for-deployment)
+
+<a name="fourthTutorial-generating-test-data"></a>
+It is possible to launch scripts in one instance during the launch process. One has been created with the intention of filling the context broker with test data.
+
+https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/create-data.py
+
+- In the post-creation section, there are two options:
+    1. The first option:
+        - Customization Script Source:
+            - Select Direct Input:
+        - Script data:
+            - Copy text
+    2. The second option;
+        - Customization Script Source:
+            - Select file.
+        - Script File
+            - Upload the file from the computer.
+
+    ![Architecture](../img/LaunchInstanceScriptTestData.png)
+    >*Illustration 7. Generating test data*
+
+If the script is running, the context broker receives every hour a new registry to be stored.
