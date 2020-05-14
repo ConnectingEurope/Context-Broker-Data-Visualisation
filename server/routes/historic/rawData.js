@@ -16,8 +16,8 @@ async function getRawData(routerRes, b) {
         const data = await getHistoricalData(b);
         routerRes.send(data);
     } catch (exception) {
-        if (!exception.res && !exception.err) console.log(exception);
-        utils.sendFiwareError(routerRes, exception.res, exception.err);
+        if (!exception.res && !exception.err) utils.sendGenericError(routerRes, exception);
+        else utils.sendFiwareError(routerRes, exception.res, exception.err);
     }
 }
 

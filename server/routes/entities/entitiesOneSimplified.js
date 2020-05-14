@@ -11,7 +11,7 @@ router.post('/', function (routerReq, routerRes, routerNext) {
         const b = routerReq.body;
         processEntity(routerRes, b);
     } catch (exception) {
-        if (!exception.res && !exception.err) console.log(exception);
+        if (!exception.res && !exception.err) utils.sendGenericError(routerRes, exception);
         else if (!routerRes.headersSent) {
             utils.sendFiwareError(routerRes, exception.res, exception.err);
         }

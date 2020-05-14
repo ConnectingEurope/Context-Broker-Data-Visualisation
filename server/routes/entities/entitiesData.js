@@ -45,7 +45,7 @@ async function processEntities(routerRes, modelDtos, cb, s) {
             try {
                 await processEntity(cb, s, e, modelDtos);
             } catch (exception) {
-                if (!exception.res && !exception.err) console.log(exception);
+                if (!exception.res && !exception.err) utils.sendGenericError(routerRes, exception);
                 else if (!routerRes.headersSent) {
                     utils.sendFiwareError(routerRes, exception.res, exception.err);
                 }

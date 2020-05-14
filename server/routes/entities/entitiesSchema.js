@@ -14,7 +14,7 @@ router.post('/', function (routerReq, routerRes, routerNext) {
             try {
                 evaluateTypes(routerRes, b, body);
             } catch (exception) {
-                if (!exception.res && !exception.err) console.log(exception);
+                if (!exception.res && !exception.err) utils.sendGenericError(routerRes, exception);
                 else if (!routerRes.headersSent) {
                     utils.sendFiwareError(routerRes, exception.res, exception.err);
                 }
@@ -30,11 +30,13 @@ function getUrl(b) {
 
 async function evaluateTypes(routerRes, requestInfo, types) {
     const typeDtos = [];
-    for (const t of types) {
-        typeDtos.push({
-            valid: await isTypeValid(requestInfo, t),
-            schema: t,
-        });
+    if (Array.isArray(types)) {
+        for (const t of types) {
+            typeDtos.push({
+                valid: await isTypeValid(requestInfo, t),
+                schema: t,
+            });
+        }
     }
     if (!routerRes.headersSent) routerRes.send(typeDtos);
 }

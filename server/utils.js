@@ -33,11 +33,18 @@ module.exports = {
     },
 
     sendDbError: function (routerRes, err) {
+        console.log(err);
         routerRes.status(500).send(err)
     },
 
     sendFiwareError: function (routerRes, res, err) {
-        routerRes.status(res && res.statusCode ? res.statusCode : 404).send(err);
+        console.log(err);
+        routerRes.status(res && res.statusCode ? res.statusCode : 500).send(err);
+    },
+
+    sendGenericError: function (routerRes, exception) {
+        console.log(exception);
+        routerRes.status(500).send()
     },
 
 };
