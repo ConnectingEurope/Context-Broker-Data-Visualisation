@@ -27,7 +27,7 @@ router.post('/', function (routerReq, routerRes, routerNext) {
             entityData = entityData.concat(data.entityDataBlock);
             offset += maxRequestSize;
         } while (totalCount > offset);
-        if (!routerRes.headersSent) { routerRes.send(entityData); }
+        if (!routerRes.headersSent) routerRes.send(entityData);
     }
 
     function get(b, offset) {

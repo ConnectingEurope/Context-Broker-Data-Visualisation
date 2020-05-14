@@ -18,11 +18,13 @@ export interface ServiceConfiguration {
 export interface EntityConfiguration {
     name: string;
     selected: boolean;
+    selectable: boolean;
     attrs: AttrConfiguration[];
 }
 
 export interface AttrConfiguration {
     name: string;
     selected: boolean;
+    selectable: boolean;
     fav: boolean;
 }

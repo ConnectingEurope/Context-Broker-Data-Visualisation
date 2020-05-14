@@ -1,7 +1,7 @@
 import { TreeNode } from 'primeng/api/treenode';
 import { Injectable } from '@angular/core';
-import { EntityDto } from 'src/app/features/config-dashboard/models/entity-dto';
 import { EntityConfiguration, AttrConfiguration } from 'src/app/features/config-dashboard/models/context-broker-configuration';
+import { TypeContainerDto } from '../models/type-container-dto';
 
 @Injectable({
     providedIn: 'root',
@@ -9,21 +9,23 @@ import { EntityConfiguration, AttrConfiguration } from 'src/app/features/config-
 export class EntityTreeNodeService {
 
     private defaultAttrsConf: AttrConfiguration[] = [
-        { name: 'id', selected: true, fav: false },
-        { name: 'type', selected: true, fav: false },
+        { name: 'id', selected: true, selectable: true, fav: false },
+        { name: 'type', selected: true, selectable: true, fav: false },
     ];
 
-    public convertEntitiesToNodes(entities: EntityDto[]): TreeNode[] {
+    public convertEntitiesToNodes(typeConts: TypeContainerDto[]): TreeNode[] {
         const entitiesTree: TreeNode[] = [];
 
-        entities.forEach(e => {
+        typeConts.forEach(t => {
             entitiesTree.push({
-                data: e.type,
-                label: e.type,
-                children: Object.keys(e.attrs).filter(a => a !== 'location').map((a: string) => ({
+                data: t.schema.type,
+                label: t.schema.type,
+                selectable: t.valid,
+                children: Object.keys(t.schema.attrs).filter(a => a !== 'location').map((a: string) => ({
                     data: { name: a, fav: false },
                     label: a,
-                    parent: { data: e.type },
+                    selectable: t.valid,
+                    parent: { data: t.schema.type },
                 } as TreeNode)),
             });
         });
@@ -40,7 +42,7 @@ export class EntityTreeNodeService {
             e.attrs.forEach(a => {
                 this.convertAttrConfToNodes(a, e, treeNodeChildren, selectedTreeN);
             });
-            const treeNode: TreeNode = { data: e.name, label: e.name, children: treeNodeChildren };
+            const treeNode: TreeNode = { data: e.name, label: e.name, selectable: e.selectable, children: treeNodeChildren };
             treeN.push(treeNode);
             if (e.selected) {
                 this.checkIfTreeNodeIsPartialSelected(treeNode, e);
@@ -56,9 +58,11 @@ export class EntityTreeNodeService {
             return {
                 name: t.data,
                 selected: this.isTreeNodeSelected(t, selectedTreeNodes),
+                selectable: t.selectable,
                 attrs: this.defaultAttrsConf.concat(t.children.map(c => ({
                     name: c.data.name,
                     selected: this.isTreeNodeSelected(c, selectedTreeNodes),
+                    selectable: c.selectable,
                     fav: c.data.fav,
                 }))),
             };
@@ -70,6 +74,7 @@ export class EntityTreeNodeService {
             const treeNodeChild: TreeNode = {
                 data: { name: a.name, fav: a.fav },
                 label: a.name,
+                selectable: a.selectable,
                 parent: { data: e.name },
             };
             children.push(treeNodeChild);

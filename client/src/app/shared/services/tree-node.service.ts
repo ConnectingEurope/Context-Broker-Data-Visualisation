@@ -8,6 +8,7 @@ export class TreeNodeService {
 
     public getAllSelected(layers: TreeNode[]): TreeNode[] {
         let concatenatedLayers: TreeNode[] = layers || [];
+        concatenatedLayers = concatenatedLayers.filter(t => t.selectable !== false);
         if (layers) {
             layers.forEach(t => concatenatedLayers = concatenatedLayers.concat(this.getAllSelected(t.children)));
         }

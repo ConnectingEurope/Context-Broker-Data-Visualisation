@@ -1,14 +1,14 @@
-import { Component, Input, OnDestroy, ViewChild, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ContextBrokerForm } from '../../models/context-broker-form';
-import { EntityDto } from '../../models/entity-dto';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { TreeNode } from 'primeng/api/treenode';
 import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
 import { EntityTreeNodeService } from '../../services/entity-tree-node.service';
 import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
+import { TypeContainerDto } from '../../models/type-container-dto';
 
 @Component({
     selector: 'app-general-configuration',
@@ -78,8 +78,8 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
         const url: string = this.cb.form.value.url;
 
         this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(
-            entities => {
-                entities.length > 0 ? this.onChooseEntitiesSuccess(entities) : this.onChooseEntitiesFail();
+            types => {
+                types.length > 0 ? this.onChooseEntitiesSuccess(types) : this.onChooseEntitiesFail();
             },
             err => {
                 this.onChooseEntitiesFail();
@@ -129,9 +129,9 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
      Choose entities functions
     *****************************************************************************/
 
-    private onChooseEntitiesSuccess(entities: EntityDto[]): void {
+    private onChooseEntitiesSuccess(types: TypeContainerDto[]): void {
         this.chooseWarningVisible = false;
-        this.cb.entities = this.entityTreeNodeService.convertEntitiesToNodes(entities);
+        this.cb.entities = this.entityTreeNodeService.convertEntitiesToNodes(types);
         this.cb.selectedEntities = this.treeNodeService.getAllSelected(this.cb.entities);
         this.selectedEntitiesChange.emit();
     }

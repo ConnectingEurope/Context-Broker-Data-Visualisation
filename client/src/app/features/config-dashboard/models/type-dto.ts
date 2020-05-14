@@ -1,4 +1,4 @@
-export interface EntityDto {
+export interface TypeDto {
     type: string;
     attrs: {
         [key: string]: {

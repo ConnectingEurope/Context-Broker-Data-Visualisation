@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ContextBrokerConfiguration, ServiceConfiguration } from '../models/context-broker-configuration';
-import { EntityDto } from '../models/entity-dto';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Utils } from 'src/app/shared/misc/utils';
 import { ContextSubscription } from '../components/subscriptions-dialog/subscriptions-dialog.component';
+import { TypeContainerDto } from '../models/type-container-dto';
 
 @Injectable({
     providedIn: 'root',
@@ -79,9 +79,9 @@ export class ConfigDashboardService {
         return this.checkHealth(url, '/server/check-health/comet');
     }
 
-    public getEntitiesFromService(url: string, service?: string, servicePath?: string): Observable<EntityDto[]> {
+    public getEntitiesFromService(url: string, service?: string, servicePath?: string): Observable<TypeContainerDto[]> {
         const body: any = { url, service, servicePath };
-        return this.http.post<EntityDto[]>('/server/entities/schema', body);
+        return this.http.post<TypeContainerDto[]>('/server/entities/schema', body);
     }
 
     public getConfiguration(): Observable<ContextBrokerConfiguration[]> {

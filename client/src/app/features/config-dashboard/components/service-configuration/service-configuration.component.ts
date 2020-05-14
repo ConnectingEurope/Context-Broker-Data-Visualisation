@@ -3,12 +3,12 @@ import { ConfigDashboardService } from '../../services/config-dashboard.service'
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ContextBrokerForm } from '../../models/context-broker-form';
-import { EntityDto } from '../../models/entity-dto';
 import { ConfirmationService, TreeNode } from 'primeng/api';
 import { AccordionTab } from 'primeng/accordion/accordion';
 import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
 import { EntityTreeNodeService } from '../../services/entity-tree-node.service';
 import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
+import { TypeContainerDto } from '../../models/type-container-dto';
 
 @Component({
     selector: 'app-service-configuration',
@@ -107,8 +107,8 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         const servicePath: string = this.cb.services[index].form.value.servicePath;
 
         this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(
-            entities => {
-                entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiesFail(index);
+            types => {
+                types.length > 0 ? this.onChooseEntitiesSuccess(types, index) : this.onChooseEntitiesFail(index);
             },
             err => {
                 this.onChooseEntitiesFail(index);
@@ -151,9 +151,9 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
      Choose entities functions
     *****************************************************************************/
 
-    private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
+    private onChooseEntitiesSuccess(types: TypeContainerDto[], index: number): void {
         this.chooseWarningVisible = false;
-        this.cb.services[index].entities = this.entityTreeNodeService.convertEntitiesToNodes(entities);
+        this.cb.services[index].entities = this.entityTreeNodeService.convertEntitiesToNodes(types);
         this.cb.services[index].selectedEntities = this.treeNodeService.getAllSelected(this.cb.services[index].entities);
         this.selectedEntitiesChange.emit();
     }
