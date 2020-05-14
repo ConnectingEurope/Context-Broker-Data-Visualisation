@@ -47,7 +47,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public displayDebugHeader: string;
     public displayDebugContent: Entity;
 
-    private intervalRefreshMilliseconds: number = 15000;
+    private intervalRefreshMilliseconds: number = 7000;
     private entityAttr: string = 'data';
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
@@ -105,6 +105,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         const i: number = this.unselectedLayers.indexOf(event.node.data);
         this.unselectedLayers.splice(i, 1);
         this.markerClusterGroup.addLayer(this.layerGroups[event.node.data]);
+        this.closeTooltipsIfNeeded();
         this.setFilters();
     }
 
@@ -217,6 +218,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private setFilters(): void {
         this.markerClusterGroup.addLayers(this.removedLayers);
+        this.closeTooltipsIfNeeded();
         this.removedLayers = [];
         if (!this.layersBeforeFilter) {
             this.layersBeforeFilter = this.markerClusterGroup.getLayers();
@@ -292,20 +294,14 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         });
     }
 
-    private applyFiltersAfterUpdating(combinedCalls: Observable<any>[], markersWithNewLocation: L.Marker[]): void {
-        combineLatest(combinedCalls).pipe(takeUntil(this.destroy$)).subscribe(
-            (combinedResults) => {
-                this.setFilters();
-                markersWithNewLocation.forEach(m => {
-                    const currentLocation: number[] = m[this.entityAttr].location.coordinates;
-                    m.setLatLng(currentLocation.slice().reverse() as L.LatLngExpression);
-                });
-                this.unselectedLayers.forEach(l => this.markerClusterGroup.removeLayer(this.layerGroups[l]));
-            },
-            err => {
-                this.onLoadDataFail();
-            },
-        );
+    private applyFiltersAfterUpdating(markersWithNewLocation: L.Marker[]): void {
+        this.setFilters();
+        markersWithNewLocation.forEach(m => {
+            const currentLocation: number[] = m[this.entityAttr].location.coordinates;
+            m.setLatLng(currentLocation.slice().reverse() as L.LatLngExpression);
+        });
+        this.unselectedLayers.forEach(l => this.markerClusterGroup.removeLayer(this.layerGroups[l]));
+        this.closeTooltipsIfNeeded();
     }
 
     /*****************************************************************************
@@ -360,17 +356,28 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private updateEntities(triggeredByFilter?: boolean): void {
         const combinedCalls: Observable<any>[] = [];
-        const markersWithNewLocation: L.Marker[] = [];
         this.currentModels.forEach((model, i) => {
-            const obs: Observable<Entity[]> = this.mapDashBoardService
-                .getEntitiesForUpdating(model, this.filteredAttrs[model.type], !triggeredByFilter);
+            let obs: Observable<Entity[]>;
+            obs = this.mapDashBoardService.getEntitiesForUpdating(model, this.filteredAttrs[model.type], !triggeredByFilter);
             combinedCalls.push(obs);
-            obs.pipe(takeUntil(this.destroy$)).subscribe(
-                (entities: Entity[]) => entities.forEach(e => this.updateEntity(e, i, model, markersWithNewLocation)),
-                err => this.onLoadDataFail(),
-            );
         });
-        this.applyFiltersAfterUpdating(combinedCalls, markersWithNewLocation);
+        this.processUpdate(combinedCalls);
+    }
+
+    private processUpdate(combinedCalls: Observable<any>[]): void {
+        const markersWithNewLocation: L.Marker[] = [];
+        combineLatest(combinedCalls).pipe(takeUntil(this.destroy$)).subscribe(
+            (combinedResults) => {
+                combinedResults.forEach((entities: Entity[], i: number) => {
+                    const model: ModelDto = this.currentModels[i];
+                    entities.forEach(e => this.updateEntity(e, i, model, markersWithNewLocation));
+                });
+                this.applyFiltersAfterUpdating(markersWithNewLocation);
+            },
+            err => {
+                this.onLoadDataFail();
+            },
+        );
     }
 
     private processModels(models: ModelDto[]): void {
@@ -527,8 +534,8 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
      Tooltip functions
     *****************************************************************************/
 
-    private setTooltip(marker: L.Marker, entity: Entity, model: ModelDto): void {
-        const tooltipContent: string = this.getTooltipContent(entity, model);
+    private setTooltip(marker: L.Marker, entity: Entity, model: ModelDto, fromDebug?: boolean): void {
+        const tooltipContent: string = this.getTooltipContent(entity, model, fromDebug);
 
         if (tooltipContent) {
             if (!marker.getTooltip()) {
@@ -554,15 +561,22 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         }
     }
 
-    private getTooltipContent(entity: Entity, model: ModelDto): string {
-        return model.favAttr && entity[model.favAttr] ?
-            ('<span>' + this.truncateTooltipContent(entity[model.favAttr]) + '</span>') :
+    private getTooltipContent(entity: Entity, model: ModelDto, fromDebug?: boolean): string {
+        return model.favAttr && entity[model.favAttr] && (!fromDebug || (fromDebug && entity[model.favAttr].value)) ?
+            ('<span>' + this.truncateTooltipContent(fromDebug ? entity[model.favAttr].value : entity[model.favAttr]) + '</span>') :
             undefined;
     }
 
     private truncateTooltipContent(content: any): string {
         const str: string = JSON.stringify(content);
         return (str.length > this.tooltipMaxChars ? str.substring(0, this.tooltipMaxChars) + '...' : str);
+    }
+
+    private closeTooltipsIfNeeded(): void {
+        const markers: L.Layer[] = this.markerClusterGroup.getLayers();
+        markers.forEach(m => {
+            if (!this.favChecked) { (m as L.Marker).closeTooltip(); }
+        });
     }
 
     /*****************************************************************************
@@ -597,7 +611,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         this.displayDebugHeader = data.id;
         this.displayDebugContent = data;
         this.displayDebug = true;
-        this.setTooltip(marker, data, model);
+        this.setTooltip(marker, data, model, true);
     }
 
 }
