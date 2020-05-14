@@ -2,6 +2,7 @@ import { EntityFilter, CategoryFilter, AttributeFilter } from '../../models/cate
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ActionFilter } from '../../models/action-filter';
 import { ConditionFilter } from '../../models/condition-filter';
+import { Utils } from 'src/app/shared/misc/utils';
 
 @Component({
     selector: 'app-layer-conditions',
@@ -28,7 +29,7 @@ export class LayerConditionsComponent implements OnInit {
     }
 
     public add(): void {
-        if (this.categorySelected.name && this.entitySelected.name && this.attrSelected.name &&
+        if (Utils.getListObjectsSafely('name', this.categorySelected, this.entitySelected, this.attrSelected) &&
             this.actionSelected && this.textSelected !== undefined) {
 
             this.filterList.push({
