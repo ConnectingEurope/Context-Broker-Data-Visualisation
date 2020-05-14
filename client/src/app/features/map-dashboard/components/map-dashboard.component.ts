@@ -14,7 +14,7 @@ import { MapDashboardService } from '../services/map-dashboard.service';
 import { PopupService } from '../services/popup-service';
 import { Entity } from 'src/app/shared/models/entity';
 import { ModelDto } from 'src/app/shared/models/model-dto';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { Utils } from '../../../shared/misc/utils';
 import { AppMessageService } from 'src/app/shared/services/app-message-service';
@@ -26,7 +26,6 @@ import { OverlayPanel } from 'primeng/overlaypanel/public_api';
 import { LayerTreeNodeService } from '../services/layer-tree-node.service';
 import { CategoryService } from '../services/category-service';
 import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
-import { EntityMetadata } from 'src/app/shared/models/entity-metadata';
 import { Observable, combineLatest } from 'rxjs';
 
 @Component({
@@ -50,8 +49,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private intervalRefreshMilliseconds: number = 15000;
     private entityAttr: string = 'data';
-    // private popupCompAttr: string = 'popupRef';
-    // private tooltipAttr: string = 'tooltipComp';
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
     private layerGroups: { [key: string]: L.LayerGroup } = {};
@@ -545,7 +542,6 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
                 marker.setTooltipContent(tooltipContent);
             }
         }
-        // marker[this.tooltipAttr] = marker.getTooltip();
     }
 
     private openTooltip(marker: L.Marker): void {
