@@ -17,45 +17,45 @@ router.post('/', function (routerReq, routerRes, routerNext) {
         }
     }
 
-    async function processEntity(routerRes, b) {
-        let entityData = [];
-        let offset = 0;
-        let totalCount = 0;
-        do {
-            const data = await get(b, offset);
-            totalCount = data.totalCount;
-            entityData = entityData.concat(data.entityDataBlock);
-            offset += maxRequestSize;
-        } while (totalCount > offset);
-        if (!routerRes.headersSent) routerRes.send(entityData);
-    }
-
-    function get(b, offset) {
-        return new Promise((resolve, reject) => {
-            request({ url: getUrl(b), qs: getParams(b, offset), headers: utils.getBrokerHeaders(b), json: true }, (err, res, body) => {
-                if (err) reject({ res, err });
-                else resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
-            });
-        });
-    }
-
-    function getUrl(b) {
-        return utils.parseUrl(b.url) + '/v2/entities';
-    }
-
-    function getParams(b, offset) {
-        let attrs = ['location'];
-        if (b.favAttr) attrs.push(b.favAttr);
-        if (b.attrs) { attrs = attrs.concat(b.attrs) }
-        return {
-            type: b.type,
-            limit: 1000,
-            offset: offset,
-            options: 'keyValues',
-            attrs: attrs.join(','),
-        }
-    }
-
 });
+
+async function processEntity(routerRes, b) {
+    let entityData = [];
+    let offset = 0;
+    let totalCount = 0;
+    do {
+        const data = await get(b, offset);
+        totalCount = data.totalCount;
+        entityData = entityData.concat(data.entityDataBlock);
+        offset += maxRequestSize;
+    } while (totalCount > offset);
+    if (!routerRes.headersSent) routerRes.send(entityData);
+}
+
+function get(b, offset) {
+    return new Promise((resolve, reject) => {
+        request({ url: getUrl(b), qs: getParams(b, offset), headers: utils.getBrokerHeaders(b), json: true }, (err, res, body) => {
+            if (err) reject({ res, err });
+            else resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
+        });
+    });
+}
+
+function getUrl(b) {
+    return utils.parseUrl(b.url) + '/v2/entities';
+}
+
+function getParams(b, offset) {
+    let attrs = ['location'];
+    if (b.favAttr) attrs.push(b.favAttr);
+    if (b.attrs) { attrs = attrs.concat(b.attrs) }
+    return {
+        type: b.type,
+        limit: 1000,
+        offset: offset,
+        options: 'keyValues',
+        attrs: attrs.join(','),
+    }
+}
 
 module.exports = router;

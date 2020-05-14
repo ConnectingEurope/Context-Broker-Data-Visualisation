@@ -12,22 +12,22 @@ router.post('/', function (routerReq, routerRes, routerNext) {
         else routerRes.send(body);
     });
 
-    function getUrl(b) {
-        return utils.parseUrl(b.url) + '/v2/entities';
-    }
-
-    function getParams(b) {
-        const params = {
-            type: b.type,
-            id: b.id,
-        };
-        if (b.attrs) {
-            params.attrs = b.attrs.join(',');
-            params.options = 'keyValues';
-        }
-        return params;
-    }
-
 });
+
+function getUrl(b) {
+    return utils.parseUrl(b.url) + '/v2/entities';
+}
+
+function getParams(b) {
+    const params = {
+        type: b.type,
+        id: b.id,
+    };
+    if (b.attrs) {
+        params.attrs = b.attrs.join(',');
+        params.options = 'keyValues';
+    }
+    return params;
+}
 
 module.exports = router;

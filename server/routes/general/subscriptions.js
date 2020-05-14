@@ -12,10 +12,10 @@ router.post('/', function (routerReq, routerRes, routerNext) {
         else routerRes.send(body);
     });
 
-    function getUrl(b) {
-        return utils.parseUrl(b.url) + '/v2/subscriptions';
-    }
-
 });
+
+function getUrl(b) {
+    return utils.parseUrl(b.url) + '/v2/subscriptions';
+}
 
 module.exports = router;

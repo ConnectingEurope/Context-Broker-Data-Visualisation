@@ -14,6 +14,7 @@ router.post('/', function (routerReq, routerRes, routerNext) {
             routerRes.send(body.contextResponses[0].contextElement.attributes[0].values[0].points);
         else routerRes.send([]);
     });
+
 });
 
 module.exports = router;

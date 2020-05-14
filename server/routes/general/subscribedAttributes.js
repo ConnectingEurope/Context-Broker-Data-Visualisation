@@ -20,15 +20,15 @@ router.post('/', function (routerReq, routerRes, routerNext) {
         }
     });
 
-    function getUrl(b) {
-        return utils.parseUrl(b.contextUrl) + "/v2/subscriptions/";
-    }
-
-    function checkIfIdMatchs(entityPattern, entityId) {
-        return entityPattern.id && entityPattern.id === entityId ||
-            entityPattern.idPattern && (new RegExp(entityPattern.idPattern)).test(entityId);
-    }
-
 });
+
+function getUrl(b) {
+    return utils.parseUrl(b.contextUrl) + "/v2/subscriptions/";
+}
+
+function checkIfIdMatchs(entityPattern, entityId) {
+    return entityPattern.id && entityPattern.id === entityId ||
+        entityPattern.idPattern && (new RegExp(entityPattern.idPattern)).test(entityId);
+}
 
 module.exports = router;
