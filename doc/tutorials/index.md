@@ -10,6 +10,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
   - [Tutorial 1: Enabler](#firstTutorial)
   - [Tutorial 2: Enabler + Context Broker](#secondtutorial)
   - [Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet](#thirdTutorial)
+      - [Generating test data](#thirdTutorial-generating-test-data)
   - [Connection between the Enabler and FIWARE tools](#connection-between-the-enabler-and-fiware-tools)
 - [FIWARE lab](#fiware-lab)
   - [Tutorial 4: FIWARE lab](#fourthTutorial)
@@ -211,6 +212,16 @@ The steps for the deployment are the following:
     *Illustration 6. Configuration of the Tutorial 3*
 
 [Top](#tutorials-for-deployment)
+
+#### Generating test data
+It is possible to generate test data to fill the context broker. For this, it will be necessary to download the script that is in [this link](https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/create-data.py) and it will have to be executed using [python3](https://www.python.org/downloads/)
+
+- To create the test data, the following python command must be executed against the create-data.py file:
+    - $python3 create-data.py
+
+- By default, a registry will be inserted in the context broker every hour, the available services to retreive the information from the enabler are:
+    - testparking
+    - testenvironment
 
 ### Connection between the Enabler and FIWARE tools
 
@@ -447,4 +458,6 @@ https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisa
     ![Architecture](../img/LaunchInstanceScriptTestData.png)
     >*Illustration 7. Generating test data*
 
-If the script is running, the context broker receives every hour a new registry to be stored.
+If the script is running, the context broker receives every hour a new registry to be stored. The create services are:
+- testparking
+- testenvironment
