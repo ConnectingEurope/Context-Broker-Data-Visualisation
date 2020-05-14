@@ -10,7 +10,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
   - [Tutorial 1: Enabler](#firstTutorial)
   - [Tutorial 2: Enabler + Context Broker](#secondtutorial)
   - [Tutorial 3: Enabler + Context Broker + Cygnus + STH-Comet](#thirdTutorial)
-      - [Generating test data](#thirdTutorial-generating-test-data)
+    - [Generating test data](#thirdTutorial-generating-test-data)
   - [Connection between the Enabler and FIWARE tools](#connection-between-the-enabler-and-fiware-tools)
 - [FIWARE lab](#fiware-lab)
   - [Tutorial 4: FIWARE lab](#fourthTutorial)
@@ -18,7 +18,7 @@ They are also divided between **local environment** and **FIWARE lab (or Sandbox
     - [Deploying the enabler](#fourthTutorial-deploy)
     - [Associate Floating IP](#fourthTutorial-ip)
     - [Deploying the enabler tools](#fourthTutorial-tools)
-    - [Generating test data](#fourthTutorial-generating-test-data)
+      - [Generating test data on the enabler tools](#fourthTutorial-generating-test-data)
 
 ## Local environment
 
@@ -213,15 +213,23 @@ The steps for the deployment are the following:
 
 [Top](#tutorials-for-deployment)
 
+<a name="thirdTutorial-generating-test-data"></a>
+
 #### Generating test data
-It is possible to generate test data to fill the context broker. For this, it will be necessary to download the script that is in [this link](https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/create-data.py) and it will have to be executed using [python3](https://www.python.org/downloads/)
 
-- To create the test data, the following python command must be executed against the create-data.py file:
-    - $python3 create-data.py
+It is possible to generate test data to fill the Context Broker. For this, it will be necessary to download the script that is in [this link](https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/create-data.py) of the GitHub repository, and it will need to be executed using [python3](https://www.python.org/downloads/).
 
-- By default, a registry will be inserted in the context broker every hour, the available services to retreive the information from the enabler are:
-    - testparking
-    - testenvironment
+- To create the test data, the following python command must be executed using the **create-data.py** file:
+
+    ```bash
+    python3 create-data.py
+    ```
+
+- By default, a new test registry will be inserted in the Context Broker **every hour**. The available services to retreive the information from the Context Broker are:
+  - testparking
+  - testenvironment
+
+As a result, the execution of the Python script will generate test data into the Context Broker, and it will be available in the enabler.
 
 ### Connection between the Enabler and FIWARE tools
 
@@ -439,25 +447,43 @@ In order to instantiate the image, a **new security group** must be configured i
 [Top](#tutorials-for-deployment)
 
 <a name="fourthTutorial-generating-test-data"></a>
-It is possible to launch scripts in one instance during the launch process. One has been created with the intention of filling the context broker with test data.
 
-https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/create-data.py
+##### Generating test data on the enabler tools
 
-- In the post-creation section, there are two options:
-    1. The first option:
+In order to generate test data for the enabler tools, this section will explain how to proceed.
+
+It is possible to launch scripts together with one instance if the FIWARE lab during the launch process. Concretely, in the **post-creation tab**.
+
+A [Python3](https://www.python.org/downloads/) script has been created with the objective of filling the Context Broker and the historical data tools with test data.
+
+First of all, it is necessary to download the script. It is available on the GitHub repository of the project, and also on this [link](https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/create-data.py).
+
+After that, follow the next steps:
+
+1. Configure the instance for the Enabler tools, as explaned [here](#fourthTutorial-tools).
+
+2. In the **post-creation** tab, there are two options to execute the script:
+    - The first option:
         - Customization Script Source:
-            - Select Direct Input:
+            - Select *Direct Input*.
         - Script data:
-            - Copy text
-    2. The second option;
+            - Copy the content of the Python script.
+    - The second option:
         - Customization Script Source:
-            - Select file.
+            - Select *file*.
         - Script File
-            - Upload the file from the computer.
+            - Upload the file of the Python script.
 
     ![Architecture](../img/LaunchInstanceScriptTestData.png)
     >*Illustration 7. Generating test data*
 
-If the script is running, the context broker receives every hour a new registry to be stored. The create services are:
+3. The previous configuration will execute the Python script together with the instance of the Enabler tools.
+
+The Context Broker will receive **every hour** a new test registry from the script.
+
+The **services to be used** for this testing data are:
+
 - testparking
 - testenvironment
+
+[Top](#tutorials-for-deployment)
