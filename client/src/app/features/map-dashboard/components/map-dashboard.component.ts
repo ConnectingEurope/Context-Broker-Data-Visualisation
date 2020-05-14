@@ -47,7 +47,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     public displayDebugHeader: string;
     public displayDebugContent: Entity;
 
-    private intervalRefreshMilliseconds: number = 7000;
+    private intervalRefreshMilliseconds: number = 60000;
     private entityAttr: string = 'data';
     private map: L.Map;
     private markerClusterGroup: L.MarkerClusterGroup = L.markerClusterGroup({ animate: true, showCoverageOnHover: false });
