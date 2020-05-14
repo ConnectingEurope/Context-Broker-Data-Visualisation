@@ -18,6 +18,8 @@ The technical documentation focuses in the technical aspects of the Context Brok
 - [Understanding the code](#understanding-the-code)
   - [How to generate new graphs](#how-to-generate-new-graphs)
   - [How to change the refresh time of the information](#how-to-change-the-refresh-time-of-the-information)
+  - [How the information of the map is updated](#how-the-information-of-the-map-is-updated)
+  - [Supported types of locations](#supported-types-of-locations)
   - [Supported types of subscriptions](#supported-types-of-subscriptions)
     - [Subscriptions for a specific ID with multiple attributes](#subscriptions-for-a-specific-id-with-multiple-attributes)
     - [Subscriptions for a group of entities of the same type with multiple attributes](#subscriptions-for-a-group-of-entities-of-the-same-type-with-multiple-attributes)
@@ -258,6 +260,46 @@ This refresh time can be changed, modifying a the value of a variable in the map
 ```
 
 In this case, the value of the *intervalRefreshMilliseconds* variable (60000) can be replaced by the desired refresh time (in milliseconds).
+
+[Top](#technical-documentation)
+
+#### How the information of the map is updated
+
+In order to optimize the load and update of the information of the map, it is updated based on the following actions:
+
+- For the first load of information (after complete the configuration on the Configuration page), all the sensors are situated on the map. Additionally, the loaded attributes are:
+  - ID
+  - Type
+  - Location
+  - Main attribute. More information can be found [here](../user/index.md#configuring-main-attributes).
+
+- Once all the initial load of information is completed, the previous attributes are updated every 60 seconds by default. This action allows to visualize sensors whose location is changing during the time (i.e. buses).
+
+- The rest of attributes are updated when the user clicks on a sensor, showing the pop-up.
+
+- Additionally, when a filter is added, the values for the selected attributes as filters are also automatically updated every 60 seconds by default.
+
+The previous procedure optimizes the load of information and allows to manage high amounts of information in the enabler, avoiding efficiency problems.
+
+[Top](#technical-documentation)
+
+#### Supported types of locations
+
+The supported types of locations of the sensors are [GeoJSON](https://geojson.org/).
+
+This is an example:
+
+```json
+"location": {
+    "type": "geo:json",
+    "value": {
+        "type": "Point",
+        "coordinates": [-3.712247222222222, 40.423852777777775]
+    }
+},
+```
+
+The **location** attribute of the sensors has to follow the previous schema. The type of the coordinates has to be **Point**, and its value has to be a **list of two coordinates**. Otherwise, the sensors won't be supported in the enabler (i.e. LineString).
 
 [Top](#technical-documentation)
 
