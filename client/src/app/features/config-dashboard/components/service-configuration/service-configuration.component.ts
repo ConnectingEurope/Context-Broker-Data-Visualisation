@@ -117,10 +117,10 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
             });
     }
 
-    public onClickSubscriptions(i: number): void {
+    public onClickSubscriptions(s: ServiceForm): void {
         this.configDashboardService.getSubscriptions(this.cb.form.get('url').value,
-            this.cb.services[i].form.get('service').value,
-            this.cb.services[i].form.get('servicePath').value,
+            s.form.get('service').value,
+            s.form.get('servicePath').value,
         ).pipe(takeUntil(this.destroy$)).subscribe(
             subs => {
                 if (subs.length > 0) {

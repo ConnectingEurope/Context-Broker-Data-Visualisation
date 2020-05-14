@@ -144,7 +144,7 @@ export class HistoricalDataTableComponent extends BaseComponent implements OnIni
             },
             complete: (): void => {
                 this.last = total > this.totalRecords ? this.totalRecords : total;
-                this.loading = false;
+                setTimeout(() => this.loading = false);
             },
         });
     }

@@ -569,7 +569,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private truncateTooltipContent(content: any): string {
         const str: string = typeof content === 'string' ? content : JSON.stringify(content);
-        return (str.length > this.tooltipMaxChars ? str.substring(0, this.tooltipMaxChars) + '...' : str);
+        return Utils.truncateString(str, this.tooltipMaxChars);
     }
 
     private closeTooltipsIfNeeded(): void {

@@ -24,6 +24,9 @@ export class LayerConditionsComponent implements OnInit {
     public actions: ActionFilter[];
     public filterList: ConditionFilter[] = [];
 
+    private maxLabelChar: number = 55;
+    private maxDropdownChar: number = 20;
+
     public ngOnInit(): void {
         this.actions = this.actionsString.map(a => ({ label: a }));
     }
@@ -66,6 +69,21 @@ export class LayerConditionsComponent implements OnInit {
 
     public emitFilterList(): void {
         this.eventFilters.emit(this.filterList);
+    }
+
+    public getFilterLabel(filter: ConditionFilter): string {
+        const label: string = filter.entity + ' - ' + filter.attribute + ' ' + filter.condition + ' ' + filter.value;
+        return Utils.truncateString(label, this.maxLabelChar);
+    }
+
+    public getTruncatedEntities(entityFilters: EntityFilter[]): EntityFilter[] {
+        entityFilters.forEach(e => e.label = Utils.truncateString(e.label, this.maxDropdownChar));
+        return entityFilters;
+    }
+
+    public getTruncatedAttributes(attributeFilters: AttributeFilter[]): AttributeFilter[] {
+        attributeFilters.forEach(a => a.name = Utils.truncateString(a.name, this.maxDropdownChar));
+        return attributeFilters;
     }
 
 }

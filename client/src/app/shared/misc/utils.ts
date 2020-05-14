@@ -12,6 +12,9 @@ export class Utils {
     public static whiteSpaceExp: RegExp = /[^\s]/;
     public static pathExp: RegExp = /^\//;
 
+    public static truncateString(str: string, maxChar: number): string {
+        return (str.length > maxChar ? str.substring(0, maxChar) + '...' : str);
+    }
 
     public static getListObjectsSafely(property: string, ...elements: any[]): boolean {
         let hasProperty: boolean = true;

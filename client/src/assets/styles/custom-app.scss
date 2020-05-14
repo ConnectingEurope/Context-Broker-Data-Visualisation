@@ -103,6 +103,20 @@ app-graphic-card .graphicDiv div.col-auto > div {
     width: 1000px;
 }
 
+@media only screen and (max-width: 1200px) {
+
+    app-graphic-card .graphicDiv,
+    .graphicDivdiv.row {
+        height: 400px;
+        width: 800px;
+    }
+
+    app-graphic-card .graphicDiv div.col-auto > div {
+        width: 700px;
+    }
+}
+
+
 /*****************************************************************************
  Table
 *****************************************************************************/

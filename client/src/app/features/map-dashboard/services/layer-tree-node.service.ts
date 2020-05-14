@@ -1,11 +1,14 @@
 import { TreeNode } from 'primeng/api/treenode';
 import { Injectable } from '@angular/core';
 import { CategoryFilter } from '../models/category-filter';
+import { Utils } from 'src/app/shared/misc/utils';
 
 @Injectable({
     providedIn: 'root',
 })
 export class LayerTreeNodeService {
+
+    private maxTypeChar: number = 25;
 
     public getMainLayers(categories: CategoryFilter[]): TreeNode[] {
         const layers: any = this.createTreeNode(categories);
@@ -35,7 +38,7 @@ export class LayerTreeNodeService {
         const treeNode: TreeNode = {};
 
         treeNode.data = key;
-        treeNode.label = value.label;
+        treeNode.label = Utils.truncateString(value.label, this.maxTypeChar);
         treeNode.children = children.map(c => this.getTreeNodeLayer(c[0], c[1]));
         if (value.icon) {
             treeNode.expandedIcon = value.icon;

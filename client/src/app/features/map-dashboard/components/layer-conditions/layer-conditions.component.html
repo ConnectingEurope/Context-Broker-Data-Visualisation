@@ -18,8 +18,7 @@
                         (click)="clearFilter(index)"></button>
 
                     <!-- Checkbox filter -->
-                    <p-checkbox name="filters"
-                        label="{{ filter.entity }} - {{ filter.attribute }} {{ filter.condition }} {{ filter.value }}"
+                    <p-checkbox name="filters" label="{{getFilterLabel(filter)}}"
                         [(ngModel)]="filterList[index].selected" (click)="emitFilterList()" binary="true"></p-checkbox>
 
                 </div>
@@ -37,16 +36,17 @@
 
             <!-- Entity -->
             <div class="m-2 w-100">
-                <p-dropdown *ngIf="categorySelected?.entities" [options]="categorySelected.entities"
-                    [(ngModel)]="entitySelected" placeholder="Select an Entity" optionLabel="label" [showClear]="true"
-                    styleClass="w-100">
+                <p-dropdown *ngIf="categorySelected?.entities"
+                    [options]="getTruncatedEntities(categorySelected.entities)" [(ngModel)]="entitySelected"
+                    placeholder="Select an Entity" optionLabel="label" [showClear]="true" styleClass="w-100">
                 </p-dropdown>
             </div>
 
             <!-- Attribute -->
             <div class="m-2 w-100">
-                <p-dropdown *ngIf="entitySelected?.name" [options]="entitySelected.attrs" [(ngModel)]="attrSelected"
-                    placeholder="Select an Attribute" optionLabel="name" [showClear]="true" styleClass="w-100">
+                <p-dropdown *ngIf="entitySelected?.name" [options]="getTruncatedAttributes(entitySelected.attrs)"
+                    [(ngModel)]="attrSelected" placeholder="Select an Attribute" optionLabel="name" [showClear]="true"
+                    styleClass="w-100">
                 </p-dropdown>
             </div>
 
@@ -74,16 +74,20 @@
         </div>
 
         <!-- Clear all button -->
-        <div class="col-sm-6">
+        <div class="col-sm-6 mt-2 mb-1">
             <p-button styleClass="secondary-button" icon="pi pi-times" label="Clear All" (click)="clearAll()">
             </p-button>
         </div>
 
-        <!-- Add filter button -->
-        <div class="col-sm-6">
+        <div class="col-sm-6 p-1">
             <div class="float-right">
+
+                <!-- Add filter button -->
                 <p-button class="mr-2" icon="pi pi-plus" label="Add" (click)="add()"></p-button>
+
+                <!-- Clear button -->
                 <p-button styleClass="secondary-button" icon="pi pi-times" label="Clear" (click)="clear()"></p-button>
+
             </div>
         </div>
 
