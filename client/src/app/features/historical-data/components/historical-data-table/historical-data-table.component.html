@@ -36,7 +36,7 @@
         </div>
 
         <!-- Table -->
-        <div class="row justify-content-center">
+        <div class="justify-content-center">
             <p-table #table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false"
                 styleClass="ui-table-historical-data"
                 currentPageReportTemplate="{{ totalRecords ? ('Showing ' + (first + 1) + ' to ' + last + ' of ' + totalRecords): '' }}"
