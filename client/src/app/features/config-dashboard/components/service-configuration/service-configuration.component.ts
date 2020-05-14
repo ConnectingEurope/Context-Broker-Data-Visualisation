@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ViewChildren, QueryList, OnInit
 import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { ContextBrokerForm } from '../../models/context-broker-form';
+import { ContextBrokerForm, ServiceForm } from '../../models/context-broker-form';
 import { ConfirmationService, TreeNode } from 'primeng/api';
 import { AccordionTab } from 'primeng/accordion/accordion';
 import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
@@ -18,7 +18,7 @@ import { TypeContainerDto } from '../../models/type-container-dto';
 export class ServiceConfigurationComponent extends BaseComponent implements OnInit {
 
     @Input() public cb: ContextBrokerForm;
-    @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Output() public removeServiceEvent: EventEmitter<void> = new EventEmitter<void>();
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
     @Output() public favChange: EventEmitter<void> = new EventEmitter<void>();
 
@@ -66,34 +66,36 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         });
     }
 
-    public onRemoveService(index: number): void {
+    public onRemoveService(s: ServiceForm, index: number): void {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this service?',
-            message: 'The configuration of the service "' + this.cb.services[index].header +
+            message: 'The configuration of the service "' + s.header +
                 '" will be deleted. Note that this change will only be confirmed when applying the configuration.',
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
             accept: (): void => {
-                this.removeServiceEvent.emit(index);
+                this.removeServiceEvent.emit();
                 this.cb.services.splice(index, 1);
             },
         });
     }
 
-    public onServiceConfigChange(index: number): void {
+    public onServiceConfigChange(s: ServiceForm): void {
         this.chooseWarningVisible = false;
         this.subsWarningVisible = false;
-        const service: string = this.cb.services[index].form.value.service;
-        const servicePath: string = this.cb.services[index].form.value.servicePath;
+        s.entities = [];
+        s.selectedEntities = [];
+        const service: string = s.form.value.service;
+        const servicePath: string = s.form.value.servicePath;
         const header: string = service + (service && servicePath &&
-            this.cb.services[index].form.get('servicePath').valid ? servicePath : '');
-        this.cb.services[index].header = header && !/^\s+$/.test(service) ? header :
+            s.form.get('servicePath').valid ? servicePath : '');
+        s.header = header && !/^\s+$/.test(service) ? header :
             this.configDashboardService.serviceHeaderWhenEmpty;
     }
 
-    public onSelectedEntitiesChange(selectedEntities: TreeNode[], index: number): void {
-        this.cb.services[index].selectedEntities = selectedEntities;
+    public onSelectedEntitiesChange(selectedEntities: TreeNode[], s: ServiceForm): void {
+        s.selectedEntities = selectedEntities;
         this.selectedEntitiesChange.emit();
     }
 
@@ -101,17 +103,17 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         this.favChange.emit();
     }
 
-    public onChooseEntities(index: number): void {
+    public onChooseEntities(s: ServiceForm): void {
         const url: string = this.cb.form.value.url;
-        const service: string = this.cb.services[index].form.value.service;
-        const servicePath: string = this.cb.services[index].form.value.servicePath;
+        const service: string = s.form.value.service;
+        const servicePath: string = s.form.value.servicePath;
 
         this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(
             types => {
-                types.length > 0 ? this.onChooseEntitiesSuccess(types, index) : this.onChooseEntitiesFail(index);
+                types.length > 0 ? this.onChooseEntitiesSuccess(types, s) : this.onChooseEntitiesFail(s);
             },
             err => {
-                this.onChooseEntitiesFail(index);
+                this.onChooseEntitiesFail(s);
             });
     }
 
@@ -137,31 +139,31 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
      Button visibility functions
     *****************************************************************************/
 
-    public shouldChooseButtonBeDisabled(index: number): boolean {
+    public shouldChooseButtonBeDisabled(s: ServiceForm): boolean {
         return this.cb.form.get('url').invalid ||
-            this.cb.services[index].form.get('service').invalid ||
-            this.cb.services[index].form.get('servicePath').invalid;
+            s.form.get('service').invalid ||
+            s.form.get('servicePath').invalid;
     }
 
-    public shouldSubsButtonBeDisabled(index: number): boolean {
-        return this.shouldChooseButtonBeDisabled(index);
+    public shouldSubsButtonBeDisabled(s: ServiceForm): boolean {
+        return this.shouldChooseButtonBeDisabled(s);
     }
 
     /*****************************************************************************
      Choose entities functions
     *****************************************************************************/
 
-    private onChooseEntitiesSuccess(types: TypeContainerDto[], index: number): void {
+    private onChooseEntitiesSuccess(types: TypeContainerDto[], s: ServiceForm): void {
         this.chooseWarningVisible = false;
-        this.cb.services[index].entities = this.entityTreeNodeService.convertEntitiesToNodes(types);
-        this.cb.services[index].selectedEntities = this.treeNodeService.getAllSelected(this.cb.services[index].entities);
+        s.entities = this.entityTreeNodeService.convertEntitiesToNodes(types);
+        s.selectedEntities = this.treeNodeService.getAllSelected(s.entities);
         this.selectedEntitiesChange.emit();
     }
 
-    private onChooseEntitiesFail(index: number): void {
+    private onChooseEntitiesFail(s: ServiceForm): void {
         this.chooseWarningVisible = true;
-        this.cb.services[index].entities = [];
-        this.cb.services[index].selectedEntities = [];
+        s.entities = [];
+        s.selectedEntities = [];
     }
 
     /*****************************************************************************

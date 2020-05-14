@@ -39,7 +39,7 @@
                         <!-- AccordionTab header -->
                         <p-header>
                             <app-accordion-tab-header [header]="cb.header" [selected]="accordionTab.selected"
-                                [removable]="true" (remove)="onRemoveContextBroker(i)">
+                                [removable]="true" (remove)="onRemoveContextBroker(cb, i)">
                             </app-accordion-tab-header>
                         </p-header>
 
@@ -49,7 +49,7 @@
                             <!-- General configuration -->
                             <div class="mt-4 mb-4">
                                 <app-general-configuration [cb]="cb"
-                                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (urlChange)="onUrlChange()"
+                                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (urlChange)="onUrlChange(cb)"
                                     (favChange)="onFavChange()">
                                 </app-general-configuration>
                             </div>

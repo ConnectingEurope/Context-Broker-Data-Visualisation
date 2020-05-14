@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { ServiceConfigurationComponent } from './service-configuration/service-configuration.component';
 import { AccordionTab } from 'primeng/accordion/accordion';
 import { EntityTreeNodeService } from '../services/entity-tree-node.service';
+import { Observable, combineLatest } from 'rxjs';
 
 @Component({
     selector: 'app-config-dashboard',
@@ -93,11 +94,11 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         this.favAttrChange = true;
     }
 
-    public onRemoveContextBroker(index: number): void {
+    public onRemoveContextBroker(cb: ContextBrokerForm, index: number): void {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this Context Broker?',
-            message: 'The configuration of the Context Broker "' + this.contextBrokers[index].header + '" will be deleted. ' +
+            message: 'The configuration of the Context Broker "' + cb.header + '" will be deleted. ' +
                 'Note that this change will only be confirmed when applying the configuration.',
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
@@ -109,14 +110,23 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
     }
 
     public onApplyConfiguration(): void {
-        if (this.checkEntities()) {
+        if (this.contextBrokers.length === 0) {
             this.applyConfiguration();
+        } else if (this.checkEntities() && this.checkSameUrls()) {
+            const connectionCalls: Observable<any>[] = this.getConnectionCalls();
+            this.executeCalls(connectionCalls);
         }
     }
 
-    public onUrlChange(): void {
+    public onUrlChange(cb: ContextBrokerForm): void {
         if (this.serviceConfiguration) {
             this.serviceConfiguration.onContextBrokerUrlChange();
+            cb.entities = [];
+            cb.selectedEntities = [];
+            cb.services.forEach(s => {
+                s.entities = [];
+                s.selectedEntities = [];
+            });
         }
     }
 
@@ -245,10 +255,59 @@ export class ConfigDashboardComponent extends BaseComponent implements OnInit {
         return valid;
     }
 
+    private checkSameUrls(): boolean {
+        const urlSet: Set<string> = new Set();
+        this.contextBrokers.forEach(cb => {
+            urlSet.add(cb.form.get('url').value);
+        });
+        const valid: boolean = urlSet.size === this.contextBrokers.length;
+        if (!valid) { this.showSameUrl(); }
+        return valid;
+    }
+
+    private getConnectionCalls(): Observable<any>[] {
+        const connectionCalls: Observable<any>[] = [];
+
+        this.contextBrokers.forEach(cb => {
+            connectionCalls.push(this.configDashboardService.checkBrokerHealth(cb.form.get('url').value));
+            if (cb.form.get('needHistoricalData').value) {
+                if (cb.historicalForm.get('cygnus').value) {
+                    connectionCalls.push(this.configDashboardService.checkCygnusHealth(cb.historicalForm.get('cygnus').value));
+                }
+                connectionCalls.push(this.configDashboardService.checkCometHealth(cb.historicalForm.get('comet').value));
+            }
+        });
+
+        return connectionCalls;
+    }
+
+    private executeCalls(connectionCalls: Observable<any>[]): void {
+        combineLatest(connectionCalls).pipe(takeUntil(this.destroy$)).subscribe(
+            (combinedResults) => {
+                combinedResults.every(r => r) ? this.applyConfiguration() : this.showConnectionProblem();
+            },
+            err => { this.showConnectionProblem(); },
+        );
+    }
+
     private showNoSelectedEntitiesMessage(): void {
         this.appMessageService.add({
             severity: 'error', summary: 'Cannot apply the configuration',
-            detail: 'There is at least one context broker or one service with no selected entities',
+            detail: 'There is at least one Context Broker or one service with no selected entities',
+        });
+    }
+
+    private showSameUrl(): void {
+        this.appMessageService.add({
+            severity: 'error', summary: 'Cannot apply the configuration',
+            detail: 'There are two or more Context Brokers with the same URL',
+        });
+    }
+
+    private showConnectionProblem(): void {
+        this.appMessageService.add({
+            severity: 'error', summary: 'Cannot apply the configuration',
+            detail: 'There is at least one URL which is not working',
         });
     }
 
