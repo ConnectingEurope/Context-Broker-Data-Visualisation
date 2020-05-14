@@ -236,7 +236,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
 
     private removeLayersForFilters(): void {
         const layersToRemove: L.Layer[] = [];
-        this.markerClusterGroup.getLayers().forEach((layer) => {
+        this.markerClusterGroup.getLayers().forEach(layer => {
             this.filters.forEach(f => {
                 if (f.selected && layer[this.entityAttr][f.attribute] && layer[this.entityAttr].type === f.entity) {
                     if (this.applyFilter(layer, f, this.entityAttr)) {
@@ -255,7 +255,7 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
         if (f.condition !== 'contains') {
             shouldBeRemoved = !Utils.mathItUp[f.condition](Number(layer[controlName][f.attribute]), Number(f.value));
         } else {
-            shouldBeRemoved = !layer[controlName][f.attribute].toString().includes(f.value);
+            shouldBeRemoved = !JSON.stringify(layer[controlName][f.attribute]).includes(f.value);
         }
 
         return shouldBeRemoved;
@@ -295,11 +295,11 @@ export class MapDashboardComponent extends BaseComponent implements AfterViewIni
     }
 
     private applyFiltersAfterUpdating(markersWithNewLocation: L.Marker[]): void {
-        this.setFilters();
         markersWithNewLocation.forEach(m => {
             const currentLocation: number[] = m[this.entityAttr].location.coordinates;
             m.setLatLng(currentLocation.slice().reverse() as L.LatLngExpression);
         });
+        this.setFilters();
         this.unselectedLayers.forEach(l => this.markerClusterGroup.removeLayer(this.layerGroups[l]));
         this.closeTooltipsIfNeeded();
     }
