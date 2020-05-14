@@ -17,10 +17,15 @@ router.post('/', function (routerReq, routerRes, routerNext) {
     }
 
     function getParams(b) {
-        return {
+        const params = {
             type: b.type,
             id: b.id,
+        };
+        if (b.attrs) {
+            params.attrs = b.attrs.join(',');
+            params.options = 'keyValues';
         }
+        return params;
     }
 
 });

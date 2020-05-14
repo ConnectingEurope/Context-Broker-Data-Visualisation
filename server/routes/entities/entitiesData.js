@@ -71,8 +71,8 @@ async function processEntity(cb, s, e, modelDtos) {
 function get(cb, s, e, offset) {
     return new Promise((resolve, reject) => {
         request({ url: getUrl(cb), qs: getParams(e, offset), headers: utils.getBrokerHeaders(s), json: true }, (err, res, body) => {
-            if (err) { reject({ res, err }); }
-            resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
+            if (err) reject({ res, err });
+            else resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
         });
     });
 }
@@ -82,21 +82,28 @@ function getUrl(cb) {
 }
 
 function getAttrs(entity) {
-    return entity.attrs.filter(a => a.selected).map(a => a.name).concat(['location']).join();
+    return entity.attrs.filter(a => a.selected).map(a => a.name).concat(['location']);
 }
 
 function getParams(e, offset) {
+    const attrs = ['location'];
+    const favAttribute = getFavAttr(e);
+    if (favAttribute) attrs.push(favAttribute.name);
     return {
         type: e.name,
         options: 'keyValues,count',
         limit: maxRequestSize,
         offset: offset,
-        attrs: getAttrs(e),
+        attrs: attrs.join(','),
     };
 }
 
+function getFavAttr(entity) {
+    return entity.attrs.find(a => a.fav);
+}
+
 function getModelDto(cb, s, entity, entityData) {
-    const favAttribute = entity.attrs.find(a => a.fav);
+    const favAttribute = getFavAttr(entity);
     return {
         type: entity.name,
         favAttr: favAttribute ? favAttribute.name : undefined,
@@ -105,6 +112,7 @@ function getModelDto(cb, s, entity, entityData) {
         service: s ? s.service : '',
         servicePath: s ? s.servicePath : '',
         data: entityData,
+        selectedAttrs: getAttrs(entity),
     }
 }
 
