@@ -33,8 +33,8 @@ router.post('/', function (routerReq, routerRes, routerNext) {
     function get(b, offset) {
         return new Promise((resolve, reject) => {
             request({ url: getUrl(b), qs: getParams(b, offset), headers: utils.getBrokerHeaders(b), json: true }, (err, res, body) => {
-                if (err) { reject({ res, err }); }
-                resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
+                if (err) reject({ res, err });
+                else resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
             });
         });
     }

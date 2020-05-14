@@ -71,8 +71,8 @@ async function processEntity(cb, s, e, modelDtos) {
 function get(cb, s, e, offset) {
     return new Promise((resolve, reject) => {
         request({ url: getUrl(cb), qs: getParams(e, offset), headers: utils.getBrokerHeaders(s), json: true }, (err, res, body) => {
-            if (err) { reject({ res, err }); }
-            resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
+            if (err) reject({ res, err });
+            else resolve({ entityDataBlock: body, totalCount: res.headers['fiware-total-count'] });
         });
     });
 }
