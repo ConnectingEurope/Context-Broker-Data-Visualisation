@@ -1,0 +1,2116 @@
+[
+    {
+        "id": "Madrid-AirQualityObserved-28079059-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 3,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 10,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 16,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 58,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Parque Juan Carlos I frente oficinas mantenimiento"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.609072222,
+                    40.46525
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,3.0,GQ,Nitrogen Monoxide",
+                "NO2,10.0,GQ,Nitrogen Dioxide",
+                "NOx,16.0,GQ,Nitrogen oxides",
+                "O3,58.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079059",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Juan Carlos I",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079058-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 2,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 4,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 7,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 63,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Avda. La Guardia"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.774611111,
+                    40.518058333
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,2.0,GQ,Nitrogen Monoxide",
+                "NO2,4.0,GQ,Nitrogen Dioxide",
+                "NOx,7.0,GQ,Nitrogen oxides",
+                "O3,63.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079058",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "El Pardo",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079055-latest",
+        "type": "AirQualityObserved",
+        "BEN": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "CH4": {
+            "type": "Number",
+            "value": 0.71,
+            "metadata": {}
+        },
+        "EBE": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "NHMC": {
+            "type": "Number",
+            "value": 0.43,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 4,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 11,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 17,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 15,
+            "metadata": {}
+        },
+        "TCH": {
+            "type": "Number",
+            "value": 1.13,
+            "metadata": {}
+        },
+        "TOL": {
+            "type": "Number",
+            "value": 1.6,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "C/ Riaño Barajas "
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.580747222,
+                    40.462530556
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,4.0,GQ,Nitrogen Monoxide",
+                "NO2,11.0,GQ,Nitrogen Dioxide",
+                "PM10,15.0,GQ,Particles lower than 10",
+                "NOx,17.0,GQ,Nitrogen oxides",
+                "TOL,1.6,GQ,Toluene",
+                "BEN,0.2,GQ,Benzene",
+                "EBE,0.2,GQ,Etilbenzene",
+                "TCH,1.13,GQ,Total Hydrocarbons",
+                "CH4,0.71,GQ,Hydrocarbons - Methane",
+                "NHMC,0.43,GQ,Non-methane hydrocarbons - Hexane"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079055",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Urb. Embajada",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079054-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 2,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 18,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 21,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 72,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Avda La Gavia / Avda. Las Suertes"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.612116667,
+                    40.372933333
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,2.0,GQ,Nitrogen Monoxide",
+                "NO2,18.0,GQ,Nitrogen Dioxide",
+                "NOx,21.0,GQ,Nitrogen oxides",
+                "O3,72.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079054",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Ensanche de Vallecas",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079057-latest",
+        "type": "AirQualityObserved",
+        "CO": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 4,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 10,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 17,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 6,
+            "metadata": {}
+        },
+        "PM2.5": {
+            "type": "Number",
+            "value": 4,
+            "metadata": {}
+        },
+        "SO2": {
+            "type": "Number",
+            "value": 5,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "C/ Princesa de Eboli esq C/ Maria Tudor"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.660502778,
+                    40.494208333
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "SO2,5.0,GQ,Sulfur Dioxide",
+                "CO,0.2,GP,Carbon Monoxide",
+                "NO,4.0,GQ,Nitrogen Monoxide",
+                "NO2,10.0,GQ,Nitrogen Dioxide",
+                "PM2.5,4.0,GQ,Particles lower than 2.5",
+                "PM10,6.0,GQ,Particles lower than 10",
+                "NOx,17.0,GQ,Nitrogen oxides"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079057",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Sanchinarro",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079056-latest",
+        "type": "AirQualityObserved",
+        "CO": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 9,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 15,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 29,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 67,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 7,
+            "metadata": {}
+        },
+        "PM2.5": {
+            "type": "Number",
+            "value": 6,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": " Pza. Fernández Ladreda - Avda. Oporto"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.718727778,
+                    40.384963889
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "CO,0.2,GP,Carbon Monoxide",
+                "NO,9.0,GQ,Nitrogen Monoxide",
+                "NO2,15.0,GQ,Nitrogen Dioxide",
+                "PM2.5,6.0,GQ,Particles lower than 2.5",
+                "PM10,7.0,GQ,Particles lower than 10",
+                "NOx,29.0,GQ,Nitrogen oxides",
+                "O3,67.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079056",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Pza. Fernández Ladreda",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079050-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 12,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 14,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 32,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 14,
+            "metadata": {}
+        },
+        "PM2.5": {
+            "type": "Number",
+            "value": 6,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Plaza Castilla Canal"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.688769444,
+                    40.465572222
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,12.0,GQ,Nitrogen Monoxide",
+                "NO2,14.0,GQ,Nitrogen Dioxide",
+                "PM2.5,6.0,GQ,Particles lower than 2.5",
+                "PM10,14.0,GQ,Particles lower than 10",
+                "NOx,32.0,GQ,Nitrogen oxides"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079050",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Plaza Castilla",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079011-latest",
+        "type": "AirQualityObserved",
+        "BEN": {
+            "type": "Number",
+            "value": 0.1,
+            "metadata": {}
+        },
+        "EBE": {
+            "type": "Number",
+            "value": 0.1,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 8,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 22,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 35,
+            "metadata": {}
+        },
+        "TOL": {
+            "type": "Number",
+            "value": 0.3,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Avda. Ramón y Cajal  esq. C/ Príncipe de Vergara"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.677355556,
+                    40.451475
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,8.0,GQ,Nitrogen Monoxide",
+                "NO2,22.0,GQ,Nitrogen Dioxide",
+                "NOx,35.0,GQ,Nitrogen oxides",
+                "TOL,0.3,GQ,Toluene",
+                "BEN,0.1,GQ,Benzene",
+                "EBE,0.1,GQ,Etilbenzene"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079011",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Avda. Ramón y Cajal",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079039-latest",
+        "type": "AirQualityObserved",
+        "CO": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 3,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 14,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 19,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 57,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Avd. Betanzos esq. C/  Monforte de Lemos "
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.711541667,
+                    40.478227778
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "CO,0.2,GP,Carbon Monoxide",
+                "NO,3.0,GQ,Nitrogen Monoxide",
+                "NO2,14.0,GQ,Nitrogen Dioxide",
+                "NOx,19.0,GQ,Nitrogen oxides",
+                "O3,57.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079039",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Barrio del Pilar",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079038-latest",
+        "type": "AirQualityObserved",
+        "BEN": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "EBE": {
+            "type": "Number",
+            "value": 0.1,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 7,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 14,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 24,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 10,
+            "metadata": {}
+        },
+        "PM2.5": {
+            "type": "Number",
+            "value": 6,
+            "metadata": {}
+        },
+        "SO2": {
+            "type": "Number",
+            "value": 4,
+            "metadata": {}
+        },
+        "TOL": {
+            "type": "Number",
+            "value": 0.3,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Avda. Pablo Iglesias esq. C/ Marqués de Lema"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.707127778,
+                    40.445544444
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "SO2,4.0,GQ,Sulfur Dioxide",
+                "NO,7.0,GQ,Nitrogen Monoxide",
+                "NO2,14.0,GQ,Nitrogen Dioxide",
+                "PM2.5,6.0,GQ,Particles lower than 2.5",
+                "PM10,10.0,GQ,Particles lower than 10",
+                "NOx,24.0,GQ,Nitrogen oxides",
+                "TOL,0.3,GQ,Toluene",
+                "BEN,0.2,GQ,Benzene",
+                "EBE,0.1,GQ,Etilbenzene"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079038",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Cuatro Caminos",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079016-latest",
+        "type": "AirQualityObserved",
+        "CO": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 6,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 16,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 25,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 59,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "C/ Arturo Soria  esq. C/  Vizconde de los Asilos "
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.639233333,
+                    40.440047222
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "CO,0.2,GP,Carbon Monoxide",
+                "NO,6.0,GQ,Nitrogen Monoxide",
+                "NO2,16.0,GQ,Nitrogen Dioxide",
+                "NOx,25.0,GQ,Nitrogen oxides",
+                "O3,59.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079016",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Arturo Soria",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079018-latest",
+        "type": "AirQualityObserved",
+        "BEN": {
+            "type": "Number",
+            "value": 0.1,
+            "metadata": {}
+        },
+        "CO": {
+            "type": "Number",
+            "value": 0.4,
+            "metadata": {}
+        },
+        "EBE": {
+            "type": "Number",
+            "value": 0.1,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 3,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 12,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 16,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 64,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 5,
+            "metadata": {}
+        },
+        "SO2": {
+            "type": "Number",
+            "value": 5,
+            "metadata": {}
+        },
+        "TOL": {
+            "type": "Number",
+            "value": 0.7,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Calle Farolillo - C/Ervigio"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.731852778,
+                    40.394780556
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "SO2,5.0,GQ,Sulfur Dioxide",
+                "CO,0.4,GP,Carbon Monoxide",
+                "NO,3.0,GQ,Nitrogen Monoxide",
+                "NO2,12.0,GQ,Nitrogen Dioxide",
+                "PM10,5.0,GQ,Particles lower than 10",
+                "NOx,16.0,GQ,Nitrogen oxides",
+                "O3,64.0,GQ,Ozone",
+                "TOL,0.7,GQ,Toluene",
+                "BEN,0.1,GQ,Benzene",
+                "EBE,0.1,GQ,Etilbenzene"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079018",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Farolillo",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079036-latest",
+        "type": "AirQualityObserved",
+        "CO": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 5,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 17,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 25,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 10,
+            "metadata": {}
+        },
+        "SO2": {
+            "type": "Number",
+            "value": 6,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Avd. Moratalaz  esq. Camino de los Vinateros"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.645305556,
+                    40.407947222
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "SO2,6.0,GQ,Sulfur Dioxide",
+                "CO,0.2,GP,Carbon Monoxide",
+                "NO,5.0,GQ,Nitrogen Monoxide",
+                "NO2,17.0,GQ,Nitrogen Dioxide",
+                "PM10,10.0,GQ,Particles lower than 10",
+                "NOx,25.0,GQ,Nitrogen oxides"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079036",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Moratalaz",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079035-latest",
+        "type": "AirQualityObserved",
+        "CO": {
+            "type": "Number",
+            "value": 0.1,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 2,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 12,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 16,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 67,
+            "metadata": {}
+        },
+        "SO2": {
+            "type": "Number",
+            "value": 5,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Plaza del Carmen esq. Tres Cruces. "
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.703172222,
+                    40.419208333
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "SO2,5.0,GQ,Sulfur Dioxide",
+                "CO,0.1,GP,Carbon Monoxide",
+                "NO,2.0,GQ,Nitrogen Monoxide",
+                "NO2,12.0,GQ,Nitrogen Dioxide",
+                "NOx,16.0,GQ,Nitrogen oxides",
+                "O3,67.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079035",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Pza. del Carmen",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079048-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 3,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 15,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 19,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 10,
+            "metadata": {}
+        },
+        "PM2.5": {
+            "type": "Number",
+            "value": 5,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "C/ Jose Gutierrez Abascal"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.690366667,
+                    40.439897222
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,3.0,GQ,Nitrogen Monoxide",
+                "NO2,15.0,GQ,Nitrogen Dioxide",
+                "PM2.5,5.0,GQ,Particles lower than 2.5",
+                "PM10,10.0,GQ,Particles lower than 10",
+                "NOx,19.0,GQ,Nitrogen oxides"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079048",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Castellana",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079049-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 1,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 11,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 12,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 63,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Paseo Venezuela- Casa de Vacas"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.682583333,
+                    40.414444444
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,1.0,GQ,Nitrogen Monoxide",
+                "NO2,11.0,GQ,Nitrogen Dioxide",
+                "NOx,12.0,GQ,Nitrogen oxides",
+                "O3,63.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079049",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Parque del Retiro",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079040-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 3,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 12,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 17,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 10,
+            "metadata": {}
+        },
+        "SO2": {
+            "type": "Number",
+            "value": 6,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "C/ Arroyo del Olivar  esq. C/  Río Grande. "
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.651522222,
+                    40.388152778
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "SO2,6.0,GQ,Sulfur Dioxide",
+                "NO,3.0,GQ,Nitrogen Monoxide",
+                "NO2,12.0,GQ,Nitrogen Dioxide",
+                "PM10,10.0,GQ,Particles lower than 10",
+                "NOx,17.0,GQ,Nitrogen oxides"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079040",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Vallecas",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079047-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 1,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 9,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 11,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 76,
+            "metadata": {}
+        },
+        "PM2.5": {
+            "type": "Number",
+            "value": 81,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "C/ Juan de Mariana / Pza. Amanecer Mendez Alvaro"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.686825,
+                    40.398113889
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,1.0,GQ,Nitrogen Monoxide",
+                "NO2,9.0,GQ,Nitrogen Dioxide",
+                "NOx,11.0,GQ,Nitrogen oxides"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079047",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Mendez Alvaro",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079060-latest",
+        "type": "AirQualityObserved",
+        "NO": {
+            "type": "Number",
+            "value": 4,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 9,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 16,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 63,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 9,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Plaza Tres Olivos"
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.689761111,
+                    40.500588889
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "NO,4.0,GQ,Nitrogen Monoxide",
+                "NO2,9.0,GQ,Nitrogen Dioxide",
+                "PM10,9.0,GQ,Particles lower than 10",
+                "NOx,16.0,GQ,Nitrogen oxides",
+                "O3,63.0,GQ,Ozone"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079060",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Tres Olivos",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    },
+    {
+        "id": "Madrid-AirQualityObserved-28079008-latest",
+        "type": "AirQualityObserved",
+        "BEN": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "CH4": {
+            "type": "Number",
+            "value": 1.27,
+            "metadata": {}
+        },
+        "CO": {
+            "type": "Number",
+            "value": 0.2,
+            "metadata": {}
+        },
+        "EBE": {
+            "type": "Number",
+            "value": 0.5,
+            "metadata": {}
+        },
+        "NHMC": {
+            "type": "Number",
+            "value": 0.09,
+            "metadata": {}
+        },
+        "NO": {
+            "type": "Number",
+            "value": 4,
+            "metadata": {}
+        },
+        "NO2": {
+            "type": "Number",
+            "value": 32,
+            "metadata": {}
+        },
+        "NOx": {
+            "type": "Number",
+            "value": 38,
+            "metadata": {}
+        },
+        "O3": {
+            "type": "Number",
+            "value": 60,
+            "metadata": {}
+        },
+        "PM10": {
+            "type": "Number",
+            "value": 16,
+            "metadata": {}
+        },
+        "PM2.5": {
+            "type": "Number",
+            "value": 8,
+            "metadata": {}
+        },
+        "SO2": {
+            "type": "Number",
+            "value": 8,
+            "metadata": {}
+        },
+        "TCH": {
+            "type": "Number",
+            "value": 1.36,
+            "metadata": {}
+        },
+        "TOL": {
+            "type": "Number",
+            "value": 1,
+            "metadata": {}
+        },
+        "address": {
+            "type": "PostalAddress",
+            "value": {
+                "addressCountry": "ES",
+                "addressLocality": "Madrid",
+                "streetAddress": "Entre C/ Alcalá y C/ O’ Donell "
+            },
+            "metadata": {}
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "TEF",
+            "metadata": {}
+        },
+        "dateObserved": {
+            "type": "DateTime",
+            "value": "2020-05-13T09:00:00.00Z",
+            "metadata": {}
+        },
+        "hour": {
+            "type": "Text",
+            "value": "10:00",
+            "metadata": {}
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -3.682319444,
+                    40.421563889
+                ]
+            },
+            "metadata": {}
+        },
+        "measurand": {
+            "type": "List",
+            "value": [
+                "SO2,8.0,GQ,Sulfur Dioxide",
+                "CO,0.2,GP,Carbon Monoxide",
+                "NO,4.0,GQ,Nitrogen Monoxide",
+                "NO2,32.0,GQ,Nitrogen Dioxide",
+                "PM2.5,8.0,GQ,Particles lower than 2.5",
+                "PM10,16.0,GQ,Particles lower than 10",
+                "NOx,38.0,GQ,Nitrogen oxides",
+                "O3,60.0,GQ,Ozone",
+                "TOL,1.0,GQ,Toluene",
+                "BEN,0.2,GQ,Benzene",
+                "EBE,0.5,GQ,Etilbenzene",
+                "TCH,1.36,GQ,Total Hydrocarbons",
+                "CH4,1.27,GQ,Hydrocarbons - Methane",
+                "NHMC,0.09,GQ,Non-methane hydrocarbons - Hexane"
+            ],
+            "metadata": {}
+        },
+        "source": {
+            "type": "URL",
+            "value": "http://datos.madrid.es",
+            "metadata": {}
+        },
+        "stationCode": {
+            "type": "Text",
+            "value": "28079008",
+            "metadata": {}
+        },
+        "stationName": {
+            "type": "Text",
+            "value": "Escuelas Aguirre",
+            "metadata": {}
+        },
+        "validity": {
+            "type": "StructuredValue",
+            "value": {
+                "to": "2020-05-13T11:00:00+01:00",
+                "from": "2020-05-13T10:00:00+01:00"
+            },
+            "metadata": {}
+        }
+    }
+]
