@@ -4,6 +4,10 @@ The technical documentation focuses in the technical aspects of the Context Brok
 
 ## Content
 
+- [Launch the application for development](#launch-the-application-for-development)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
 - [Architecture](#architecture)
   - [Context Broker](#context-broker)
   - [Cygnus](#cygnus)
@@ -25,6 +29,40 @@ The technical documentation focuses in the technical aspects of the Context Brok
     - [Subscriptions for a group of entities of the same type with multiple attributes](#subscriptions-for-a-group-of-entities-of-the-same-type-with-multiple-attributes)
     - [Subscriptions for a group of entities with an idPattern with multiple attributes](#subscriptions-for-a-group-of-entities-with-an-idpattern-with-multiple-attributes)
   - [How the historical data page gets the subscribed attributes](#how-the-historical-data-page-gets-the-subscribed-attributes)
+
+### Launch the application for development
+
+To just use the application, it is recommended to follow the [deployment manuals](../tutorials/index.md). However, to launch the application for development purposes, follow these instructions.
+
+#### Prerequisites
+
+- [Git](https://git-scm.com/downloads)
+- [Nodejs](https://nodejs.org/es/)
+- [Visual Studio Code](https://code.visualstudio.com/)
+
+#### Installation
+
+Execute the following commands:
+
+```bash
+git clone https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation.git
+cd Context-Broker-Data-Visualisation
+npm install -g @angular/cli
+cd client
+npm install
+cd ../server
+npm install
+```
+
+#### Usage
+
+To launch the application, execute the following command in the **client** and **server** folders.
+
+```bash
+npm start
+```
+
+Then, access to the application here: [localhost:4200](localhost:4200)
 
 ### Architecture
 
@@ -124,6 +162,7 @@ The following technologies have been used for the development and the deployment
 - [STH-Comet](https://github.com/telefonicaid/fiware-sth-comet)
 - [FIWARE lab](https://www.fiware.org/developers/fiware-lab/)
 - [Markdown](https://www.markdownguide.org/)
+- [Visual Studio Code](https://code.visualstudio.com/)
 
 [Top](#technical-documentation)
 
