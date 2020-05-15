@@ -1,19 +1,3 @@
-export interface EntityConfiguration {
-    name: string;
-    selected: boolean;
-    attrs: {
-        name: string;
-        selected: boolean;
-        fav: boolean;
-    }[];
-}
-
-export interface ServiceConfiguration {
-    service: string;
-    servicePath: string;
-    entities: EntityConfiguration[];
-}
-
 export interface ContextBrokerConfiguration {
     name: string;
     url: string;
@@ -23,4 +7,24 @@ export interface ContextBrokerConfiguration {
     comet: string;
     entities: EntityConfiguration[];
     services: ServiceConfiguration[];
+}
+
+export interface ServiceConfiguration {
+    service: string;
+    servicePath: string;
+    entities: EntityConfiguration[];
+}
+
+export interface EntityConfiguration {
+    name: string;
+    selected: boolean;
+    selectable: boolean;
+    attrs: AttrConfiguration[];
+}
+
+export interface AttrConfiguration {
+    name: string;
+    selected: boolean;
+    selectable: boolean;
+    fav: boolean;
 }

@@ -1,0 +1,51 @@
+<div class="container-fluid mb-4">
+    <div *ngIf="!displayHistoricalData" class="row justify-content-center">
+        <h5 class="mt-5">
+            There is no historical data for <strong>{{ entityMetadata.id }}</strong>
+        </h5>
+    </div>
+    <div *ngIf="displayHistoricalData" class="row justify-content-center">
+
+        <!-- Header -->
+        <h5 *ngIf="entityMetadata" class="justify-content-center mt-5">
+            <strong>{{ entityMetadata.type }}:</strong> {{ entityMetadata.id }}
+        </h5>
+
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-11 my-2">
+            <div>
+                <p-accordion [multiple]="true">
+                    <p-accordionTab #rawTab [selected]="true">
+
+                        <!-- AccordionTab header -->
+                        <p-header>
+                            <app-accordion-tab-header [header]="'Raw Data'" [selected]="rawTab.selected">
+                            </app-accordion-tab-header>
+                        </p-header>
+
+                        <!-- Raw data (table) -->
+                        <div class="mx-4 my-4">
+                            <app-historical-data-table [entityMetadata]=" entityMetadata">
+                            </app-historical-data-table>
+                        </div>
+
+                    </p-accordionTab>
+
+                    <p-accordionTab #aggrTab [selected]="true">
+
+                        <!-- AccordionTab header -->
+                        <p-header>
+                            <app-accordion-tab-header [header]="'Aggregated Data'" [selected]="aggrTab.selected">
+                            </app-accordion-tab-header>
+                        </p-header>
+
+                        <!-- Aggregated data (table) -->
+                        <div class="mx-4 my-4">
+                            <app-historical-data-graph [entityMetadata]="entityMetadata"></app-historical-data-graph>
+                        </div>
+
+                    </p-accordionTab>
+                </p-accordion>
+            </div>
+        </div>
+    </div>
+</div>

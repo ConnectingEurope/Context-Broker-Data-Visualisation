@@ -1,15 +1,16 @@
+<!-- Json dialog for entity debug -->
 <app-json-dialog [display]="displayDebug" [header]="displayDebugHeader" [content]="displayDebugContent"
     (hide)="displayDebug=false">
 </app-json-dialog>
 
 <!-- Filters panel -->
-<p-overlayPanel #layerConditionsPanel styleClass="w-800">
-    <app-layer-conditions [categories]="categories" [entities]="entities" (eventFilters)="setFilters($event)">
+<p-overlayPanel #layerConditionsPanel styleClass="conditionsPanel">
+    <app-layer-conditions [categories]="categories" [entities]="entities" (eventFilters)="onEventFilters($event)">
     </app-layer-conditions>
 </p-overlayPanel>
 
 <!-- Layers panel -->
-<p-overlayPanel #layerPanel>
+<p-overlayPanel #layerPanel styleClass="layersPanel">
     <p-tree [value]="layers" selectionMode="checkbox" [(selection)]="selectedLayers"
         (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnselect($event)"></p-tree>
 </p-overlayPanel>
@@ -63,6 +64,8 @@
 
     <!-- Bottom left corner controls -->
     <div *ngIf="showButtons && favChecked && favAttrs.length > 0" class="leaflet-bottom leaflet-left">
+
+        <!-- Main attributes legend -->
         <div class="favAttrsContainer mb-3 ml-3 p-3">
             <h6>Main attributes</h6>
             <hr />

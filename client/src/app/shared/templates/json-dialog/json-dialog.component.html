@@ -1,14 +1,21 @@
-<p-dialog styleClass="json-dialog" [showHeader]="true" [(visible)]="display" [modal]="true"
-    [style]="{width: '30vw', height: '70vh'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false"
+<p-dialog styleClass="clipboard-dialog" [showHeader]="true" [(visible)]="display" [modal]="true"
+    [style]="{width: '575px', height: '700px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false"
     (onHide)="onHide()">
+
+    <!-- Header -->
     <p-header>
-        <h6 class="d-inline mt-2" style="position: absolute; top: 15px;">{{header}}</h6>
-        <span style="position: absolute; right: 45px;">
+        <h6 class="d-inline mt-2">
+            {{ (header && header.length > maxHeaderChar) ? (header | slice:0:maxHeaderChar) + '...' : (header) }}
+        </h6>
+        <span class="clipboard-button">
             <p-button ngxClipboard label="Copy" icon="far fa-clipboard" iconPos="left" (onClick)="onClickCopy()">
             </p-button>
         </span>
     </p-header>
+
+    <!-- Content -->
     <div style="white-space: pre-wrap;">
         {{content | json}}
     </div>
+
 </p-dialog>

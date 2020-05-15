@@ -1,25 +1,28 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LayerConditionsComponent } from './layer-conditions.component';
+import { MapDashboardModule } from '../../map-dashboard.module';
 
 describe('LayerConditionsComponent', () => {
-  let component: LayerConditionsComponent;
-  let fixture: ComponentFixture<LayerConditionsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [LayerConditionsComponent],
-    })
-    .compileComponents();
-  }));
+    let fixture: ComponentFixture<LayerConditionsComponent>;
+    let component: LayerConditionsComponent;
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(LayerConditionsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            imports:
+                [
+                    MapDashboardModule,
+                    HttpClientTestingModule,
+                ],
+        });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+        fixture = TestBed.createComponent(LayerConditionsComponent);
+        component = fixture.debugElement.componentInstance;
+    });
+
+    it('setup', () => {
+        expect(component).toBeTruthy();
+    });
+
 });

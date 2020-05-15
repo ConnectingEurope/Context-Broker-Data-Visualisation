@@ -1,8 +1,10 @@
-<!-- <ng-http-loader *ngIf="loaderService.active"></ng-http-loader> -->
+<!-- Http loader for the entire application -->
 <ng-http-loader [filteredHeaders]="['Avoid-Http-Interceptor']"></ng-http-loader>
 
+<!-- Toast for the entire application -->
 <p-toast></p-toast>
 
+<!-- Confirm dialog for the entire application -->
 <p-confirmDialog rejectButtonStyleClass="secondary-button"></p-confirmDialog>
 
 <div class="d-flex flex-column vh-100">
@@ -17,14 +19,5 @@
     <div class="flex-grow-1">
         <router-outlet></router-outlet>
     </div>
-
-    <!-- Footer -->
-    <!-- <div id="footer" class="d-flex align-items-center w-100">
-    <div class="w-100">
-      <p class="text-center text-dark mb-0">
-        Made by Everis
-      </p>
-    </div>
-  </div> -->
 
 </div>

@@ -1,31 +1,30 @@
-<div class="container-fluid mt-3">
+<div class="container-fluid mt-3 mb-4">
 
-    <!-- Add Context Broker button -->
     <div class="row justify-content-center mt-3">
+
+        <!-- Add Context Broker button -->
         <div *ngIf="configurationLoaded" class="col-auto">
             <p-button icon="pi pi-plus" label="Add Context Broker" (onClick)="onAddContextBroker()"></p-button>
         </div>
+
+        <!-- Apply configuration button -->
         <div *ngIf="shouldApplyButtonBeDisplayed()" class="col-auto">
             <p-button icon="pi pi-check" label="Apply Configuration" [disabled]="!shouldApplyButtonBeEnabled()"
                 (onClick)="onApplyConfiguration()">
             </p-button>
         </div>
+
     </div>
-    <!-- <div class="row justify-content-center mt-2">
-        <div class="col-auto">
-            <p [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'" class="alert alert-warning"
-                role="alert">
-                <i class="pi pi-exclamation-triangle"></i>
-                There are unsaved changes. Please, apply the configuration to confirm them.
-            </p>
-        </div>
-    </div> -->
+
     <div class="row justify-content-center my-2">
         <div class="col-auto">
+
+            <!-- Advertisement for unsaved changes -->
             <div [style.visibility]="shouldAdvertisementBeDisplayed() ? 'visible' : 'hidden'">
                 <p-message severity="warn"
                     text="There are unsaved changes. Please, apply the configuration to confirm them."></p-message>
             </div>
+
         </div>
     </div>
 
@@ -40,7 +39,7 @@
                         <!-- AccordionTab header -->
                         <p-header>
                             <app-accordion-tab-header [header]="cb.header" [selected]="accordionTab.selected"
-                                [removable]="true" (remove)="onRemoveContextBroker(i)">
+                                [removable]="true" (remove)="onRemoveContextBroker(cb, i)">
                             </app-accordion-tab-header>
                         </p-header>
 
@@ -50,7 +49,7 @@
                             <!-- General configuration -->
                             <div class="mt-4 mb-4">
                                 <app-general-configuration [cb]="cb"
-                                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (urlChange)="onUrlChange()"
+                                    (selectedEntitiesChange)="onSelectedEntitiesChange()" (urlChange)="onUrlChange(cb)"
                                     (favChange)="onFavChange()">
                                 </app-general-configuration>
                             </div>

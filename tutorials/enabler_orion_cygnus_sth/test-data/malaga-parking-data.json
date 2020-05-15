@@ -1,0 +1,1216 @@
+[
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Salitre"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 253,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 342
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.4276681,
+                    36.7132149
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Salitre",
+        "description": {
+            "type": "Text",
+            "value": "Calle SalitreM\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Cervantes"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 301,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 414
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.4119148,
+                    36.7208633
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Cervantes",
+        "description": {
+            "type": "Text",
+            "value": "Calle CervantesM\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "El Palo"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 71,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 129
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.3607192,
+                    36.721035
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "El_Palo",
+        "description": {
+            "type": "Text",
+            "value": "Calle Alonso Carrillo De AlbornozM\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Av. de Andaluc\u00eda"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 462,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 517
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.427712,
+                    36.7173271
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Av._de_Andalucia",
+        "description": {
+            "type": "Text",
+            "value": "Avenida De Andaluc\u00eda -  M\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Camas"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 201,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 320
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.4244981,
+                    36.7202072
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Camas",
+        "description": {
+            "type": "Text",
+            "value": "Calle Camas -  M\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Cruz De Humilladero"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 91,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 100
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.4409118,
+                    36.7118645
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Cruz_De_Humilladero",
+        "description": {
+            "type": "Text",
+            "value": "Plaza Cruz De HumilladeroM\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Alcazaba"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 293,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 344
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.4165168,
+                    36.7224312
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Alcazaba",
+        "description": {
+            "type": "Text",
+            "value": "Plaza La AlcazabaM\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "San Juan De La Cruz"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 304,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 350
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.4332781,
+                    36.717865
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "San_Juan_De_La_Cruz",
+        "description": {
+            "type": "Text",
+            "value": "Compositor Lemberg Ruiz - 29007 M\u00e1laga  M\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Pz. de la Marina"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 313,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 400
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.4200468,
+                    36.7174149
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Pz._de_la_Marina",
+        "description": {
+            "type": "Text",
+            "value": "Plaza De La MarinaM\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "spacesAvailable"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "public",
+                "shortTerm",
+                "feeCharged"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Tej\u00f3n y Rodriguez"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "noPermitNeeded"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": 158,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": 170
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    -4.4214821,
+                    36.7235985
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "temporatyPrice"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Tejon_y_Rodriguez",
+        "description": {
+            "type": "Text",
+            "value": "Calle Tej\u00f3n Y RodriguezM\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "full"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "publicPrivate",
+                "onlyResidents"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "El Carmen"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "residentPermit"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": -1,
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": -1
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "other"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "El_Carmen",
+        "description": {
+            "type": "Text",
+            "value": ""
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "full"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "publicPrivate",
+                "onlyResidents"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "M\u00e1rmoles"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "residentPermit"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": "-1",
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": -1
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "other"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Marmoles",
+        "description": {
+            "type": "Text",
+            "value": ""
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "full"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "publicPrivate",
+                "onlyResidents"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "El Limonar"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "residentPermit"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": "-1",
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": -1
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "other"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "El_Limonar",
+        "description": {
+            "type": "Text",
+            "value": "Limonar -  M\u00e1laga  M\u00e1laga"
+        }
+    },
+    {
+        "status": {
+            "type": "Array",
+            "value": [
+                "open",
+                "full"
+            ]
+        },
+        "category": {
+            "type": "Array",
+            "value": [
+                "publicPrivate",
+                "onlyResidents"
+            ]
+        },
+        "name": {
+            "type": "Text",
+            "value": "Bail\u00e9n"
+        },
+        "requiredPermit": {
+            "type": "Array",
+            "value": [
+                "residentPermit"
+            ]
+        },
+        "allowedVehicleType": {
+            "type": "Array",
+            "value": [
+                "car"
+            ]
+        },
+        "availableSpotNumber": {
+            "type": "Integer",
+            "value": "-1",
+            "metadata": {
+                "timestamp": {
+                    "type": "DateTime",
+                    "value": "2020-05-13T11:45:04"
+                }
+            }
+        },
+        "source": {
+            "type": "Text",
+            "value": "https://datosabiertos.malaga.eu/recursos/aparcamientos/ocupappublicosmun/ocupappublicosmunfiware.json"
+        },
+        "totalSpotNumber": {
+            "type": "Integer",
+            "value": -1
+        },
+        "location": {
+            "type": "geo:json",
+            "value": {
+                "type": "Point",
+                "coordinates": [
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        "chargeType": {
+            "type": "Array",
+            "value": [
+                "other"
+            ]
+        },
+        "owner": {
+            "type": "Text",
+            "value": "https://www.smassa.eu/"
+        },
+        "occupancyDetectionType": {
+            "type": "Array",
+            "value": [
+                "singleSpaceDetection"
+            ]
+        },
+        "dataProvider": {
+            "type": "Text",
+            "value": "https://www.smassa.eu"
+        },
+        "type": "OffStreetParking",
+        "id": "Bailen",
+        "description": {
+            "type": "Text",
+            "value": "Bail\u00e9n -  M\u00e1laga  M\u00e1laga"
+        }
+    }
+]

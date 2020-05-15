@@ -14,14 +14,13 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { TooltipModule } from 'primeng/tooltip';
 import { MessageModule } from 'primeng/message';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { GeneralConfigurationComponent } from './components/general-configuration/general-configuration.component';
 import { ServiceConfigurationComponent } from './components/service-configuration/service-configuration.component';
 import { HistoricalConfigurationComponent } from './components/historical-configuration/historical-configuration.component';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
-import { AccordionTabHeaderComponent } from 'src/app/shared/templates/accordion-tab-header/accordion-tab-header.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AttributeSelectorComponent } from 'src/app/shared/templates/attribute-selector/attribute-selector.component';
+import { SubscriptionsDialogComponent } from './components/subscriptions-dialog/subscriptions-dialog.component';
 
 @NgModule({
     imports: [
@@ -47,6 +46,7 @@ import { AttributeSelectorComponent } from 'src/app/shared/templates/attribute-s
         GeneralConfigurationComponent,
         ServiceConfigurationComponent,
         HistoricalConfigurationComponent,
+        SubscriptionsDialogComponent,
         InputWithValidationComponent,
         AttributeSelectorComponent,
     ],

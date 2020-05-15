@@ -1,0 +1,30 @@
+<p-dialog styleClass="clipboard-dialog" [showHeader]="true" [(visible)]="display" [modal]="true"
+    [style]="{width: '575px', height: '700px'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false"
+    (onHide)="onHide()">
+
+    <!-- Header -->
+    <p-header>
+        <h6 class="d-inline mt-2">Subscriptions</h6>
+        <span class="clipboard-button">
+            <p-button ngxClipboard label="Copy subscriptions JSON" icon="far fa-clipboard" iconPos="left"
+                (onClick)="onClickCopy()">
+            </p-button>
+        </span>
+    </p-header>
+
+    <!-- Info -->
+    <div class="my-4 mx-2">
+        <p class="info-message text-justify">
+            <i class="pi pi-info info-message"></i>
+            {{'The following list of subscriptions indicates the group of attributes that are subscribed to changes in the Context Broker.
+        This means that historical data will be available for all of the attributes listed below.'}}
+        </p>
+    </div>
+
+    <!-- Subscriptions -->
+    <p-scrollPanel #entitiesScroll [style]="{width: '100%', height: '500px'}">
+        <p-tree [value]="subs" emptyMessage="" (onNodeExpand)="refreshScroll()" (onNodeCollapse)="refreshScroll()">
+        </p-tree>
+    </p-scrollPanel>
+
+</p-dialog>

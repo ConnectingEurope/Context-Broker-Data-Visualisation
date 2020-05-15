@@ -1,0 +1,69 @@
+<div>
+    <div class="container-fluid">
+        <div class="row justify-content-center my-3">
+
+            <!-- Attribute selection -->
+            <div class="col-auto">
+                <h6>Attribute</h6>
+                <p-dropdown [options]="attrs" [(ngModel)]="currentAttr" (onChange)="onChange()"></p-dropdown>
+            </div>
+
+            <!-- Range selection -->
+            <div class="col-auto">
+                <h6>Range</h6>
+                <p-dropdown [options]="ranges" [(ngModel)]="currentPeriod" (onChange)="onChange()"></p-dropdown>
+            </div>
+
+            <!-- Calendar -->
+            <div class="col-auto">
+                <h6>Calendar</h6>
+
+                <!-- Hour calendar -->
+                <p-calendar *ngIf="currentPeriod === aggrPeriodEnum.MINUTE" [(ngModel)]="hourDate"
+                    placeholder="DD/MM/YYYY HH:MM" [showTime]="true" [stepMinute]="0" [readonlyInput]="true"
+                    dateFormat="dd/mm/yy" (onClose)="onChange()">
+                </p-calendar>
+
+                <!-- Day calendar -->
+                <p-calendar *ngIf="currentPeriod === aggrPeriodEnum.HOUR" [(ngModel)]="dayDate" placeholder="DD/MM/YYYY"
+                    [readonlyInput]="true" dateFormat="dd/mm/yy" (onClose)="onChange()">
+                </p-calendar>
+
+                <!-- Month calendar -->
+                <p-calendar *ngIf="currentPeriod === aggrPeriodEnum.DAY" [(ngModel)]="monthDate" view="month"
+                    dateFormat="mm/yy" [yearNavigator]="true" yearRange="{{firstYear + ':' + currentYear}}"
+                    [readonlyInput]="true" placeholder="MM/YY" [readonlyInput]="true" dateFormat="mm/yy"
+                    (onClose)="onChange()">
+                </p-calendar>
+
+                <!-- Year calendar -->
+                <p-dropdown *ngIf="currentPeriod === aggrPeriodEnum.MONTH" [options]="years" [(ngModel)]="yearDate"
+                    (onChange)="onChange()"></p-dropdown>
+
+            </div>
+        </div>
+        <div class="row justify-content-center mt-5">
+
+            <!-- Graphic for numbers -->
+            <app-graphic-card [style.display]="attrType === attrTypeEnum.NUMBER ? 'block' : 'none'"
+                #graphicCardForNumber [chartConfig]="chartConfigForNumber"></app-graphic-card>
+
+            <!-- Graphic for strings -->
+            <app-graphic-card [style.display]="attrType === attrTypeEnum.STRING ? 'block' : 'none'"
+                #graphicCardForString [chartConfig]="chartConfigForString"></app-graphic-card>
+
+            <!-- Message when no data available -->
+            <p *ngIf="attrType === attrTypeEnum.UNDEFINED">
+                No data available
+            </p>
+
+            <!-- Message when complex type -->
+            <p *ngIf="attrType === attrTypeEnum.OBJECT" class="input-warning">
+                <span>Attribute </span>
+                <b>{{currentAttr}}</b>
+                <span> is a complex object. Select an attribute which is a number or a string.</span>
+            </p>
+
+        </div>
+    </div>
+</div>

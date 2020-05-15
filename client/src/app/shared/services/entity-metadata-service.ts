@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { EntityMetadata } from '../models/entity-metadata';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ModelDto } from '../models/model-dto';
 import { map } from 'rxjs/operators';
+import { Entity } from '../models/entity';
 
 export interface HistoricalAttrsQuery {
     contextUrl: string;
@@ -19,14 +20,16 @@ export class EntityMetadataService {
 
     private entityMetadata: EntityMetadata;
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: HttpClient,
+    ) {
     }
 
     public getEntityMetadata(): EntityMetadata {
         return this.entityMetadata;
     }
 
-    public setEntityMetadata(entity: any, modelDto: ModelDto): Observable<void> {
+    public setEntityMetadata(entity: Entity, modelDto: ModelDto): Observable<void> {
         this.entityMetadata = {
             id: entity.id,
             type: modelDto.type,
@@ -35,10 +38,11 @@ export class EntityMetadataService {
             cometUrl: modelDto.cometUrl,
             service: modelDto.service,
             servicePath: modelDto.servicePath,
+            favAttr: modelDto.favAttr,
         };
         return this.getHistoricalAttrs().pipe(map(attrs => {
             this.entityMetadata.attrs = attrs.filter(a => Object.keys(entity).indexOf(a) >= 0);
-            localStorage.setItem('entityMetadata', JSON.stringify(this.entityMetadata));
+            sessionStorage.setItem('entityMetadata', JSON.stringify(this.entityMetadata));
             return;
         }));
     }
@@ -50,7 +54,7 @@ export class EntityMetadataService {
             servicePath: this.entityMetadata.servicePath,
             entityId: this.entityMetadata.id,
         };
-        return this.http.post<string[]>('/server/historical-data/attrs', body);
+        return this.http.post<string[]>('/server/subscriptions/attrs', body);
     }
 
 }

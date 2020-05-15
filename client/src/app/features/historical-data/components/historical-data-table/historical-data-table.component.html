@@ -1,0 +1,99 @@
+<!-- Export data dialog -->
+<p-dialog [(visible)]="displayModal" [modal]="true" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false"
+    [resizable]="false" [closable]="false" [showHeader]="false">
+    <p class="text-center advertisement mb-2"><b>Exporting to CSV</b></p>
+    <p-progressBar [value]="progressBarValue"></p-progressBar>
+</p-dialog>
+
+<div [style.display]="data.length > 0 || !loading ? 'block' : 'none'">
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-end mt-3 mb-4">
+
+            <!-- From calendar -->
+            <div class="col-auto">
+                <h6>From</h6>
+                <p-calendar [(ngModel)]="dateFrom" placeholder="DD/MM/YYYY HH:MM" [showTime]="true"
+                    dateFormat="dd/mm/yy" [maxDate]="dateTo" (onClose)="onCalendarClose()"
+                    (ngModelChange)="onCalendarChange()">
+                </p-calendar>
+            </div>
+
+            <!-- To calendar -->
+            <div class="col-auto">
+                <h6>To</h6>
+                <p-calendar [(ngModel)]="dateTo" placeholder="DD/MM/YYYY HH:MM" [showTime]="true" dateFormat="dd/mm/yy"
+                    [minDate]="dateFrom" (onClose)="onCalendarClose()" (ngModelChange)="onCalendarChange()">
+                </p-calendar>
+            </div>
+
+            <!-- Clear calendars button -->
+            <div class="col-auto">
+                <p-button styleClass="secondary-button input-height" icon="pi pi-times" label="Clear"
+                    (click)="onClearDates()">
+                </p-button>
+            </div>
+
+        </div>
+
+        <!-- Table -->
+        <div class="justify-content-center">
+            <p-table #table [value]="data" [paginator]="true" [rows]="hLimit" [loading]="false"
+                styleClass="ui-table-historical-data"
+                currentPageReportTemplate="{{ totalRecords ? ('Showing ' + (first + 1) + ' to ' + last + ' of ' + totalRecords): '' }}"
+                [totalRecords]="totalRecords" [lazy]="true" [showCurrentPageReport]="true"
+                (onLazyLoad)="onLazyLoad($event)" [rowsPerPageOptions]="[10,25,50,75,100]">
+
+                <!-- Table header -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th [style.width.px]="150">
+                            Timestamp
+                        </th>
+                        <th *ngFor="let attr of titles" [style.width.px]="150">
+                            {{attr}}
+                        </th>
+                    </tr>
+                </ng-template>
+
+                <!-- Table body -->
+                <ng-template pTemplate="body" let-row>
+                    <tr>
+
+                        <!-- Timestamp column -->
+                        <td>
+                            {{row[time] | date:'dd/LL/yy - HH:mm:ss'}}
+                        </td>
+
+                        <!-- Attribute columns -->
+                        <td *ngFor="let attr of titles">
+                            {{row[attr]?.attrValue ? row[attr]?.attrValue : '-'}}
+                        </td>
+
+                    </tr>
+                </ng-template>
+
+                <!-- Table empty message -->
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td [attr.colspan]="titles.length + 1" style="text-align:left">No data found.</td>
+                    </tr>
+                </ng-template>
+
+            </p-table>
+        </div>
+
+        <div class="row justify-content-center mt-4">
+            <p *ngIf="complexAttrs.length > 0" class="input-warning">
+                The following attributes are complex objects and they are not being shown in the table:
+                <b>{{complexAttrs.join(', ')}}</b>
+                . You can visualise them exporting the data to CSV.
+            </p>
+        </div>
+
+        <!-- Export to CSV button -->
+        <div class="row justify-content-center mt-4">
+            <p-button icon="fas fa-file-csv" label="Export to CSV" (click)="onExportToCsv()"></p-button>
+        </div>
+
+    </div>
+</div>

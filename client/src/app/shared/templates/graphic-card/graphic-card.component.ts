@@ -1,5 +1,5 @@
 import { Component, ViewChild, AfterViewInit, Input } from '@angular/core';
-import { Chart } from 'chart.js';
+import { Chart, ChartConfiguration } from 'chart.js';
 
 @Component({
     selector: 'app-graphic-card',
@@ -8,7 +8,7 @@ import { Chart } from 'chart.js';
 })
 export class GraphicCardComponent implements AfterViewInit {
 
-    @Input() public chartConfig: any;
+    @Input() public chartConfig: ChartConfiguration;
 
     public chart: Chart;
 

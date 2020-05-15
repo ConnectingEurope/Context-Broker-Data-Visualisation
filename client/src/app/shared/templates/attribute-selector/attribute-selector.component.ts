@@ -1,12 +1,6 @@
 import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import * as moment from 'moment';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
-import { Router } from '@angular/router';
-import { ModelDto } from '../../models/model-dto';
-import { EntityMetadataService } from '../../services/entity-metadata-service';
-import { EntityMetadata } from '../../models/entity-metadata';
 import { BaseComponent } from '../../misc/base.component';
-import { takeUntil } from 'rxjs/operators';
 import { TreeNode } from 'primeng/api/treenode';
 
 @Component({
@@ -18,15 +12,12 @@ export class AttributeSelectorComponent extends BaseComponent {
 
     @Input() public entities: TreeNode[];
     @Input() public selectedEntities: TreeNode[];
-    @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public selectedEntitiesChange: EventEmitter<TreeNode[]> = new EventEmitter<TreeNode[]>();
     @Output() public favChange: EventEmitter<void> = new EventEmitter<void>();
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
 
-    constructor(
-        private router: Router,
-        private entityMetadataService: EntityMetadataService,
-    ) {
+    constructor() {
         super();
     }
 
@@ -43,19 +34,17 @@ export class AttributeSelectorComponent extends BaseComponent {
     }
 
     public onNodeSelect(event: any): void {
-        this.selectedEntitiesChange.emit();
+        this.selectedEntitiesChange.emit(this.selectedEntities);
     }
 
     public onNodeUnselect(event: any): void {
-        if (event.node.data.fav) { event.node.data.fav = false; }
-        this.selectedEntitiesChange.emit();
+        event.node.parent ? event.node.data.fav = false : event.node.children.forEach(n => n.data.fav = false);
+        this.selectedEntitiesChange.emit(this.selectedEntities);
     }
 
     public onClickFav(event: any, node: TreeNode): void {
         event.stopPropagation();
-        node.parent.children.forEach(c => {
-            c.data.fav = false;
-        });
+        node.parent.children.forEach(c => c.data.fav = false);
         node.data.fav = true;
         this.favChange.emit();
     }
