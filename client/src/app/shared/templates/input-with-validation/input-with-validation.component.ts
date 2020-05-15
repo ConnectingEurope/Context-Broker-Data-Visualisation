@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl } from '@angular/forms';
-import { ValidatorService } from '../../services/validator-service';
+import { Utils } from '../../misc/utils';
 
 @Component({
     selector: 'app-input-with-validation',
@@ -27,8 +27,6 @@ export class InputWithValidationComponent implements OnInit {
     private requiredError: string = 'This field is mandatory';
     private emptySpacePatternError: string = this.requiredError;
     private pathPatternError: string = 'The path must start with "/"';
-
-    constructor(private validatorService: ValidatorService) { }
 
     public ngOnInit(): void {
         this.fControl = this.group.get(this.controlName);
@@ -82,11 +80,11 @@ export class InputWithValidationComponent implements OnInit {
     }
 
     private checkWhteSpacePattern(): boolean {
-        return this.checkPattern(this.validatorService.whiteSpaceExp);
+        return this.checkPattern(Utils.whiteSpaceExp);
     }
 
     private checkPathPattern(): boolean {
-        return this.checkPattern(this.validatorService.pathExp);
+        return this.checkPattern(Utils.pathExp);
     }
 
     private checkPattern(pattern: RegExp): boolean {

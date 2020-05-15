@@ -1,9 +1,8 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
+import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
 import { ContextBrokerForm } from '../../models/context-broker-form';
-import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 
 @Component({
@@ -20,7 +19,6 @@ export class HistoricalConfigurationComponent extends BaseComponent {
 
     constructor(
         private configDashboardService: ConfigDashboardService,
-        private appMessageService: AppMessageService,
     ) {
         super();
     }

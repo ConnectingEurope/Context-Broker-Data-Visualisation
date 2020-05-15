@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Chart } from 'chart.js';
 
 @Component({
     selector: 'app-accordion-tab-header',

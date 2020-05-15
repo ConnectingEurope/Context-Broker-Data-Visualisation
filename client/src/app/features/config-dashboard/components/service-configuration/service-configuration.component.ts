@@ -1,16 +1,14 @@
-import { Component, Input, ViewChild, Output, EventEmitter, ViewChildren, QueryList, OnInit, AfterViewInit } from '@angular/core';
-import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
+import { Component, Input, Output, EventEmitter, ViewChildren, QueryList, OnInit, ViewChild } from '@angular/core';
+import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
 import { ContextBrokerForm, ServiceForm } from '../../models/context-broker-form';
-import { EntityDto } from '../../models/entity-dto';
-import { ScrollPanel } from 'primeng/scrollpanel/public_api';
-import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { ConfirmationService, TreeNode } from 'primeng/api';
-import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { AccordionTab } from 'primeng/accordion/accordion';
 import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
+import { EntityTreeNodeService } from '../../services/entity-tree-node.service';
+import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
+import { TypeContainerDto } from '../../models/type-container-dto';
 
 @Component({
     selector: 'app-service-configuration',
@@ -20,39 +18,35 @@ import { SubscriptionsDialogComponent, ContextSubscription } from '../subscripti
 export class ServiceConfigurationComponent extends BaseComponent implements OnInit {
 
     @Input() public cb: ContextBrokerForm;
-    @Output() public removeServiceEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Output() public removeServiceEvent: EventEmitter<void> = new EventEmitter<void>();
     @Output() public selectedEntitiesChange: EventEmitter<void> = new EventEmitter<void>();
     @Output() public favChange: EventEmitter<void> = new EventEmitter<void>();
 
     public chooseWarningVisible: boolean;
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
-    public displaySubsContent: any;
+    public displaySubsContent: ContextSubscription[];
     public accordionTabsSelected: boolean = false;
 
-    @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChildren('accordionTab') private accordionTabs: QueryList<AccordionTab>;
     @ViewChild('subscriptionDialog') private subscriptionDialog: SubscriptionsDialogComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
-        private layerService: LayerService,
+        private treeNodeService: TreeNodeService,
+        private entityTreeNodeService: EntityTreeNodeService,
         private confirmationService: ConfirmationService,
     ) {
         super();
     }
 
     public ngOnInit(): void {
-        if (this.cb.services.length === 0) {
-            this.onAddService();
-        } else {
-            setTimeout(() => {
-                if (this.accordionTabs && this.accordionTabs.length > 0) {
-                    this.accordionTabs.forEach(a => a.selected = false);
-                }
-            });
-        }
+        this.cb.services.length === 0 ? this.onAddService() : this.closeAccordionTabs();
     }
+
+    /*****************************************************************************
+     Event functions
+    *****************************************************************************/
 
     public onContextBrokerUrlChange(): void {
         this.chooseWarningVisible = false;
@@ -72,33 +66,36 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         });
     }
 
-    public onRemoveService(index: number): void {
+    public onRemoveService(s: ServiceForm, index: number): void {
         this.confirmationService.confirm({
             icon: 'pi pi-info',
             header: 'Are you sure you want to delete this service?',
-            message: 'The configuration of the service "' + this.cb.services[index].header +
+            message: 'The configuration of the service "' + s.header +
                 '" will be deleted. Note that this change will only be confirmed when applying the configuration.',
             acceptLabel: 'Delete',
             rejectLabel: 'Cancel',
             accept: (): void => {
-                this.removeService(index);
+                this.removeServiceEvent.emit();
+                this.cb.services.splice(index, 1);
             },
         });
     }
 
-    public onServiceConfigChange(index: number): void {
+    public onServiceConfigChange(s: ServiceForm): void {
         this.chooseWarningVisible = false;
         this.subsWarningVisible = false;
-        const service: string = this.cb.services[index].form.value.service;
-        const servicePath: string = this.cb.services[index].form.value.servicePath;
+        s.entities = [];
+        s.selectedEntities = [];
+        const service: string = s.form.value.service;
+        const servicePath: string = s.form.value.servicePath;
         const header: string = service + (service && servicePath &&
-            this.cb.services[index].form.get('servicePath').valid ? servicePath : '');
-        this.cb.services[index].header = header && !/^\s+$/.test(service) ? header :
+            s.form.get('servicePath').valid ? servicePath : '');
+        s.header = header && !/^\s+$/.test(service) ? header :
             this.configDashboardService.serviceHeaderWhenEmpty;
     }
 
-    public onSelectedEntitiesChange(selectedEntities: TreeNode[], index: number): void {
-        this.cb.services[index].selectedEntities = selectedEntities;
+    public onSelectedEntitiesChange(selectedEntities: TreeNode[], s: ServiceForm): void {
+        s.selectedEntities = selectedEntities;
         this.selectedEntitiesChange.emit();
     }
 
@@ -106,40 +103,24 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         this.favChange.emit();
     }
 
-    public isDisabledChooseButton(index: number): boolean {
-        return this.cb.form.get('url').invalid ||
-            this.cb.services[index].form.get('service').invalid ||
-            this.cb.services[index].form.get('servicePath').invalid;
-    }
-
-    public isDisabledSubsButton(index: number): boolean {
-        return this.isDisabledChooseButton(index);
-    }
-
-    public shouldButtonFavBeDisplayed(node: TreeNode, service: ServiceForm): boolean {
-        return node.data.fav !== undefined && service.selectedEntities.some(e => {
-            return e.parent && node.parent && e.parent.label === node.parent.label && e.label === node.label;
-        });
-    }
-
-    public onChooseEntities(index: number): void {
+    public onChooseEntities(s: ServiceForm): void {
         const url: string = this.cb.form.value.url;
-        const service: string = this.cb.services[index].form.value.service;
-        const servicePath: string = this.cb.services[index].form.value.servicePath;
+        const service: string = s.form.value.service;
+        const servicePath: string = s.form.value.servicePath;
 
         this.configDashboardService.getEntitiesFromService(url, service, servicePath).pipe(takeUntil(this.destroy$)).subscribe(
-            entities => {
-                entities.length > 0 ? this.onChooseEntitiesSuccess(entities, index) : this.onChooseEntitiesFail(index);
+            types => {
+                types.length > 0 ? this.onChooseEntitiesSuccess(types, s) : this.onChooseEntitiesFail(s);
             },
             err => {
-                this.onChooseEntitiesFail(index);
+                this.onChooseEntitiesFail(s);
             });
     }
 
-    public onClickSubscriptions(i: number): void {
+    public onClickSubscriptions(s: ServiceForm): void {
         this.configDashboardService.getSubscriptions(this.cb.form.get('url').value,
-            this.cb.services[i].form.get('service').value,
-            this.cb.services[i].form.get('servicePath').value,
+            s.form.get('service').value,
+            s.form.get('servicePath').value,
         ).pipe(takeUntil(this.destroy$)).subscribe(
             subs => {
                 if (subs.length > 0) {
@@ -154,6 +135,41 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         );
     }
 
+    /*****************************************************************************
+     Button visibility functions
+    *****************************************************************************/
+
+    public shouldChooseButtonBeDisabled(s: ServiceForm): boolean {
+        return this.cb.form.get('url').invalid ||
+            s.form.get('service').invalid ||
+            s.form.get('servicePath').invalid;
+    }
+
+    public shouldSubsButtonBeDisabled(s: ServiceForm): boolean {
+        return this.shouldChooseButtonBeDisabled(s);
+    }
+
+    /*****************************************************************************
+     Choose entities functions
+    *****************************************************************************/
+
+    private onChooseEntitiesSuccess(types: TypeContainerDto[], s: ServiceForm): void {
+        this.chooseWarningVisible = false;
+        s.entities = this.entityTreeNodeService.convertEntitiesToNodes(types);
+        s.selectedEntities = this.treeNodeService.getAllSelected(s.entities);
+        this.selectedEntitiesChange.emit();
+    }
+
+    private onChooseEntitiesFail(s: ServiceForm): void {
+        this.chooseWarningVisible = true;
+        s.entities = [];
+        s.selectedEntities = [];
+    }
+
+    /*****************************************************************************
+     Subscriptions functions
+    *****************************************************************************/
+
     private onClickSubscriptionsSuccess(subs: ContextSubscription[]): void {
         this.subsWarningVisible = false;
         this.subscriptionDialog.updateContent(subs);
@@ -164,22 +180,16 @@ export class ServiceConfigurationComponent extends BaseComponent implements OnIn
         this.subsWarningVisible = true;
     }
 
-    private removeService(index: number): void {
-        this.removeServiceEvent.emit(index);
-        this.cb.services.splice(index, 1);
-    }
+    /*****************************************************************************
+     Accordion functions
+    *****************************************************************************/
 
-    private onChooseEntitiesSuccess(entities: EntityDto[], index: number): void {
-        this.chooseWarningVisible = false;
-        this.cb.services[index].entities = this.layerService.getEntities(entities);
-        this.cb.services[index].selectedEntities = this.layerService.getAllSelected(this.cb.services[index].entities);
-        this.selectedEntitiesChange.emit();
-    }
-
-    private onChooseEntitiesFail(index: number): void {
-        this.chooseWarningVisible = true;
-        this.cb.services[index].entities = [];
-        this.cb.services[index].selectedEntities = [];
+    private closeAccordionTabs(): void {
+        setTimeout(() => {
+            if (this.accordionTabs && this.accordionTabs.length > 0) {
+                this.accordionTabs.forEach(a => a.selected = false);
+            }
+        });
     }
 
 }

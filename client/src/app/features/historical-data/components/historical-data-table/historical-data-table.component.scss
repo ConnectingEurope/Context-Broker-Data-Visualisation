@@ -1,0 +1,61 @@
+:host ::ng-deep .ui-table-historical-data {
+
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 2px 1px -1px rgba(0, 0, 0, 0.12);
+
+    .ui-paginator {
+
+        .ui-dropdown {
+            float: left;
+        }
+
+        .ui-paginator-current {
+            float: right;
+        }
+    }
+
+    .ui-progressbar {
+        height: 8px;
+        background-color: #D8DADC;
+
+        .ui-progressbar-value {
+            background-color: #00ACAD;
+        }
+    }
+
+    .ui-column-filter {
+        display: block;
+
+        input {
+            width: 100%;
+        }
+    }
+
+    .ui-table-globalfilter-container {
+        float: right;
+
+        input {
+            width: 200px;
+        }
+    }
+
+    .ui-datepicker {
+        min-width: 25em;
+
+        td {
+            font-weight: 400;
+        }
+    }
+
+    .ui-table-caption {
+        border: 0 none;
+        padding: 12px;
+        text-align: left;
+        font-size: 20px;
+    }
+
+    .ui-paginator {
+        border: 0 none;
+        padding: 1em;
+    }
+
+}

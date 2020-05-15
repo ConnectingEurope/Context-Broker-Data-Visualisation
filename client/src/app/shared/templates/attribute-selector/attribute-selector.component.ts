@@ -1,12 +1,6 @@
 import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import * as moment from 'moment';
 import { ScrollPanel } from 'primeng/scrollpanel/public_api';
-import { Router } from '@angular/router';
-import { ModelDto } from '../../models/model-dto';
-import { EntityMetadataService } from '../../services/entity-metadata-service';
-import { EntityMetadata } from '../../models/entity-metadata';
 import { BaseComponent } from '../../misc/base.component';
-import { takeUntil } from 'rxjs/operators';
 import { TreeNode } from 'primeng/api/treenode';
 
 @Component({
@@ -23,10 +17,7 @@ export class AttributeSelectorComponent extends BaseComponent {
 
     @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
 
-    constructor(
-        private router: Router,
-        private entityMetadataService: EntityMetadataService,
-    ) {
+    constructor() {
         super();
     }
 

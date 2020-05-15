@@ -6,13 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgHttpLoaderModule } from 'ng-http-loader';
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { PopupComponent } from './shared/templates/popup/popup.component';
-import { AccordionTabHeaderComponent } from './shared/templates/accordion-tab-header/accordion-tab-header.component';
 
 @NgModule({
     declarations: [

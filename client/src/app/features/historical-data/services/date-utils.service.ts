@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AggregatePeriod } from '../models/historical-data-objects';
 import { Moment } from 'moment';
 import * as moment from 'moment';
-import { HistoricalDataGraphComponent } from '../components/historical-data/historical-data-graph/historical-data-graph.component';
+import { HistoricalDataGraphComponent } from '../components/historical-data-graph/historical-data-graph.component';
 
 @Injectable({
     providedIn: 'root',

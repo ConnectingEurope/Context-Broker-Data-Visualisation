@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-    res.send('Express server');
+router.get('/', function (routerReq, routerRes, routerNext) {
+    routerRes.send('Express server is live');
 });
 
 module.exports = router;

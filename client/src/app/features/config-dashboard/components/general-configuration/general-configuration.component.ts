@@ -1,15 +1,14 @@
-import { Component, Input, OnDestroy, ViewChild, ViewEncapsulation, Output, EventEmitter } from '@angular/core';
-import { ConfigDashboardService } from '../../services/config-dashboard-service/config-dashboard.service';
+import { Component, Input, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { ConfigDashboardService } from '../../services/config-dashboard.service';
 import { takeUntil } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/shared/misc/base.component';
-import { LayerService } from 'src/app/features/map-dashboard/services/layer-service/layer-service';
 import { ContextBrokerForm } from '../../models/context-broker-form';
-import { EntityDto } from '../../models/entity-dto';
-import { ScrollPanel } from 'primeng/scrollpanel';
-import { AppMessageService } from 'src/app/shared/services/app-message-service';
 import { InputWithValidationComponent } from 'src/app/shared/templates/input-with-validation/input-with-validation.component';
 import { TreeNode } from 'primeng/api/treenode';
 import { SubscriptionsDialogComponent, ContextSubscription } from '../subscriptions-dialog/subscriptions-dialog.component';
+import { EntityTreeNodeService } from '../../services/entity-tree-node.service';
+import { TreeNodeService } from 'src/app/shared/services/tree-node.service';
+import { TypeContainerDto } from '../../models/type-container-dto';
 
 @Component({
     selector: 'app-general-configuration',
@@ -26,19 +25,22 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
     public chooseWarningVisible: boolean;
     public subsWarningVisible: boolean;
     public displaySubs: boolean;
-    public displaySubsContent: any;
+    public displaySubsContent: ContextSubscription[];
 
-    @ViewChild('entitiesScroll') private entitiesScroll: ScrollPanel;
     @ViewChild('urlInput') private urlInput: InputWithValidationComponent;
     @ViewChild('subscriptionDialog') private subscriptionDialog: SubscriptionsDialogComponent;
 
     constructor(
         private configDashboardService: ConfigDashboardService,
-        private appMessageService: AppMessageService,
-        private layerService: LayerService,
+        private treeNodeService: TreeNodeService,
+        private entityTreeNodeService: EntityTreeNodeService,
     ) {
         super();
     }
+
+    /*****************************************************************************
+     Event functions
+    *****************************************************************************/
 
     public onNameChange(): void {
         const header: string = this.cb.form.value.name;
@@ -72,45 +74,16 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
             });
     }
 
-    public isDisabledChooseButton(): boolean {
-        return this.cb.form.get('url').invalid;
-    }
-
-    public isDisabledSubsButton(): boolean {
-        return this.isDisabledChooseButton();
-    }
-
     public onChooseEntities(): void {
         const url: string = this.cb.form.value.url;
 
         this.configDashboardService.getEntitiesFromService(url).pipe(takeUntil(this.destroy$)).subscribe(
-            entities => {
-                entities.length > 0 ? this.onChooseEntitiesSuccess(entities) : this.onChooseEntitiesFail();
+            types => {
+                types.length > 0 ? this.onChooseEntitiesSuccess(types) : this.onChooseEntitiesFail();
             },
             err => {
                 this.onChooseEntitiesFail();
             });
-    }
-
-    public onCheckContextBrokerSuccess(): void {
-        this.urlInput.showInfo();
-    }
-
-    public onCheckContextBrokerFail(): void {
-        this.urlInput.showWarning();
-    }
-
-    public onChooseEntitiesSuccess(entities: EntityDto[]): void {
-        this.chooseWarningVisible = false;
-        this.cb.entities = this.layerService.getEntities(entities);
-        this.cb.selectedEntities = this.layerService.getAllSelected(this.cb.entities);
-        this.selectedEntitiesChange.emit();
-    }
-
-    public onChooseEntitiesFail(): void {
-        this.chooseWarningVisible = true;
-        this.cb.entities = [];
-        this.cb.selectedEntities = [];
     }
 
     public onClickSubscriptions(): void {
@@ -127,6 +100,51 @@ export class GeneralConfigurationComponent extends BaseComponent implements OnDe
             },
         );
     }
+
+    /*****************************************************************************
+     Button visibility functions
+    *****************************************************************************/
+
+    public shouldChooseButtonBeDisabled(): boolean {
+        return this.cb.form.get('url').invalid;
+    }
+
+    public shouldSubsButtonBeDisabled(): boolean {
+        return this.shouldChooseButtonBeDisabled();
+    }
+
+    /*****************************************************************************
+     Check Context Broker functions
+    *****************************************************************************/
+
+    private onCheckContextBrokerSuccess(): void {
+        this.urlInput.showInfo();
+    }
+
+    private onCheckContextBrokerFail(): void {
+        this.urlInput.showWarning();
+    }
+
+    /*****************************************************************************
+     Choose entities functions
+    *****************************************************************************/
+
+    private onChooseEntitiesSuccess(types: TypeContainerDto[]): void {
+        this.chooseWarningVisible = false;
+        this.cb.entities = this.entityTreeNodeService.convertEntitiesToNodes(types);
+        this.cb.selectedEntities = this.treeNodeService.getAllSelected(this.cb.entities);
+        this.selectedEntitiesChange.emit();
+    }
+
+    private onChooseEntitiesFail(): void {
+        this.chooseWarningVisible = true;
+        this.cb.entities = [];
+        this.cb.selectedEntities = [];
+    }
+
+    /*****************************************************************************
+     Subscriptions functions
+    *****************************************************************************/
 
     private onClickSubscriptionsSuccess(subs: ContextSubscription[]): void {
         this.subsWarningVisible = false;

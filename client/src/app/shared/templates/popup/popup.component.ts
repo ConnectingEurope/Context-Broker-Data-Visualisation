@@ -4,9 +4,9 @@ import { ScrollPanel } from 'primeng/scrollpanel/public_api';
 import { Router } from '@angular/router';
 import { ModelDto } from '../../models/model-dto';
 import { EntityMetadataService } from '../../services/entity-metadata-service';
-import { EntityMetadata } from '../../models/entity-metadata';
 import { BaseComponent } from '../../misc/base.component';
 import { takeUntil } from 'rxjs/operators';
+import { Entity } from '../../models/entity';
 
 @Component({
     selector: 'app-popup',
@@ -15,12 +15,15 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class PopupComponent extends BaseComponent {
 
-    @Input() public entity: any;
+    @Input() public entity: Entity;
     @Input() public modelDto: ModelDto;
     @Output() public clickDebug: EventEmitter<void> = new EventEmitter<void>();
 
-    public attrs: any;
+    public maxNumberAttrsUntilScroll: number = 10;
+    public attrs: any[];
+
     private maxNumberChars: number = 30;
+
     @ViewChild('scrollPanel') private scrollPanel: ScrollPanel;
 
     constructor(
@@ -53,17 +56,19 @@ export class PopupComponent extends BaseComponent {
     }
 
     private updateAttrs(): void {
-        this.attrs = Object.entries(this.entity).filter(a => typeof a[1] !== 'object').map(a => [a[0], this.transformAttr(a[0], a[1])]);
+        this.attrs = Object.entries(this.entity).filter(a => a[0] !== 'location').map(a => [a[0], this.transformAttr(a[0], a[1])]);
     }
 
     private transformAttr(key: string, value: any): any {
+        let v: any = value;
         const dateExp: RegExp = new RegExp(/.*-.*-.*:.*:.*\..*Z/);
-        if (dateExp.test(value)) {
-            return moment(value).format('DD/MM/YYYY HH:mm:ss');
+
+        if (dateExp.test(v)) { return moment(v).format('DD/MM/YYYY HH:mm:ss'); }
+        if (typeof v === 'object') { v = JSON.stringify(v); }
+        if (typeof v === 'string' && (key.length + v.length) > this.maxNumberChars) {
+            return v.substring(0, this.maxNumberChars - key.length) + '...';
         }
-        if (typeof value === 'string' && (key.length + value.length) > this.maxNumberChars) {
-            return value.substring(0, this.maxNumberChars - key.length) + '...';
-        }
+
         return value;
     }
 

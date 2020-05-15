@@ -16,19 +16,19 @@ export class HistoricalDataService {
         body.operationParameters = opParams;
         let headers: HttpHeaders = new HttpHeaders();
         headers = headers.set('Avoid-Http-Interceptor', 'true');
-        return this.http.post<any>('/server/historical-data/raw', body, { headers });
+        return this.http.post<any>('/server/historic/raw', body, { headers });
     }
 
     public getRaw(entityMetadata: EntityMetadata, attr: string, opParams: RawParameters, headers?: HttpHeaders): Observable<any> {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
         body.operationParameters = opParams;
-        return this.http.post<any>('/server/historical-data/raw', body);
+        return this.http.post<any>('/server/historic/raw', body);
     }
 
     public getAggregate(entityMetadata: EntityMetadata, attr: string, opParams: AggregatedParameters): Observable<any> {
         const body: HistoricalQuery = this.getBaseQuery(entityMetadata, attr);
         body.operationParameters = opParams;
-        return this.http.post<any>('/server/historical-data/aggr', body);
+        return this.http.post<any>('/server/historic/aggr', body);
     }
 
     private getBaseQuery(entityMetadata: EntityMetadata, attribute: string): HistoricalQuery {

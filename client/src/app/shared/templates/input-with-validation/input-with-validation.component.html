@@ -1,22 +1,37 @@
 <div class="d-inline" [formGroup]="group">
+
+    <!-- Label -->
     <h6>{{label + (required ? '*' : '')}}
         <i *ngIf="tooltipText" class="ml-2 pi pi-question-circle help-icon" pTooltip="{{ tooltipText }}"></i>
     </h6>
+
+    <!-- Input -->
     <input class="largeInput" type="text" pInputText formControlName="{{controlName}}"
         (ngModelChange)="onChange($event)" />
+
+    <!-- Button -->
     <p-button *ngIf="hasButton" class=" ml-2" icon="{{buttonIcon}}" [disabled]="fControl.errors"
         (onClick)="onClick($event)"></p-button>
+
+    <!-- Blank message only for spacing when there is no message -->
     <p *ngIf="!shouldErrorBeDisplayed() && !shouldInfoBeDisplayed() && !shouldWarningBeDisplayed()"
         [style.visibility]="'hidden'">
         -
     </p>
-    <p class="input-error" *ngIf="shouldErrorBeDisplayed()">
-        {{getErrorMessage()}}
-    </p>
+
+    <!-- Info message -->
     <p class="input-info" *ngIf="shouldInfoBeDisplayed()">
         {{getInfoMessage()}}
     </p>
+
+    <!-- Warning message -->
     <p class="input-warning" *ngIf="shouldWarningBeDisplayed()">
         {{getWarningMessage()}}
     </p>
+
+    <!-- Error message -->
+    <p class="input-error" *ngIf="shouldErrorBeDisplayed()">
+        {{getErrorMessage()}}
+    </p>
+
 </div>

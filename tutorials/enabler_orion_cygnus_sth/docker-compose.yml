@@ -75,7 +75,7 @@ services:
     ports:
       - ${ENABLER_SERVER_PORT}:${ENABLER_SERVER_PORT}
     healthcheck:
-      test: curl --fail -s http://cbenabler-server:${ENABLER_SERVER_PORT} || exit 1
+      test: wget localhost:3000 -q -O - || exit 1
 
   cbenabler:
     image: cbenablereveris/cb-data-visualisation-enabler:${ENABLER_VERSION}
@@ -86,7 +86,7 @@ services:
     ports:
       - ${ENABLER_PORT}:${ENABLER_PORT}
     healthcheck:
-      test: ps waux | grep nginx || exit 1
+      test: wget localhost -q -O - || exit 1
 
 volumes:
   mongo-db: ~

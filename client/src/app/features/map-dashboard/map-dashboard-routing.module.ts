@@ -6,7 +6,7 @@ import { MapDashboardComponent } from './components/map-dashboard.component';
 const routes: Routes = [{ path: '', component: MapDashboardComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class MapDashboardRoutingModule { }
