@@ -225,7 +225,7 @@ It is possible to generate test data to fill the Context Broker. For this, it wi
     python3 create-data.py
     ```
 
-- By default, a new test registry will be inserted in the Context Broker **every hour**. The available services to retreive the information from the Context Broker are:
+- By default, **two new test registries** will be inserted in the Context Broker **every hour**. The available services to retreive the information from the Context Broker are:
   - testparking
   - testenvironment
 
@@ -450,15 +450,15 @@ In order to instantiate the image, a **new security group** must be configured i
 
 ##### Generating test data on the enabler tools
 
-In order to generate test data for the enabler tools, this section will explain how to proceed.
+The following section will detail how to generate test data for the enabler tools.
 
-It is possible to launch scripts together with one instance if the FIWARE lab during the launch process. Concretely, in the **post-creation tab**.
+It is possible to launch scripts together with one instance in the FIWARE lab during the launch process. Concretely, in the **post-creation tab**.
 
-A [Python3](https://www.python.org/downloads/) script has been created with the objective of filling the Context Broker and the historical data tools with test data.
+A [Python3](https://www.python.org/downloads/) script has been created with the objective of filling the Context Broker and the historical data tools with **test data**, which is fake data.
 
 First of all, it is necessary to download the script. It is available on the GitHub repository of the project, and also on this [link](https://raw.githubusercontent.com/ConnectingEurope/Context-Broker-Data-Visualisation/develop/tutorials/enabler_orion_cygnus_sth/test-data/create-data.py).
 
-After that, follow the next steps:
+After that, the following steps need to be followed:
 
 1. Configure the instance for the Enabler tools, as explaned [here](#fourthTutorial-tools).
 
@@ -479,7 +479,7 @@ After that, follow the next steps:
 
 3. The previous configuration will execute the Python script together with the instance of the Enabler tools.
 
-The Context Broker will receive **every hour** a new test registry from the script.
+The Context Broker will receive **two new test registries** from the script **every hour**.
 
 The **services to be used** for this testing data are:
 
