@@ -32,7 +32,7 @@ The technical documentation focuses in the technical aspects of the Context Brok
 
 ### Launch the application for development
 
-To just use the application, it is recommended to follow the [deployment manuals](../tutorials/index.md). However, to launch the application for development purposes, follow these instructions.
+To use the application, it is recommended to follow the [deployment manuals](../tutorials/index.md). However, to launch the application for development purposes, follow these instructions.
 
 #### Prerequisites
 
@@ -306,15 +306,15 @@ In this case, the value of the *intervalRefreshMilliseconds* variable (60000) ca
 
 In order to optimize the load and update of the information of the map, it is updated based on the following actions:
 
-- For the first load of information (after complete the configuration on the Configuration page), all the sensors are situated on the map. Additionally, the loaded attributes are:
+- For the first load of information (after completing the configuration on the Configuration page), all the sensors are situated on the map. Additionally, the loaded attributes are:
   - ID
   - Type
   - Location
   - Main attribute. More information can be found [here](../user/index.md#configuring-main-attributes).
 
-- Once all the initial load of information is completed, the previous attributes are updated every 60 seconds by default. This action allows to visualize sensors whose location is changing during the time (i.e. buses).
+- Once the initial load of information is completed, the previous attributes are updated every 60 seconds by default. This action allows to visualize sensors whose location is changing during the time (i.e. buses).
 
-- The rest of attributes are updated when the user clicks on a sensor, showing the pop-up.
+- The rest of attributes are updated when the user clicks on a sensor, showing the visualization panel.
 
 - Additionally, when a filter is added, the values for the selected attributes as filters are also automatically updated every 60 seconds by default.
 

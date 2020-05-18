@@ -94,7 +94,7 @@ The following links provide documentation of some **Context Broker instances wit
 - [FIWARE Data Streams](https://documenter.getpostman.com/view/3940441/RznEMKdr?version=latest): Data of environment, point of interest and weather.
 - [Opplafy.eu](https://data.opplafy.eu/dataset): Data of parkings, traffic alers, buses, traffic cameras, etc.
 
-Note the previous links are external instances and are not maintenined by the developers of the enabler, so it would be possible some of them could fail.
+Note that the previous links are external instances and are not maintained by the developers of the enabler.
 
 Additionally, it is also possible to generate test data to be used in the enabler. The procedure is detailed in the [tutorials of deployment documentation](doc/tutorials/index.md).
 
