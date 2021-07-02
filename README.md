@@ -6,6 +6,8 @@
 ![StackOverflow](https://nexus.lab.fiware.org/repository/raw/public/badges/stackoverflow/orion.svg)
 ![NGSI v2](https://nexus.lab.fiware.org/repository/raw/public/badges/specifications/ngsiv2.svg)
 
+**Please note that support questions will not be monitored during the summer period of July and August. **
+
 **Master:** ![Master](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation/workflows/Docker%20Image%20CI/badge.svg) **Develop:** ![Develop](https://github.com/ConnectingEurope/Context-Broker-Data-Visualisation/workflows/Docker%20Image%20CI/badge.svg?branch=develop)
 
 The **Context Broker Data Visualisation** is an **enabler** which consists on a **visualisation layer** over the Context Broker. It provides the following features:
